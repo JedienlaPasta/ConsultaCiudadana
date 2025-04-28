@@ -15,17 +15,18 @@ export const sendVoteConfirmationEmail = async (
   email: string,
   name: string,
   consultaNombre: string,
-  fechaHora: string
+  fecha: string,
+  hora: string
 ) => {
   const message = {
-    from: `Saberes El Quisco <${process.env.EMAIL_FROM}>`,
+    from: `Consultas Ciudadanas El Quisco <${process.env.EMAIL_FROM}>`,
     to: email,
     subject: `Confirmación de Voto - ${consultaNombre} - El Quisco`,
     html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
           <h2 style="color: #333;">Confirmación de Voto</h2>
           <p>Hola ${name},</p>
-          <p>Se ha confirmado su voto en la consulta <strong>${consultaNombre}</strong>, el ${fechaHora}.</p>
+          <p>Se ha confirmado su voto en la consulta <strong>${consultaNombre}</strong>, el día ${fecha} a las ${hora}.</p>
           <p>Gracias por participar.</p>
         </div>
       `,
