@@ -1,22 +1,12 @@
 import Link from "next/link";
+import Hero from "./ui/home/hero";
 
 export default function Home() {
   return (
     <>
-      <div className="relative">
-        <div className="absolute top-0 left-0 -z-10 h-full w-full">
-          <span className="absolute h-full w-full bg-[#163448] opacity-25" />
-          <video
-            autoPlay={true}
-            muted={true}
-            loop={true}
-            playsInline={true}
-            src="/banner.mp4"
-            className="h-full w-full object-cover"
-            aria-label="Banner"
-          />
-        </div>
-        <div className="bg-[#163448]s container mx-auto w-full flex-col px-8 py-70">
+      <div className="relatives flexs bg-slate-800s m-4 h-[calc(100vh-32px)] overflow-hidden rounded-xl">
+        <Hero />
+        <div className="container mx-auto px-8 py-12">
           <h1 className="text-5xl font-semibold text-white">
             Consultas Ciudadanas - El Quisco
           </h1>
