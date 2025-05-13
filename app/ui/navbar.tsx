@@ -1,17 +1,19 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
+import { roboto } from "./fonts";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <div className="sticky top-0 z-50 bg-slate-900 shadow-md">
+    <div className="sticky top-0 z-50 bg-[#002F4C] shadow-md">
       <div className="container mx-auto max-w-[80rem]">
         <nav className="flex items-center justify-between px-4 py-3 md:px-8">
           <Link
-            className="text-xl font-bold text-white transition-colors hover:text-slate-200"
+            className="text-xl font-bold text-white transition-colors hover:text-white"
             href="/"
           >
             Participa
@@ -19,7 +21,7 @@ export default function Navbar() {
 
           {/* Mobile menu button */}
           <button
-            className="block rounded p-2 text-slate-200 hover:bg-slate-800 md:hidden"
+            className="block rounded p-2 text-white hover:bg-slate-800 md:hidden"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             aria-label={isMenuOpen ? "Close menu" : "Open menu"}
           >
@@ -49,11 +51,11 @@ export default function Navbar() {
           </button>
 
           {/* Desktop menu */}
-          <ul className="hidden items-center space-x-8 md:flex">
+          <ul className="hidden items-center space-x-5 md:flex">
             <li>
               <Link
                 href="/consultas"
-                className="rounded-md px-4 py-2 text-slate-200 transition-colors hover:bg-slate-950"
+                className="flex min-h-11 items-center rounded-sm px-4 text-white transition-colors hover:bg-[#0B4E91]"
               >
                 Consultas
               </Link>
@@ -61,7 +63,7 @@ export default function Navbar() {
             <li>
               <Link
                 href="/contacto"
-                className="rounded-md px-4 py-2 text-slate-200 transition-colors hover:bg-slate-950"
+                className="flex min-h-11 items-center rounded-sm px-4 text-white transition-colors hover:bg-[#0B4E91]"
               >
                 Contacto
               </Link>
@@ -69,9 +71,27 @@ export default function Navbar() {
             <li>
               <Link
                 href="/preguntas"
-                className="rounded-md px-4 py-2 text-slate-200 transition-colors hover:bg-slate-950"
+                className="flex min-h-11 items-center rounded-sm px-4 text-white transition-colors hover:bg-[#0B4E91]"
               >
                 Preguntas frecuentes
+              </Link>
+            </li>
+            <li>
+              <Link
+                className="flex min-h-11 w-fit items-center justify-center gap-0.5 rounded-sm bg-[#0F69C4] py-[8px] pr-5 pl-4 text-center text-[#fff] transition-all select-none hover:bg-[#0B4E91] hover:underline"
+                href="#"
+                aria-label="Iniciar sesión con ClaveÚnica"
+              >
+                <Image
+                  src="/cu-blanco.svg"
+                  width={24}
+                  height={24}
+                  aria-hidden="true"
+                  alt="Iniciar sesión con ClaveÚnica"
+                />
+                <span className={`${roboto.className} `} aria-hidden="true">
+                  Iniciar sesión
+                </span>
               </Link>
             </li>
           </ul>
@@ -85,7 +105,7 @@ export default function Navbar() {
             <li>
               <Link
                 href="/consultas"
-                className="block text-slate-200 transition-colors hover:bg-slate-800"
+                className="block text-white transition-colors hover:bg-slate-800"
                 onClick={() => setIsMenuOpen(false)}
               >
                 <p className="container mx-auto px-4 py-4">Consultas</p>
@@ -94,7 +114,7 @@ export default function Navbar() {
             <li>
               <Link
                 href="/contacto"
-                className="block text-slate-200 transition-colors hover:bg-slate-800"
+                className="block text-white transition-colors hover:bg-slate-800"
                 onClick={() => setIsMenuOpen(false)}
               >
                 <p className="container mx-auto px-4 py-4">Contacto</p>
@@ -103,7 +123,7 @@ export default function Navbar() {
             <li>
               <Link
                 href="/preguntas"
-                className="block text-slate-200 transition-colors hover:bg-slate-800"
+                className="block text-white transition-colors hover:bg-slate-800"
                 onClick={() => setIsMenuOpen(false)}
               >
                 <p className="container mx-auto px-4 py-4">

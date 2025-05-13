@@ -1,14 +1,8 @@
 "use client";
-
-// import gsap from "gsap";
-// import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 
 export default function Hero() {
-  // const heroRef = useRef(null);
-  // const videoContainerRef = useRef(null);
-  // const contentRef = useRef(null);
   const video1Ref = useRef<HTMLVideoElement>(null);
   const video2Ref = useRef<HTMLVideoElement>(null);
   const [showFirst, setShowFirst] = useState(true);
@@ -59,74 +53,10 @@ export default function Hero() {
       if (rafId.current) cancelAnimationFrame(rafId.current);
     };
   }, []);
-
-  // useEffect(() => {
-  //   gsap.registerPlugin(ScrollTrigger);
-
-  //   // Set the initial position to fixed
-  //   gsap.set(videoContainerRef.current, {
-  //     position: "fixed",
-  //     top: 0,
-  //     left: 0,
-  //     width: "100%",
-  //     height: "100%",
-  //     zIndex: -10,
-  //   });
-
-  //   // Animate the content
-  //   gsap.from(contentRef.current, {
-  //     y: 100,
-  //     opacity: 0,
-  //     duration: 1.2,
-  //     ease: "power3.out",
-  //   });
-
-  //   // Create the scroll animation
-  //   const animation = gsap.timeline({
-  //     scrollTrigger: {
-  //       trigger: heroRef.current,
-  //       start: "top top",
-  //       end: "+=500",
-  //       scrub: 1,
-  //       pin: true,
-  //       pinSpacing: true,
-  //       onLeave: () => {
-  //         gsap.to(videoContainerRef.current, {
-  //           position: "absolute",
-  //           duration: 0.1,
-  //         });
-  //       },
-  //       onEnterBack: () => {
-  //         gsap.to(videoContainerRef.current, {
-  //           position: "absolute",
-  //           duration: 0.1,
-  //         });
-  //       },
-  //     },
-  //   });
-
-  //   // Add a delay before starting the shrinking animation
-  //   animation
-  //     .to(videoContainerRef.current, {
-  //       height: "50%",
-  //       duration: 0.3,
-  //     })
-  //     .to(videoContainerRef.current, {
-  //       height: "30%",
-  //       duration: 0.7,
-  //     });
-
-  //   return () => {
-  //     animation.scrollTrigger?.kill();
-  //   };
-  // }, []);
-
+  // bg-[#163448]
   return (
-    <div
-      // ref={heroRef}
-      className="rounded-xls relative h-[70vh] w-full overflow-hidden"
-    >
-      <div className="pointer-events-none absolute top-0 left-0 z-10 h-full w-full bg-[#163448] opacity-55" />
+    <div className="rounded-xls relative h-[70vh] w-full overflow-hidden">
+      <div className="pointer-events-none absolute top-0 left-0 z-10 h-full w-full bg-[#153D6E] opacity-55" />
 
       {/* First video */}
       <video
@@ -153,10 +83,7 @@ export default function Hero() {
       />
 
       {/* Hero Content */}
-      <div
-        // ref={contentRef}
-        className="absolute inset-0 z-10 mt-5 flex flex-col items-center justify-center px-4 text-white md:px-8"
-      >
+      <div className="absolute inset-0 z-10 mt-5 flex flex-col items-center justify-center px-4 text-white md:px-8">
         <div className="max-w-4xl text-center">
           <h1 className="mb-4 text-4xl font-bold drop-shadow-lg md:text-6xl">
             Transformando El Quisco <br /> con tu voto
@@ -167,13 +94,13 @@ export default function Hero() {
           <div className="flex flex-col justify-center gap-4 sm:flex-row">
             <Link
               href="/consultas"
-              className="rounded-lg bg-slate-900 px-8 py-3 font-bold text-white transition-all hover:bg-slate-950"
+              className="rounded-lg bg-[#0F69C4] px-8 py-3 font-bold text-white transition-colors hover:bg-[#0B4E91]"
             >
               Quiero Participar
             </Link>
             <Link
               href="/resultados"
-              className="rounded-lg bg-slate-200 px-8 py-3 font-bold text-slate-700 transition-all hover:bg-slate-100"
+              className="rounded-lg bg-white px-8 py-3 font-bold text-[#153D6E] transition-all hover:bg-[#e0f0fa]"
             >
               Ver Resultados
             </Link>
