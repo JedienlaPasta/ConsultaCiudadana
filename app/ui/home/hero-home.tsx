@@ -13,7 +13,7 @@ export default function Hero() {
         width={1920}
         height={1080}
         alt="Hero Banner"
-        className={`absolute top-0 left-0 h-full w-full border-none object-cover transition-opacity duration-500 ease-in-out outline-none`}
+        className="absolute -top-[155%] left-0 h-[290%] w-full border-none object-cover transition-opacity duration-500 ease-in-out outline-none"
       />
 
       {/* Hero Content */}

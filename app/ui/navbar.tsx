@@ -2,14 +2,36 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { roboto } from "./fonts";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [hasScrolled, setHasScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 0) {
+        setHasScrolled(true);
+      } else {
+        setHasScrolled(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    handleScroll();
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  // <div className="bg-[#002F4C]s sticky top-0 z-50 bg-[#5877F2]"></div>
 
   return (
-    <div className="sticky top-0 z-50 bg-[#002F4C] shadow-md">
+    <div
+      className={`sticky top-0 z-50 bg-[#5877F2] transition-shadow duration-300 ${hasScrolled ? "shadow-md" : ""}`}
+    >
       <div className="container mx-auto max-w-[80rem]">
         <nav className="flex items-center justify-between px-4 py-3 md:px-8">
           <Link
