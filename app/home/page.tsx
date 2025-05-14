@@ -10,7 +10,7 @@ export default function Home() {
           <SurveysList />
         </div>
       </div>
-      <div className="h-200">.</div>
+      {/* <div className="h-200">.</div> */}
     </>
   );
 }
