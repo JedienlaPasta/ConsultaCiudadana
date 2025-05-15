@@ -30,7 +30,7 @@ export default function Navbar() {
 
   return (
     <div
-      className={`sticky top-5 z-50 container mx-auto rounded-xl backdrop-blur-2xl transition-all duration-300 ${hasScrolled ? "bg-[#0A4581]/80 shadow-md" : "bg-transparent"}`} // Changed bg-[#0A4581] to bg-[#0A4581]/80
+      className={`sticky top-5 z-50 container mx-auto rounded-xl transition-all duration-300 ${hasScrolled ? "bg-[#0A4581]/80 shadow-md backdrop-blur-2xl" : "bg-transparent"}`}
     >
       <div className="container mx-auto max-w-[80rem]">
         <nav className="flex items-center justify-between px-4 py-2 md:px-8">
@@ -100,7 +100,7 @@ export default function Navbar() {
             </li>
             <li>
               <Link
-                className="flex min-h-11 w-fit items-center justify-center gap-0.5 rounded-sm bg-[#0F69C4] py-[8px] pr-5 pl-4 text-center text-[#fff] transition-all select-none hover:bg-[#1E5C9A] hover:underline"
+                className="flex min-h-11 w-fit items-center justify-center gap-0.5 rounded-sm bg-[#0F69C4] py-[8px] pr-5 pl-4 text-center text-[#fff] transition-all select-none hover:bg-[#2275C9] hover:underline"
                 href="#"
                 aria-label="Iniciar sesión con ClaveÚnica"
               >
