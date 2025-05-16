@@ -26,7 +26,24 @@ export default function Hero() {
             Participa en la mejora de la calidad de vida de toda la comuna
           </p>
           <div className="grid w-full max-w-[34rem] grid-cols-1 gap-4 sm:grid-cols-2">
-            <button className="cursor-pointer rounded-lg bg-[#0F69C4] px-8 py-4 text-center font-semibold text-white transition-all hover:bg-[#2275C9] hover:shadow-lg">
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                const element = document.getElementById("surveys");
+                if (element) {
+                  const headerOffset = 80;
+                  const elementPosition = element.getBoundingClientRect().top;
+                  const offsetPosition =
+                    elementPosition + window.pageYOffset - headerOffset;
+
+                  window.scrollTo({
+                    top: offsetPosition,
+                    behavior: "smooth",
+                  });
+                }
+              }}
+              className="cursor-pointer rounded-lg bg-[#0F69C4] px-8 py-4 text-center font-semibold text-white transition-all hover:bg-[#2275C9] hover:shadow-lg"
+            >
               Quiero Participar
             </button>
             <Link
