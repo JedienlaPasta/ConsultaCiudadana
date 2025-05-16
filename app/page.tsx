@@ -1,31 +1,30 @@
-import Link from "next/link";
+import Hero from "@/app/ui/home/hero-home";
+import SurveysList from "@/app/ui/home/surveysList-home";
+import Image from "next/image";
+import Navbar from "./ui/navbar";
 
 export default function Home() {
   return (
     <>
+      <Navbar />
       <div className="relative">
-        <div className="absolute top-0 left-0 -z-10 h-full w-full">
-          <span className="absolute h-full w-full bg-[#163448] opacity-25" />
-          <video
-            autoPlay={true}
-            muted={true}
-            loop={true}
-            playsInline={true}
-            src="/banner.mp4"
-            className="h-full w-full object-cover"
-            aria-label="Banner"
+        <div className="relatives flexs bg-slate-800s m-4s h-[calc(100vh-32px)]s">
+          <Hero />
+          <div className="container mx-auto max-w-[80rem] px-8 py-12">
+            <SurveysList />
+          </div>
+        </div>
+        <div className="relative h-[30vh] overflow-hidden">
+          <Image
+            src="/Blob17.svg"
+            width={1920}
+            height={1080}
+            alt="Hero Banner"
+            className="max-h-[170%]s absolute -top-[0%] left-0 w-full object-cover"
+            priority
           />
         </div>
-        <div className="bg-[#163448]s container mx-auto w-full flex-col px-8 py-70">
-          <h1 className="text-5xl font-semibold text-white">
-            Consultas Ciudadanas - El Quisco
-          </h1>
-          <Link href="/consultas/piimep" className="text-white">
-            Consulta Piimep
-          </Link>
-        </div>
       </div>
-      <div className="h-200">.</div>
     </>
   );
 }
