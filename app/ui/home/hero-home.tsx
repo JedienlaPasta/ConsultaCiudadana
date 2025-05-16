@@ -60,7 +60,7 @@ export default function Hero() {
             width={300}
             height={600}
             alt="Footer Banner"
-            className="absolute -top-[30%] right-20"
+            className="-top-[30%]s absolute right-20 hidden lg:-top-[10%] lg:right-[10] lg:block lg:w-40 xl:-top-[30%] xl:w-75"
           />
         </div>
       </div>
