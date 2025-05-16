@@ -94,8 +94,15 @@ export default function MapComponent({
     className: "sector-seleccionado",
   };
 
+  interface CustomPathLayer extends L.Path {
+    isSelected: boolean;
+  }
+
   // Eventos hover, mouseout y click en cada sector
-  const onEachFeature = (feature: GeoJSONType.Feature, layer: any) => {
+  const onEachFeature = (
+    feature: GeoJSONType.Feature,
+    layer: CustomPathLayer,
+  ) => {
     layer.isSelected = false;
     layer.bindTooltip(feature.properties?.nombre || "Sector Desconocido", {
       permanent: true,
@@ -120,9 +127,10 @@ export default function MapComponent({
       },
       click: () => {
         // Deseleccionar todos
-        sectRef.current?.eachLayer((l: any) => {
-          l.isSelected = false;
-          l.setStyle(defaultStyle);
+        sectRef.current?.eachLayer((l) => {
+          const layer = l as CustomPathLayer;
+          layer.isSelected = false;
+          layer.setStyle(defaultStyle);
         });
         // Seleccionar este sector
         layer.isSelected = true;
