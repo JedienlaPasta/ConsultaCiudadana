@@ -12,17 +12,17 @@ export default function Hero() {
         width={1920}
         height={1080}
         alt="Footer Banner"
-        className="absolute -top-[180%] left-0 h-[280%] w-full object-cover"
+        className="absolute -top-[180%] left-0 -z-10 h-[280%] w-full object-cover"
         priority
       />
 
       {/* Hero Content */}
-      <div className="absolute inset-0 z-10 flex items-center justify-center px-4 text-white md:px-8">
-        <div className="relative container -mt-12 flex max-w-[80rem] grow flex-col items-start px-8 text-center md:text-left">
+      <div className="inset-0 z-10 container mx-auto flex h-full items-center justify-center text-white">
+        <div className="relative container -mt-10 flex max-w-[80rem] grow flex-col items-start px-4 text-center md:px-8 md:text-left">
           <h1 className="mb-6 text-left text-4xl font-bold drop-shadow-lg md:text-5xl lg:text-6xl">
             Transformando El Quisco <br /> con tu voto
           </h1>
-          <p className="mx-auto mb-10 max-w-3xl text-left text-xl drop-shadow-md md:mx-0 md:text-2xl">
+          <p className="mx-autos mb-10 max-w-3xl text-left text-xl drop-shadow-md md:mx-0 md:text-2xl">
             Participa en la mejora de la calidad de vida de toda la comuna
           </p>
 
