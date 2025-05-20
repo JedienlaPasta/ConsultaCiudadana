@@ -8,7 +8,7 @@ export default function Hero() {
       <div className="bg-[#153D6E]s opacity-55s pointer-events-none absolute top-0 left-0 z-10 h-full w-full" />
 
       <Image
-        src="/Blob13.svg"
+        src="/Blob19.svg"
         width={1920}
         height={1080}
         alt="Footer Banner"
