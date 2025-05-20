@@ -16,7 +16,7 @@ export default function Home() {
         </div>
         <div className="relative h-[30vh] overflow-hidden">
           <Image
-            src="/Blob17.svg"
+            src="/Blob22.svg"
             width={1920}
             height={1080}
             alt="Hero Banner"
