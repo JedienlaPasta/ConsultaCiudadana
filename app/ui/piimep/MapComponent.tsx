@@ -104,7 +104,7 @@ export default function MapComponent({
     layer: CustomPathLayer,
   ) => {
     layer.isSelected = false;
-    layer.bindTooltip(feature.properties?.nombre || "Sector Desconocido", {
+    layer.bindTooltip(feature.properties?.ZONA || "Sector Desconocido", {
       permanent: true,
       direction: "center",
       className: "my-tooltip",
@@ -113,7 +113,8 @@ export default function MapComponent({
       mouseover: () => {
         if (!layer.isSelected) {
           layer.setStyle({
-            color: "#ffdf69",
+            // color: "#ffdf69",
+            color: "#ff2942",
             fillColor: "#ede8d5",
             fillOpacity: 0.3,
             weight: 2,
@@ -139,7 +140,7 @@ export default function MapComponent({
         setSelectedId(feature.properties?.id || null);
         onSectorSelect(
           feature.properties?.id || "",
-          feature.properties?.nombre || "Sector Desconocido",
+          feature.properties?.ZONA || "Sector Desconocido",
         );
       },
     });

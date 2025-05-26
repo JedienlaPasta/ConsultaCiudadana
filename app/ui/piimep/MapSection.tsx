@@ -8,8 +8,10 @@ const DynamicMapComponent = dynamic(() => import("./MapComponent"), {
   ssr: false, // Desactiva el Server-Side Rendering para este componente
 });
 
-const sectoresPath = "/sectores_prueba.geojson";
-const comunaPath = "/quisco_comuna.geojson";
+// const sectoresPath = "/sectores_prueba.geojson";
+const sectoresPath = "/sectores_quisco.geojson";
+// const comunaPath = "/quisco_comuna.geojson";
+const comunaPath = "/limite_comuna.geojson";
 
 export default function MapSection() {
   const [sectores, setSectores] = useState(null);
@@ -45,18 +47,35 @@ export default function MapSection() {
   return (
     <div className="container mx-auto py-8">
       <div className="mb-8 rounded-lg bg-white p-6 shadow-md">
-        <h2 className="mb-4 text-2xl font-bold text-[#23396f]">Selecciona tu Sector de Votación</h2>
-        <p className="mb-6 text-gray-600">Haz clic en el mapa para seleccionar el sector donde vives.</p>
-        
+        <h2 className="mb-4 text-2xl font-bold text-[#23396f]">
+          Selecciona tu Sector de Votación
+        </h2>
+        <p className="mb-6 text-gray-600">
+          Haz clic en el mapa para seleccionar el sector donde vives.
+        </p>
+
         <div className="flex items-center rounded-lg bg-[#f0f7ff] p-4">
           <div className="mr-3 flex h-10 w-10 items-center justify-center rounded-full bg-[#0A4C8A]">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-white" viewBox="0 0 20 20" fill="currentColor">
-              <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-5 w-5 text-white"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fillRule="evenodd"
+                d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
+                clipRule="evenodd"
+              />
             </svg>
           </div>
           <div>
-            <p className="text-sm font-medium text-gray-500">Sector seleccionado:</p>
-            <p className="text-lg font-semibold text-[#0A4C8A]">{selectedSectorName}</p>
+            <p className="text-sm font-medium text-gray-500">
+              Sector seleccionado:
+            </p>
+            <p className="text-lg font-semibold text-[#0A4C8A]">
+              {selectedSectorName}
+            </p>
           </div>
         </div>
       </div>
@@ -69,12 +88,23 @@ export default function MapSection() {
           </div>
         </div>
       )}
-      
+
       {error && (
         <div className="rounded-lg bg-red-50 p-6 shadow-md">
           <div className="flex items-center">
-            <svg xmlns="http://www.w3.org/2000/svg" className="mr-3 h-6 w-6 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="mr-3 h-6 w-6 text-red-500"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
             </svg>
             <p className="text-red-700">
               Error al cargar el mapa o los sectores:{" "}
@@ -83,7 +113,7 @@ export default function MapSection() {
           </div>
         </div>
       )}
-      
+
       {!loading && !error && sectores && comuna && (
         <div className="overflow-hidden rounded-lg shadow-md">
           <DynamicMapComponent
@@ -93,14 +123,27 @@ export default function MapSection() {
           />
         </div>
       )}
-      
+
       {!loading && !error && !sectores && (
         <div className="rounded-lg bg-yellow-50 p-6 shadow-md">
           <div className="flex items-center">
-            <svg xmlns="http://www.w3.org/2000/svg" className="mr-3 h-6 w-6 text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="mr-3 h-6 w-6 text-yellow-500"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+              />
             </svg>
-            <p className="text-yellow-700">No se encontraron datos de sectores para mostrar.</p>
+            <p className="text-yellow-700">
+              No se encontraron datos de sectores para mostrar.
+            </p>
           </div>
         </div>
       )}
