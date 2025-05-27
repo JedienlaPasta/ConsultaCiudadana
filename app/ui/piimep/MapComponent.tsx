@@ -104,11 +104,11 @@ export default function MapComponent({
     layer: CustomPathLayer,
   ) => {
     layer.isSelected = false;
-    layer.bindTooltip(feature.properties?.ZONA || "Sector Desconocido", {
-      permanent: true,
-      direction: "center",
-      className: "my-tooltip",
-    });
+    // layer.bindTooltip(feature.properties?.ZONA || "Sector Desconocido", {
+    //   permanent: true,
+    //   direction: "center",
+    //   className: "my-tooltip",
+    // });
     layer.on({
       mouseover: () => {
         if (!layer.isSelected) {
@@ -120,7 +120,7 @@ export default function MapComponent({
             weight: 2,
             dashArray: "",
           });
-          layer.bringToFront();
+          // layer.bringToFront();
         }
       },
       mouseout: () => {

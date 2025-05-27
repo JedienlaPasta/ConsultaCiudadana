@@ -9,9 +9,9 @@ const DynamicMapComponent = dynamic(() => import("./MapComponent"), {
 });
 
 // const sectoresPath = "/sectores_prueba.geojson";
-const sectoresPath = "/sectores_quisco.geojson";
+const sectoresPath = "/buffer_negativo.geojson";
 // const comunaPath = "/quisco_comuna.geojson";
-const comunaPath = "/limite_comuna.geojson";
+const comunaPath = "/limite_comuna_disuelto.geojson";
 
 export default function MapSection() {
   const [sectores, setSectores] = useState(null);
