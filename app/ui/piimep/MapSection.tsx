@@ -9,7 +9,7 @@ const DynamicMapComponent = dynamic(() => import("./MapComponent"), {
 });
 
 // const sectoresPath = "/sectores_prueba.geojson";
-const sectoresPath = "/buffer_negativo.geojson";
+const sectoresPath = "/buffer.geojson";
 // const comunaPath = "/quisco_comuna.geojson";
 const comunaPath = "/limite_comuna_disuelto.geojson";
 
@@ -19,6 +19,7 @@ export default function MapSection() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
   const [selectedSectorName, setSelectedSectorName] = useState("Ninguno");
+  const [selectedSectorId, setSelectedSectorId] = useState("");
 
   useEffect(() => {
     Promise.all([
@@ -40,8 +41,9 @@ export default function MapSection() {
   }, []);
 
   const handleSectorSelect = (sectorId: string, sectorName: string) => {
-    console.log("Sector seleccionado en la página:", sectorName, sectorId);
+    // console.log("Sector seleccionado en la página:", sectorName, sectorId);
     setSelectedSectorName(sectorName);
+    setSelectedSectorId(sectorId);
   };
 
   return (

@@ -113,14 +113,14 @@ export default function MapComponent({
       mouseover: () => {
         if (!layer.isSelected) {
           layer.setStyle({
-            // color: "#ffdf69",
-            color: "#ff2942",
+            color: "#ffdf69",
+            // color: "#ff2942",
             fillColor: "#ede8d5",
             fillOpacity: 0.3,
             weight: 2,
             dashArray: "",
           });
-          // layer.bringToFront();
+          layer.bringToFront();
         }
       },
       mouseout: () => {
