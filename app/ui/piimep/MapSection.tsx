@@ -9,17 +9,16 @@ const DynamicMapComponent = dynamic(() => import("./MapComponent"), {
 });
 
 // const sectoresPath = "/sectores_prueba.geojson";
-const sectoresPath = "/buffer.geojson";
+const sectoresPath = "/output-buffer.geojson";
 // const comunaPath = "/quisco_comuna.geojson";
-const comunaPath = "/limite_comuna_disuelto.geojson";
+const comunaPath = "/output-limite.geojson";
 
 export default function MapSection() {
   const [sectores, setSectores] = useState(null);
   const [comuna, setComuna] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
-  const [selectedSectorName, setSelectedSectorName] = useState("Ninguno");
-  const [selectedSectorId, setSelectedSectorId] = useState("");
+  const [selectedSector, setSelectedSector] = useState<string | null>(null);
 
   useEffect(() => {
     Promise.all([
@@ -40,10 +39,8 @@ export default function MapSection() {
       });
   }, []);
 
-  const handleSectorSelect = (sectorId: string, sectorName: string) => {
-    // console.log("Sector seleccionado en la página:", sectorName, sectorId);
-    setSelectedSectorName(sectorName);
-    setSelectedSectorId(sectorId);
+  const handleSectorSelect = (sectorName: string) => {
+    setSelectedSector(sectorName);
   };
 
   return (
@@ -76,7 +73,7 @@ export default function MapSection() {
               Sector seleccionado:
             </p>
             <p className="text-lg font-semibold text-[#0A4C8A]">
-              {selectedSectorName}
+              {selectedSector || "Ningún sector seleccionado"}
             </p>
           </div>
         </div>
@@ -121,6 +118,7 @@ export default function MapSection() {
           <DynamicMapComponent
             geojsonData={sectores}
             boundaryData={comuna}
+            selectedSector={selectedSector}
             onSectorSelect={handleSectorSelect}
           />
         </div>

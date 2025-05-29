@@ -1,7 +1,7 @@
 import Image from "next/image";
-import Navbar from "./ui/Navbar";
-import Hero from "./ui/home/Hero-home";
-import SurveysList from "./ui/home/SurveysList-home";
+import Navbar from "./ui/navbar";
+import Hero from "./ui/home/hero-home";
+import SurveysList from "./ui/home/surveysList-home";
 
 export default function Home() {
   return (
