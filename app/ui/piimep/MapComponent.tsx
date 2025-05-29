@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useRef, useEffect } from "react";
+import React, { useRef, useEffect } from "react";
 import {
   MapContainer,
   TileLayer,
@@ -14,7 +14,8 @@ import L from "leaflet";
 export type MapComponentProps = {
   geojsonData: GeoJSONType.FeatureCollection;
   boundaryData: GeoJSONType.FeatureCollection;
-  onSectorSelect: (sectorId: string, sectorName: string) => void;
+  selectedSector: string | null;
+  onSectorSelect: (sectorName: string) => void;
 };
 
 /**
@@ -51,9 +52,9 @@ function BoundsUpdater({
 export default function MapComponent({
   geojsonData,
   boundaryData,
+  selectedSector,
   onSectorSelect,
 }: MapComponentProps) {
-  const [selectedId, setSelectedId] = useState<string | null>(null);
   const sectRef = useRef<L.GeoJSON>(null);
   const boundaryRef = useRef<L.GeoJSON>(null);
 
@@ -104,11 +105,11 @@ export default function MapComponent({
     layer: CustomPathLayer,
   ) => {
     layer.isSelected = false;
-    layer.bindTooltip(feature.properties?.nombre || "Sector Desconocido", {
-      permanent: true,
-      direction: "center",
-      className: "my-tooltip",
-    });
+    // layer.bindTooltip(feature.properties?.ZONA || "Sector Desconocido", {
+    //   permanent: true,
+    //   direction: "center",
+    //   className: "my-tooltip",
+    // });
     layer.on({
       mouseover: () => {
         if (!layer.isSelected) {
@@ -136,10 +137,8 @@ export default function MapComponent({
         layer.isSelected = true;
         layer.setStyle(selectedStyle);
         layer.bringToFront();
-        setSelectedId(feature.properties?.id || null);
         onSectorSelect(
-          feature.properties?.id || "",
-          feature.properties?.nombre || "Sector Desconocido",
+          feature.properties?.ZONA || "Ningún sector seleccionado",
         );
       },
     });
@@ -173,7 +172,9 @@ export default function MapComponent({
         ref={sectRef}
         data={geojsonData}
         style={(feature) =>
-          feature?.properties.id === selectedId ? selectedStyle : defaultStyle
+          feature?.properties.ZONA === selectedSector
+            ? selectedStyle
+            : defaultStyle
         }
         onEachFeature={onEachFeature}
       />

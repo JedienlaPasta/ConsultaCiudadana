@@ -1,6 +1,6 @@
-import Hero from "@/app/ui/home/hero";
-import SurveysList from "@/app/ui/home/surveysList";
-import Navbar from "@/app/ui/navbar";
+import Hero from "@/app/ui/home/Hero";
+import SurveysList from "@/app/ui/home/SurveysList";
+import Navbar from "@/app/ui/Navbar";
 
 export default function Home() {
   return (

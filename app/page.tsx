@@ -1,7 +1,7 @@
-import Hero from "@/app/ui/home/hero-home";
-import SurveysList from "@/app/ui/home/surveysList-home";
 import Image from "next/image";
 import Navbar from "./ui/navbar";
+import Hero from "./ui/home/hero-home";
+import SurveysList from "./ui/home/surveysList-home";
 
 export default function Home() {
   return (
@@ -16,7 +16,7 @@ export default function Home() {
         </div>
         <div className="relative h-[30vh] overflow-hidden">
           <Image
-            src="/Blob17.svg"
+            src="/Blob22.svg"
             width={1920}
             height={1080}
             alt="Hero Banner"
