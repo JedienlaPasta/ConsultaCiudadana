@@ -1,7 +1,7 @@
-import Image from "next/image";
 import Link from "next/link";
 import MapSection from "@/app/ui/piimep/MapSection";
-import elquiscoImg from "@/public/elquisco.svg";
+import ClaveUnicaBtn from "@/app/ui/ClaveUnicaBtn";
+import Footer from "@/app/ui/Footer";
 
 export default function SurveyDetail() {
   return (
@@ -32,15 +32,15 @@ export default function SurveyDetail() {
               Activa
             </span>
             <span className="rounded-full bg-[#1E5A9A] px-3 py-1 text-xs text-white">
-              Infraestructura
+              SECPLA
             </span>
           </div>
 
           <h1 className="mb-2 text-2xl font-bold md:text-3xl">
-            Plan PIIMEP - Mejoramiento de Espacios Públicos
+            Plan PIIMEP - Mejora de Espacios Públicos
           </h1>
           <div className="flex items-center text-sm">
-            <span>Fecha límite: Julio 30, 2025</span>
+            <span>Fecha límite: 30 Junio, 2025</span>
             <span className="mx-2">•</span>
             <span>76 participantes</span>
           </div>
@@ -49,10 +49,10 @@ export default function SurveyDetail() {
 
       {/* Main Content */}
       <div className="container mx-auto max-w-[80rem] px-4 py-8 md:px-8">
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
           {/* Left Column - About & Details */}
-          <div className="lg:col-span-2">
-            <div className="mb-8 rounded-lg bg-white p-6 shadow-sm">
+          <div className="order-2 lg:order-1 lg:col-span-2">
+            <div className="mb-8 rounded-lg border border-gray-200 bg-white p-6 shadow-md shadow-gray-200/80">
               <h2 className="mb-3 text-2xl font-bold text-[#23396f]">
                 Acerca de esta Consulta
               </h2>
@@ -118,7 +118,6 @@ export default function SurveyDetail() {
                     </p>
                   </div>
                 </div>
-
                 <div className="flex">
                   <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-[#0A4C8A] text-sm font-bold text-white">
                     2
@@ -136,7 +135,6 @@ export default function SurveyDetail() {
                     </p>
                   </div>
                 </div>
-
                 <div className="flex">
                   <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-[#0A4C8A] text-sm font-bold text-white">
                     3
@@ -151,7 +149,6 @@ export default function SurveyDetail() {
                     <p className="mt-1 text-xs text-gray-500">Agosto 2023</p>
                   </div>
                 </div>
-
                 <div className="flex">
                   <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-[#0A4C8A] text-sm font-bold text-white">
                     4
@@ -168,32 +165,92 @@ export default function SurveyDetail() {
                 </div>
               </div>
             </div>
+            {/* Guía de participación */}
+            <div className="mb-8 rounded-lg border border-gray-200 bg-white p-6 shadow-md shadow-gray-200/80">
+              <h4 className="text-lg font-semibold text-[#0A4C8A]">
+                Definición de términos
+              </h4>
+            </div>
+            <div className="mb-8 rounded-lg border border-gray-200 bg-white p-6 shadow-md shadow-gray-200/80">
+              <h4 className="text-lg font-semibold text-[#0A4C8A]">
+                Preguntas Frecuentes
+              </h4>
+              <p className="text-sm text-gray-500">
+                Preguntas comunes sobre esta consulta
+              </p>
+              <div className="border-b border-gray-200 py-4">
+                <h5 className="mb-1 font-semibold">
+                  ¿Cuánto tiempo tomará la construcción?
+                </h5>
+                <p className="text-gray-600">
+                  El proyecto está planificado para implementarse en fases
+                  durante aproximadamente 24 meses, comenzando en enero de 2026.
+                  Diferentes áreas serán afectadas en diferentes momentos para
+                  minimizar las interrupciones.
+                </p>
+              </div>
+              <div className="border-b border-gray-200 py-4">
+                <h5 className="mb-1 font-semibold">
+                  ¿Habrá cambios en la disponibilidad de estacionamiento?
+                </h5>
+                <p className="text-gray-600">
+                  Cada opción tiene diferentes impactos en el estacionamiento.
+                  La Opción A reduce el estacionamiento en superficie pero
+                  incluye una nueva estructura de estacionamiento. La Opción B
+                  mantiene la mayoría del estacionamiento existente. La Opción C
+                  incorpora estacionamiento dentro de nuevos desarrollos.
+                </p>
+              </div>
+              <div className="border-b border-gray-200 py-4">
+                <h5 className="mb-1 font-semibold">
+                  ¿Cómo se financiará este proyecto?
+                </h5>
+                <p className="text-gray-600">
+                  El proyecto será financiado a través de una combinación de
+                  fondos de mejoras de capital de la ciudad, subvenciones
+                  estatales y federales, y potencialmente asociaciones
+                  público-privadas dependiendo de la opción final seleccionada.
+                </p>
+              </div>
+              <div className="pt-4">
+                <h5 className="mb-1 font-semibold">
+                  ¿Los negocios permanecerán abiertos durante la construcción?
+                </h5>
+                <p className="text-gray-600">
+                  Sí, estamos comprometidos a mantener el acceso a todos los
+                  negocios durante la construcción. Se implementará un programa
+                  de apoyo empresarial para ayudar con señalización, marketing y
+                  posible asistencia financiera.
+                </p>
+              </div>
+            </div>
           </div>
 
           {/* Right Column - Participation */}
-          <div className="lg:col-span-1">
-            <div className="mb-6 rounded-lg bg-white p-6 shadow-sm">
+          <div className="order-1 lg:order-2 lg:col-span-1">
+            <div className="mb-6 rounded-lg border border-gray-200 bg-white p-6 shadow-md shadow-gray-200/80">
               <h2 className="mb-4 text-xl font-bold text-[#23396f]">
                 Participación
               </h2>
 
-              <div className="mb-6">
+              <div className="mb-3 border-b border-gray-200 pb-3">
                 <div className="mb-2 flex items-center justify-between">
-                  <span className="text-sm text-gray-600">
-                    Participantes actuales
-                  </span>
-                  <span className="text-sm text-gray-600">Meta: 200</span>
+                  <span className="text-sm text-gray-600">Votos actuales</span>
+                  <span className="text-sm text-gray-600">Meta: 500</span>
                 </div>
-                <div className="h-2.5 w-full rounded-full bg-gray-200">
+                <div className="h-3 w-full rounded-full border border-slate-300/60 bg-slate-200/60">
                   <div
-                    className="h-2.5 rounded-full bg-[#0A4C8A]"
-                    style={{ width: "38%" }}
+                    className="h-full rounded-full bg-[#0A4C8A]"
+                    style={{
+                      width: "38%",
+                      // boxShadow: "1px 1px 6px 1px #0A4C8A",
+                    }}
                   ></div>
                 </div>
-                <p className="mt-1 text-sm text-gray-600">76 participantes</p>
+                <p className="mt-1 text-sm text-gray-600">76 votos</p>
               </div>
 
-              <div className="mb-6 space-y-3">
+              <div className="mb-6 space-y-2">
                 <div className="flex justify-between">
                   <span className="text-sm text-gray-600">Estado</span>
                   <span className="text-sm font-medium text-green-600">
@@ -203,53 +260,56 @@ export default function SurveyDetail() {
 
                 <div className="flex justify-between">
                   <span className="text-sm text-gray-600">Departamento</span>
-                  <span className="text-sm font-medium">Infraestructura</span>
+                  <span className="text-sm">SECPLA</span>
                 </div>
 
                 <div className="flex justify-between">
                   <span className="text-sm text-gray-600">Fecha de inicio</span>
-                  <span className="text-sm font-medium">Abril 15, 2023</span>
+                  <span className="text-sm">15 Abril, 2025</span>
                 </div>
 
                 <div className="flex justify-between">
                   <span className="text-sm text-gray-600">Fecha límite</span>
-                  <span className="text-sm font-medium">Mayo 30, 2023</span>
+                  <span className="text-sm">30 Junio, 2025</span>
                 </div>
               </div>
 
-              <div className="mb-6 rounded-lg bg-blue-50 p-4">
-                <h3 className="mb-3 font-semibold text-[#0A4C8A]">
+              <div className="rounded-lg border border-blue-200 bg-blue-50">
+                <h3 className="border-b border-blue-200 px-4 pt-3 pb-2 font-semibold text-[#0A4C8A]">
                   Cómo Participar
                 </h3>
-                <ol className="space-y-2 text-sm text-gray-600">
+                <ol className="space-y-2 p-4 text-sm text-gray-600">
                   <li className="flex">
                     <span className="mr-2">1.</span>
                     <span>
-                      Revisa la información detallada sobre el proyecto
+                      Revisa la información detallada sobre el proyecto.
                     </span>
                   </li>
                   <li className="flex">
                     <span className="mr-2">2.</span>
-                    <span>Explora las opciones disponibles en el mapa</span>
+                    <span>Inicia sesión con ClaveÚnica.</span>
                   </li>
                   <li className="flex">
                     <span className="mr-2">3.</span>
-                    <span>
-                      Inicia sesión en tu cuenta (requerido para votar)
-                    </span>
+                    <span>Elige en el mapa el sector en el que vives.</span>
                   </li>
                   <li className="flex">
                     <span className="mr-2">4.</span>
-                    <span>Envía tu voto antes de la fecha límite</span>
+                    <span>Envía tu voto antes de la fecha límite.</span>
                   </li>
                   <li className="flex">
                     <span className="mr-2">5.</span>
-                    <span>Únete a la discusión para compartir tus ideas</span>
+                    <span>
+                      Revisa los resultados el día siguiente al término de la
+                      votación.
+                    </span>
                   </li>
                 </ol>
               </div>
+            </div>
 
-              <div className="mb-6 rounded-lg bg-blue-50 p-4">
+            <div className="mb-6 rounded-lg border border-gray-200 bg-white p-6 shadow-md shadow-gray-200/80">
+              <div className="rounded-lg border border-blue-200 bg-blue-50 p-4">
                 <div className="mb-3 flex items-center">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -270,25 +330,13 @@ export default function SurveyDetail() {
                 <p className="mb-3 text-sm text-gray-600">
                   Necesitas iniciar sesión para participar en esta consulta.
                 </p>
-                <button className="flex w-full items-center justify-center gap-2 rounded-lg bg-[#0A4C8A] px-4 py-2 text-white transition-colors hover:bg-[#0A3C6A]">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-4 w-4"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"
-                    />
-                  </svg>
-                  Iniciar Sesión
-                </button>
+                <span className="flex">
+                  <ClaveUnicaBtn />
+                </span>
               </div>
+            </div>
 
+            <div className="mb-6 rounded-lg border border-gray-200 bg-white p-6 shadow-md shadow-gray-200/80">
               <div>
                 <h3 className="mb-3 font-semibold text-[#23396f]">
                   Consultas Relacionadas
@@ -333,32 +381,8 @@ export default function SurveyDetail() {
         </div>
       </div>
 
-      {/* Background Blob */}
-      <div className="relative h-[30vh] w-full overflow-hidden bg-[#1F2937]">
-        {/* <Image
-          src="/Blob-Footer.svg"
-          width={1920}
-          height={1080}
-          alt="Hero Banner"
-          className="max-h-[170%]s absolute -top-[0%] left-0 w-full object-cover"
-          priority
-        /> */}
-        <div className="container mx-auto flex max-w-[80rem] items-center gap-0.5 border-t px-4 py-3 md:px-8">
-          <Image
-            width={60}
-            loading="lazy"
-            alt="El Quisco logo"
-            src={elquiscoImg}
-            className="object-contain"
-          />
-          <div
-            className={`flex flex-col text-sm leading-tight font-black text-slate-200`}
-          >
-            <p className="text-blue-500">MUNICIPALIDAD</p>
-            <p>EL QUISCO</p>
-          </div>
-        </div>
-      </div>
+      {/* Footer */}
+      <Footer />
     </div>
   );
 }

@@ -2,6 +2,7 @@ import Image from "next/image";
 import Navbar from "./ui/Navbar";
 import Hero from "./ui/home/HeroHome";
 import SurveysList from "./ui/home/SurveysListHome";
+import Footer from "./ui/Footer";
 
 export default function Home() {
   return (
@@ -14,16 +15,7 @@ export default function Home() {
             <SurveysList />
           </div>
         </div>
-        <div className="relative h-[30vh] overflow-hidden">
-          <Image
-            src="/Blob-Footer.svg"
-            width={1920}
-            height={1080}
-            alt="Hero Banner"
-            className="max-h-[170%]s absolute -top-[0%] left-0 w-full object-cover"
-            priority
-          />
-        </div>
+        <Footer />
       </div>
     </>
   );
