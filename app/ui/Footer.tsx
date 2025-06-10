@@ -1,6 +1,9 @@
+"use client";
 import Image from "next/image";
 import Link from "next/link";
 import elquiscoImg from "@/public/elquisco.svg";
+// import oirsImg from "@/public/oirs.svg";
+import punteroImg from "@/public/puntero.svg";
 
 export default function Footer() {
   return (
@@ -9,10 +12,10 @@ export default function Footer() {
       <div className="container mx-auto max-w-[80rem] px-4 py-8 md:px-8">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-3 lg:grid-cols-4">
           {/* Column 1: Logo and Info */}
-          <div className="flex flex-col space-y-4">
-            <div className="flex items-center gap-2">
+          <div className="flex flex-col space-y-5">
+            <div className="mt-1.5 flex items-center gap-2">
               <Image
-                width={40}
+                width={20}
                 loading="lazy"
                 alt="El Quisco logo"
                 src={elquiscoImg}
@@ -20,29 +23,43 @@ export default function Footer() {
               />
               <div className="flex flex-col text-sm leading-tight font-black text-slate-200">
                 <p className="text-blue-500">MUNICIPALIDAD</p>
-                <p>EL QUISCO</p>
+                <p className="-mt-1">EL QUISCO</p>
               </div>
             </div>
-            <p className="text-sm text-gray-400">
-              Av. Francia 011, El Quisco
-              <br />
-              Región de Valparaíso, Chile
-            </p>
-            <p className="text-sm text-gray-400">Teléfono: +56 35 247 3800</p>
+            <Link
+              href={"https://elquisco.cerofilas.gob.cl/"}
+              target="_blank"
+              className="flex w-30 cursor-pointer flex-col items-center text-slate-200 hover:text-slate-50"
+            >
+              <p className="text-sm font-medium tracking-wider">CONTÁCTANOS</p>
+              <div className="-mt-1 flex gap-1">
+                <Image
+                  width={26}
+                  loading="lazy"
+                  alt="El Quisco logo"
+                  src={punteroImg}
+                  className="object-contain"
+                />
+                <span className="relative flex flex-col text-sm font-black tracking-wide">
+                  <p className="mt-">OIRS</p>
+                  <p className="-mt-2">ONLINE</p>
+                </span>
+              </div>
+            </Link>
           </div>
 
           {/* Column 2: Quick Links */}
           <div>
-            <h3 className="mb-4 text-lg font-semibold text-white">
+            <h3 className="mb-2 text-lg font-semibold text-white">
               Enlaces Rápidos
             </h3>
-            <ul className="space-y-2 text-sm text-gray-400">
+            <ul className="space-y-1.5 text-sm text-gray-400">
               <li>
                 <Link
                   href="/"
                   className="transition-colors hover:text-blue-400"
                 >
-                  Inicio
+                  Participa
                 </Link>
               </li>
               <li>
@@ -50,7 +67,7 @@ export default function Footer() {
                   href="/piimep"
                   className="transition-colors hover:text-blue-400"
                 >
-                  PIIMEP
+                  Consultas
                 </Link>
               </li>
               <li>
@@ -58,7 +75,7 @@ export default function Footer() {
                   href="/preguntas"
                   className="transition-colors hover:text-blue-400"
                 >
-                  Preguntas Frecuentes
+                  Resultados
                 </Link>
               </li>
               <li>
@@ -66,7 +83,7 @@ export default function Footer() {
                   href="/contacto"
                   className="transition-colors hover:text-blue-400"
                 >
-                  Contacto
+                  Preguntas Frecuentes
                 </Link>
               </li>
             </ul>
@@ -74,44 +91,27 @@ export default function Footer() {
 
           {/* Column 3: Consultas */}
           <div>
-            <h3 className="mb-4 text-lg font-semibold text-white">
-              Consultas Ciudadanas
-            </h3>
-            <ul className="space-y-2 text-sm text-gray-400">
-              <li>
-                <Link
-                  href="/consultas/piimep"
-                  className="transition-colors hover:text-blue-400"
-                >
-                  Plan de Infraestructura
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/resultados"
-                  className="transition-colors hover:text-blue-400"
-                >
-                  Resultados
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/piimep/estadisticas"
-                  className="transition-colors hover:text-blue-400"
-                >
-                  Estadísticas
-                </Link>
-              </li>
-            </ul>
+            <h3 className="mb-2 text-lg font-semibold text-white">Contacto</h3>
+            <div className="space-y-1.5 text-sm text-gray-400">
+              <p className="text-sm text-gray-400">
+                Av. Francia 011, El Quisco
+                <br />
+                Región de Valparaíso, Chile
+              </p>
+              <p className="text-sm text-gray-400">
+                Teléfono: +56 35 2 456 100
+              </p>
+            </div>
           </div>
 
           {/* Column 4: Social Media */}
           <div>
-            <h3 className="mb-4 text-lg font-semibold text-white">Síguenos</h3>
-            <div className="flex space-x-4">
+            <h3 className="mb-2 text-lg font-semibold text-white">Síguenos</h3>
+            <div className="flex items-center space-x-4">
               {/* Facebook */}
-              <a
-                href="#"
+              <Link
+                href="https://www.facebook.com/MuniDeElQuisco"
+                target="_blank"
                 className="text-gray-400 transition-colors hover:text-blue-500"
               >
                 <svg
@@ -126,28 +126,30 @@ export default function Footer() {
                     clipRule="evenodd"
                   />
                 </svg>
-              </a>
+              </Link>
               {/* Twitter/X */}
-              <a
-                href="#"
-                className="text-gray-400 transition-colors hover:text-blue-400"
+              <Link
+                href="https://x.com/elquiscomuni"
+                target="_blank"
+                className="text-gray-400 transition-colors hover:text-slate-50"
               >
                 <svg
-                  className="h-6 w-6"
+                  className="size-5.5"
                   fill="currentColor"
                   viewBox="0 0 24 24"
                   aria-hidden="true"
                 >
-                  <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84" />
+                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
                 </svg>
-              </a>
+              </Link>
               {/* Instagram */}
-              <a
-                href="#"
+              <Link
+                href="https://www.instagram.com/munielquisco"
+                target="_blank"
                 className="text-gray-400 transition-colors hover:text-pink-500"
               >
                 <svg
-                  className="h-6 w-6"
+                  className="size-6"
                   fill="currentColor"
                   viewBox="0 0 24 24"
                   aria-hidden="true"
@@ -158,7 +160,7 @@ export default function Footer() {
                     clipRule="evenodd"
                   />
                 </svg>
-              </a>
+              </Link>
             </div>
           </div>
         </div>
@@ -171,20 +173,6 @@ export default function Footer() {
             <p className="text-sm text-gray-400">
               © 2025 Municipalidad de El Quisco. Todos los derechos reservados.
             </p>
-            {/* <div className="mt-4 flex space-x-6 md:mt-0">
-              <Link
-                href="#"
-                className="text-xs text-gray-400 transition-colors hover:text-white"
-              >
-                Política de Privacidad
-              </Link>
-              <Link
-                href="#"
-                className="text-xs text-gray-400 transition-colors hover:text-white"
-              >
-                Términos de Uso
-              </Link>
-            </div> */}
           </div>
         </div>
       </div>

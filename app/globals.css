@@ -1,12 +1,13 @@
 @import "tailwindcss";
 
-:root {
+/* :root {
   --background: #ecf0f6;
   --foreground: #323232;
-}
+} */
 
 html {
   scroll-behavior: smooth;
+  scrollbar-gutter: stable;
 }
 
 body {
@@ -49,4 +50,21 @@ path.leaflet-interactive {
   outline: none !important;
   box-shadow: none !important;
   border-color: transparent !important;
+}
+
+.custom-radio-container input:checked + .custom-radio-checkmark {
+  border-color: #3b82f6; /* Tailwind's blue-500 */
+  background-color: #ffffff; /* White background for the outer circle when checked */
+}
+
+.custom-radio-container
+  input:checked
+  + .custom-radio-checkmark
+  .custom-radio-dot {
+  transform: scale(1); /* Show the inner dot */
+}
+
+/* Optional: Hover effect for the custom radio button */
+.custom-radio-container:hover .custom-radio-checkmark {
+  background-color: #e5e7eb; /* Tailwind's gray-200 on hover */
 }

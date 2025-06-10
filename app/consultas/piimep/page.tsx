@@ -1,5 +1,5 @@
 import Link from "next/link";
-import MapSection from "@/app/ui/piimep/MapSection";
+// import MapSection from "@/app/ui/piimep/MapSection";
 import ClaveUnicaBtn from "@/app/ui/ClaveUnicaBtn";
 import Footer from "@/app/ui/Footer";
 
@@ -73,16 +73,6 @@ export default function SurveyDetail() {
                 satisfagan las necesidades actuales mientras nos preparamos para
                 el crecimiento futuro.
               </p>
-
-              {/* Map Section */}
-              {/* <div className="mt-8 mb-6">
-                <div className="relative h-[300px] w-full overflow-hidden rounded-lg bg-gray-100">
-                  <MapSection />
-                </div>
-                <p className="mt-2 text-sm text-gray-500">
-                  Mapa actual con los cambios propuestos destacados
-                </p>
-              </div> */}
 
               <h3 className="mt-8 mb-3 text-lg font-semibold text-[#23396f]">
                 Objetivos
