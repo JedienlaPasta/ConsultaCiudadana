@@ -2,6 +2,7 @@ import Link from "next/link";
 // import MapSection from "@/app/ui/piimep/MapSection";
 import ClaveUnicaBtn from "@/app/ui/ClaveUnicaBtn";
 import Footer from "@/app/ui/Footer";
+import { roboto } from "@/app/ui/fonts";
 
 export default function SurveyDetail() {
   return (
@@ -91,7 +92,7 @@ export default function SurveyDetail() {
                 Cronograma
               </h3>
               <div className="space-y-6">
-                <div className="flex">
+                <div className="relative flex">
                   <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-[#0A4C8A] text-sm font-bold text-white">
                     1
                   </div>
@@ -107,8 +108,9 @@ export default function SurveyDetail() {
                       Abril - Mayo 2023
                     </p>
                   </div>
+                  <div className="sborder-l-2 absolute top-10 left-[14px] h-10 w-[4px] rounded-full border-blue-400 bg-slate-300"></div>
                 </div>
-                <div className="flex">
+                <div className="relative flex">
                   <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-[#0A4C8A] text-sm font-bold text-white">
                     2
                   </div>
@@ -124,8 +126,9 @@ export default function SurveyDetail() {
                       Junio - Julio 2023
                     </p>
                   </div>
+                  <div className="sborder-l-2 absolute top-10 left-[14px] h-10 w-[4px] rounded-full border-blue-400 bg-slate-300"></div>
                 </div>
-                <div className="flex">
+                <div className="relative flex">
                   <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-[#0A4C8A] text-sm font-bold text-white">
                     3
                   </div>
@@ -138,6 +141,7 @@ export default function SurveyDetail() {
                     </p>
                     <p className="mt-1 text-xs text-gray-500">Agosto 2023</p>
                   </div>
+                  <div className="sborder-l-2 absolute top-10 left-[14px] h-10 w-[4px] rounded-full border-blue-400 bg-slate-300"></div>
                 </div>
                 <div className="flex">
                   <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-[#0A4C8A] text-sm font-bold text-white">
@@ -296,6 +300,16 @@ export default function SurveyDetail() {
                   </li>
                 </ol>
               </div>
+
+              <Link
+                className="mt-5 flex min-h-11 w-full grow items-center justify-center gap-0.5 rounded-lg bg-[#0F69C4] py-[8px] pr-5 pl-4 text-center text-[#fff] transition-all select-none hover:bg-[#2275C9] hover:underline"
+                href="/consultas/piimep/votacion"
+                aria-label="Iniciar sesión con ClaveÚnica"
+              >
+                <span className={`${roboto.className} `} aria-hidden="true">
+                  Ir a votar
+                </span>
+              </Link>
             </div>
 
             <div className="mb-6 rounded-lg border border-gray-200 bg-white p-6 shadow-md shadow-gray-200/80">

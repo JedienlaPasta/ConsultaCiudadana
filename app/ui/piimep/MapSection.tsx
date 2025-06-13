@@ -3,6 +3,7 @@
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import RexLoader from "./rex-animaton";
+import SectorSelectionList from "./SectorSelectionList";
 
 // Importación dinámica del componente de mapa para desactivar SSR
 const DynamicMapComponent = dynamic(() => import("./MapComponent"), {
@@ -37,7 +38,7 @@ export default function MapSection() {
       })
       .finally(() => {
         setTimeout(() => {
-          // setLoading(false);
+          setLoading(false);
         }, 500);
       });
   }, []);
@@ -156,32 +157,7 @@ export default function MapSection() {
           </div>
         </div>
 
-        <div>
-          <div className="mb-4 flex items-center gap-2.5 rounded-lg border border-gray-200 px-4 py-2">
-            <input
-              type="radio"
-              name="location"
-              className="size-4 cursor-pointer"
-              // checked
-            />
-            <span>
-              <h5 className="font-medium text-slate-700">El Quisco Norte</h5>
-              <p className="-mt-1 text-sm text-gray-500">Descripción</p>
-            </span>
-          </div>
-          <div className="mb-4 flex items-center gap-2.5 rounded-lg border border-gray-200 px-4 py-2">
-            <input
-              type="radio"
-              name="location"
-              className="size-4 cursor-pointer"
-              // checked
-            />
-            <span>
-              <h5 className="font-medium text-slate-700">El Quisco Norte</h5>
-              <p className="-mt-1 text-sm text-gray-500">Descripción</p>
-            </span>
-          </div>
-        </div>
+        <SectorSelectionList />
       </div>
     </div>
   );
