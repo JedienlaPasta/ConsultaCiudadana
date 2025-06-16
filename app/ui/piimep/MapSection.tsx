@@ -157,7 +157,10 @@ export default function MapSection() {
           </div>
         </div>
 
-        <SectorSelectionList />
+        <SectorSelectionList
+          selectedSector={selectedSector}
+          setSelectedSector={setSelectedSector}
+        />
       </div>
     </div>
   );

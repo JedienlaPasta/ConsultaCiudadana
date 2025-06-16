@@ -32,7 +32,7 @@ function BoundsUpdater({
     const layer = boundaryRef.current;
     if (!layer) return;
     const bounds = layer.getBounds();
-    const padded = bounds.pad(0);
+    const padded = bounds.pad(0.03);
 
     // Ajusta vista y bloquea zoom out al nivel actual
     // Para pantallas móviles el maxZoom debiese ser 12 // Para pantallas de escritorio 13
@@ -113,13 +113,17 @@ export default function MapComponent({
             color: "#ffdf69",
             fillColor: "#ede8d5",
             fillOpacity: 0.3,
-            weight: 2,
+            weight: 4,
             dashArray: "",
           });
+          // Replace the existing bindTooltip calls with enhanced options
           layer.bindTooltip(feature.properties?.ZONA || "Sector Desconocido", {
             permanent: true,
             direction: "center",
             className: "my-tooltip",
+            offset: [0, 0], // Adjust position
+            opacity: 0.8,
+            interactive: false, // Prevents tooltip from blocking mouse events
           });
           layer.bringToFront();
         }
