@@ -92,6 +92,7 @@ export default function MapComponent({
     opacity: 1,
     color: "#357bf0",
     fillOpacity: 0.3,
+    dashArray: "",
     className: "sector-seleccionado",
   };
 
