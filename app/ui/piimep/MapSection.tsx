@@ -48,8 +48,8 @@ export default function MapSection() {
   };
 
   return (
-    <div className="container mx-auto max-w-[60rem] px-4 py-6 md:px-8">
-      <div className="mb-8 rounded-lg border border-gray-200 bg-white p-6 shadow-md shadow-gray-200/80">
+    <div className="">
+      <div className="borders shadow-mds rounded-lg border-gray-200 bg-white shadow-gray-200/80 md:p-6">
         <span className="mb-2 flex items-baseline">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -65,7 +65,7 @@ export default function MapSection() {
             <path d="M15 5.764v15" />
             <path d="M9 3.236v15" />
           </svg>
-          <h2 className="text-2xl font-bold text-[#23396f]">
+          <h2 className="text-xl font-bold text-[#23396f] md:text-2xl">
             Selecciona tu Sector de Votación
           </h2>
         </span>
@@ -73,7 +73,7 @@ export default function MapSection() {
           Haz clic en el mapa para seleccionar el sector donde vives.
         </p>
 
-        <div className="mb-4 flex items-center rounded-lg border border-gray-200 p-4">
+        <div className="borders mb-4 flex items-center rounded-lg border-gray-200 bg-blue-50 p-4">
           <div className="mr-2 flex size-8 items-center justify-center rounded-full bg-[#0A4C8A]">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -88,9 +88,9 @@ export default function MapSection() {
               />
             </svg>
           </div>
-          <div className="flex items-baseline gap-1">
+          <div className="flex flex-col items-baseline md:flex-row md:gap-1">
             <p className="font-medium text-gray-700">Sector seleccionado:</p>
-            <p className="font-medium text-[#0A4C8A]">
+            <p className="font-semibold text-[#0A4C8A]">
               {selectedSector || "Ningún sector seleccionado"}
             </p>
           </div>
@@ -101,7 +101,7 @@ export default function MapSection() {
             {loading && (
               <div className="shadow-mds flex aspect-[4/3] items-center justify-center rounded-lg bg-gray-100 p-4">
                 <div className="flex h-full w-full flex-col items-center justify-center rounded-lg bg-gray-200">
-                  <div className="flex flex-col items-center gap-2 rounded-lg bg-white px-10 py-8">
+                  <div className="flex flex-col items-center gap-1 rounded-lg bg-white px-4 py-5 md:gap-2 md:px-10 md:py-8">
                     <RexLoader />
                     <p className="animate-pulse text-sm text-slate-500">
                       Cargando mapa y sectores...

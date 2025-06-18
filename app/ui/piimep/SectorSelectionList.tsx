@@ -123,10 +123,16 @@ export default function SectorSelectionList({
 
   return (
     <div className="mt-8 space-y-4">
-      <div className="flex items-center justify-between">
-        <h3 className="text-lg font-semibold text-slate-700">
-          Seleccione un sector
-        </h3>
+      <div className="flex flex-col space-y-2 md:flex-row md:items-center md:justify-between">
+        <div className="flex flex-col items-start justify-between">
+          <h3 className="text-lg font-semibold text-slate-700">
+            Seleccione un sector
+          </h3>
+          <p className="text-sm text-gray-500">
+            Si no puedes usar el mapa, selecciona tu sector de la lista a
+            continuación
+          </p>
+        </div>
         <div className="flex items-center gap-2 text-sm text-gray-500">
           <span className="inline-block h-3 w-3 rounded-full bg-blue-500"></span>
           Sector seleccionado
@@ -192,7 +198,7 @@ function SectorItem({ sector, isSelected, onSelect }: SectorItemProps) {
           checked={isSelected}
           onChange={() => onSelect(sector.id)}
         />
-        <h5 className="font-medium text-slate-700 group-hover:text-blue-700">
+        <h5 className="font-medium text-slate-700 group-hover:text-blue-500">
           {sector.nombre}
         </h5>
       </div>

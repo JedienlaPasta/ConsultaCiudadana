@@ -1,9 +1,7 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
-import { roboto } from "./fonts";
 import ClaveUnicaBtn from "./ClaveUnicaBtn";
 
 export default function Navbar() {
