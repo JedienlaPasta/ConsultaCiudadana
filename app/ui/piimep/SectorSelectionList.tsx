@@ -1,5 +1,7 @@
 "use client";
 
+import { useState } from "react";
+
 const sectores = [
   {
     id: "EL QUISCO NORTE",
@@ -116,13 +118,14 @@ export default function SectorSelectionList({
   selectedSector,
   setSelectedSector,
 }: SectorSelectionListProps) {
+  const [showList, setShowList] = useState(false);
   const handleSectorSelect = (sectorId: string) => {
     setSelectedSector(sectorId);
     console.log(sectorId);
   };
 
   return (
-    <div className="mt-8 space-y-4">
+    <div className="mt-s8 space-y-4">
       <div className="flex flex-col space-y-2 md:flex-row md:items-center md:justify-between">
         <div className="flex flex-col items-start justify-between">
           <h3 className="text-lg font-semibold text-slate-700">
@@ -139,16 +142,25 @@ export default function SectorSelectionList({
         </div>
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {sectores.map((sector) => (
-          <SectorItem
-            sector={sector}
-            key={sector.nombre}
-            isSelected={sector.id === selectedSector}
-            onSelect={handleSectorSelect}
-          />
-        ))}
-      </div>
+      {showList && (
+        <div className="grid gap-4 sm:grid-cols-2">
+          {sectores.map((sector) => (
+            <SectorItem
+              sector={sector}
+              key={sector.nombre}
+              isSelected={sector.id === selectedSector}
+              onSelect={handleSectorSelect}
+            />
+          ))}
+        </div>
+      )}
+
+      <button
+        onClick={() => setShowList((prev) => !prev)}
+        className="w-full cursor-pointer rounded-lg bg-blue-400 py-3 text-sm text-white"
+      >
+        Ver Lista
+      </button>
     </div>
   );
 }

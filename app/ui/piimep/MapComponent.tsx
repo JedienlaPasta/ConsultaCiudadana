@@ -162,7 +162,7 @@ export default function MapComponent({
       // minZoom={13}
       scrollWheelZoom
       //Para moviles w-[30rem] // escritorio w-[60rem]
-      className="aspect-[4/3] w-full rounded-md outline-none"
+      className="h-full w-full rounded-md outline-none"
     >
       <TileLayer
         noWrap

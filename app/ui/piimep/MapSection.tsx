@@ -38,7 +38,7 @@ export default function MapSection() {
       })
       .finally(() => {
         setTimeout(() => {
-          // setLoading(false);
+          setLoading(false);
         }, 500);
       });
   }, []);
@@ -50,7 +50,7 @@ export default function MapSection() {
   return (
     <div className="">
       <div className="borders shadow-mds rounded-lg border-gray-200 bg-white shadow-gray-200/80 md:p-6">
-        <span className="mb-2 flex items-baseline">
+        <span className="mb-1 flex items-baseline">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
@@ -69,15 +69,15 @@ export default function MapSection() {
             Selecciona tu Sector de Votación
           </h2>
         </span>
-        <p className="mb-2 text-gray-500">
+        <p className="mb-4 text-gray-500">
           Haz clic en el mapa para seleccionar el sector donde vives.
         </p>
 
         <div className="borders mb-4 flex items-center rounded-lg border-gray-200 bg-blue-50 p-4">
-          <div className="mr-2 flex size-8 items-center justify-center rounded-full bg-[#0A4C8A]">
+          <div className="mr-2 flex size-6 items-center justify-center rounded-full bg-[#0A4C8A]">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="size-4.5 text-white"
+              className="size-4 text-white"
               viewBox="0 0 20 20"
               fill="currentColor"
             >
@@ -96,7 +96,7 @@ export default function MapSection() {
           </div>
         </div>
 
-        <div className="">
+        <div className="mb-4">
           <div className="col-span-2">
             {loading && (
               <div className="shadow-mds flex aspect-[4/3] items-center justify-center rounded-lg bg-gray-100 p-4">
@@ -137,7 +137,7 @@ export default function MapSection() {
             )}
 
             {!loading && !error && sectores && comuna && (
-              <div className="overflow-hidden rounded-lg bg-gray-100 p-5 shadow-md shadow-gray-200/80">
+              <div className="aspect-[4/3] overflow-hidden rounded-lg bg-gray-100 p-5 shadow-md shadow-gray-200/80">
                 <DynamicMapComponent
                   geojsonData={sectores}
                   boundaryData={comuna}
