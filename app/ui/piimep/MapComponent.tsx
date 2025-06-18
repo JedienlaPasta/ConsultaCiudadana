@@ -80,7 +80,7 @@ export default function MapComponent({
   // Estilos de los sectores
   const defaultStyle: L.PathOptions = {
     fillColor: "gray",
-    weight: 2,
+    weight: 1,
     opacity: 1,
     color: "#6b6f82",
     dashArray: "3",
@@ -88,7 +88,7 @@ export default function MapComponent({
   };
   const selectedStyle: L.PathOptions = {
     fillColor: "#88b0f2",
-    weight: 2,
+    weight: 4,
     opacity: 1,
     color: "#357bf0",
     fillOpacity: 0.3,
@@ -193,10 +193,10 @@ export default function MapComponent({
       <Polygon
         positions={[worldCoords, ...maskHoles]}
         pathOptions={{
-          fillColor: "gray", // puede ser el color del fondo de tu app
+          fillColor: "black", // puede ser el color del fondo de tu app
           color: "#6b6f82",
-          weight: 1,
-          fillOpacity: 0.5,
+          weight: 3,
+          fillOpacity: 0.55,
           stroke: true,
           fillRule: "evenodd",
         }}

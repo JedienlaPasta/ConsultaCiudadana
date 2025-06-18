@@ -38,7 +38,7 @@ export default function MapSection() {
       })
       .finally(() => {
         setTimeout(() => {
-          setLoading(false);
+          // setLoading(false);
         }, 500);
       });
   }, []);
@@ -50,9 +50,25 @@ export default function MapSection() {
   return (
     <div className="container mx-auto max-w-[60rem] px-4 py-6 md:px-8">
       <div className="mb-8 rounded-lg border border-gray-200 bg-white p-6 shadow-md shadow-gray-200/80">
-        <h2 className="mb-2s text-2xl font-bold text-[#23396f]">
-          Selecciona tu Sector de Votación
-        </h2>
+        <span className="mb-2 flex items-baseline">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="lucide lucide-map-icon lucide-map mt-1 mr-2 size-5 text-[#0a4c8a]"
+          >
+            <path d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z" />
+            <path d="M15 5.764v15" />
+            <path d="M9 3.236v15" />
+          </svg>
+          <h2 className="text-2xl font-bold text-[#23396f]">
+            Selecciona tu Sector de Votación
+          </h2>
+        </span>
         <p className="mb-2 text-gray-500">
           Haz clic en el mapa para seleccionar el sector donde vives.
         </p>
