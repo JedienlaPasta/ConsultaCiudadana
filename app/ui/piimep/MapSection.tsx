@@ -137,7 +137,7 @@ export default function MapSection() {
             )}
 
             {!loading && !error && sectores && comuna && (
-              <div className="aspect-[4/3] overflow-hidden rounded-lg bg-gray-100 p-5 shadow-md shadow-gray-200/80">
+              <div className="aspect-[4/3] overflow-hidden rounded-lg bg-gray-100 shadow-md shadow-gray-200/80">
                 <DynamicMapComponent
                   geojsonData={sectores}
                   boundaryData={comuna}
