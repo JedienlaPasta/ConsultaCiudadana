@@ -49,7 +49,7 @@ export default function MapSection() {
 
   return (
     <div className="">
-      <div className="borders shadow-mds rounded-lg border-gray-200 bg-white shadow-gray-200/80 md:p-6">
+      <div className="rounded-lg border-gray-200 bg-white shadow-gray-200/80 md:border md:p-6 md:shadow-md">
         <span className="mb-1 flex items-baseline">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -69,7 +69,7 @@ export default function MapSection() {
             Selecciona tu Sector de Votación
           </h2>
         </span>
-        <p className="mb-4 text-gray-500 md:text-sm">
+        <p className="mb-2 text-sm text-gray-500 md:mb-4 md:text-base">
           Haz clic en el mapa para seleccionar el sector donde vives.
         </p>
 
@@ -90,7 +90,7 @@ export default function MapSection() {
           </div>
           <div className="flex flex-col items-baseline md:flex-row md:gap-1">
             <p className="font-medium text-gray-700">Sector seleccionado:</p>
-            <p className="font-semibold text-[#0A4C8A]">
+            <p className="-mt-1.5 font-semibold text-[#0A4C8A] md:mt-0">
               {selectedSector || "Ningún sector seleccionado"}
             </p>
           </div>
@@ -137,7 +137,7 @@ export default function MapSection() {
             )}
 
             {!loading && !error && sectores && comuna && (
-              <div className="aspect-[4/3] overflow-hidden rounded-lg bg-gray-100 shadow-md shadow-gray-200/80">
+              <div className="aspect-[4/3] overflow-hidden rounded-lg bg-gray-100 shadow-md shadow-gray-200/80 md:aspect-[16/9]">
                 <DynamicMapComponent
                   geojsonData={sectores}
                   boundaryData={comuna}

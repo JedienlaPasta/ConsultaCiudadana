@@ -122,7 +122,7 @@ export default function SectorSelectionList({
   };
 
   return (
-    <div className="mt-8 space-y-4">
+    <div className="mt-4 space-y-4 md:mt-8">
       <div className="flex items-center justify-between">
         <h3 className="text-lg font-semibold text-slate-700">
           Seleccione un sector
@@ -133,7 +133,7 @@ export default function SectorSelectionList({
         </div>
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-3 sm:grid-cols-2 md:gap-4 lg:grid-cols-3">
         {sectores.map((sector) => (
           <SectorItem
             sector={sector}
@@ -165,10 +165,10 @@ function SectorItem({ sector, isSelected, onSelect }: SectorItemProps) {
   return (
     <div
       onClick={() => onSelect(sector.id)}
-      className={`group relative flex cursor-pointer flex-col rounded-lg border-2 p-4 transition-all duration-200 hover:border-blue-200 hover:shadow-md ${isSelected ? "!border-[#0F69C4] !bg-blue-50 shadow-md" : "border-gray-200"}`}
+      className={`group relative flex cursor-pointer flex-col rounded-lg border-2 px-4 py-3 transition-all duration-200 hover:border-blue-200 hover:shadow-md md:p-4 ${isSelected ? "!border-[#0F69C4] !bg-blue-50 shadow-md" : "border-gray-200"}`}
     >
       {isSelected && (
-        <div className="absolute top-2 right-2 flex size-6 items-center justify-center rounded-full bg-blue-500 text-white">
+        <div className="bg-blue-500s absolute top-2 right-2 flex size-6 items-center justify-center rounded-full border-2 border-[#0F69C4] text-[#0F69C4]">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="size-4"
@@ -184,11 +184,11 @@ function SectorItem({ sector, isSelected, onSelect }: SectorItemProps) {
         </div>
       )}
 
-      <div className="mb-2 flex items-center gap-2">
+      <div className="mb-1 flex items-center gap-2 md:mb-2">
         <input
           type="radio"
           name="sectorSelection"
-          className="size-4 cursor-pointer accent-blue-500"
+          className="size-4 cursor-pointer accent-[#0F69C4]"
           checked={isSelected}
           onChange={() => onSelect(sector.id)}
         />
@@ -199,7 +199,7 @@ function SectorItem({ sector, isSelected, onSelect }: SectorItemProps) {
 
       {/* <p className="mb-2 text-xs text-gray-500 line-clamp-2">{sector.descripcion}</p> */}
 
-      <div className="mt-auto flex items-center justify-between text-xs text-gray-500">
+      <div className="flex items-center justify-between text-xs text-gray-500">
         <div className="flex items-center gap-1">
           <svg
             xmlns="http://www.w3.org/2000/svg"

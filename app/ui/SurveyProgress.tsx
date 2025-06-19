@@ -26,16 +26,17 @@ const steps = [
 
 export default function SurveyProgress() {
   return (
-    <div className="mb-8 rounded-lg border border-gray-200 bg-[#f8fafc] p-6 shadow-md shadow-gray-200/80">
-      <h3 className="mb-6 text-xl font-bold text-[#0a4c8a]">
+    <div className="md:borders md:bg-[#f8fafc]s md:shadow-mds rounded-lg border-gray-200 p-6 shadow-gray-200/80">
+      {/* <h3 className="mb-6 text-center text-xl font-bold text-[#0a4c8a]">
         Progreso de Cuestionario
-      </h3>
-      <div className="flex flex-col">
+      </h3> */}
+      <div className={`flex flex-nowrap justify-center gap-4`}>
         {steps.map((step, index) => (
           <ProgressStep
             key={step.id}
             step={step}
             isLast={index === steps.length - 1}
+            index={index + 1}
           />
         ))}
       </div>
@@ -51,20 +52,27 @@ type Step = {
   current: boolean;
 };
 
-function ProgressStep({ step, isLast }: { step: Step; isLast: boolean }) {
+function ProgressStep({
+  step,
+  isLast,
+  index,
+}: {
+  step: Step;
+  isLast: boolean;
+  index: number;
+}) {
   return (
-    <div className="relative flex items-start">
-      {/* Vertical line */}
+    <div className="relative flex w-20 shrink-0 flex-col items-center sm:w-38 md:w-52">
+      {/* Horizontal line */}
       {!isLast && (
         <div
-          className={`absolute top-9.5 left-4 h-full w-[2px] rounded-full ${step.completed ? "bg-[#0A4C8A]" : "bg-gray-200"}`}
-          style={{ transform: "translateX(-50%)", height: "calc(100% - 44px)" }}
+          className={`absolute top-[21%] h-[2px] w-[calc(100%-40px)] translate-x-[calc(50%+28px)] rounded-full sm:top-[28%] md:top-[21%] ${step.completed ? "bg-[#0A4C8A]" : "bg-gray-200"}`}
         />
       )}
 
       {/* Step indicator with icon */}
       <div
-        className={`z-10 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full border-2 ${step.completed ? "border-[#0A4C8A]" : step.current ? "bg-blue-300" : "bg-gray-200"} text-sm font-medium text-[#0A4C8A]`}
+        className={`flex size-8 flex-shrink-0 items-center justify-center rounded-full border-2 ${step.completed ? "border-[#0A4C8A] !bg-[#0A4C8A] text-white" : step.current ? "border-[#0A4C8A] !bg-[#0A4C8A] text-white" : "border-gray-300 text-gray-500"} bg-gray-200 text-sm font-medium text-[#0A4C8A]`}
       >
         {step.completed ? (
           <svg
@@ -79,44 +87,37 @@ function ProgressStep({ step, isLast }: { step: Step; isLast: boolean }) {
               clipRule="evenodd"
             />
           </svg>
-        ) : step.current ? (
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-5 w-5"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-          >
-            <path
-              fillRule="evenodd"
-              d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z"
-              clipRule="evenodd"
-            />
-          </svg>
         ) : (
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-5 w-5"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-          >
-            <path
-              fillRule="evenodd"
-              d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
-              clipRule="evenodd"
-            />
-          </svg>
+          index
         )}
       </div>
 
       {/* Step content */}
-      <div className="ml-4 pb-8">
+      <div>
         <h4
-          className={`font-semibold ${step.completed || step.current ? "text-[#0A4C8A]" : "text-gray-500"}`}
+          className={`text-center text-sm md:text-base ${step.current ? "font-semibold text-[#0A4C8A]" : "text-slate-400"} ${!step.current ? "hiddens sm:block" : ""}`}
         >
           {step.title}
         </h4>
-        <p className="text-xs text-gray-600">{step.description}</p>
+        <p className="hidden text-center text-xs text-gray-600 md:block">
+          {step.description}
+        </p>
       </div>
     </div>
   );
 }
+
+// step.current ? (
+//     <svg
+//       xmlns="http://www.w3.org/2000/svg"
+//       className="h-5 w-5 rotate-90"
+//       viewBox="0 0 20 20"
+//       fill="currentColor"
+//     >
+//       <path
+//         fillRule="evenodd"
+//         d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z"
+//         clipRule="evenodd"
+//       />
+//     </svg>
+//   )

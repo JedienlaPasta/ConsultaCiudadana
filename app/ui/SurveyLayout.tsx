@@ -1,15 +1,13 @@
 "use client";
-import React from "react";
-// import SurveyProgress from "./SurveyProgress";
 import MapSection from "./piimep/MapSection";
-import SurveyProgressV2 from "./SurveyProgressV2";
+import SurveyProgress from "./SurveyProgress";
 
 export default function SurveyLayout() {
   return (
-    <div className="w-2/3s mx-auto grid grid-cols-1 justify-end gap-4 rounded-lg border-gray-200 bg-white shadow-gray-200/80 md:border md:p-6 md:shadow-md">
-      <div className="col-span-3s lg:col-span-1">
-        {/* <SurveyProgress /> */}
-        <SurveyProgressV2 />
+    // <div className="rounded-lgs border-gray-200s bg-whites md:borders md:p-6s md:shadow-mds mx-auto grid grid-cols-1 justify-end gap-4 shadow-gray-200/80">
+    <div className="mx-auto grid grid-cols-1 justify-end gap-6">
+      <div className="col-span-3s rounded-lg bg-slate-200/60 lg:col-span-1">
+        <SurveyProgress />
       </div>
       <div className="col-span-3s space-y-4 lg:col-span-1">
         <MapSection />
