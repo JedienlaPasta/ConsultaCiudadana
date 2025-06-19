@@ -104,6 +104,62 @@ const QUESTIONS_LIST = [
         id: "1",
         name: "Tramo conector",
         description: "Descripcion de la opción numero uno...",
+        options: [
+          {
+            id: "1.1",
+            name: "Tramo 1 Peñablanca",
+            description: "Descripcion del tramo numero uno...",
+            sector: "EL QUISCO NORTE",
+          },
+          {
+            id: "1.2",
+            name: "Tramo 2 Ruca pedrera",
+            description: "Descripcion del tramo numero dos...",
+            sector: "EL QUISCO NORTE",
+          },
+          {
+            id: "1.3",
+            name: "Tramo 3 Miramar",
+            description: "Descripcion del tramo numero tres...",
+            sector: "",
+          },
+          {
+            id: "1.4",
+            name: "Tramo 4 Narciso Aguirre",
+            description: "Descripcion del tramo numero cuatro...",
+            sector: "",
+          },
+          {
+            id: "1.5",
+            name: "Tramo 5 Lobos tranquilos",
+            description: "Descripcion del tramo numero cinco...",
+            sector: "",
+          },
+          {
+            id: "1.6",
+            name: "Tramo 6 Cisne negro",
+            description: "Descripcion del tramo numero seis...",
+            sector: "EL QUISCO SUR",
+          },
+          {
+            id: "1.7",
+            name: "Tramo 7 Av Punta tralca",
+            description: "Descripcion del tramo numero siete...",
+            sector: "",
+          },
+          {
+            id: "1.8",
+            name: "Tramo 8 Av Punta tralca, Piedra trueno",
+            description: "Descripcion del tramo numero ocho...",
+            sector: "",
+          },
+          {
+            id: "1.9",
+            name: "Tramo 9 Isla negra",
+            description: "Descripcion del tramo numero nueve...",
+            sector: "",
+          },
+        ],
       },
       {
         id: "2",
@@ -164,6 +220,12 @@ export type Question = {
     description?: string;
     population?: string;
     area?: string;
+    options?: {
+      id: string;
+      name: string;
+      description: string;
+      sector?: string;
+    }[];
   }[];
 };
 
@@ -175,7 +237,7 @@ export default function SurveyLayout() {
   const [isLoading, setIsLoading] = useState(false);
   const topRef = useRef<HTMLDivElement>(null);
 
-  const isFirstQuestionMap = QUESTIONS_LIST[0].step === "Seleccionar sector";
+  const isFirstMapQuestion = QUESTIONS_LIST[0].index === currentQuestionIndex;
 
   const handleQuestionChange = (nextQuestionIndex: number) => {
     if (
@@ -183,6 +245,11 @@ export default function SurveyLayout() {
       nextQuestionIndex > QUESTIONS_LIST.length - 1
     ) {
       return;
+    }
+    // Check if questions were checked before continuing
+    if (nextQuestionIndex > currentQuestionIndex) {
+      if (isFirstMapQuestion && !selectedSectorId) return;
+      if (!isFirstMapQuestion && selectedOptions.length < 3) return;
     }
     setCurrentQuestionIndex(nextQuestionIndex);
     topRef.current?.scrollIntoView({
@@ -193,8 +260,6 @@ export default function SurveyLayout() {
       setIsLoading(false);
     }, 700);
   };
-
-  const handleContinueButton = () => {};
 
   return (
     // <div className="rounded-lgs border-gray-200s bg-whites md:borders md:p-6s md:shadow-mds mx-auto grid grid-cols-1 justify-end gap-4 shadow-gray-200/80">

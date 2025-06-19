@@ -58,6 +58,30 @@ export default function MapComponent({
   const sectRef = useRef<L.GeoJSON>(null);
   const boundaryRef = useRef<L.GeoJSON>(null);
 
+  // Function to update layer selection state
+  const updateLayerSelection = () => {
+    if (!sectRef.current) return;
+
+    sectRef.current.eachLayer((layer) => {
+      const customLayer = layer as CustomPathLayer;
+      const feature = (customLayer as any).feature;
+
+      if (feature?.properties?.ZONA === selectedSector) {
+        customLayer.isSelected = true;
+        customLayer.setStyle(selectedStyle);
+        customLayer.bringToFront();
+      } else {
+        customLayer.isSelected = false;
+        customLayer.setStyle(defaultStyle);
+      }
+    });
+  };
+
+  // Update layers when selectedSector prop changes
+  useEffect(() => {
+    updateLayerSelection();
+  }, [selectedSector]);
+
   // Rectángulo mundial como máscara externa
   const worldCoords: [number, number][] = [
     [-0, -180],
@@ -107,6 +131,13 @@ export default function MapComponent({
   ) => {
     layer.isSelected = false;
 
+    // Set initial selection state when layer is added
+    if (feature.properties?.ZONA === selectedSector) {
+      layer.isSelected = true;
+      layer.setStyle(selectedStyle);
+      layer.bringToFront();
+    }
+
     layer.on({
       mouseover: () => {
         if (!layer.isSelected) {
@@ -117,14 +148,13 @@ export default function MapComponent({
             weight: 4,
             dashArray: "",
           });
-          // Replace the existing bindTooltip calls with enhanced options
           layer.bindTooltip(feature.properties?.ZONA || "Sector Desconocido", {
             permanent: true,
             direction: "center",
             className: "my-tooltip",
-            offset: [0, 0], // Adjust position
+            offset: [0, 0],
             opacity: 0.8,
-            interactive: false, // Prevents tooltip from blocking mouse events
+            interactive: false,
           });
           layer.bringToFront();
         }

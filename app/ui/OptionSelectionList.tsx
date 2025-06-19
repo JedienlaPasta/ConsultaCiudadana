@@ -33,6 +33,7 @@ export default function OptionSelectionList({
 
   return (
     <div className="mt-4 space-y-4 md:mt-8">
+      {/* Normal components */}
       <div className="flex items-center justify-between">
         <h3 className="text-lg font-semibold text-slate-700">
           Seleccione 3 componentes
@@ -52,6 +53,30 @@ export default function OptionSelectionList({
             onSelect={handleOptionSelect}
           />
         ))}
+      </div>
+
+      {/* Conditionaly rendered for Tramo conector */}
+      <div className="flex items-center justify-between">
+        <h3 className="text-lg font-semibold text-slate-700">
+          Seleccione 1 tramo
+        </h3>
+        <div className="flex items-center gap-2 text-sm text-gray-500">
+          <span className="inline-block h-3 w-3 rounded-full bg-blue-500"></span>
+          <span>{selectedOptions.length}/3 seleccionados</span>
+        </div>
+      </div>
+      <div className="grid gap-3 sm:grid-cols-2 md:gap-4 lg:grid-cols-3">
+        {/* Arreglar esto, solo debiese elegir 1 opcion y por separado del optionSelect state */}
+        {question.options
+          .find((option) => option.options)
+          ?.options?.map((option) => (
+            <OptionItem
+              option={option}
+              key={option.name}
+              isSelected={selectedOptions.includes(option.id)}
+              onSelect={handleOptionSelect}
+            />
+          ))}
       </div>
     </div>
   );
