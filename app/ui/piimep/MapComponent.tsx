@@ -59,12 +59,18 @@ export default function MapComponent({
   const boundaryRef = useRef<L.GeoJSON>(null);
 
   // Function to update layer selection state
+  interface CustomPathLayer extends L.Path {
+    isSelected: boolean;
+    feature?: GeoJSONType.Feature;
+  }
+
+  // Then use it without type casting:
   const updateLayerSelection = () => {
     if (!sectRef.current) return;
 
     sectRef.current.eachLayer((layer) => {
       const customLayer = layer as CustomPathLayer;
-      const feature = (customLayer as any).feature;
+      const feature = customLayer.feature;
 
       if (feature?.properties?.ZONA === selectedSector) {
         customLayer.isSelected = true;
