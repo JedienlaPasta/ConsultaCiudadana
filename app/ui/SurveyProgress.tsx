@@ -26,7 +26,7 @@ const steps = [
 
 export default function SurveyProgress() {
   return (
-    <div className="md:borders md:bg-[#f8fafc]s md:shadow-mds rounded-lg border-gray-200 p-6 shadow-gray-200/80">
+    <div className="md:borders md:bg-[#f8fafc]s md:shadow-mds rounded-lg border-gray-200 py-4 shadow-gray-200/80 md:p-6">
       {/* <h3 className="mb-6 text-center text-xl font-bold text-[#0a4c8a]">
         Progreso de Cuestionario
       </h3> */}
