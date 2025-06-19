@@ -48,7 +48,7 @@ export default function MapSection({
       })
       .finally(() => {
         setTimeout(() => {
-          // setLoading(false);
+          setLoading(false);
         }, 500);
       });
   }, []);

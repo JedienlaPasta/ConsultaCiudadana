@@ -2,8 +2,8 @@
 import { useRef, useState } from "react";
 import MapSection from "./piimep/MapSection";
 import SurveyProgress from "./SurveyProgress";
-import SectorSelectionList from "./piimep/SectorSelectionList";
 import RexLoader from "./piimep/rex-animaton";
+import OptionSelectionList from "./OptionSelectionList";
 
 const QUESTIONS_LIST = [
   {
@@ -15,80 +15,80 @@ const QUESTIONS_LIST = [
     options: [
       {
         id: "EL QUISCO NORTE",
-        nombre: "El Quisco Norte",
-        poblacion: "~2,300 hab.",
+        name: "El Quisco Norte",
+        population: "~2,300 hab.",
         area: "1.2 km²",
       },
       {
         id: "EL QUISCO ALTO",
-        nombre: "El Quisco Alto",
-        poblacion: "~1,500 hab.",
+        name: "El Quisco Alto",
+        population: "~1,500 hab.",
         area: "0.8 km²",
       },
       {
         id: "PINOMAR",
-        nombre: "Pinomar",
-        poblacion: "~1,600 hab.",
+        name: "Pinomar",
+        population: "~1,600 hab.",
         area: "0.6 km²",
       },
       {
         id: "EL QUISCO CENTRO ORIENTE",
-        nombre: "Quisco Centro Oriente",
-        poblacion: "~1,500 hab.",
+        name: "Quisco Centro Oriente",
+        population: "~1,500 hab.",
         area: "1.5 km²",
       },
       {
         id: "EL QUISCO CENTRO PONIENTE",
-        nombre: "Quisco Centro Poniente",
-        poblacion: "~2,100 hab.",
+        name: "Quisco Centro Poniente",
+        population: "~2,100 hab.",
         area: "1.3 km²",
       },
       {
         id: "EL QUISCO SUR ORIENTE",
-        nombre: "Quisco Sur Oriente",
-        poblacion: "~1,100 hab.",
+        name: "Quisco Sur Oriente",
+        population: "~1,100 hab.",
         area: "1.0 km²",
       },
       {
         id: "EL QUISCO SUR PONIENTE",
-        nombre: "Quisco Sur Poniente",
-        poblacion: "~2,300 hab.",
+        name: "Quisco Sur Poniente",
+        population: "~2,300 hab.",
         area: "0.9 km²",
       },
       {
         id: "EL TOTORAL BAJO",
-        nombre: "El Totoral Bajo",
-        poblacion: "~400 hab.",
+        name: "El Totoral Bajo",
+        population: "~400 hab.",
         area: "0.4 km²",
       },
       {
         id: "PUNTA DE TRALCA",
-        nombre: "Punta de Tralca",
-        poblacion: "~2.500 hab.",
+        name: "Punta de Tralca",
+        population: "~2.500 hab.",
         area: "0.7 km²",
       },
       {
         id: "ISLA NEGRA",
-        nombre: "Isla Negra",
-        poblacion: "~1,300 hab.",
+        name: "Isla Negra",
+        population: "~1,300 hab.",
         area: "1.1 km²",
       },
       {
         id: "EL TOTORAL MEDIO",
-        nombre: "El Totoral Medio",
-        poblacion: "~500 hab.",
+        name: "El Totoral Medio",
+        population: "~500 hab.",
         area: "0.5 km²",
       },
       {
         id: "EL TOTORAL NORTE",
-        nombre: "El Totoral Norte",
-        poblacion: "~200 hab.",
+        name: "El Totoral Norte",
+        population: "~200 hab.",
         area: "0.6 km²",
       },
       {
         id: "EL TOTORAL",
-        nombre: "El Totoral",
-        poblacion: "~1,000 hab.",
+        name: "El Totoral",
+        population: "~1,000 hab.",
         area: "0.5 km²",
       },
     ],
@@ -99,7 +99,48 @@ const QUESTIONS_LIST = [
     step_description: "Mejoras a implementar en tu sector",
     question: "Pregunta 2",
     description: "",
-    options: [],
+    options: [
+      {
+        id: "1",
+        name: "Tramo conector",
+        description: "Descripcion de la opción numero uno...",
+      },
+      {
+        id: "2",
+        name: "Peatonalizacion permanente",
+        description: "Descripcion de la opción numero dos...",
+      },
+      {
+        id: "3",
+        name: "Peatonalizacion temporal",
+        description: "Descripcion de la opción numero tres...",
+      },
+      {
+        id: "4",
+        name: "Sentido de tránsito",
+        description: "Descripcion de la opción numero cuatro...",
+      },
+      {
+        id: "5",
+        name: "Cruce piimep dubornais",
+        description: "Descripcion de la opción numero cinco...",
+      },
+      {
+        id: "6",
+        name: "Ciclovia táctica",
+        description: "Descripcion de la opción numero seis...",
+      },
+      {
+        id: "7",
+        name: "Eliminación estacionamiento",
+        description: "Descripcion de la opción numero siete...",
+      },
+      {
+        id: "8",
+        name: "Sendero quebrada",
+        description: "Descripcion de la opción numero siete...",
+      },
+    ],
   },
   {
     index: 2,
@@ -119,17 +160,22 @@ export type Question = {
   description: string;
   options: {
     id: string;
-    nombre: string;
-    poblacion: string;
-    area: string;
+    name: string;
+    description?: string;
+    population?: string;
+    area?: string;
   }[];
 };
 
 export default function SurveyLayout() {
   const [selectedSectorId, setSelectedSectorId] = useState("");
+  const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
+
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const topRef = useRef<HTMLDivElement>(null);
+
+  const isFirstQuestionMap = QUESTIONS_LIST[0].step === "Seleccionar sector";
 
   const handleQuestionChange = (nextQuestionIndex: number) => {
     if (
@@ -147,6 +193,9 @@ export default function SurveyLayout() {
       setIsLoading(false);
     }, 700);
   };
+
+  const handleContinueButton = () => {};
+
   return (
     // <div className="rounded-lgs border-gray-200s bg-whites md:borders md:p-6s md:shadow-mds mx-auto grid grid-cols-1 justify-end gap-4 shadow-gray-200/80">
     <div
@@ -163,20 +212,24 @@ export default function SurveyLayout() {
         <QuestionSection
           isLoading={isLoading}
           question={QUESTIONS_LIST[currentQuestionIndex]}
+          currentQuestionIndex={currentQuestionIndex}
           selectedSectorId={selectedSectorId}
+          selectedOptions={selectedOptions}
           setSelectedSectorId={setSelectedSectorId}
+          setSelectedOptions={setSelectedOptions}
         />
         {!isLoading ? (
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid gap-4 md:grid-cols-2">
             <button
               onClick={() => handleQuestionChange(currentQuestionIndex - 1)}
-              className="col-span-1 w-full cursor-pointer rounded-lg bg-gray-400 py-3 text-sm text-white transition-all active:scale-90"
+              // disabled={isFirstQuestionMap}
+              className="col-span-1 w-full cursor-pointer rounded-lg bg-gray-400 py-3 text-sm text-white transition-all active:scale-95"
             >
               Volver
             </button>
             <button
               onClick={() => handleQuestionChange(currentQuestionIndex + 1)}
-              className="col-span-1 w-full cursor-pointer rounded-lg bg-blue-500 py-3 text-sm text-white transition-all active:scale-90"
+              className="col-span-1 w-full cursor-pointer rounded-lg bg-blue-500 py-3 text-sm text-white transition-all active:scale-95"
             >
               Continuar
             </button>
@@ -191,14 +244,20 @@ export default function SurveyLayout() {
 type QuestionSectionProps = {
   isLoading: boolean;
   question: Question;
+  selectedOptions: string[];
   selectedSectorId: string;
+  setSelectedOptions: (options: string[]) => void;
+  currentQuestionIndex: number;
   setSelectedSectorId: (sectorId: string) => void;
 };
 
 function QuestionSection({
   isLoading,
   question,
+  selectedOptions,
   selectedSectorId,
+  currentQuestionIndex,
+  setSelectedOptions,
   setSelectedSectorId,
 }: QuestionSectionProps) {
   const isMap = question.step === "Seleccionar sector";
@@ -220,10 +279,10 @@ function QuestionSection({
       sectoresSurveyList={QUESTIONS_LIST[0]}
     />
   ) : (
-    <SectorSelectionList
-      sectoresSurveyList={QUESTIONS_LIST[0]}
-      selectedSector={selectedSectorId}
-      setSelectedSector={setSelectedSectorId}
+    <OptionSelectionList
+      question={QUESTIONS_LIST[currentQuestionIndex]}
+      selectedOptions={selectedOptions}
+      setSelectedOptions={setSelectedOptions}
     />
   );
 }

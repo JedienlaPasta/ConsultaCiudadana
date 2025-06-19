@@ -34,7 +34,7 @@ export default function SectorSelectionList({
         {sectoresSurveyList.options.map((sector) => (
           <SectorItem
             sector={sector}
-            key={sector.nombre}
+            key={sector.name}
             isSelected={sector.id === selectedSector}
             onSelect={handleSectorSelect}
           />
@@ -46,9 +46,9 @@ export default function SectorSelectionList({
 
 type Sector = {
   id: string;
-  nombre: string;
-  poblacion: string;
-  area: string;
+  name: string;
+  population?: string;
+  area?: string;
 };
 
 type SectorItemProps = {
@@ -89,7 +89,7 @@ function SectorItem({ sector, isSelected, onSelect }: SectorItemProps) {
           onChange={() => onSelect(sector.id)}
         />
         <h5 className="font-medium text-slate-700 group-hover:text-blue-700">
-          {sector.nombre}
+          {sector.name}
         </h5>
       </div>
 
@@ -108,7 +108,7 @@ function SectorItem({ sector, isSelected, onSelect }: SectorItemProps) {
             <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" />
             <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
           </svg>
-          <span className="font-medium">{sector.poblacion}</span>
+          <span className="font-medium">{sector.population}</span>
         </div>
 
         <div className="flex items-center gap-1">
