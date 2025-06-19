@@ -49,7 +49,8 @@ export default function MapSection() {
 
   return (
     <div className="">
-      <div className="rounded-lg border-gray-200 bg-white shadow-gray-200/80 md:border md:p-6 md:shadow-md">
+      {/* <div className="rounded-lg border-gray-200 shadow-gray-200/80 md:border md:p-6 md:shadow-md"> */}
+      <div className="">
         <span className="mb-1 flex items-baseline">
           <svg
             xmlns="http://www.w3.org/2000/svg"

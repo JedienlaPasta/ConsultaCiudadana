@@ -9,7 +9,7 @@ export default function SurveyLayout() {
       <div className="rounded-lg bg-slate-200/60 lg:col-span-1">
         <SurveyProgress />
       </div>
-      <div className="space-y-4 lg:col-span-1">
+      <div className="space-y-6 md:space-y-8 lg:col-span-1">
         <MapSection />
         <button className="w-full cursor-pointer rounded-lg bg-blue-500 py-3 text-sm text-white transition-all active:scale-90 lg:col-span-2">
           Continuar
