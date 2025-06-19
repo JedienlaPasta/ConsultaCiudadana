@@ -4,6 +4,7 @@ import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import RexLoader from "./rex-animaton";
 import SectorSelectionList from "./SectorSelectionList";
+import { Question } from "../SurveyLayout";
 
 // Importación dinámica del componente de mapa para desactivar SSR
 const DynamicMapComponent = dynamic(() => import("./MapComponent"), {
@@ -15,12 +16,21 @@ const sectoresPath = "/output-buffer.geojson";
 // const comunaPath = "/quisco_comuna.geojson";
 const comunaPath = "/output-limite.geojson";
 
-export default function MapSection() {
+type MapSectionProps = {
+  selectedSectorId: string | null;
+  setSelectedSectorId: (sectorId: string) => void;
+  sectoresSurveyList: Question;
+};
+
+export default function MapSection({
+  selectedSectorId,
+  setSelectedSectorId,
+  sectoresSurveyList,
+}: MapSectionProps) {
   const [sectores, setSectores] = useState(null);
   const [comuna, setComuna] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
-  const [selectedSector, setSelectedSector] = useState<string | null>(null);
 
   useEffect(() => {
     Promise.all([
@@ -38,13 +48,13 @@ export default function MapSection() {
       })
       .finally(() => {
         setTimeout(() => {
-          setLoading(false);
+          // setLoading(false);
         }, 500);
       });
   }, []);
 
-  const handleSectorSelect = (sectorName: string) => {
-    setSelectedSector(sectorName);
+  const handleSectorSelect = (sectorId: string) => {
+    setSelectedSectorId(sectorId);
   };
 
   return (
@@ -92,7 +102,7 @@ export default function MapSection() {
           <div className="flex flex-col items-baseline md:flex-row md:gap-1">
             <p className="font-medium text-gray-700">Sector seleccionado:</p>
             <p className="-mt-1.5 font-semibold text-[#0A4C8A] md:mt-0">
-              {selectedSector || "Ningún sector seleccionado"}
+              {selectedSectorId || "Ningún sector seleccionado"}
             </p>
           </div>
         </div>
@@ -100,7 +110,7 @@ export default function MapSection() {
         <div className="">
           <div className="col-span-2">
             {loading && (
-              <div className="shadow-mds flex aspect-[4/3] items-center justify-center rounded-lg bg-gray-100 p-4">
+              <div className="shadow-mds flex aspect-[4/3] items-center justify-center rounded-lg bg-gray-100 p-4 md:aspect-[16/9]">
                 <div className="flex h-full w-full flex-col items-center justify-center rounded-lg bg-gray-200">
                   <div className="flex flex-col items-center gap-1 rounded-lg bg-white px-4 py-5 md:gap-2 md:px-10 md:py-8">
                     <RexLoader />
@@ -142,7 +152,7 @@ export default function MapSection() {
                 <DynamicMapComponent
                   geojsonData={sectores}
                   boundaryData={comuna}
-                  selectedSector={selectedSector}
+                  selectedSector={selectedSectorId}
                   onSectorSelect={handleSectorSelect}
                 />
               </div>
@@ -175,8 +185,9 @@ export default function MapSection() {
         </div>
 
         <SectorSelectionList
-          selectedSector={selectedSector}
-          setSelectedSector={setSelectedSector}
+          selectedSector={selectedSectorId}
+          setSelectedSector={setSelectedSectorId}
+          sectoresSurveyList={sectoresSurveyList}
         />
       </div>
     </div>

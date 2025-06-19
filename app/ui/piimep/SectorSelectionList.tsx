@@ -1,120 +1,17 @@
 "use client";
 
-const sectores = [
-  {
-    id: "EL QUISCO NORTE",
-    nombre: "El Quisco Norte",
-    descripcion:
-      "Sector residencial al norte de la comuna, caracterizado por viviendas familiares y cercanía a servicios educacionales.",
-    poblacion: "~2,300 hab.",
-    area: "1.2 km²",
-  },
-  {
-    id: "EL QUISCO ALTO",
-    nombre: "El Quisco Alto",
-    descripcion:
-      "Zona elevada con vista panorámica al océano, principalmente residencial con desarrollo inmobiliario reciente.",
-    poblacion: "~1,500 hab.",
-    area: "0.8 km²",
-  },
-  {
-    id: "PINOMAR",
-    nombre: "Pinomar",
-    descripcion:
-      "Sector costero conocido por sus pinares y proximidad a la playa, popular entre turistas y residentes.",
-    poblacion: "~1,600 hab.",
-    area: "0.6 km²",
-  },
-  {
-    id: "EL QUISCO CENTRO ORIENTE",
-    nombre: "Quisco Centro Oriente",
-    descripcion:
-      "Parte oriental del centro urbano, incluye servicios comerciales y administrativos principales de la comuna.",
-    poblacion: "~1,500 hab.",
-    area: "1.5 km²",
-  },
-  {
-    id: "EL QUISCO CENTRO PONIENTE",
-    nombre: "Quisco Centro Poniente",
-    descripcion:
-      "Sector occidental del centro, con acceso directo a la costanera y actividades turísticas.",
-    poblacion: "~2,100 hab.",
-    area: "1.3 km²",
-  },
-  {
-    id: "EL QUISCO SUR ORIENTE",
-    nombre: "Quisco Sur Oriente",
-    descripcion:
-      "Zona sur-oriental con desarrollo mixto residencial y comercial, en crecimiento urbano.",
-    poblacion: "~1,100 hab.",
-    area: "1.0 km²",
-  },
-  {
-    id: "EL QUISCO SUR PONIENTE",
-    nombre: "Quisco Sur Poniente",
-    descripcion:
-      "Sector sur-occidental con acceso a playas y servicios turísticos, popular en temporada estival.",
-    poblacion: "~2,300 hab.",
-    area: "0.9 km²",
-  },
-  {
-    id: "EL TOTORAL BAJO",
-    nombre: "El Totoral Bajo",
-    descripcion:
-      "Zona costera baja del sector Totoral, caracterizada por su proximidad al mar y actividades pesqueras.",
-    poblacion: "~400 hab.",
-    area: "0.4 km²",
-  },
-  {
-    id: "PUNTA DE TRALCA",
-    nombre: "Punta de Tralca",
-    descripcion:
-      "Sector costero al sur de la comuna, conocido por sus formaciones rocosas y paisajes naturales.",
-    poblacion: "~2.500 hab.",
-    area: "0.7 km²",
-  },
-  {
-    id: "ISLA NEGRA",
-    nombre: "Isla Negra",
-    descripcion:
-      "Famoso sector costero, hogar de la casa museo de Pablo Neruda y destino turístico emblemático.",
-    poblacion: "~1,300 hab.",
-    area: "1.1 km²",
-  },
-  {
-    id: "EL TOTORAL MEDIO",
-    nombre: "El Totoral Medio",
-    descripcion:
-      "Zona intermedia del sector Totoral, con desarrollo residencial y acceso a servicios básicos.",
-    poblacion: "~500 hab.",
-    area: "0.5 km²",
-  },
-  {
-    id: "EL TOTORAL NORTE",
-    nombre: "El Totoral Norte",
-    descripcion:
-      "Sector norte del área Totoral, principalmente residencial con crecimiento demográfico sostenido.",
-    poblacion: "~200 hab.",
-    area: "0.6 km²",
-  },
-  {
-    id: "EL TOTORAL",
-    nombre: "El Totoral",
-    descripcion:
-      "Sector central del área Totoral, con servicios comunitarios y desarrollo urbano planificado.",
-    poblacion: "~1,000 hab.",
-    area: "0.5 km²",
-  },
-];
+import { Question } from "../SurveyLayout";
 
 type SectorSelectionListProps = {
   selectedSector: string | null;
   setSelectedSector: (sector: string) => void;
+  sectoresSurveyList: Question;
 };
 
 export default function SectorSelectionList({
   selectedSector,
   setSelectedSector,
+  sectoresSurveyList,
 }: SectorSelectionListProps) {
   const handleSectorSelect = (sectorId: string) => {
     setSelectedSector(sectorId);
@@ -134,7 +31,7 @@ export default function SectorSelectionList({
       </div>
 
       <div className="grid gap-3 sm:grid-cols-2 md:gap-4 lg:grid-cols-3">
-        {sectores.map((sector) => (
+        {sectoresSurveyList.options.map((sector) => (
           <SectorItem
             sector={sector}
             key={sector.nombre}
@@ -150,7 +47,6 @@ export default function SectorSelectionList({
 type Sector = {
   id: string;
   nombre: string;
-  descripcion: string;
   poblacion: string;
   area: string;
 };

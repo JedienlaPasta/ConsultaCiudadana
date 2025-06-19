@@ -4,9 +4,9 @@ import SurveyLayout from "@/app/ui/SurveyLayout";
 
 export default function Piimep() {
   return (
-    <div>
+    <div className="flex min-h-dvh flex-col">
       <SurveyHeader />
-      <div className="container mx-auto max-w-[80rem] px-4 py-6 md:px-8 md:py-8">
+      <div className="container mx-auto max-w-[80rem] flex-grow px-4 md:px-8">
         <SurveyLayout />
       </div>
       <Footer />

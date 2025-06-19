@@ -1,42 +1,31 @@
 "use client";
 
-const steps = [
-  {
-    id: 1,
-    title: "Seleccionar sector",
-    description: "Tu lugar de residencia",
-    completed: true,
-    current: false,
-  },
-  {
-    id: 2,
-    title: "Componentes urbanos",
-    description: "Mejoras a implementar en tu sector",
-    completed: false,
-    current: true,
-  },
-  {
-    id: 3,
-    title: "Confirma tu voto",
-    description: "Confirma que los datos son correctos",
-    completed: false,
-    current: false,
-  },
-];
+import { Question } from "./SurveyLayout";
 
-export default function SurveyProgress() {
+type SurveyProgressProps = {
+  currentQuestionIndex: number;
+  questions: Question[];
+};
+
+export default function SurveyProgress({
+  currentQuestionIndex,
+  questions,
+}: SurveyProgressProps) {
   return (
     <div className="md:borders md:bg-[#f8fafc]s md:shadow-mds rounded-lg border-gray-200 py-4 shadow-gray-200/80 md:p-6">
       {/* <h3 className="mb-6 text-center text-xl font-bold text-[#0a4c8a]">
         Progreso de Cuestionario
       </h3> */}
       <div className={`flex flex-nowrap justify-center gap-4`}>
-        {steps.map((step, index) => (
+        {questions.map((question, index) => (
           <ProgressStep
-            key={step.id}
-            step={step}
-            isLast={index === steps.length - 1}
+            key={question.index}
+            title={question.step}
+            description={question.step_description}
+            isLast={index === questions.length - 1}
             index={index + 1}
+            current={question.index === currentQuestionIndex}
+            completed={question.index < currentQuestionIndex}
           />
         ))}
       </div>
@@ -44,37 +33,37 @@ export default function SurveyProgress() {
   );
 }
 
-type Step = {
-  id: number;
+type ProgressStepProps = {
   title: string;
   description: string;
-  completed: boolean;
+  isLast: boolean;
+  index: number;
   current: boolean;
+  completed: boolean;
 };
 
 function ProgressStep({
-  step,
+  title,
+  description,
   isLast,
   index,
-}: {
-  step: Step;
-  isLast: boolean;
-  index: number;
-}) {
+  current,
+  completed,
+}: ProgressStepProps) {
   return (
     <div className="relative flex w-20 shrink-0 flex-col items-center sm:w-38 md:w-52">
       {/* Horizontal line */}
       {!isLast && (
         <div
-          className={`absolute top-[21%] h-[2px] w-[calc(100%-40px)] translate-x-[calc(50%+28px)] rounded-full sm:top-[28%] md:top-[21%] ${step.completed ? "bg-[#0A4C8A]" : "bg-gray-200"}`}
+          className={`absolute top-[21%] h-[2px] w-[calc(100%-40px)] translate-x-[calc(50%+28px)] rounded-full sm:top-[28%] md:top-[21%] ${completed ? "bg-[#0A4C8A]" : "bg-gray-200"}`}
         />
       )}
 
       {/* Step indicator with icon */}
       <div
-        className={`flex size-8 flex-shrink-0 items-center justify-center rounded-full border-2 ${step.completed ? "border-[#0A4C8A] !bg-[#0A4C8A] text-white" : step.current ? "border-[#0A4C8A] !bg-[#0A4C8A] text-white" : "border-gray-300 text-gray-500"} bg-gray-200 text-sm font-medium text-[#0A4C8A]`}
+        className={`flex size-8 flex-shrink-0 items-center justify-center rounded-full border-2 ${completed ? "border-[#0A4C8A] !bg-[#0A4C8A] text-white" : current ? "border-[#0A4C8A] !bg-[#0A4C8A] text-white" : "border-gray-300 text-gray-500"} bg-gray-200 text-sm font-medium text-[#0A4C8A]`}
       >
-        {step.completed ? (
+        {completed ? (
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-5 w-5"
@@ -95,12 +84,12 @@ function ProgressStep({
       {/* Step content */}
       <div>
         <h4
-          className={`text-center text-sm md:text-base ${step.current ? "font-semibold text-[#0A4C8A]" : "text-slate-400"} ${!step.current ? "hiddens sm:block" : ""}`}
+          className={`text-center text-sm md:text-base ${current ? "font-semibold text-[#0A4C8A]" : "text-slate-400"} ${!current ? "hiddens sm:block" : ""}`}
         >
-          {step.title}
+          {title}
         </h4>
         <p className="hidden text-center text-xs text-gray-600 md:block">
-          {step.description}
+          {description}
         </p>
       </div>
     </div>
