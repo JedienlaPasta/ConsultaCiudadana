@@ -26,10 +26,10 @@ const steps = [
 
 export default function SurveyProgressV2() {
   return (
-    <div className="mb-8 rounded-lg border border-gray-200 bg-[#f8fafc] p-6 shadow-md shadow-gray-200/80">
-      <h3 className="mb-6 text-xl font-bold text-[#0a4c8a]">
+    <div className="rounded-lg border border-gray-200 bg-[#f8fafc] p-6 shadow-md shadow-gray-200/80">
+      {/* <h3 className="mb-6 text-center text-xl font-bold text-[#0a4c8a]">
         Progreso de Cuestionario
-      </h3>
+      </h3> */}
       <div className={`flex flex-nowrap justify-center gap-4`}>
         {steps.map((step, index) => (
           <ProgressStep
@@ -62,15 +62,11 @@ function ProgressStep({
   index: number;
 }) {
   return (
-    <div className="relative flex w-52 shrink-0 flex-col items-center">
+    <div className="relative flex w-20 shrink-0 flex-col items-center sm:w-38 md:w-52">
       {/* Horizontal line */}
       {!isLast && (
         <div
-          className={`absolute top-[21%] h-[2px] w-full rounded-full ${step.completed ? "bg-[#0A4C8A]" : "bg-gray-200"}`}
-          style={{
-            transform: "translateX(calc(50% + 28px))", // 8px + 20px // 20px es relativo a 40px // quiero nuggets
-            width: "calc(100% - 40px)",
-          }}
+          className={`absolute top-[21%] h-[2px] w-[calc(100%-40px)] translate-x-[calc(50%+28px)] rounded-full sm:top-[28%] md:top-[21%] ${step.completed ? "bg-[#0A4C8A]" : "bg-gray-200"}`}
         />
       )}
 
@@ -97,13 +93,15 @@ function ProgressStep({
       </div>
 
       {/* Step content */}
-      <div className="">
+      <div>
         <h4
-          className={`text-center font-semibold ${step.completed || step.current ? "text-[#0A4C8A]" : "text-gray-500"}`}
+          className={`text-center text-sm font-semibold md:text-base ${step.completed || step.current ? "text-[#0A4C8A]" : "text-gray-500"} ${!step.current ? "hidden sm:block" : ""}`}
         >
           {step.title}
         </h4>
-        <p className="text-center text-xs text-gray-600">{step.description}</p>
+        <p className="hidden text-center text-xs text-gray-600 md:block">
+          {step.description}
+        </p>
       </div>
     </div>
   );

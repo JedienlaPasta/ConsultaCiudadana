@@ -59,7 +59,7 @@ export default function MapSection() {
             strokeWidth="2"
             strokeLinecap="round"
             strokeLinejoin="round"
-            className="lucide lucide-map-icon lucide-map mt-1 mr-2 size-5 text-[#0a4c8a]"
+            className="lucide lucide-map-icon lucide-map mt-1 mr-2 hidden size-5 text-[#0a4c8a] sm:block"
           >
             <path d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z" />
             <path d="M15 5.764v15" />
@@ -69,7 +69,7 @@ export default function MapSection() {
             Selecciona tu Sector de Votación
           </h2>
         </span>
-        <p className="mb-4 text-gray-500">
+        <p className="mb-4 text-gray-500 md:text-sm">
           Haz clic en el mapa para seleccionar el sector donde vives.
         </p>
 
@@ -96,7 +96,7 @@ export default function MapSection() {
           </div>
         </div>
 
-        <div className="mb-4">
+        <div className="">
           <div className="col-span-2">
             {loading && (
               <div className="shadow-mds flex aspect-[4/3] items-center justify-center rounded-lg bg-gray-100 p-4">
