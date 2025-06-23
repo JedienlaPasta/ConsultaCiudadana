@@ -2,17 +2,13 @@ import { exchangeCodeForTokens } from "@/app/lib/actions/auth";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
-export default async function ClaveUnicaCallbackPage({
-  searchParams,
-}: {
-  searchParams: {
-    code?: string;
-    state: string;
-    error: string;
-    error_description: string;
-  };
-}) {
-  const { code, state, error, error_description } = searchParams;
+export async function GET(request: Request) {
+  const { searchParams } = new URL(request.url);
+  const code = searchParams.get("code");
+  const state = searchParams.get("state");
+  const error = searchParams.get("error");
+  const error_description = searchParams.get("error_description");
+
   const cookieStore = await cookies();
   const storedState = cookieStore.get("claveunica_state")?.value;
 
