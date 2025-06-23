@@ -37,10 +37,10 @@ export default async function ClaveUnicaCallbackPage({
     await exchangeCodeForTokens(code);
 
     redirect("/"); // Debe ser una pagina protegida?
-  } catch (e: any) {
+  } catch (e: unknown) {
     console.error("Error durante el intercambio de tokens:", e);
-    redirect(
-      `/auth/error?message=${encodeURIComponent(e.message || "Authentication Failed")}`,
-    );
+    const errorMessage =
+      e instanceof Error ? e.message : "Authentication Failed";
+    redirect(`/auth/error?message=${encodeURIComponent(errorMessage)}`);
   }
 }

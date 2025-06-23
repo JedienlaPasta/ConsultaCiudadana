@@ -68,7 +68,8 @@ export async function exchangeCodeForTokens(code: string) {
   }
 
   const tokens = await tokenResponse.json();
-  const { access_token, id_token } = tokens;
+  const { access_token } = tokens;
+  //   const { access_token, id_token } = tokens;
 
   // Paso 5: Autenticar Usuario, obtener userinfo
 
