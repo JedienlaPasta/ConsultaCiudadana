@@ -17,7 +17,7 @@ export default function ClaveUnicaBtn() {
         aria-hidden="true"
         alt="Iniciar sesión con ClaveÚnica"
       />
-      <button type="submit" className={`${roboto.className} `}>
+      <button type="submit" className={`${roboto.className} cursor-pointer`}>
         Iniciar sesión
       </button>
     </form>

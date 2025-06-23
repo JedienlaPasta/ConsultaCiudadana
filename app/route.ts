@@ -35,15 +35,12 @@ export async function GET(request: Request) {
 
   try {
     await exchangeCodeForTokens(code);
-    console.log("trying exchange code for tokens");
-    // Si exchangeCodeForTokens no lanza un error real, la redirección se ejecutará
-    redirect("/consultas/piimep");
+    console.log("Intercambio de tokens y sesión establecida con éxito.");
   } catch (e: unknown) {
-    // Este catch solo atrapará errores *reales* que ocurran dentro de exchangeCodeForTokens
-    // o antes de la llamada a redirect().
     console.error("Error durante el intercambio de tokens:", e);
     const errorMessage =
       e instanceof Error ? e.message : "Authentication Failed";
     redirect(`/auth/error?message=${encodeURIComponent(errorMessage)}`);
   }
+  redirect("/consultas/piimep");
 }
