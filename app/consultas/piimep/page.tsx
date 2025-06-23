@@ -1,5 +1,4 @@
 import Link from "next/link";
-// import MapSection from "@/app/ui/piimep/MapSection";
 import ClaveUnicaBtn from "@/app/ui/ClaveUnicaBtn";
 import Footer from "@/app/ui/Footer";
 import { roboto } from "@/app/ui/fonts";
@@ -9,7 +8,7 @@ export default function SurveyDetail() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header Section */}
-      <SurveyHeader />
+      <SurveyHeader to="/" />
 
       {/* Main Content */}
       <div className="container mx-auto max-w-[80rem] px-4 py-8 md:px-8">
