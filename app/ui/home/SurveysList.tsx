@@ -30,7 +30,7 @@ const surveysList = [
 
 export default function SurveysList() {
   return (
-    <div id="surveys" className="container mx-auto flex flex-col gap-4 py-12">
+    <div id="surveys" className="mx-auto flex flex-col gap-4 py-12">
       <div className="flex flex-col gap-1">
         <h2 className="grow text-3xl font-bold text-[#23396f]">
           Consultas en Curso

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { geist } from "./ui/fonts";
-// import Navbar from "./ui/navbar";
+import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
   title: "Participa El Quisco",
@@ -16,7 +16,7 @@ export default function RootLayout({
   return (
     <html lang="es">
       <body className={`${geist.className} antialiased`}>
-        {/* <Navbar /> */}
+        <Toaster position="top-center" />
         {children}
       </body>
     </html>

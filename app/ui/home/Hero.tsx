@@ -5,7 +5,7 @@ import Image from "next/image";
 export default function Hero() {
   return (
     <div className="relative h-[70vh] w-full">
-      <div className="bg-[#153D6E]s opacity-55s pointer-events-none absolute top-0 left-0 z-10 h-full w-full" />
+      <div className="pointer-events-none absolute z-10 h-full w-full" />
 
       <Image
         src="/Blob19.svg"
@@ -17,8 +17,8 @@ export default function Hero() {
       />
 
       {/* Hero Content */}
-      <div className="inset-0 z-10 container mx-auto flex h-full items-center justify-center text-white">
-        <div className="relative container -mt-10 flex max-w-[80rem] grow flex-col items-start px-4 text-center md:px-8 md:text-left">
+      <div className="containers inset-0 z-10 mx-auto flex h-full items-center justify-center text-white">
+        <div className="relative container mx-auto -mt-10 flex max-w-[80rem] grow flex-col items-start px-8 py-12 text-center md:px-8 md:text-left">
           <h1 className="mb-6 text-left text-4xl font-bold drop-shadow-lg md:text-5xl lg:text-6xl">
             Transformando El Quisco <br /> con tu voto
           </h1>
@@ -43,13 +43,13 @@ export default function Hero() {
                   });
                 }
               }}
-              className="cursor-pointer rounded-lg bg-[#0F69C4] px-8 py-4 text-center font-semibold text-white transition-all hover:bg-[#2275C9] hover:shadow-lg"
+              className="cursor-pointer rounded-lg bg-[#0F69C4] px-8 py-3.5 text-center font-semibold text-white transition-all hover:bg-[#2275C9] hover:shadow-lg"
             >
               Quiero Participar
             </button>
             <Link
               href="/resultados"
-              className="rounded-lg bg-white px-8 py-4 text-center font-semibold text-[#153D6E] transition-all hover:bg-[#e0f0fa] hover:shadow-lg"
+              className="rounded-lg bg-white px-8 py-3.5 text-center font-semibold text-[#153D6E] transition-all hover:bg-[#e0f0fa] hover:shadow-lg"
             >
               Todas las Consultas
             </Link>
@@ -60,7 +60,7 @@ export default function Hero() {
             width={300}
             height={600}
             alt="Footer Banner"
-            className="-top-[30%]s absolute right-20 hidden lg:-top-[10%] lg:right-[10] lg:block lg:w-40 xl:-top-[30%] xl:w-75"
+            className="-top-[30%]s absolute right-20 hidden lg:-top-[10%] lg:right-[30] lg:block lg:w-40 xl:-top-[30%] xl:w-75"
           />
         </div>
       </div>

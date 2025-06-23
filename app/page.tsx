@@ -8,7 +8,7 @@ export default function Home() {
     <>
       <Navbar />
       <div className="relative">
-        <div className="relatives flexs bg-slate-800s m-4s h-[calc(100vh-32px)]s">
+        <div className="">
           <Hero />
           <div className="container mx-auto max-w-[80rem] px-8 py-12">
             <SurveysList />
