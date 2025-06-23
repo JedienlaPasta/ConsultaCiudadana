@@ -7,7 +7,7 @@ import punteroImg from "@/public/puntero.svg";
 export default function Footer({
   user,
 }: {
-  user: { name: string; run: string } | null;
+  user?: { name: string; run: string } | null;
 }) {
   return (
     <footer className="relative w-full overflow-hidden bg-[#1F2937]">
