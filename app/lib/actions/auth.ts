@@ -94,6 +94,7 @@ export async function exchangeCodeForTokens(code: string) {
     );
   }
 
+  console.log(tokenResponse.ok);
   console.log(
     "Segundo verificador intercambio de tokens <==============================",
   );
@@ -101,6 +102,7 @@ export async function exchangeCodeForTokens(code: string) {
   const tokens = await tokenResponse.json();
   const { access_token } = tokens;
   //   const { access_token, id_token } = tokens;
+  console.log("access_token: ", access_token);
 
   // Paso 6: Obtener informacion de ciudadano por medio del access_token
   const userInfoResponse = await fetch(userinfoUrl, {
@@ -108,6 +110,8 @@ export async function exchangeCodeForTokens(code: string) {
       Authorization: `Bearer ${access_token}`,
     },
   });
+
+  console.log("userInfoRespose: ", userInfoResponse);
 
   if (!userInfoResponse.ok) {
     const errorData = await userInfoResponse.json();
@@ -130,6 +134,8 @@ export async function exchangeCodeForTokens(code: string) {
     expiresIn: "1h",
   });
 
+  console.log("sessionToken: ", sessionToken);
+
   const cookieStore = await cookies();
 
   cookieStore.set("app_session", sessionToken, {
@@ -139,6 +145,8 @@ export async function exchangeCodeForTokens(code: string) {
     maxAge: 60 * 60, // 1 hora
     sameSite: "lax", // Proteccion CSRF
   });
+
+  console.log("cookie:", cookieStore);
 }
 
 export async function getSession() {
