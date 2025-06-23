@@ -8,6 +8,10 @@ export async function signInWithClaveUnica() {
   const state = crypto.randomBytes(16).toString("hex");
   const cookieStore = await cookies();
 
+  console.log(process.env.NODE_ENV);
+  console.log(process.env.CLAVEUNICA_CLIENT_ID);
+  console.log(process.env.CLAVEUNICA_AUTHORIZE_URL);
+
   cookieStore.set("claveunica_state", state, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
@@ -26,7 +30,7 @@ export async function signInWithClaveUnica() {
     throw new Error("Missing ClaveÚnica environment variables.");
   }
 
-  const authUrl = `<span class="math-inline">\{authorizeUrl\}?client\_id\=</span>{clientId}&response_type=code&scope=openid%20run%20name&redirect_uri=<span class="math-inline">\{redirectUri\}&state\=</span>{state}`;
+  const authUrl = `${authorizeUrl}?client_id=${clientId}&response_type=code&scope=openid%20run%20name&redirect_uri=${redirectUri}&state=${state}`;
 
   // Redirigir al usuario al login de ClaveÚnica
   redirect(authUrl);
