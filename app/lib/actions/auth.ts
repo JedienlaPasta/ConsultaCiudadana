@@ -59,6 +59,8 @@ export async function exchangeCodeForTokens(code: string) {
   const userinfoUrl = process.env.CLAVEUNICA_USERINFO_URL;
   const jwtSecret = process.env.NEXTAUTH_SECRET;
 
+  console.log("Iniciando intercambio de tokens <============================");
+
   if (
     !clientId ||
     !clientSecret ||
@@ -86,11 +88,15 @@ export async function exchangeCodeForTokens(code: string) {
 
   if (!tokenResponse.ok) {
     const errorData = await tokenResponse.json();
-    console.error("Error al intercambiar código por tokens:", errorData);
+    console.error("Error al intercambiar código por tokens: __", errorData);
     throw new Error(
       `Failed to exchange code: ${errorData.error_description || errorData.error || "Unknown error"}`,
     );
   }
+
+  console.log(
+    "Segundo verificador intercambio de tokens <==============================",
+  );
 
   const tokens = await tokenResponse.json();
   const { access_token } = tokens;

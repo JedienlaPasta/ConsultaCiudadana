@@ -35,6 +35,7 @@ export async function GET(request: Request) {
 
   try {
     await exchangeCodeForTokens(code);
+    console.log("trying exchange code for tokens");
 
     redirect("/consultas/piimep");
   } catch (e: unknown) {
