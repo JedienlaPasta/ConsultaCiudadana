@@ -148,7 +148,14 @@ export default function MapSection({
             )}
 
             {!loading && !error && sectores && comuna && (
-              <div className="aspect-[4/3] overflow-hidden rounded-lg bg-gray-100 shadow-md shadow-gray-200/80 md:aspect-[16/9]">
+              <div className="relative aspect-[4/3] overflow-hidden rounded-lg bg-gray-100 shadow-md shadow-gray-200/80 md:aspect-[16/9]">
+                <div className="absolute top-5 right-5 z-[1000] flex flex-col space-y-1 rounded-md bg-white px-4 py-3 shadow-lg">
+                  <h5 className="text-sm">Leyenda</h5>
+                  <div className="flex items-center gap-1">
+                    <span className="size-3.5 rounded bg-[#357bf0]"></span>
+                    <p className="text-xs text-gray-500">Sector seleccionado</p>
+                  </div>
+                </div>
                 <DynamicMapComponent
                   geojsonData={sectores}
                   boundaryData={comuna}

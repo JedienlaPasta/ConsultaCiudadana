@@ -5,27 +5,32 @@ import { Question } from "./SurveyLayout";
 type OptionSelectionListProps = {
   selectedOptions: string[];
   setSelectedOptions: (options: string[]) => void;
+  selectedSubOption: string;
+  setSelectedSubOption: (subOption: string) => void;
   question: Question;
 };
 
 export default function OptionSelectionList({
   selectedOptions,
   setSelectedOptions,
+  selectedSubOption,
+  setSelectedSubOption,
   question,
 }: OptionSelectionListProps) {
+  const isTramoConectorSelected = selectedOptions.some(
+    (option) => option === "1",
+  );
+
   const handleOptionSelect = (optionId: string) => {
     // Check if the option is already selected
     if (selectedOptions.includes(optionId)) {
       // If selected, remove it
       setSelectedOptions(selectedOptions.filter((id) => id !== optionId));
+      if (optionId === "1") {
+        setSelectedSubOption("");
+      }
     } else {
-      // If not selected, add it (and remove the first one if we already have 3)
-      if (selectedOptions.length >= 3) {
-        // Remove the first option and add the new one
-        const newSelectedOptions = [...selectedOptions.slice(1), optionId];
-        setSelectedOptions(newSelectedOptions);
-      } else {
-        // Just add the new option
+      if (selectedOptions.length < 3) {
         setSelectedOptions([...selectedOptions, optionId]);
       }
     }
@@ -36,11 +41,13 @@ export default function OptionSelectionList({
       {/* Normal components */}
       <div className="flex items-center justify-between">
         <h3 className="text-lg font-semibold text-slate-700">
-          Seleccione 3 componentes
+          {question.question}
         </h3>
         <div className="flex items-center gap-2 text-sm text-gray-500">
           <span className="inline-block h-3 w-3 rounded-full bg-blue-500"></span>
-          <span>{selectedOptions.length}/3 seleccionados</span>
+          <span>
+            {selectedOptions.length}/{question.answers} seleccionados
+          </span>
         </div>
       </div>
 
@@ -56,28 +63,35 @@ export default function OptionSelectionList({
       </div>
 
       {/* Conditionaly rendered for Tramo conector */}
-      <div className="flex items-center justify-between">
-        <h3 className="text-lg font-semibold text-slate-700">
-          Seleccione 1 tramo
-        </h3>
-        <div className="flex items-center gap-2 text-sm text-gray-500">
-          <span className="inline-block h-3 w-3 rounded-full bg-blue-500"></span>
-          <span>{selectedOptions.length}/3 seleccionados</span>
+      {isTramoConectorSelected && question.step === "Componentes urbanos" && (
+        <div className="space-y-4">
+          <div className="flex items-center justify-between">
+            <h3 className="text-lg font-semibold text-slate-700">
+              {question.options[0].question}
+            </h3>
+            <div className="flex items-center gap-2 text-sm text-gray-500">
+              <span className="inline-block h-3 w-3 rounded-full bg-blue-500"></span>
+              <span>
+                {selectedSubOption ? "1" : "0"}/{question.options[0].answers}{" "}
+                seleccionados
+              </span>
+            </div>
+          </div>
+          <div className="grid gap-3 sm:grid-cols-2 md:gap-4 lg:grid-cols-3">
+            {/* Arreglar esto, solo debiese elegir 1 opcion y por separado del optionSelect state */}
+            {question.options
+              .find((option) => option.options)
+              ?.options?.map((option) => (
+                <OptionItem
+                  option={option}
+                  key={option.name}
+                  isSelected={selectedSubOption === option.id}
+                  onSelect={() => setSelectedSubOption(option.id)}
+                />
+              ))}
+          </div>
         </div>
-      </div>
-      <div className="grid gap-3 sm:grid-cols-2 md:gap-4 lg:grid-cols-3">
-        {/* Arreglar esto, solo debiese elegir 1 opcion y por separado del optionSelect state */}
-        {question.options
-          .find((option) => option.options)
-          ?.options?.map((option) => (
-            <OptionItem
-              option={option}
-              key={option.name}
-              isSelected={selectedOptions.includes(option.id)}
-              onSelect={handleOptionSelect}
-            />
-          ))}
-      </div>
+      )}
     </div>
   );
 }
