@@ -32,7 +32,7 @@ export async function GET(request: Request) {
   try {
     await exchangeCodeForTokens(code);
 
-    redirect("/"); // Debe ser una pagina protegida?
+    redirect("/consultas/piimep"); // Debe ser una pagina protegida?
   } catch (e: unknown) {
     console.error("Error durante el intercambio de tokens:", e);
     const errorMessage =
