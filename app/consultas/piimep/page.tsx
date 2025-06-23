@@ -13,9 +13,9 @@ export default function SurveyDetail() {
 
       {/* Main Content */}
       <div className="container mx-auto max-w-[80rem] px-4 py-8 md:px-8">
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+        <div className="grid grid-cols-1 md:gap-6 lg:grid-cols-3">
           {/* Left Column - About & Details */}
-          <div className="order-2 lg:order-1 lg:col-span-2">
+          <div className="order-1s lg:order-1s lg:col-span-2">
             <div className="mb-8 rounded-lg border border-gray-200 bg-white p-6 shadow-md shadow-gray-200/80">
               <h2 className="mb-3 text-2xl font-bold text-[#23396f]">
                 Acerca de esta Consulta
@@ -67,9 +67,7 @@ export default function SurveyDetail() {
                       Recolección de opiniones sobre espacios actuales y
                       necesidades
                     </p>
-                    <p className="mt-1 text-xs text-gray-500">
-                      Abril - Mayo 2023
-                    </p>
+                    <p className="mt-1 text-xs text-gray-500">Agosto 2025</p>
                   </div>
                   <div className="sborder-l-2 absolute top-10 left-[14px] h-10 w-[4px] rounded-full border-blue-400 bg-slate-300"></div>
                 </div>
@@ -86,7 +84,7 @@ export default function SurveyDetail() {
                       diseño
                     </p>
                     <p className="mt-1 text-xs text-gray-500">
-                      Junio - Julio 2023
+                      Agosto - Septiembre 2025
                     </p>
                   </div>
                   <div className="sborder-l-2 absolute top-10 left-[14px] h-10 w-[4px] rounded-full border-blue-400 bg-slate-300"></div>
@@ -102,7 +100,9 @@ export default function SurveyDetail() {
                     <p className="text-sm text-gray-600">
                       Finalización de cambios basados en la retroalimentación
                     </p>
-                    <p className="mt-1 text-xs text-gray-500">Agosto 2023</p>
+                    <p className="mt-1 text-xs text-gray-500">
+                      Septiembre 2025
+                    </p>
                   </div>
                   <div className="sborder-l-2 absolute top-10 left-[14px] h-10 w-[4px] rounded-full border-blue-400 bg-slate-300"></div>
                 </div>
@@ -117,7 +117,7 @@ export default function SurveyDetail() {
                     <p className="text-sm text-gray-600">
                       Despliegue de nuevas rutas y horarios
                     </p>
-                    <p className="mt-1 text-xs text-gray-500">Octubre 2023</p>
+                    <p className="mt-1 text-xs text-gray-500">Octubre 2025</p>
                   </div>
                 </div>
               </div>
@@ -184,13 +184,13 @@ export default function SurveyDetail() {
           </div>
 
           {/* Right Column - Participation */}
-          <div className="order-1 lg:order-2 lg:col-span-1">
+          <div className="order-2s lg:order-2s lg:col-span-1">
             <div className="mb-6 rounded-lg border border-gray-200 bg-white p-6 shadow-md shadow-gray-200/80">
-              <h2 className="mb-4 text-xl font-bold text-[#23396f]">
-                Participación
+              <h2 className="mb-2 text-xl font-bold text-[#23396f]">
+                Detalles de la consulta
               </h2>
 
-              <div className="mb-3 border-b border-gray-200 pb-3">
+              {/* <div className="mb-3 border-b border-gray-200 pb-3">
                 <div className="mb-2 flex items-center justify-between">
                   <span className="text-sm text-gray-600">Votos actuales</span>
                   <span className="text-sm text-gray-600">Meta: 500</span>
@@ -200,12 +200,11 @@ export default function SurveyDetail() {
                     className="h-full rounded-full bg-[#0A4C8A]"
                     style={{
                       width: "38%",
-                      // boxShadow: "1px 1px 6px 1px #0A4C8A",
                     }}
                   ></div>
                 </div>
                 <p className="mt-1 text-sm text-gray-600">76 votos</p>
-              </div>
+              </div> */}
 
               <div className="mb-6 space-y-2">
                 <div className="flex justify-between">
@@ -222,12 +221,12 @@ export default function SurveyDetail() {
 
                 <div className="flex justify-between">
                   <span className="text-sm text-gray-600">Fecha de inicio</span>
-                  <span className="text-sm">15 Abril, 2025</span>
+                  <span className="text-sm">04 Agosto, 2025</span>
                 </div>
 
                 <div className="flex justify-between">
                   <span className="text-sm text-gray-600">Fecha límite</span>
-                  <span className="text-sm">30 Junio, 2025</span>
+                  <span className="text-sm">31 Agosto, 2025</span>
                 </div>
               </div>
 
@@ -303,45 +302,43 @@ export default function SurveyDetail() {
               </div>
             </div>
 
-            <div className="mb-6 rounded-lg border border-gray-200 bg-white p-6 shadow-md shadow-gray-200/80">
-              <div>
-                <h3 className="mb-3 font-semibold text-[#23396f]">
-                  Consultas Relacionadas
-                </h3>
-                <div className="space-y-3">
-                  <div className="rounded-lg border border-gray-200 p-3 hover:bg-gray-50">
-                    <h4 className="font-medium text-[#0A4C8A]">
-                      Revitalización del Centro
-                    </h4>
-                    <p className="text-xs text-gray-500">
-                      Planificación Urbana • Activa
-                    </p>
-                  </div>
-                  <div className="rounded-lg border border-gray-200 p-3 hover:bg-gray-50">
-                    <h4 className="font-medium text-[#0A4C8A]">
-                      Rediseño del Parque Comunitario
-                    </h4>
-                    <p className="text-xs text-gray-500">
-                      Parques y Recreación • Activa
-                    </p>
-                  </div>
-                  <div className="rounded-lg border border-gray-200 p-3 hover:bg-gray-50">
-                    <h4 className="font-medium text-[#0A4C8A]">
-                      Proyecto de Expansión de Ciclovías
-                    </h4>
-                    <p className="text-xs text-gray-500">
-                      Transporte • Próximamente
-                    </p>
-                  </div>
+            <div className="mb-6 hidden rounded-lg border border-gray-200 bg-white p-6 shadow-md shadow-gray-200/80 md:block">
+              <h3 className="mb-3 font-semibold text-[#23396f]">
+                Consultas Relacionadas
+              </h3>
+              <div className="space-y-3">
+                <div className="rounded-lg border border-gray-200 p-3 hover:bg-gray-50">
+                  <h4 className="font-medium text-[#0A4C8A]">
+                    Revitalización del Centro
+                  </h4>
+                  <p className="text-xs text-gray-500">
+                    Planificación Urbana • Activa
+                  </p>
                 </div>
-                <div className="mt-4 text-center">
-                  <Link
-                    href="/consultas"
-                    className="text-sm text-[#0A4C8A] hover:underline"
-                  >
-                    Ver Todas las Consultas
-                  </Link>
+                <div className="rounded-lg border border-gray-200 p-3 hover:bg-gray-50">
+                  <h4 className="font-medium text-[#0A4C8A]">
+                    Rediseño del Parque Comunitario
+                  </h4>
+                  <p className="text-xs text-gray-500">
+                    Parques y Recreación • Activa
+                  </p>
                 </div>
+                <div className="rounded-lg border border-gray-200 p-3 hover:bg-gray-50">
+                  <h4 className="font-medium text-[#0A4C8A]">
+                    Proyecto de Expansión de Ciclovías
+                  </h4>
+                  <p className="text-xs text-gray-500">
+                    Transporte • Próximamente
+                  </p>
+                </div>
+              </div>
+              <div className="mt-4 text-center">
+                <Link
+                  href="/consultas"
+                  className="text-sm text-[#0A4C8A] hover:underline"
+                >
+                  Ver Todas las Consultas
+                </Link>
               </div>
             </div>
           </div>

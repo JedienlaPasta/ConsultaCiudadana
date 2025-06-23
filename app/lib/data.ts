@@ -98,7 +98,7 @@ export const QUESTIONS_LIST = [
       {
         id: "1",
         name: "Tramo conector",
-        question: "Seleccione un tramo",
+        question: "Seleccione un tramo conector",
         description: "Descripcion de la opción numero uno...",
         answers: 1,
         options: [
@@ -191,7 +191,12 @@ export const QUESTIONS_LIST = [
       {
         id: "8",
         name: "Sendero quebrada",
-        description: "Descripcion de la opción numero siete...",
+        description: "Descripcion de la opción numero ocho...",
+      },
+      {
+        id: "9",
+        name: "Acceso borde costeroo",
+        description: "Descripcion de la opción numero nueve...",
       },
     ],
   },

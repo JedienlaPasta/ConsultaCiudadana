@@ -4,7 +4,10 @@ export default function SurveyHeader() {
   return (
     <div className="bg-[#0A4C8A] text-white">
       <div className="container mx-auto max-w-[80rem] px-4 py-6 md:px-8">
-        <Link href="/" className="mb-4 flex items-center gap-2 text-sm">
+        <Link
+          href="/consultas/piimep"
+          className="mb-4 flex items-center gap-2 text-sm"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-4 w-4"
