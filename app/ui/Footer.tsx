@@ -2,10 +2,13 @@
 import Image from "next/image";
 import Link from "next/link";
 import elquiscoImg from "@/public/elquisco.svg";
-// import oirsImg from "@/public/oirs.svg";
 import punteroImg from "@/public/puntero.svg";
 
-export default function Footer() {
+export default function Footer({
+  user,
+}: {
+  user: { name: string; run: string } | null;
+}) {
   return (
     <footer className="relative w-full overflow-hidden bg-[#1F2937]">
       {/* Main Footer Content */}
@@ -164,6 +167,10 @@ export default function Footer() {
             </div>
           </div>
         </div>
+      </div>
+      <div className="flex flex-col gap-2 p-4">
+        <p>Nombre: {user?.name}</p>
+        <p>RUT: {user?.run}</p>
       </div>
 
       {/* Copyright Bar */}

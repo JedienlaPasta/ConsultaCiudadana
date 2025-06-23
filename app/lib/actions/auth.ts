@@ -3,7 +3,7 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import crypto from "crypto";
-import jwt from "jsonwebtoken";
+import jwt, { JwtPayload } from "jsonwebtoken";
 
 export async function signInWithClaveUnica() {
   const state = crypto.randomBytes(16).toString("hex");
@@ -133,4 +133,22 @@ export async function exchangeCodeForTokens(code: string) {
     maxAge: 60 * 60, // 1 hora
     sameSite: "lax", // Proteccion CSRF
   });
+}
+
+export async function getSession() {
+  const cookieStore = await cookies();
+  const sessionToken = cookieStore.get("app_session")?.value;
+  const jwtSecret = process.env.NEXTAUTH_SECRET;
+
+  if (!sessionToken || !jwtSecret) {
+    return null;
+  }
+
+  try {
+    const decoded = jwt.verify(sessionToken, jwtSecret) as JwtPayload;
+    return decoded;
+  } catch (error) {
+    console.error("Error al verificar el token de sesión:", error);
+    return null;
+  }
 }

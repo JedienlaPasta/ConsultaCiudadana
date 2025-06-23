@@ -8,6 +8,10 @@ export async function GET(request: Request) {
   const state = searchParams.get("state");
   const error = searchParams.get("error");
   const error_description = searchParams.get("error_description");
+  console.log("code: ", code);
+  console.log("state: ", state);
+  console.log("error: ", error);
+  console.log("error_description: ", error_description);
 
   const cookieStore = await cookies();
   const storedState = cookieStore.get("claveunica_state")?.value;

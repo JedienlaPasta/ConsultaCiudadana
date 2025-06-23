@@ -8,7 +8,7 @@ export default function ClaveUnicaBtn() {
   return (
     <form
       action={signInWithClaveUnica}
-      className="flex min-h-11 w-fit grow items-center justify-center gap-0.5 rounded-sm bg-[#0F69C4] py-[8px] pr-5 pl-4 text-center text-[#fff] transition-all select-none hover:bg-[#2275C9] hover:underline"
+      className="flex min-h-11 w-fit grow cursor-pointer items-center justify-center gap-0.5 rounded-sm bg-[#0F69C4] py-[8px] pr-5 pl-4 text-center text-[#fff] transition-all select-none hover:bg-[#2275C9] hover:underline"
     >
       <Image
         src="/cu-blanco.svg"
