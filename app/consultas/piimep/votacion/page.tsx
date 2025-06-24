@@ -1,7 +1,7 @@
-import { getSession } from "@/app/lib/actions/auth";
-import Footer from "@/app/ui/Footer";
-import SurveyHeader from "@/app/ui/SurveyHeader";
-import SurveyLayout from "@/app/ui/SurveyLayout";
+import { getSession } from "../../../lib/actions/auth";
+import Footer from "../../../ui/Footer";
+import SurveyHeader from "../../../ui/SurveyHeader";
+import SurveyLayout from "../../../ui/SurveyLayout";
 
 export default async function Piimep() {
   const session = await getSession();

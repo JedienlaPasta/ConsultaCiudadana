@@ -1,8 +1,8 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import elquiscoImg from "@/public/elquisco.svg";
-import punteroImg from "@/public/puntero.svg";
+import elquiscoImg from "../../public/elquisco.svg";
+import punteroImg from "../../public/puntero.svg";
 
 export default function Footer() {
   return (

@@ -1,4 +1,4 @@
-import { exchangeCodeForTokens } from "@/app/lib/actions/auth";
+import { exchangeCodeForTokens } from "../../lib/actions/auth";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 

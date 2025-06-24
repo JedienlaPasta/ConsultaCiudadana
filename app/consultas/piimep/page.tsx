@@ -1,8 +1,8 @@
 import Link from "next/link";
-import ClaveUnicaBtn from "@/app/ui/ClaveUnicaBtn";
-import Footer from "@/app/ui/Footer";
-import { roboto } from "@/app/ui/fonts";
-import SurveyHeader from "@/app/ui/SurveyHeader";
+import ClaveUnicaBtn from "../../ui/ClaveUnicaBtn";
+import Footer from "../../ui/Footer";
+import { roboto } from "../../ui/fonts";
+import SurveyHeader from "../../ui/SurveyHeader";
 
 export default function SurveyDetail() {
   return (

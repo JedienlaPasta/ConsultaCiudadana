@@ -1,7 +1,7 @@
 "use client";
 
-import { formatDate } from "@/app/lib/utils/format";
-import { getDaysLeft } from "@/app/lib/utils/getValues";
+import { formatDate } from "../../lib/utils/format";
+import { getDaysLeft } from "../../lib/utils/getValues";
 import Link from "next/link";
 
 const surveysList = [
