@@ -4,6 +4,16 @@ const nextConfig = {
   experimental: {
     optimizePackageImports: ["leaflet"],
   },
+
+  async headers() {
+    return [
+      {
+        source: "/(.*)",
+        headers: [{ key: "X-Content-Type-Options", value: "nosniff" }],
+      },
+    ];
+  },
+  poweredByHeader: false,
 };
 
 module.exports = nextConfig;
