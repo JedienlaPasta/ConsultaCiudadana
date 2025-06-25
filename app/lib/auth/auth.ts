@@ -12,6 +12,7 @@ export async function getSession() {
     const { payload } = await jwtVerify(session, secret);
     return payload;
   } catch (error) {
+    console.log(error);
     return null;
   }
 }
