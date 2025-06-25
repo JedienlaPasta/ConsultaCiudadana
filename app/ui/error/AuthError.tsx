@@ -3,7 +3,7 @@
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 
-export default async function AuthError() {
+export default function AuthError() {
   const searchParams = useSearchParams();
   const message = searchParams.get("message");
 
