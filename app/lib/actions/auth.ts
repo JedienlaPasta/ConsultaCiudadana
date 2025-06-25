@@ -126,7 +126,7 @@ export async function exchangeCodeForTokens(code: string) {
 
   const sessionPayload = {
     sub: userInfo.sub,
-    run: userInfo.run,
+    rut: userInfo.RolUnico,
     name: userInfo.name,
   };
 
