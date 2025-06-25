@@ -130,6 +130,8 @@ export async function exchangeCodeForTokens(code: string) {
     name: userInfo.name,
   };
 
+  console.log("SessionPayload:", sessionPayload);
+
   const sessionToken = jwt.sign(sessionPayload, jwtSecret, {
     expiresIn: "1h",
   });
@@ -160,6 +162,7 @@ export async function getSession() {
 
   try {
     const decoded = jwt.verify(sessionToken, jwtSecret) as JwtPayload;
+    console.log("Decoded:", decoded);
     return decoded;
   } catch (error) {
     console.error("Error al verificar el token de sesión:", error);
