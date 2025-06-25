@@ -26,7 +26,7 @@ export async function GET(request: Request) {
   cookieStore.delete("claveunica_state");
 
   if (!code) {
-    redirect("/auth/error=message=No_Code_Received");
+    redirect("/auth/error?message=No_Code_Received"); // Corregido: era "error=message"
   }
 
   try {

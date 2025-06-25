@@ -38,16 +38,19 @@ export async function signInWithClaveUnica() {
 }
 
 export async function signOutClaveUnica() {
+  console.log("Iniciando logout...");
   const cookieStore = await cookies();
 
   cookieStore.delete("app_session");
   cookieStore.delete("claveunica_state");
+  console.log("Cookies eliminadas");
 
   const postLogoutRedirectUri = encodeURIComponent(
-    "https://test-participacion.munielquisco.gob.cl",
+    process.env.NEXTAUTH_URL || "http://localhost:3000"
   );
   const logoutUrl = `${process.env.CLAVEUNICA_LOGOUT_URL}?redirect_uri=${postLogoutRedirectUri}`;
-
+  
+  console.log("URL de logout:", logoutUrl);
   redirect(logoutUrl);
 }
 
