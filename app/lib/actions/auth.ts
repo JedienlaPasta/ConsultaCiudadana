@@ -46,7 +46,7 @@ export async function signOutClaveUnica() {
   const postLogoutRedirectUri = encodeURIComponent(
     "https://test-participacion.munielquisco.gob.cl",
   );
-  const logoutUrl = `${process.env.CLAVEUNICA_LOGOUT_URL}?post_logout_redirect_uri=${postLogoutRedirectUri}`;
+  const logoutUrl = `${process.env.CLAVEUNICA_LOGOUT_URL}?redirect_uri=${postLogoutRedirectUri}`;
 
   redirect(logoutUrl);
 }
