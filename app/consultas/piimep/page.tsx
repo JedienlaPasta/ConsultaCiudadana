@@ -2,10 +2,10 @@ import Link from "next/link";
 import ClaveUnicaBtn from "@/app/ui/ClaveUnicaBtn";
 import Footer from "@/app/ui/Footer";
 import { roboto } from "@/app/ui/fonts";
-import { getSession } from "@/app/lib/actions/auth";
+// import { getSession } from "@/app/lib/actions/auth";
 
 export default async function SurveyDetail() {
-  const session = await getSession();
+  // const session = await getSession();
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -295,7 +295,7 @@ export default async function SurveyDetail() {
                   Necesitas iniciar sesión para participar en esta consulta.
                 </p>
                 <span className="flex">
-                  <ClaveUnicaBtn isLoggedIn={session !== null} />
+                  <ClaveUnicaBtn />
                 </span>
               </div>
             </div>
