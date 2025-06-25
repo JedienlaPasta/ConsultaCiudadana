@@ -2,14 +2,10 @@ import Link from "next/link";
 import ClaveUnicaBtn from "@/app/ui/ClaveUnicaBtn";
 import Footer from "@/app/ui/Footer";
 import { roboto } from "@/app/ui/fonts";
-import SurveyHeader from "@/app/ui/SurveyHeader";
 
 export default function SurveyDetail() {
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header Section */}
-      <SurveyHeader to="/" />
-
       {/* Main Content */}
       <div className="container mx-auto max-w-[80rem] px-4 py-8 md:px-8">
         <div className="grid grid-cols-1 md:gap-6 lg:grid-cols-3">

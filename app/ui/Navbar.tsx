@@ -4,7 +4,7 @@ import Link from "next/link";
 import React, { useState, useEffect } from "react";
 import ClaveUnicaBtn from "./ClaveUnicaBtn";
 
-export default function Navbar() {
+export default function Navbar({ isLoggedIn }: { isLoggedIn: boolean }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [hasScrolled, setHasScrolled] = useState(false);
 
@@ -25,14 +25,12 @@ export default function Navbar() {
     };
   }, []);
 
-  // <div className="bg-[#002F4C]s sticky top-0 z-50 bg-[#5877F2]"></div>
-
   return (
     <div
-      className={`sticky top-5 z-50 container mx-auto rounded-xl transition-all duration-300 ${hasScrolled ? "bg-[#0A4581]/80 shadow-md backdrop-blur-2xl" : "bg-transparent"}`}
+      className={`fixed top-0 left-1/2 z-1050 mx-auto w-full -translate-x-1/2 transition-all duration-300 ${hasScrolled ? "bg-[#0A4581] shadow-md" : "bg-transparent"}`}
     >
       <div className="container mx-auto max-w-[80rem]">
-        <nav className="flex items-center justify-between px-4 py-2 md:px-8">
+        <nav className="flex items-center justify-between px-4 py-3 md:px-8">
           <Link
             className="text-xl font-bold text-white transition-colors hover:text-white"
             href="/"
@@ -98,48 +96,57 @@ export default function Navbar() {
               </Link>
             </li>
             <li>
-              <ClaveUnicaBtn />
+              <ClaveUnicaBtn isLoggedIn={isLoggedIn} />
             </li>
           </ul>
         </nav>
       </div>
 
       {/* Mobile menu - moved outside container for better positioning */}
-      {isMenuOpen && (
-        <div className="absolute w-full border-t border-slate-700 bg-slate-900 md:hidden">
-          <ul className="flex flex-col">
-            <li>
-              <Link
-                href="/consultas"
-                className="block text-white transition-colors hover:bg-slate-800"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                <p className="container mx-auto px-4 py-4">Consultas</p>
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/contacto"
-                className="block text-white transition-colors hover:bg-slate-800"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                <p className="container mx-auto px-4 py-4">Contacto</p>
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/preguntas"
-                className="block text-white transition-colors hover:bg-slate-800"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                <p className="container mx-auto px-4 py-4">
+      <div
+        className={`absolute top-full left-0 w-full overflow-hidden bg-[#06315c] shadow-lg transition-all duration-500 ease-in-out md:hidden ${isMenuOpen ? "max-h-[300px]" : "max-h-0"}`}
+      >
+        <ul className="flex flex-col divide-y divide-[#0A4581]/30">
+          <li>
+            <Link
+              href="/consultas"
+              className="block w-full text-white transition-colors hover:bg-[#0A4581]"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              <div className="flex items-center px-6 py-4">
+                <span className="text-sm font-medium">Consultas</span>
+              </div>
+            </Link>
+          </li>
+          <li>
+            <Link
+              href="/contacto"
+              className="block w-full text-white transition-colors hover:bg-[#0A4581]"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              <div className="flex items-center px-6 py-4">
+                <span className="text-sm font-medium">Contacto</span>
+              </div>
+            </Link>
+          </li>
+          <li>
+            <Link
+              href="/preguntas"
+              className="block w-full text-white transition-colors hover:bg-[#0A4581]"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              <div className="flex items-center px-6 py-4">
+                <span className="text-sm font-medium">
                   Preguntas frecuentes
-                </p>
-              </Link>
-            </li>
-          </ul>
-        </div>
-      )}
+                </span>
+              </div>
+            </Link>
+          </li>
+          <li className="p-4">
+            <ClaveUnicaBtn isLoggedIn={isLoggedIn} />
+          </li>
+        </ul>
+      </div>
     </div>
   );
 }
