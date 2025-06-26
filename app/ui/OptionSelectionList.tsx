@@ -8,6 +8,7 @@ type OptionSelectionListProps = {
   selectedSubOption: string;
   setSelectedSubOption: (subOption: string) => void;
   question: Question;
+  selectedSectorId: string;
 };
 
 export default function OptionSelectionList({
@@ -16,6 +17,7 @@ export default function OptionSelectionList({
   selectedSubOption,
   setSelectedSubOption,
   question,
+  selectedSectorId,
 }: OptionSelectionListProps) {
   const isTramoConectorSelected = selectedOptions.some(
     (option) => option === "1",
@@ -35,6 +37,31 @@ export default function OptionSelectionList({
       }
     }
   };
+
+  const getSubOptions = () => {
+    const allSubOptions =
+      question.options.find((option) => option.options)?.options || [];
+
+    const filteredOptions = allSubOptions.filter(
+      (option) => option.sector === selectedSectorId,
+    );
+
+    // Si hay opciones para el sector seleccionado, mostrar solo esas
+    // Si no hay opciones para el sector, mostrar todas
+    const optionsToShow =
+      filteredOptions.length > 0 ? filteredOptions : allSubOptions;
+
+    return optionsToShow.map((option) => (
+      <OptionItem
+        option={option}
+        key={option.name}
+        isSelected={selectedSubOption === option.id}
+        onSelect={() => setSelectedSubOption(option.id)}
+      />
+    ));
+  };
+
+  const subOptions = getSubOptions();
 
   return (
     <div className="mt-4 space-y-4 md:mt-8">
@@ -78,17 +105,7 @@ export default function OptionSelectionList({
             </div>
           </div>
           <div className="grid gap-3 sm:grid-cols-2 md:gap-4 lg:grid-cols-3">
-            {/* Arreglar esto, solo debiese elegir 1 opcion y por separado del optionSelect state */}
-            {question.options
-              .find((option) => option.options)
-              ?.options?.map((option) => (
-                <OptionItem
-                  option={option}
-                  key={option.name}
-                  isSelected={selectedSubOption === option.id}
-                  onSelect={() => setSelectedSubOption(option.id)}
-                />
-              ))}
+            {subOptions}
           </div>
         </div>
       )}

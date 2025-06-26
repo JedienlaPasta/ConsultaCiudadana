@@ -196,6 +196,7 @@ function QuestionSection({
       setSelectedOptions={setSelectedOptions}
       selectedSubOption={selectedSubOption}
       setSelectedSubOption={setSelectedSubOption}
+      selectedSectorId={selectedSectorId}
     />
   );
 }
