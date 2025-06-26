@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { verify } from "jsonwebtoken";
+import * as jose from "jose";
 
 export async function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
@@ -30,7 +30,8 @@ export async function middleware(request: NextRequest) {
 
   try {
     // Verificar JWT
-    verify(session, jwtSecret!);
+    const secret = new TextEncoder().encode(jwtSecret);
+    await jose.jwtVerify(session, secret);
     return NextResponse.next();
   } catch (error) {
     console.error("Sesión inválida:", error);
