@@ -4,6 +4,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import crypto from "crypto";
 import jwt, { JwtPayload } from "jsonwebtoken";
+import { revalidatePath } from "next/cache";
 
 export async function signInWithClaveUnica() {
   const state = crypto.randomBytes(16).toString("hex");
@@ -42,6 +43,8 @@ export async function signOutClaveUnica() {
 
   cookieStore.delete("app_session");
   cookieStore.delete("claveunica_state");
+
+  revalidatePath("/consultas/piimep");
 
   const logoutUrl = new URL(process.env.CLAVEUNICA_LOGOUT_URL!);
   logoutUrl.searchParams.set("redirect", process.env.NEXTAUTH_URL!);
