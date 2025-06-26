@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { verify } from "jsonwebtoken";
-// import { toast } from "sonner";
 
 export async function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
@@ -24,10 +23,9 @@ export async function middleware(request: NextRequest) {
   const session = request.cookies.get("app_session")?.value;
 
   if (!session) {
-    const loginUrl = new URL("/consultas/piimep", request.url);
-    loginUrl.searchParams.set("redirect", pathname); // Guardar ruta original para redirigir después del login
-    // toast.error("Acceso no autorizado. Inicia sesión para continuar.");
-    return NextResponse.redirect(loginUrl);
+    const redirectUrl = new URL("/consultas/piimep", request.url);
+    redirectUrl.searchParams.set("redirect", "unauthorized");
+    return NextResponse.redirect(redirectUrl);
   }
 
   try {
@@ -36,9 +34,9 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   } catch (error) {
     console.error("Sesión inválida:", error);
-    const loginUrl = new URL("/consultas/piimep", request.url);
-    loginUrl.searchParams.set("error", "session_expired");
-    return NextResponse.redirect(loginUrl);
+    const redirectUrl = new URL("/consultas/piimep", request.url);
+    redirectUrl.searchParams.set("error", "session_expired");
+    return NextResponse.redirect(redirectUrl);
   }
 }
 
