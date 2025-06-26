@@ -3,8 +3,22 @@ import Image from "next/image";
 import React from "react";
 import { roboto } from "./fonts";
 import { signInWithClaveUnica, signOutClaveUnica } from "../lib/actions/auth";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 export default function ClaveUnicaBtn({ isLoggedIn }: { isLoggedIn: boolean }) {
+  const router = useRouter();
+
+  const logout = async () => {
+    const toastId = toast.loading("Cerrando sesión...");
+    try {
+      await signOutClaveUnica();
+      toast.success("Sesión cerrada con éxito", { id: toastId });
+      router.refresh();
+    } catch (error) {
+      toast.error("Error al cerrar sesión", { id: toastId });
+    }
+  };
   if (isLoggedIn) {
     return (
       <form action={signOutClaveUnica} className="flex w-full">
