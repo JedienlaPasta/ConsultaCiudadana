@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { verify } from "jsonwebtoken";
-import { toast } from "sonner";
+// import { toast } from "sonner";
 
 export async function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
@@ -26,7 +26,7 @@ export async function middleware(request: NextRequest) {
   if (!session) {
     const loginUrl = new URL("/consultas/piimep", request.url);
     loginUrl.searchParams.set("redirect", pathname); // Guardar ruta original para redirigir después del login
-    toast.error("Acceso no autorizado. Inicia sesión para continuar.");
+    // toast.error("Acceso no autorizado. Inicia sesión para continuar.");
     return NextResponse.redirect(loginUrl);
   }
 
