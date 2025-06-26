@@ -14,7 +14,7 @@ export default function ClaveUnicaBtn({ isLoggedIn }: { isLoggedIn: boolean }) {
     const toastId = toast.loading("Cerrando sesión...");
     try {
       await signOutClaveUnica();
-      setIsUserLoggedIn(true);
+      setIsUserLoggedIn(false);
       toast.success("Sesión cerrada con éxito", { id: toastId });
       router.refresh();
     } catch (error) {
