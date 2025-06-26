@@ -17,11 +17,13 @@ export default function ClaveUnicaBtn({ isLoggedIn }: { isLoggedIn: boolean }) {
       router.refresh();
     } catch (error) {
       toast.error("Error al cerrar sesión", { id: toastId });
+      console.log(error);
     }
   };
+
   if (isLoggedIn) {
     return (
-      <form action={signOutClaveUnica} className="flex w-full">
+      <form action={logout} className="flex w-full">
         <button
           type="submit"
           className={`${roboto.className} flex min-h-11 grow cursor-pointer items-center justify-center gap-0.5 rounded-sm bg-[#0F69C4] py-[8px] pr-5 pl-4 text-center text-[#fff] transition-all select-none hover:bg-[#2275C9] hover:underline`}
