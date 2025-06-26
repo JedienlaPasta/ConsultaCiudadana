@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 import { roboto } from "./fonts";
 import { signInWithClaveUnica, signOutClaveUnica } from "../lib/actions/auth";
 import { toast } from "sonner";
@@ -8,11 +8,13 @@ import { useRouter } from "next/navigation";
 
 export default function ClaveUnicaBtn({ isLoggedIn }: { isLoggedIn: boolean }) {
   const router = useRouter();
+  const [isUserLoggedIn, setIsUserLoggedIn] = useState<boolean>(isLoggedIn);
 
   const logout = async () => {
     const toastId = toast.loading("Cerrando sesión...");
     try {
       await signOutClaveUnica();
+      setIsUserLoggedIn(true);
       toast.success("Sesión cerrada con éxito", { id: toastId });
       router.refresh();
     } catch (error) {
@@ -21,7 +23,7 @@ export default function ClaveUnicaBtn({ isLoggedIn }: { isLoggedIn: boolean }) {
     }
   };
 
-  if (isLoggedIn) {
+  if (isUserLoggedIn) {
     return (
       <form action={logout} className="flex w-full">
         <button
