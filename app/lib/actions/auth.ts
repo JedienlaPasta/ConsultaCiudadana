@@ -44,7 +44,10 @@ export async function signOutClaveUnica() {
   cookieStore.delete("claveunica_state");
 
   const logoutUrl = new URL(process.env.CLAVEUNICA_LOGOUT_URL!);
-  logoutUrl.searchParams.set("redirect", process.env.NEXTAUTH_URL!);
+  logoutUrl.searchParams.set(
+    "redirect",
+    process.env.CLAVEUNICA_LOGOUT_REDIRECT_URI!,
+  );
   console.log(logoutUrl.toString());
 
   redirect(logoutUrl.toString());
