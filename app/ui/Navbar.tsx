@@ -4,7 +4,7 @@ import Link from "next/link";
 import React, { useState, useEffect } from "react";
 import ClaveUnicaBtn from "./ClaveUnicaBtn";
 
-export default function Navbar() {
+export default function Navbar({ isLoggedIn }: { isLoggedIn: boolean }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [hasScrolled, setHasScrolled] = useState(false);
 
@@ -96,7 +96,7 @@ export default function Navbar() {
               </Link>
             </li>
             <li>
-              <ClaveUnicaBtn />
+              <ClaveUnicaBtn isLoggedIn={isLoggedIn} />
             </li>
           </ul>
         </nav>
@@ -143,7 +143,7 @@ export default function Navbar() {
             </Link>
           </li>
           <li className="p-4">
-            <ClaveUnicaBtn />
+            <ClaveUnicaBtn isLoggedIn={isLoggedIn} />
           </li>
         </ul>
       </div>

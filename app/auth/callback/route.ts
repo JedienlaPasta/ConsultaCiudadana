@@ -1,19 +1,42 @@
-import { authenticateWithClaveUnica } from "@/app/lib/actions/auth";
-import { NextResponse } from "next/server";
+import { exchangeCodeForTokens } from "@/app/lib/actions/auth";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const code = searchParams.get("code");
+  const state = searchParams.get("state");
+  const error = searchParams.get("error");
+  const error_description = searchParams.get("error_description");
 
-  if (!code) {
-    return NextResponse.redirect(new URL("/auth/error", request.url));
+  const cookieStore = await cookies();
+  const storedState = cookieStore.get("claveunica_state")?.value;
+
+  if (error) {
+    console.error("Error de ClaveÚnica: ", error, error_description);
+    redirect("/auth/error?message=ClaveUnica_Error"); // Mostrar error en vez de redirigir?
   }
 
-  const result = await authenticateWithClaveUnica(code);
+  if (!state || state !== storedState) {
+    console.error("Invalid state parameter. CSRF detected or state mismatch.");
+    redirect("/auth/error?message=Invalid_State"); // Mostrar error en vez de redirigir?
+  }
 
-  if (result.success) {
-    return NextResponse.redirect(new URL("/consultas/piimep", request.url));
-  } else {
-    return NextResponse.redirect(new URL("/auth/error", request.url));
+  // Limpiar cookie de state luego de la validacion
+  cookieStore.delete("claveunica_state");
+
+  if (!code) {
+    redirect("/auth/error?message=No_Code_Received"); // Corregido: era "error=message"
+  }
+
+  try {
+    await exchangeCodeForTokens(code);
+
+    redirect("/consultas/piimep"); // Debe ser una pagina protegida?
+  } catch (e: unknown) {
+    console.error("Error durante el intercambio de tokens:", e);
+    const errorMessage =
+      e instanceof Error ? e.message : "Authentication Failed";
+    redirect(`/auth/error?message=${encodeURIComponent(errorMessage)}`);
   }
 }
