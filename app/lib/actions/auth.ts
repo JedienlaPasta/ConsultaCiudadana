@@ -43,12 +43,10 @@ export async function signOutClaveUnica() {
   cookieStore.delete("app_session");
   cookieStore.delete("claveunica_state");
 
-  const postLogoutRedirectUri = encodeURIComponent(
-    "https://test-participacion.munielquisco.gob.cl",
-  );
-  const logoutUrl = `${process.env.CLAVEUNICA_LOGOUT_URL}?post_logout_redirect_uri=${postLogoutRedirectUri}`;
+  const logoutUrl = new URL(process.env.CLAVEUNICA_LOGOUT_URL!);
+  logoutUrl.searchParams.set("redirect", process.env.NEXTAUTH_URL!);
 
-  redirect(logoutUrl);
+  redirect(logoutUrl.toString());
 }
 
 export async function exchangeCodeForTokens(code: string) {
@@ -59,7 +57,7 @@ export async function exchangeCodeForTokens(code: string) {
   const userinfoUrl = process.env.CLAVEUNICA_USERINFO_URL;
   const jwtSecret = process.env.NEXTAUTH_SECRET;
 
-  console.log("Iniciando intercambio de tokens <============================");
+  console.log("Iniciando intercambio de tokens ============================");
 
   if (
     !clientId ||
@@ -69,86 +67,84 @@ export async function exchangeCodeForTokens(code: string) {
     !userinfoUrl ||
     !jwtSecret
   ) {
-    throw new Error("Missing ClaveÚnica or JWT secret environment variables.");
+    throw new Error("Configuración de ClaveÚnica incompleta");
   }
 
-  const tokenResponse = await fetch(tokenUrl, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
-    },
-    body: new URLSearchParams({
-      grant_type: "authorization_code",
-      client_id: clientId,
-      client_secret: clientSecret,
-      redirect_uri: redirectUri,
-      code: code,
-    }).toString(),
-  });
+  try {
+    // Intercambiar código por tokens de acceso
+    const tokenParams = new URLSearchParams();
+    tokenParams.append("grant_type", "authorization_code");
+    tokenParams.append("client_id", clientId);
+    tokenParams.append("client_secret", clientSecret);
+    tokenParams.append("redirect_uri", redirectUri);
+    tokenParams.append("code", code);
 
-  if (!tokenResponse.ok) {
-    const errorData = await tokenResponse.json();
-    console.error("Error al intercambiar código por tokens: __", errorData);
-    throw new Error(
-      `Failed to exchange code: ${errorData.error_description || errorData.error || "Unknown error"}`,
-    );
+    const tokenResponse = await fetch(tokenUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: tokenParams.toString(),
+    });
+
+    if (!tokenResponse.ok) {
+      const errorData = await tokenResponse.json();
+      console.error("Error en token response:", errorData);
+      throw new Error(
+        `Error al obtener tokens: ${errorData.error || "Error desconocido"}`,
+      );
+    }
+
+    const tokens = await tokenResponse.json();
+    const { access_token } = tokens;
+
+    // Obtener información del usuario
+    const userInfoResponse = await fetch(userinfoUrl, {
+      method: "POST", // ClaveÚnica requiere POST para userinfo
+      headers: {
+        Authorization: `Bearer ${access_token}`,
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+    });
+
+    if (!userInfoResponse.ok) {
+      const errorData = await userInfoResponse.json();
+      console.error("Error en userinfo response:", errorData);
+      throw new Error(
+        `Error al obtener información de usuario: ${errorData.error || "Error desconocido"}`,
+      );
+    }
+
+    const userInfo = await userInfoResponse.json();
+    console.log("UserInfo recibido:", userInfo);
+
+    // Crear sesión JWT
+    const sessionPayload = {
+      sub: userInfo.sub,
+      rut: `${userInfo.RolUnico.numero}-${userInfo.RolUnico.DV}`,
+      name: `${userInfo.name.nombres.join(" ")} ${userInfo.name.apellidos.join(" ")}`,
+      exp: Math.floor(Date.now() / 1000) + 60 * 60, // Expira en 1 hora
+    };
+
+    const sessionToken = jwt.sign(sessionPayload, jwtSecret, {
+      algorithm: "HS256",
+    });
+
+    // Establecer cookie de sesión
+    const cookieStore = await cookies();
+    cookieStore.set("app_session", sessionToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      path: "/",
+      maxAge: 60 * 60, // 1 hora
+      sameSite: "lax",
+    });
+
+    return { success: true };
+  } catch (error) {
+    console.error("Error en exchangeCodeForTokens:", error);
+    throw error;
   }
-
-  console.log(tokenResponse.ok);
-  console.log(
-    "Segundo verificador intercambio de tokens <==============================",
-  );
-
-  const tokens = await tokenResponse.json();
-  const { access_token } = tokens;
-  //   const { access_token, id_token } = tokens;
-  console.log("access_token: ", access_token);
-
-  // Paso 6: Obtener informacion de ciudadano por medio del access_token
-  const userInfoResponse = await fetch(userinfoUrl, {
-    headers: {
-      Authorization: `Bearer ${access_token}`,
-    },
-  });
-
-  console.log("userInfoRespose: ", userInfoResponse);
-
-  if (!userInfoResponse.ok) {
-    const errorData = await userInfoResponse.json();
-    console.error("Error al obtener información de usuario:", errorData);
-    throw new Error(
-      `Failed to fetch user info: ${errorData.error_description || errorData.error || "Unknown error"}`,
-    );
-  }
-
-  const userInfo = await userInfoResponse.json();
-  console.log("Información del usuario de ClaveÚnica:", userInfo);
-
-  const sessionPayload = {
-    sub: userInfo.sub,
-    rut: userInfo.RolUnico,
-    name: userInfo.name,
-  };
-
-  console.log("SessionPayload:", sessionPayload);
-
-  const sessionToken = jwt.sign(sessionPayload, jwtSecret, {
-    expiresIn: "1h",
-  });
-
-  console.log("sessionToken: ", sessionToken);
-
-  const cookieStore = await cookies();
-
-  cookieStore.set("app_session", sessionToken, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    path: "/",
-    maxAge: 60 * 60, // 1 hora
-    sameSite: "lax", // Proteccion CSRF
-  });
-
-  console.log("cookie:", cookieStore);
 }
 
 export async function getSession() {
