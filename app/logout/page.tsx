@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
+// import { useEffect } from "react";
+// import { useRouter } from "next/navigation";
 
 export default function LogoutPage() {
-  const router = useRouter();
+  // const router = useRouter();
 
   // useEffect(() => {
   //   const logoutUrl = new URL(process.env.NEXT_PUBLIC_CLAVEUNICA_LOGOUT_URL!);
