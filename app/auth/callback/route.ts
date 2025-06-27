@@ -8,35 +8,39 @@ export async function GET(request: Request) {
   const state = searchParams.get("state");
   const error = searchParams.get("error");
   const error_description = searchParams.get("error_description");
+  console.log("code: ", code);
+  console.log("state: ", state);
+  console.log("error: ", error);
+  console.log("error_description: ", error_description);
 
   const cookieStore = await cookies();
   const storedState = cookieStore.get("claveunica_state")?.value;
 
-  if (error) {
-    console.error("Error de ClaveÚnica: ", error, error_description);
-    redirect("/auth/error?message=ClaveUnica_Error"); // Mostrar error en vez de redirigir?
+  if (!storedState || !state || storedState !== state) {
+    console.error("Invalid state - possible CSRF attack");
+    return new Response("Invalid state", { status: 403 });
   }
 
-  if (!state || state !== storedState) {
-    console.error("Invalid state parameter. CSRF detected or state mismatch.");
-    redirect("/auth/error?message=Invalid_State"); // Mostrar error en vez de redirigir?
-  }
-
-  // Limpiar cookie de state luego de la validacion
+  // Limpiar cookie después de usar
   cookieStore.delete("claveunica_state");
 
+  if (error) {
+    console.error("Error from ClaveÚnica:", error);
+    return redirect("/auth/error?error=" + encodeURIComponent(error));
+  }
+
   if (!code) {
-    redirect("/auth/error?message=No_Code_Received"); // Corregido: era "error=message"
+    console.error("No code received");
+    return redirect("/auth/error?error=no_code");
   }
 
   try {
     await exchangeCodeForTokens(code);
-
-    redirect("/consultas/piimep"); // Debe ser una pagina protegida?
-  } catch (e: unknown) {
-    console.error("Error durante el intercambio de tokens:", e);
-    const errorMessage =
-      e instanceof Error ? e.message : "Authentication Failed";
-    redirect(`/auth/error?message=${encodeURIComponent(errorMessage)}`);
+    console.log("Intercambio de tokens y sesión establecida con éxito.");
+    redirect("/consultas/piimep");
+  } catch (error: unknown) {
+    console.error("Authentication failed:", error);
+    return redirect("/auth/error?error=auth_failed");
   }
+  // redirect("/consultas/piimep");
 }
