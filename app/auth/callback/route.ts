@@ -37,10 +37,10 @@ export async function GET(request: Request) {
   try {
     await exchangeCodeForTokens(code);
     console.log("Intercambio de tokens y sesión establecida con éxito.");
-    redirect("/consultas/piimep");
+    // redirect("/consultas/piimep");
   } catch (error: unknown) {
     console.error("Authentication failed:", error);
     return redirect("/auth/error?error=auth_failed");
   }
-  // redirect("/consultas/piimep");
+  redirect("/consultas/piimep");
 }
