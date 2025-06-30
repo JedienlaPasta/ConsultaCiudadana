@@ -1,8 +1,8 @@
 "use client";
 import { useRef, useState } from "react";
-import MapSection from "./piimep/MapSection";
+import MapSection from "./consultas/MapSection";
 import SurveyProgress from "./SurveyProgress";
-import RexLoader from "./piimep/rex-animaton";
+import RexLoader from "./consultas/RexAnimation";
 import OptionSelectionList from "./OptionSelectionList";
 import VoteConfirmationOverview from "./VoteConfirmationOverview";
 import { useRouter } from "next/navigation";

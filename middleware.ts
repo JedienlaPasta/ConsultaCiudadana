@@ -24,7 +24,11 @@ export async function middleware(request: NextRequest) {
 
   if (!session) {
     const redirectUrl = new URL("/consultas/piimep", request.url);
-    redirectUrl.searchParams.set("redirect", "unauthorized");
+    redirectUrl.searchParams.set("authError", "no_session");
+    redirectUrl.searchParams.set(
+      "message",
+      "Debes iniciar sesión para acceder a esta página",
+    );
     return NextResponse.redirect(redirectUrl);
   }
 

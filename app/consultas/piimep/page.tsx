@@ -1,8 +1,9 @@
 import Link from "next/link";
 import ClaveUnicaBtn from "@/app/ui/ClaveUnicaBtn";
 import Footer from "@/app/ui/Footer";
-import { roboto } from "@/app/ui/fonts";
 import { getSession } from "@/app/lib/actions/auth";
+import AuthErrorHandler from "@/app/ui/error/AuthErrorHandler";
+import FAQ from "@/app/ui/consultas/FAQ";
 
 export default async function SurveyDetail() {
   const session = await getSession();
@@ -11,10 +12,11 @@ export default async function SurveyDetail() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Main Content */}
+      <AuthErrorHandler />
       <div className="container mx-auto max-w-[80rem] px-4 py-8 md:px-8">
         <div className="grid grid-cols-1 md:gap-6 lg:grid-cols-3">
           {/* Left Column - About & Details */}
-          <div className="order-1s lg:order-1s lg:col-span-2">
+          <div className="lg:col-span-2">
             <div className="mb-8 rounded-lg border border-gray-200 bg-white p-6 shadow-md shadow-gray-200/80">
               <h2 className="mb-3 text-2xl font-bold text-[#23396f]">
                 Acerca de esta Consulta
@@ -68,7 +70,7 @@ export default async function SurveyDetail() {
                     </p>
                     <p className="mt-1 text-xs text-gray-500">Agosto 2025</p>
                   </div>
-                  <div className="sborder-l-2 absolute top-10 left-[14px] h-10 w-[4px] rounded-full border-blue-400 bg-slate-300"></div>
+                  <div className="absolute top-10 left-[14px] h-10 w-[4px] rounded-full border-blue-400 bg-slate-300"></div>
                 </div>
                 <div className="relative flex">
                   <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-[#0A4C8A] text-sm font-bold text-white">
@@ -86,7 +88,7 @@ export default async function SurveyDetail() {
                       Agosto - Septiembre 2025
                     </p>
                   </div>
-                  <div className="sborder-l-2 absolute top-10 left-[14px] h-10 w-[4px] rounded-full border-blue-400 bg-slate-300"></div>
+                  <div className="absolute top-10 left-[14px] h-10 w-[4px] rounded-full border-blue-400 bg-slate-300"></div>
                 </div>
                 <div className="relative flex">
                   <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-[#0A4C8A] text-sm font-bold text-white">
@@ -103,7 +105,7 @@ export default async function SurveyDetail() {
                       Septiembre 2025
                     </p>
                   </div>
-                  <div className="sborder-l-2 absolute top-10 left-[14px] h-10 w-[4px] rounded-full border-blue-400 bg-slate-300"></div>
+                  <div className="absolute top-10 left-[14px] h-10 w-[4px] rounded-full border-blue-400 bg-slate-300"></div>
                 </div>
                 <div className="flex">
                   <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-[#0A4C8A] text-sm font-bold text-white">
@@ -121,89 +123,26 @@ export default async function SurveyDetail() {
                 </div>
               </div>
             </div>
+
             {/* Guía de participación */}
             <div className="mb-8 rounded-lg border border-gray-200 bg-white p-6 shadow-md shadow-gray-200/80">
               <h4 className="text-lg font-semibold text-[#0A4C8A]">
                 Definición de términos
               </h4>
             </div>
-            <div className="mb-8 rounded-lg border border-gray-200 bg-white p-6 shadow-md shadow-gray-200/80">
-              <h4 className="text-lg font-semibold text-[#0A4C8A]">
-                Preguntas Frecuentes
-              </h4>
-              <p className="text-sm text-gray-500">
-                Preguntas comunes sobre esta consulta
-              </p>
-              <div className="border-b border-gray-200 py-4">
-                <h5 className="mb-1 font-semibold">
-                  ¿Cuánto tiempo tomará la construcción?
-                </h5>
-                <p className="text-gray-600">
-                  El proyecto está planificado para implementarse en fases
-                  durante aproximadamente 24 meses, comenzando en enero de 2026.
-                  Diferentes áreas serán afectadas en diferentes momentos para
-                  minimizar las interrupciones.
-                </p>
-              </div>
-              <div className="border-b border-gray-200 py-4">
-                <h5 className="mb-1 font-semibold">
-                  ¿Habrá cambios en la disponibilidad de estacionamiento?
-                </h5>
-                <p className="text-gray-600">
-                  Cada opción tiene diferentes impactos en el estacionamiento.
-                  La Opción A reduce el estacionamiento en superficie pero
-                  incluye una nueva estructura de estacionamiento. La Opción B
-                  mantiene la mayoría del estacionamiento existente. La Opción C
-                  incorpora estacionamiento dentro de nuevos desarrollos.
-                </p>
-              </div>
-              <div className="border-b border-gray-200 py-4">
-                <h5 className="mb-1 font-semibold">
-                  ¿Cómo se financiará este proyecto?
-                </h5>
-                <p className="text-gray-600">
-                  El proyecto será financiado a través de una combinación de
-                  fondos de mejoras de capital de la ciudad, subvenciones
-                  estatales y federales, y potencialmente asociaciones
-                  público-privadas dependiendo de la opción final seleccionada.
-                </p>
-              </div>
-              <div className="pt-4">
-                <h5 className="mb-1 font-semibold">
-                  ¿Los negocios permanecerán abiertos durante la construcción?
-                </h5>
-                <p className="text-gray-600">
-                  Sí, estamos comprometidos a mantener el acceso a todos los
-                  negocios durante la construcción. Se implementará un programa
-                  de apoyo empresarial para ayudar con señalización, marketing y
-                  posible asistencia financiera.
-                </p>
-              </div>
+
+            {/* Preguntas frecuentes Desktop */}
+            <div className="hidden md:block">
+              <FAQ />
             </div>
           </div>
 
           {/* Right Column - Participation */}
-          <div className="order-2s lg:order-2s lg:col-span-1">
+          <div className="lg:col-span-1">
             <div className="mb-6 rounded-lg border border-gray-200 bg-white p-6 shadow-md shadow-gray-200/80">
               <h2 className="mb-2 text-xl font-bold text-[#23396f]">
                 Detalles de la consulta
               </h2>
-
-              {/* <div className="mb-3 border-b border-gray-200 pb-3">
-                <div className="mb-2 flex items-center justify-between">
-                  <span className="text-sm text-gray-600">Votos actuales</span>
-                  <span className="text-sm text-gray-600">Meta: 500</span>
-                </div>
-                <div className="h-3 w-full rounded-full border border-slate-300/60 bg-slate-200/60">
-                  <div
-                    className="h-full rounded-full bg-[#0A4C8A]"
-                    style={{
-                      width: "38%",
-                    }}
-                  ></div>
-                </div>
-                <p className="mt-1 text-sm text-gray-600">76 votos</p>
-              </div> */}
 
               <div className="mb-6 space-y-2">
                 <div className="flex justify-between">
@@ -262,22 +201,18 @@ export default async function SurveyDetail() {
                 </ol>
               </div>
 
-              <Link
-                className="mt-5 flex min-h-11 w-full grow items-center justify-center gap-0.5 rounded-lg bg-[#0F69C4] py-[8px] pr-5 pl-4 text-center text-[#fff] transition-all select-none hover:bg-[#2275C9] hover:underline"
-                href="/consultas/piimep/votacion"
-                aria-label="Iniciar sesión con ClaveÚnica"
-              >
-                <button
-                  disabled={!isLoggedIn}
-                  className={`${roboto.className} `}
-                  aria-hidden="true"
+              {isLoggedIn && (
+                <Link
+                  className="mt-5 flex min-h-11 w-full grow items-center justify-center gap-0.5 rounded-lg bg-[#0F69C4] py-[8px] pr-5 pl-4 text-center text-[#fff] transition-all select-none hover:bg-[#2275C9] hover:underline"
+                  href="/consultas/piimep/votacion"
+                  aria-label="Iniciar sesión con ClaveÚnica"
                 >
                   Ir a votar
-                </button>
-              </Link>
+                </Link>
+              )}
             </div>
 
-            {isLoggedIn && (
+            {!isLoggedIn && (
               <div className="mb-6 rounded-lg border border-gray-200 bg-white p-6 shadow-md shadow-gray-200/80">
                 <div className="rounded-lg border border-blue-200 bg-blue-50 p-4">
                   <div className="mb-3 flex items-center">
@@ -346,6 +281,11 @@ export default async function SurveyDetail() {
                 </Link>
               </div>
             </div>
+          </div>
+
+          {/* Preguntas frecuentes Mobile */}
+          <div className="md:hidden">
+            <FAQ />
           </div>
         </div>
       </div>
