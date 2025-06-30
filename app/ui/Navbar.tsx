@@ -40,7 +40,7 @@ export default function Navbar({ isLoggedIn }: { isLoggedIn: boolean }) {
 
           {/* Mobile menu button */}
           <button
-            className="block rounded p-2 text-white hover:bg-slate-800 md:hidden"
+            className="block rounded p-2 text-white hover:bg-[#06315c] md:hidden"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             aria-label={isMenuOpen ? "Close menu" : "Open menu"}
           >
