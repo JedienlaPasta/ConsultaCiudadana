@@ -1,13 +1,13 @@
 "use client";
 import { useRef, useState } from "react";
-import MapSection from "./consultas/MapSection";
 import SurveyProgress from "./SurveyProgress";
-import RexLoader from "./consultas/RexAnimation";
 import OptionSelectionList from "./OptionSelectionList";
 import VoteConfirmationOverview from "./VoteConfirmationOverview";
 import { useRouter } from "next/navigation";
 import { QUESTIONS_LIST } from "../lib/data";
 import { toast } from "sonner";
+import RexLoader from "./piimep/RexAnimation";
+import MapSection from "./piimep/MapSection";
 
 export type Question = {
   index: number;

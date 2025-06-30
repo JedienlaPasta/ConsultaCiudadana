@@ -3,8 +3,8 @@ import ClaveUnicaBtn from "@/app/ui/ClaveUnicaBtn";
 import Footer from "@/app/ui/Footer";
 import { getSession } from "@/app/lib/actions/auth";
 import AuthErrorHandler from "@/app/ui/error/AuthErrorHandler";
-import FAQ from "@/app/ui/consultas/FAQ";
 import { Suspense } from "react";
+import FAQ from "@/app/ui/piimep/FAQ";
 
 export default async function SurveyDetail() {
   const session = await getSession();
