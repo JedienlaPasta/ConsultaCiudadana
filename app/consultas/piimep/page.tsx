@@ -4,6 +4,7 @@ import Footer from "@/app/ui/Footer";
 import { getSession } from "@/app/lib/actions/auth";
 import AuthErrorHandler from "@/app/ui/error/AuthErrorHandler";
 import FAQ from "@/app/ui/consultas/FAQ";
+import { Suspense } from "react";
 
 export default async function SurveyDetail() {
   const session = await getSession();
@@ -12,7 +13,9 @@ export default async function SurveyDetail() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Main Content */}
-      <AuthErrorHandler />
+      <Suspense>
+        <AuthErrorHandler />
+      </Suspense>
       <div className="container mx-auto max-w-[80rem] px-4 py-8 md:px-8">
         <div className="grid grid-cols-1 md:gap-6 lg:grid-cols-3">
           {/* Left Column - About & Details */}
