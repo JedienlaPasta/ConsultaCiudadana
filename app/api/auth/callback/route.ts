@@ -2,18 +2,12 @@ import { exchangeCodeForTokens } from "@/app/lib/actions/auth";
 import { checkVotanteRecord } from "@/app/lib/actions/votantes";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import jwt, { JwtPayload } from "jsonwebtoken";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const code = searchParams.get("code");
   const state = searchParams.get("state");
   const error = searchParams.get("error");
-  // const error_description = searchParams.get("error_description");
-  // console.log("code: ", code);
-  // console.log("state: ", state);
-  // console.log("error: ", error);
-  // console.log("error_description: ", error_description);
 
   const cookieStore = await cookies();
   const storedState = cookieStore.get("claveunica_state")?.value;
