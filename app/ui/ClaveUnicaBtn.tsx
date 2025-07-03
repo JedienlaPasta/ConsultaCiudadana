@@ -19,7 +19,7 @@ export default function ClaveUnicaBtn({ isLoggedIn }: { isLoggedIn: boolean }) {
       setTimeout(() => {
         setIsUserLoggedIn(false);
         toast.success("Sesión cerrada con éxito", { id: toastId });
-        router.refresh();
+        // router.refresh();
       }, 500);
     } catch (error) {
       toast.error("Error al cerrar sesión", { id: toastId });
