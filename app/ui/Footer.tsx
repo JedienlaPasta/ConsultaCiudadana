@@ -34,8 +34,9 @@ export default function Footer() {
               <div className="-mt-1 flex gap-1">
                 <Image
                   width={26}
+                  height={26}
                   loading="lazy"
-                  alt="El Quisco logo"
+                  alt="Logo OIRS"
                   src={punteroImg}
                   className="object-contain"
                 />
