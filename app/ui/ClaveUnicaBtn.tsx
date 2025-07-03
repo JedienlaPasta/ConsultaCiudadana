@@ -4,11 +4,11 @@ import React, { useState } from "react";
 import { roboto } from "./fonts";
 import { signInWithClaveUnica, signOutClaveUnica } from "../lib/actions/auth";
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
 
 export default function ClaveUnicaBtn({ isLoggedIn }: { isLoggedIn: boolean }) {
-  const router = useRouter();
+  // const router = useRouter();
   const pathname = usePathname();
   const [isUserLoggedIn, setIsUserLoggedIn] = useState<boolean>(isLoggedIn);
 
