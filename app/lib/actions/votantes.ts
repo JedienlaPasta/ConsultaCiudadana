@@ -11,6 +11,9 @@ export async function checkVotanteRecord(
   nombreCU: string,
 ) {
   const rut = Number(rutCU);
+  console.log("RUT_CU:", rutCU);
+  console.log("DV_CU:", dvCU);
+  console.log("Nombre:", nombreCU);
   try {
     const pool = await connectToDB();
     if (!pool) {
@@ -43,6 +46,9 @@ export async function checkVotanteRecord(
         message: "DV incorrecto.",
       };
     }
+
+    console.log("RUT:", rut);
+    console.log("DV:", dv);
 
     // Record not found in DB
     await request
