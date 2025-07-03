@@ -56,7 +56,7 @@ export async function checkVotanteRecord(
       .input("rut", sql.Int, rut)
       .input("dv", sql.NVarChar, dv)
       .input("nombreCompleto", sql.NVarChar, nombreCU).query(`
-        INSERT INTO Votantes (rut, dv, fecha_creacion nombre_completo) 
+        INSERT INTO Votantes (rut, dv, fecha_creacion, nombre_completo) 
         VALUES (@rut, @dv, GETUTCDATE(), @nombreCompleto)
       `);
     console.log("Registro insertado en la base de datos.");
