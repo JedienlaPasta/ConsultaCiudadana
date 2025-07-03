@@ -25,7 +25,7 @@ export async function checkVotanteRecord(
     }
 
     const request = pool.request();
-    const result = await request.input("rut", sql.NVarChar, rut).query(`
+    const result = await request.input("rut", sql.Int, rut).query(`
         SELECT rut, dv FROM Votantes WHERE rut = @rut
         `);
 
