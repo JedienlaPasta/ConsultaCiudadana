@@ -124,6 +124,13 @@ export async function exchangeCodeForTokens(code: string) {
     const userInfo = await userInfoResponse.json();
     console.log("UserInfo recibido:", userInfo);
 
+    // Datos de usuario para verificar en la DB
+    const userData = {
+      rut: userInfo.RolUnico.numero,
+      dv: userInfo.RolUnico.DV,
+      name: `${userInfo.name.nombres.join(" ")} ${userInfo.name.apellidos.join(" ")}`,
+    };
+
     // Crear sesión JWT
     const sessionPayload = {
       sub: userInfo.sub,
@@ -146,7 +153,7 @@ export async function exchangeCodeForTokens(code: string) {
       sameSite: "lax",
     });
 
-    return { success: true };
+    return { success: true, userData };
   } catch (error) {
     console.error("Error en exchangeCodeForTokens:", error);
     throw error;

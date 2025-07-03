@@ -1,6 +1,8 @@
 import { exchangeCodeForTokens } from "@/app/lib/actions/auth";
+import { checkVotanteRecord } from "@/app/lib/actions/votantes";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import jwt, { JwtPayload } from "jsonwebtoken";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -36,8 +38,17 @@ export async function GET(request: Request) {
   }
 
   try {
-    await exchangeCodeForTokens(code);
+    const response = await exchangeCodeForTokens(code);
     console.log("Intercambio de tokens y sesión establecida con éxito.");
+
+    // Verificar si esta registrado en la DB y sino se registra
+    if (response.success && response.userData) {
+      await checkVotanteRecord(
+        response.userData.rut,
+        response.userData.dv,
+        response.userData.name,
+      );
+    }
 
     returnTo = cookieStore.get("claveunica_return_to")?.value || "/";
     console.log("Return To:", returnTo);
