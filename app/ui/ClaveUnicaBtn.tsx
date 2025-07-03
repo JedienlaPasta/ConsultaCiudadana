@@ -4,19 +4,17 @@ import React, { useState, useEffect } from "react";
 import { roboto } from "./fonts";
 import { signInWithClaveUnica, signOutClaveUnica } from "../lib/actions/auth";
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
 
 export default function ClaveUnicaBtn({ isLoggedIn }: { isLoggedIn: boolean }) {
-  const router = useRouter();
   const pathname = usePathname();
   const [isUserLoggedIn, setIsUserLoggedIn] = useState<boolean>(isLoggedIn);
 
   // Check for logout success on component mount
   useEffect(() => {
-    const logoutSuccess = localStorage.getItem('logout_success');
-    if (logoutSuccess === 'true') {
-      localStorage.removeItem('logout_success');
+    const logoutSuccess = localStorage.getItem("logout_success");
+    if (logoutSuccess === "true") {
+      localStorage.removeItem("logout_success");
       toast.success("Sesión cerrada con éxito");
       setIsUserLoggedIn(false);
     }
@@ -25,12 +23,12 @@ export default function ClaveUnicaBtn({ isLoggedIn }: { isLoggedIn: boolean }) {
   const logout = async () => {
     const toastId = toast.loading("Cerrando sesión...");
     try {
-      localStorage.setItem('logout_success', 'true');
+      localStorage.setItem("logout_success", "true");
       await signOutClaveUnica();
     } catch (error) {
       toast.error("Error al cerrar sesión", { id: toastId });
       console.log(error);
-      localStorage.removeItem('logout_success');
+      localStorage.removeItem("logout_success");
     }
   };
 
