@@ -5,15 +5,19 @@ import { redirect } from "next/navigation";
 import crypto from "crypto";
 import jwt, { JwtPayload } from "jsonwebtoken";
 
-export async function signInWithClaveUnica() {
+export async function signInWithClaveUnica(returnTo: string) {
   const state = crypto.randomBytes(16).toString("hex");
   const cookieStore = await cookies();
 
-  console.log(process.env.NODE_ENV);
-  console.log(process.env.CLAVEUNICA_CLIENT_ID);
-  console.log(process.env.CLAVEUNICA_AUTHORIZE_URL);
-
   cookieStore.set("claveunica_state", state, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    path: "/",
+    maxAge: 1800, // 30 minutos
+    sameSite: "lax",
+  });
+
+  cookieStore.set("claveunica_return_to", returnTo, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     path: "/",
@@ -61,8 +65,6 @@ export async function exchangeCodeForTokens(code: string) {
   const userinfoUrl = process.env.CLAVEUNICA_USERINFO_URL;
   const jwtSecret = process.env.NEXTAUTH_SECRET;
 
-  console.log("Iniciando intercambio de tokens ============================");
-
   if (
     !clientId ||
     !clientSecret ||
@@ -104,7 +106,7 @@ export async function exchangeCodeForTokens(code: string) {
 
     // Obtener información del usuario
     const userInfoResponse = await fetch(userinfoUrl, {
-      method: "POST", // ClaveÚnica requiere POST para userinfo
+      method: "POST",
       headers: {
         Authorization: `Bearer ${access_token}`,
         "Content-Type": "application/x-www-form-urlencoded",
@@ -162,7 +164,6 @@ export async function getSession() {
 
   try {
     const decoded = jwt.verify(sessionToken, jwtSecret) as JwtPayload;
-    console.log("Decoded:", decoded);
     return decoded;
   } catch (error) {
     console.error("Error al verificar el token de sesión:", error);

@@ -5,9 +5,11 @@ import { roboto } from "./fonts";
 import { signInWithClaveUnica, signOutClaveUnica } from "../lib/actions/auth";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 
 export default function ClaveUnicaBtn({ isLoggedIn }: { isLoggedIn: boolean }) {
   const router = useRouter();
+  const pathname = usePathname();
   const [isUserLoggedIn, setIsUserLoggedIn] = useState<boolean>(isLoggedIn);
 
   const logout = async () => {
@@ -46,7 +48,7 @@ export default function ClaveUnicaBtn({ isLoggedIn }: { isLoggedIn: boolean }) {
   }
 
   return (
-    <form action={signInWithClaveUnica} className="flex w-full">
+    <form action={() => signInWithClaveUnica(pathname)} className="flex w-full">
       <button
         type="submit"
         className={`${roboto.className} flex min-h-11 grow cursor-pointer items-center justify-center gap-0.5 rounded-sm bg-[#0F69C4] py-[8px] pr-5 pl-4 text-center text-[#fff] transition-all select-none hover:bg-[#2275C9] hover:underline`}

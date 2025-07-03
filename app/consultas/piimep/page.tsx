@@ -5,6 +5,8 @@ import { getSession } from "@/app/lib/actions/auth";
 import AuthErrorHandler from "@/app/ui/error/AuthErrorHandler";
 import { Suspense } from "react";
 import FAQ from "@/app/ui/piimep/FAQ";
+import Definitions from "@/app/ui/piimep/Definitions";
+import Schedule from "@/app/ui/piimep/Schedule";
 
 export default async function SurveyDetail() {
   const session = await getSession();
@@ -21,15 +23,15 @@ export default async function SurveyDetail() {
           {/* Left Column - About & Details */}
           <div className="lg:col-span-2">
             <div className="mb-8 rounded-lg border border-gray-200 bg-white p-6 shadow-md shadow-gray-200/80">
-              <h2 className="mb-3 text-2xl font-bold text-[#23396f]">
+              <h2 className="mb-1 text-2xl font-bold text-[#23396f]">
                 Acerca de esta Consulta
               </h2>
-              <p className="mb-4 text-gray-500">
+              <p className="mb-4 text-sm text-gray-500">
                 Conoce más sobre esta iniciativa y cómo tu participación puede
                 marcar una diferencia en los espacios públicos de El Quisco.
               </p>
 
-              <h3 className="mt-6 mb-3 text-lg font-semibold text-[#23396f]">
+              <h3 className="mt-6 mb-2 text-lg font-semibold text-[#23396f]">
                 Descripción General
               </h3>
               <p className="mb-4 text-gray-600">
@@ -42,7 +44,7 @@ export default async function SurveyDetail() {
                 el crecimiento futuro.
               </p>
 
-              <h3 className="mt-8 mb-3 text-lg font-semibold text-[#23396f]">
+              <h3 className="mt-8 mb-2 text-lg font-semibold text-[#23396f]">
                 Objetivos
               </h3>
               <ul className="list-disc space-y-2 pl-5 text-gray-600">
@@ -55,84 +57,11 @@ export default async function SurveyDetail() {
                 <li>Implementar más infraestructura sostenible y accesible</li>
               </ul>
 
-              <h3 className="mt-8 mb-3 text-lg font-semibold text-[#23396f]">
-                Cronograma
-              </h3>
-              <div className="space-y-6">
-                <div className="relative flex">
-                  <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-[#0A4C8A] text-sm font-bold text-white">
-                    1
-                  </div>
-                  <div className="ml-4">
-                    <h4 className="font-semibold text-[#0A4C8A]">
-                      Participación Ciudadana
-                    </h4>
-                    <p className="text-sm text-gray-600">
-                      Recolección de opiniones sobre espacios actuales y
-                      necesidades
-                    </p>
-                    <p className="mt-1 text-xs text-gray-500">Agosto 2025</p>
-                  </div>
-                  <div className="absolute top-10 left-[14px] h-10 w-[4px] rounded-full border-blue-400 bg-slate-300"></div>
-                </div>
-                <div className="relative flex">
-                  <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-[#0A4C8A] text-sm font-bold text-white">
-                    2
-                  </div>
-                  <div className="ml-4">
-                    <h4 className="font-semibold text-[#0A4C8A]">
-                      Análisis de Propuestas
-                    </h4>
-                    <p className="text-sm text-gray-600">
-                      Análisis de datos y desarrollo de nuevas opciones de
-                      diseño
-                    </p>
-                    <p className="mt-1 text-xs text-gray-500">
-                      Agosto - Septiembre 2025
-                    </p>
-                  </div>
-                  <div className="absolute top-10 left-[14px] h-10 w-[4px] rounded-full border-blue-400 bg-slate-300"></div>
-                </div>
-                <div className="relative flex">
-                  <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-[#0A4C8A] text-sm font-bold text-white">
-                    3
-                  </div>
-                  <div className="ml-4">
-                    <h4 className="font-semibold text-[#0A4C8A]">
-                      Selección Final
-                    </h4>
-                    <p className="text-sm text-gray-600">
-                      Finalización de cambios basados en la retroalimentación
-                    </p>
-                    <p className="mt-1 text-xs text-gray-500">
-                      Septiembre 2025
-                    </p>
-                  </div>
-                  <div className="absolute top-10 left-[14px] h-10 w-[4px] rounded-full border-blue-400 bg-slate-300"></div>
-                </div>
-                <div className="flex">
-                  <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-[#0A4C8A] text-sm font-bold text-white">
-                    4
-                  </div>
-                  <div className="ml-4">
-                    <h4 className="font-semibold text-[#0A4C8A]">
-                      Implementación
-                    </h4>
-                    <p className="text-sm text-gray-600">
-                      Despliegue de nuevas rutas y horarios
-                    </p>
-                    <p className="mt-1 text-xs text-gray-500">Octubre 2025</p>
-                  </div>
-                </div>
-              </div>
+              <Schedule />
             </div>
 
             {/* Guía de participación */}
-            <div className="mb-8 rounded-lg border border-gray-200 bg-white p-6 shadow-md shadow-gray-200/80">
-              <h4 className="text-lg font-semibold text-[#0A4C8A]">
-                Definición de términos
-              </h4>
-            </div>
+            <Definitions />
 
             {/* Preguntas frecuentes Desktop */}
             <div className="hidden md:block">
