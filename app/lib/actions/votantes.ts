@@ -24,8 +24,8 @@ export async function checkVotanteRecord(
       };
     }
 
-    const request = pool.request();
-    const result = await request.input("rut", sql.Int, rut).query(`
+    const checkVotanteRequest = pool.request();
+    const result = await checkVotanteRequest.input("rut", sql.Int, rut).query(`
         SELECT rut, dv FROM Votantes WHERE rut = @rut
         `);
 
@@ -51,7 +51,8 @@ export async function checkVotanteRecord(
     console.log("DV:", dv);
 
     // Record not found in DB
-    await request
+    const insertVotanteRequest = pool.request();
+    await insertVotanteRequest
       .input("rut", sql.Int, rut)
       .input("dv", sql.NVarChar, dv)
       .input("nombreCompleto", sql.NVarChar, nombreCU).query(`
