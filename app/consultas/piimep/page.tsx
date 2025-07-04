@@ -4,9 +4,9 @@ import Footer from "@/app/ui/Footer";
 import { getSession } from "@/app/lib/actions/auth";
 import AuthErrorHandler from "@/app/ui/error/AuthErrorHandler";
 import { Suspense } from "react";
-import FAQ from "@/app/ui/piimep/FAQ";
-import Definitions from "@/app/ui/piimep/Definitions";
-import Schedule from "@/app/ui/piimep/Schedule";
+import FAQ from "@/app/ui/consultas/FAQ";
+import Definitions from "@/app/ui/consultas/Definitions";
+import Schedule from "@/app/ui/consultas/Schedule";
 
 export default async function SurveyDetail() {
   const session = await getSession();

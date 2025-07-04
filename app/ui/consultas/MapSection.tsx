@@ -2,7 +2,7 @@
 
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
-import RexLoader from "./RexAnimation";
+import RexLoader from "../RexAnimation";
 import SectorSelectionList from "./SectorSelectionList";
 import { Question } from "../SurveyLayout";
 

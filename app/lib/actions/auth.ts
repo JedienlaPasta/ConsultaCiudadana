@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import crypto from "crypto";
 import jwt, { JwtPayload } from "jsonwebtoken";
 
+// Login ============================================================
 export async function signInWithClaveUnica(returnTo: string) {
   const state = crypto.randomBytes(16).toString("hex");
   const cookieStore = await cookies();
@@ -41,6 +42,7 @@ export async function signInWithClaveUnica(returnTo: string) {
   redirect(authUrl);
 }
 
+// Logout ===========================================================
 export async function signOutClaveUnica() {
   const cookieStore = await cookies();
 
@@ -57,6 +59,7 @@ export async function signOutClaveUnica() {
   redirect(logoutUrl.toString());
 }
 
+// Get login data ===================================================
 export async function exchangeCodeForTokens(code: string) {
   const clientId = process.env.CLAVEUNICA_CLIENT_ID;
   const clientSecret = process.env.CLAVEUNICA_CLIENT_SECRET;
@@ -160,6 +163,7 @@ export async function exchangeCodeForTokens(code: string) {
   }
 }
 
+// Get session data =================================================
 export async function getSession() {
   const cookieStore = await cookies();
   const sessionToken = cookieStore.get("app_session")?.value;

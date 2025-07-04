@@ -1,5 +1,5 @@
 import { exchangeCodeForTokens } from "@/app/lib/actions/auth";
-import { checkVotanteRecord } from "@/app/lib/actions/votantes";
+import { checkVotanteRecord } from "@/app/lib/actions/votante";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 

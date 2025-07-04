@@ -6,8 +6,8 @@ import VoteConfirmationOverview from "./VoteConfirmationOverview";
 import { useRouter } from "next/navigation";
 import { QUESTIONS_LIST } from "../lib/data";
 import { toast } from "sonner";
-import RexLoader from "./piimep/RexAnimation";
-import MapSection from "./piimep/MapSection";
+import RexLoader from "./RexAnimation";
+import MapSection from "./consultas/MapSection";
 
 export type Question = {
   index: number;
