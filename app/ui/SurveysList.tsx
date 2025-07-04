@@ -21,10 +21,10 @@ export default function SurveysList() {
       <div>
         {loading && (
           <div className="flex items-center justify-center rounded-lg bg-gray-100 p-4">
-            <div className="flex flex-col items-center gap-1 rounded-lg bg-white px-4 py-5 md:gap-2 md:px-10 md:py-8">
+            <div className="px-4s flex w-full flex-col items-center gap-1 rounded-lg bg-white py-5 md:gap-2 md:px-10 md:py-8">
               <RexLoader />
               <p className="animate-pulse text-sm text-slate-500">
-                Cargando mapa y sectores...
+                Cargando las consultas...
               </p>
             </div>
           </div>
