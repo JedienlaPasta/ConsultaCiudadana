@@ -14,5 +14,7 @@ export async function registerVote(formdata: FormData) {
         message: "No se pudo establecer conexión con la base de datos.",
       };
     }
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+  }
 }
