@@ -87,9 +87,17 @@ export default function SurveyLayout() {
       if (!checkSelectedOptions()) return;
     }
     setCurrentQuestionIndex(nextQuestionIndex);
-    topRef.current?.scrollIntoView({
-      behavior: "smooth",
-    });
+
+    if (topRef.current) {
+      const elementPosition = topRef.current.offsetTop;
+      const offsetPosition = elementPosition - 70;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth",
+      });
+    }
+
     setIsLoading(true);
     setTimeout(() => {
       setIsLoading(false);
@@ -97,7 +105,6 @@ export default function SurveyLayout() {
   };
 
   return (
-    // <div className="rounded-lgs border-gray-200s bg-whites md:borders md:p-6s md:shadow-mds mx-auto grid grid-cols-1 justify-end gap-4 shadow-gray-200/80">
     <div
       ref={topRef}
       className="mx-auto grid grid-cols-1 justify-end gap-4 py-6 md:gap-6 md:py-8"
