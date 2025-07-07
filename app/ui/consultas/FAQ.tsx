@@ -3,7 +3,7 @@ import React from "react";
 export default function FAQ() {
   return (
     <div
-      className={`mb-8 rounded-lg border border-gray-200 bg-white p-6 shadow-md shadow-gray-200/80`}
+      className={`border-t border-gray-200 p-6 py-10 md:mb-6 md:rounded-lg md:border md:py-6 md:shadow-md md:shadow-gray-200/80`}
     >
       <h4 className="text-lg font-semibold text-[#0A4C8A]">
         Preguntas Frecuentes
@@ -12,7 +12,7 @@ export default function FAQ() {
         Preguntas comunes sobre esta consulta
       </p>
 
-      <div className="border-b border-gray-200 py-4">
+      <div className="border-gray-200 py-4 md:border-b">
         <h5 className="mb-1 font-semibold">
           ¿Qué es el Plan Comunal de Inversión de Infraestructura de Movilidad y
           Espacio Público (PIIMEP)?
@@ -25,7 +25,7 @@ export default function FAQ() {
         </p>
       </div>
 
-      <div className="border-b border-gray-200 py-4">
+      <div className="border-gray-200 py-4 md:border-b">
         <h5 className="mb-1 font-semibold">¿Para qué sirve?</h5>
         <p className="text-gray-600">
           Sirve para mejorar la conectividad, accesibilidad, calidad de los
@@ -35,7 +35,7 @@ export default function FAQ() {
         </p>
       </div>
 
-      <div className="border-b border-gray-200 py-4">
+      <div className="border-gray-200 py-4 md:border-b">
         <h5 className="mb-1 font-semibold">
           ¿Qué tipología de proyectos identifica?
         </h5>
@@ -46,7 +46,7 @@ export default function FAQ() {
         </p>
       </div>
 
-      <div className="border-b border-gray-200 py-4">
+      <div className="border-gray-200 py-4 md:border-b">
         <h5 className="mb-1 font-semibold">
           ¿Qué herramientas incluye el PIIMEP?
         </h5>
@@ -58,7 +58,7 @@ export default function FAQ() {
         </p>
       </div>
 
-      <div className="border-b border-gray-200 py-4">
+      <div className="border-gray-200 py-4 md:border-b">
         <h5 className="mb-1 font-semibold">
           ¿Cuáles son los productos del PIIMEP?
         </h5>
@@ -91,7 +91,7 @@ export default function FAQ() {
 >
   <h4 className="text-lg font-semibold text-[#0A4C8A]">Preguntas Frecuentes</h4>
   <p className="text-sm text-gray-500">Preguntas comunes sobre esta consulta</p>
-  <div className="border-b border-gray-200 py-4">
+  <div className="md:border-b border-gray-200 py-4">
     <h5 className="mb-1 font-semibold">
       ¿Cuánto tiempo tomará la construcción?
     </h5>
@@ -101,7 +101,7 @@ export default function FAQ() {
       serán afectadas en diferentes momentos para minimizar las interrupciones.
     </p>
   </div>
-  <div className="border-b border-gray-200 py-4">
+  <div className="md:border-b border-gray-200 py-4">
     <h5 className="mb-1 font-semibold">
       ¿Habrá cambios en la disponibilidad de estacionamiento?
     </h5>
@@ -113,7 +113,7 @@ export default function FAQ() {
       desarrollos.
     </p>
   </div>
-  <div className="border-b border-gray-200 py-4">
+  <div className="md:border-b border-gray-200 py-4">
     <h5 className="mb-1 font-semibold">¿Cómo se financiará este proyecto?</h5>
     <p className="text-gray-600">
       El proyecto será financiado a través de una combinación de fondos de

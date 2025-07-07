@@ -87,7 +87,9 @@ function SectorItem({ sector, isSelected, onSelect }: SectorItemProps) {
           checked={isSelected}
           onChange={() => onSelect(sector.id)}
         />
-        <h5 className="font-medium text-slate-700 group-hover:text-blue-700">
+        <h5
+          className={`font-medium group-hover:text-[#0F69C4] ${isSelected ? "text-[#0F69C4]" : "text-slate-700"}`}
+        >
           {sector.name}
         </h5>
       </div>

@@ -81,7 +81,7 @@ export default function Navbar({ isLoggedIn }: { isLoggedIn: boolean }) {
             </li>
             <li>
               <Link
-                href="/contacto"
+                href="#"
                 className="flex min-h-11 items-center rounded-sm px-4 text-white transition-colors hover:bg-[#0B4E91]"
               >
                 Contacto
@@ -89,7 +89,7 @@ export default function Navbar({ isLoggedIn }: { isLoggedIn: boolean }) {
             </li>
             <li>
               <Link
-                href="/preguntas"
+                href="#"
                 className="flex min-h-11 items-center rounded-sm px-4 text-white transition-colors hover:bg-[#0B4E91]"
               >
                 Preguntas frecuentes

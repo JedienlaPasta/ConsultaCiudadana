@@ -3,34 +3,34 @@ import React from "react";
 export default function Definitions() {
   return (
     <div
-      className={`mb-8 rounded-lg border border-gray-200 bg-white p-6 shadow-md shadow-gray-200/80`}
+      className={`border-t border-gray-200 p-6 py-10 md:mb-6 md:rounded-lg md:border md:py-6 md:shadow-md md:shadow-gray-200/80`}
     >
       <h4 className="text-lg font-semibold text-[#0A4C8A]">
         Definición de Términos
       </h4>
       <p className="text-sm text-gray-500">
         A continuación se explican los principales términos utilizados en esta
-        consulta ciudadana.
+        consulta.
       </p>
 
-      <div className="border-b border-gray-200 py-4">
-        <h5 className="mb-1 font-semibold">Pavimentación</h5>
+      <div className="border-gray-200 py-4 md:border-b">
+        <h5 className="font-semibold md:mb-1">Pavimentación</h5>
         <p className="text-gray-600">
           Obras que implican cubrir con asfalto u hormigón las calzadas (calles)
           y aceras (veredas) de una vía.
         </p>
       </div>
 
-      <div className="border-b border-gray-200 py-4">
-        <h5 className="mb-1 font-semibold">Acceso borde costero</h5>
+      <div className="border-gray-200 py-4 md:border-b">
+        <h5 className="font-semibold md:mb-1">Acceso borde costero</h5>
         <p className="text-gray-600">
           Mejoramiento de pasajes peatonales y/o escaleras que conectan con el
           borde costero, facilitando su acceso.
         </p>
       </div>
 
-      <div className="border-b border-gray-200 py-4">
-        <h5 className="mb-1 font-semibold">Tramo conector</h5>
+      <div className="border-gray-200 py-4 md:border-b">
+        <h5 className="font-semibold md:mb-1">Tramo conector</h5>
         <p className="text-gray-600">
           Calles que conectan Av. Dubournais con accesos al borde costero, e
           incluyen mejoras como veredas de mínimo 3 m, accesibilidad universal,
@@ -40,8 +40,8 @@ export default function Definitions() {
         </p>
       </div>
 
-      <div className="border-b border-gray-200 py-4">
-        <h5 className="mb-1 font-semibold">Peatonalización</h5>
+      <div className="border-gray-200 py-4 md:border-b">
+        <h5 className="font-semibold md:mb-1">Peatonalización</h5>
         <p className="text-gray-600">
           Transformación de calles en espacios para peatones, con mobiliario
           urbano, áreas verdes, señalización turística y accesibilidad. Puede
@@ -55,8 +55,8 @@ export default function Definitions() {
         </p>
       </div>
 
-      <div className="border-b border-gray-200 py-4">
-        <h5 className="mb-1 font-semibold">Gestión movilidad</h5>
+      <div className="border-gray-200 py-4 md:border-b">
+        <h5 className="font-semibold md:mb-1">Gestión movilidad</h5>
         <p className="text-gray-600">
           Estrategias para mejorar la experiencia del peatón:
           <br />
@@ -70,8 +70,8 @@ export default function Definitions() {
         </p>
       </div>
 
-      <div className="border-b border-gray-200 py-4">
-        <h5 className="mb-1 font-semibold">Ciclo vía táctica</h5>
+      <div className="border-gray-200 py-4 md:border-b">
+        <h5 className="font-semibold md:mb-1">Ciclo vía táctica</h5>
         <p className="text-gray-600">
           Espacios delimitados para bicicletas en vías estructurantes. Buscan
           promover el transporte activo y pueden evolucionar a infraestructura
@@ -79,8 +79,8 @@ export default function Definitions() {
         </p>
       </div>
 
-      <div className="border-b border-gray-200 py-4">
-        <h5 className="mb-1 font-semibold">Sendero Quebrada</h5>
+      <div className="border-gray-200 py-4 md:border-b">
+        <h5 className="font-semibold md:mb-1">Sendero Quebrada</h5>
         <p className="text-gray-600">
           Senderos peatonales en quebradas naturales para fomentar la movilidad
           activa y proteger estos espacios. Incluyen pavimentos absorbentes,
@@ -88,8 +88,8 @@ export default function Definitions() {
         </p>
       </div>
 
-      <div className="border-b border-gray-200 py-4">
-        <h5 className="mb-1 font-semibold">Tramo conector ciclo vía</h5>
+      <div className="border-gray-200 py-4 md:border-b">
+        <h5 className="font-semibold md:mb-1">Tramo conector ciclo vía</h5>
         <p className="text-gray-600">
           Mejoramiento de veredas a ambos lados de Av. Dubournais que incluyen
           ciclo vías. Se divide en:
@@ -102,8 +102,8 @@ export default function Definitions() {
         </p>
       </div>
 
-      <div className="border-b border-gray-200 py-4">
-        <h5 className="mb-1 font-semibold">Plaza Nodo</h5>
+      <div className="border-gray-200 py-4 md:border-b">
+        <h5 className="font-semibold md:mb-1">Plaza Nodo</h5>
         <p className="text-gray-600">
           Mejoramiento de plazas ubicadas en los tramos conectores. Deben
           incluir: normativa OIC, paisajismo absorbente, información turística,
@@ -112,8 +112,8 @@ export default function Definitions() {
         </p>
       </div>
 
-      <div className="border-b border-gray-200 py-4">
-        <h5 className="mb-1 font-semibold">Mejoramiento Pavimentación</h5>
+      <div className="border-gray-200 py-4 md:border-b">
+        <h5 className="font-semibold md:mb-1">Mejoramiento Pavimentación</h5>
         <p className="text-gray-600">
           Obras para reparar, restaurar o rehabilitar pavimentos existentes, con
           el fin de extender su vida útil y mejorar la circulación vehicular.
@@ -121,7 +121,7 @@ export default function Definitions() {
       </div>
 
       <div className="pt-4">
-        <h5 className="mb-1 font-semibold">Mejoramiento veredas</h5>
+        <h5 className="font-semibold md:mb-1">Mejoramiento veredas</h5>
         <p className="text-gray-600">
           Proyectos de restauración o reparación de veredas para mejorar la
           experiencia peatonal, seguridad y accesibilidad.

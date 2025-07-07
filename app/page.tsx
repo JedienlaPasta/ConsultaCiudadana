@@ -16,12 +16,12 @@ export default async function Home() {
         <div className="">
           <Hero />
           {/* Body - Surveys List */}
-          <div className="container mx-auto flex max-w-[80rem] flex-col gap-4 px-8 py-24">
-            <div className="flex flex-col gap-1">
-              <h2 className="grow text-3xl font-bold text-[#23396f]">
+          <div className="container mx-auto flex max-w-[80rem] flex-col gap-3 px-4 py-12 md:gap-4 md:px-8 md:py-24">
+            <div className="flex flex-col gap-1" id="surveys">
+              <h2 className="grow text-2xl font-bold text-[#23396f] md:text-3xl">
                 Consultas en Curso
               </h2>
-              <p className="text-lg text-gray-600">
+              <p className="text-base text-gray-600 md:text-lg">
                 Participa en las consultas ciudadanas activas y ayuda a mejorar
                 nuestra comuna.
               </p>
@@ -29,7 +29,7 @@ export default async function Home() {
             <SurveysList />
             <Link
               href="/consultas"
-              className="font-semibolds mx-auto mt-5 cursor-pointer rounded-lg border border-[#0A4C8A] bg-white px-5 py-2 text-center text-[#0A4C8A] transition-colors hover:text-[#002F4C]"
+              className="font-semibolds mx-auto mt-1 w-full cursor-pointer rounded-xl bg-[#0A4C8A] px-8 py-3 text-center text-white transition-colors hover:bg-[#1065b4] md:mt-5 md:w-fit"
             >
               Ver todas las consultas
             </Link>

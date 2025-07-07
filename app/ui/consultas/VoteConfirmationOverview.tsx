@@ -1,4 +1,4 @@
-import { Question } from "./SurveyLayout";
+import { Question } from "../SurveyLayout";
 
 type VoteConfirmationOverviewProps = {
   selectedSectorId: string;

@@ -5,7 +5,7 @@ export default function SurveyHeader() {
       <div className="h-[68px] bg-[#0A4581]"></div>
       <div className="container mx-auto max-w-[80rem] px-4 py-6 md:px-8 md:py-8">
         <div className="mb-2 flex flex-wrap gap-2">
-          <span className="rounded-full bg-green-500 px-3 py-1 text-xs text-white">
+          <span className="rounded-full bg-emerald-400 px-3 py-1 text-xs text-white">
             Activa
           </span>
           <span className="rounded-full bg-[#1E5A9A] px-3 py-1 text-xs text-white">

@@ -1,8 +1,8 @@
 "use client";
 import { useRef, useState } from "react";
 import SurveyProgress from "./SurveyProgress";
-import OptionSelectionList from "./OptionSelectionList";
-import VoteConfirmationOverview from "./VoteConfirmationOverview";
+import OptionSelectionList from "./consultas/OptionSelectionList";
+import VoteConfirmationOverview from "./consultas/VoteConfirmationOverview";
 import { useRouter } from "next/navigation";
 import { QUESTIONS_LIST } from "../lib/data";
 import { toast } from "sonner";

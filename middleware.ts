@@ -55,6 +55,6 @@ export const config = {
      * - favicon.ico (favicon file)
      * - auth/ (rutas de autenticación)
      */
-    "/consultas/piimep/votacion/:path*",
+    // "/consultas/piimep/votacion/:path*",
   ],
 };

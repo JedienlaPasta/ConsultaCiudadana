@@ -231,6 +231,6 @@ export const surveysList = [
     title: "Plan PIIMEP",
     description:
       "Consulta para la mejora de espacios públicos de la comuna de El Quisco",
-    endDate: "2025-07-03",
+    endDate: "2025-07-30",
   },
 ];

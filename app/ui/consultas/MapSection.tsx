@@ -110,7 +110,7 @@ export default function MapSection({
         <div className="">
           <div className="col-span-2">
             {loading && (
-              <div className="shadow-mds flex aspect-[4/3] items-center justify-center rounded-lg bg-gray-100 p-4 md:aspect-[16/9]">
+              <div className="shadow-mds flex aspect-[4/3] items-center justify-center rounded-lg bg-gray-100 p-4 md:aspect-[16/8]">
                 <div className="flex h-full w-full flex-col items-center justify-center rounded-lg bg-gray-200">
                   <div className="flex flex-col items-center gap-1 rounded-lg bg-white px-4 py-5 md:gap-2 md:px-10 md:py-8">
                     <RexLoader />
@@ -149,11 +149,13 @@ export default function MapSection({
 
             {!loading && !error && sectores && comuna && (
               <div className="relative aspect-[4/3] overflow-hidden rounded-lg bg-gray-100 shadow-md shadow-gray-200/80 md:aspect-[16/9]">
-                <div className="absolute top-5 right-5 z-[1000] flex flex-col space-y-1 rounded-md bg-white px-4 py-3 shadow-lg">
-                  <h5 className="text-sm">Leyenda</h5>
+                <div className="absolute top-2 right-2 z-[1000] flex flex-col rounded-md bg-white px-2 py-1.5 shadow-lg md:top-5 md:right-5 md:space-y-1">
+                  <h5 className="text-xs md:text-sm">Leyenda</h5>
                   <div className="flex items-center gap-1">
                     <span className="size-3.5 rounded bg-[#357bf0]"></span>
-                    <p className="text-xs text-gray-500">Sector seleccionado</p>
+                    <p className="text-[10px] text-gray-500 md:text-xs">
+                      Sector seleccionado
+                    </p>
                   </div>
                 </div>
                 <DynamicMapComponent

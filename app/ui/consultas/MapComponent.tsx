@@ -162,6 +162,7 @@ export default function MapComponent({
             opacity: 0.8,
             interactive: false,
           });
+
           layer.bringToFront();
         }
       },
@@ -187,6 +188,11 @@ export default function MapComponent({
         onSectorSelect(
           feature.properties?.ZONA || "Ningún sector seleccionado",
         );
+        setTimeout(() => {
+          if (layer.getTooltip()) {
+            layer.closeTooltip();
+          }
+        }, 1500);
       },
     });
   };

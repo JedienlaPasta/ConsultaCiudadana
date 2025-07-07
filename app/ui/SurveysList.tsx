@@ -21,7 +21,7 @@ export default function SurveysList() {
       <div>
         {loading && (
           <div className="flex items-center justify-center rounded-lg bg-gray-100 p-4">
-            <div className="px-4s flex w-full flex-col items-center gap-1 rounded-lg bg-white py-5 md:gap-2 md:px-10 md:py-8">
+            <div className="flex w-full flex-col items-center gap-1 rounded-lg bg-white py-5 md:gap-2 md:px-10 md:py-8">
               <RexLoader />
               <p className="animate-pulse text-sm text-slate-500">
                 Cargando las consultas...
@@ -33,8 +33,8 @@ export default function SurveysList() {
     );
   }
   return (
-    <div id="surveys" className="mx-auto">
-      <div className="grid grid-cols-1 gap-6">
+    <div className="mx-auto">
+      <div className="grid grid-cols-1 gap-4 md:gap-6">
         {surveysList.map((survey, index) => (
           <Survey key={survey.id + "-" + index} survey={survey} />
         ))}
@@ -58,16 +58,16 @@ function Survey({ survey }: { survey: SurveyObj }) {
       // href={`/consultas/${survey.id}`}
       className="group flex transform transition-all duration-300 hover:translate-y-[-4px]"
     >
-      <div className="gap-5s flex h-[185px] grow">
+      <div className="flex min-h-[185px] grow">
         <div className="col-span-10 flex grow flex-col rounded-l-2xl border border-r-8 border-gray-200 border-r-gray-300 bg-white shadow-md shadow-gray-200/80 transition-all group-hover:shadow-lg">
-          <div className="flex h-full grow flex-col gap-1 p-8 pb-3">
-            <div className="flex justify-between">
-              <h3 className="text-xl font-bold text-[#0A4C8A] transition-colors group-hover:text-[#002F4C]">
+          <div className="flex h-full grow flex-col px-6.5 pt-5 pb-3 md:gap-1 md:p-8 md:pb-3">
+            <div className="flex flex-col justify-between gap-1.5 md:flex-row">
+              <h3 className="text-lg font-bold text-[#0A4C8A] transition-colors group-hover:text-[#002F4C] md:text-xl">
                 {survey.title}
               </h3>
               <div className="mb-2 flex flex-wrap gap-2">
                 <span
-                  className={`rounded-full font-medium ${daysLeft > 0 ? "bg-green-500" : "bg-rose-500"} px-3 py-1 text-xs text-white`}
+                  className={`rounded-full font-medium ${daysLeft > 0 ? "bg-emerald-400" : "bg-rose-500"} px-3 py-1 text-xs text-white`}
                 >
                   {daysLeft > 0 ? "Activa" : "Cerrada"}
                 </span>
@@ -76,9 +76,11 @@ function Survey({ survey }: { survey: SurveyObj }) {
                 </span>
               </div>
             </div>
-            <p className="line-clamp-2 text-gray-600">{survey.description}</p>
+            <p className="line-clamp-2 text-sm text-gray-600 md:text-base">
+              {survey.description}
+            </p>
           </div>
-          <div className="relative flex w-full justify-between rounded-b-lg border-t border-gray-200 px-8 py-4 text-sm font-medium text-slate-600">
+          <div className="relative flex w-full justify-between rounded-b-lg border-t border-gray-200 px-6 py-3 text-sm font-medium text-slate-600 md:px-8">
             <p className="flex items-center gap-1.5">
               <svg
                 xmlns="http://www.w3.org/2000/svg"

@@ -3,9 +3,7 @@ import React from "react";
 export default function Schedule() {
   return (
     <div>
-      <h3 className="mt-8 mb-2 text-lg font-semibold text-[#23396f]">
-        Cronograma
-      </h3>
+      <h3 className="mb-2 text-lg font-semibold text-[#23396f]">Cronograma</h3>
       <div className="space-y-6">
         <div className="relative flex">
           <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-[#0A4C8A] text-sm font-bold text-white">
@@ -20,7 +18,7 @@ export default function Schedule() {
             </p>
             <p className="mt-1 text-xs text-gray-500">Agosto 2025</p>
           </div>
-          <div className="absolute top-10 left-[14px] h-10 w-[4px] rounded-full border-blue-400 bg-slate-300"></div>
+          <div className="absolute top-10 left-[14px] h-[70%] w-[4px] rounded-full border-blue-400 bg-slate-300 sm:top-[38px]"></div>
         </div>
         <div className="relative flex">
           <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-[#0A4C8A] text-sm font-bold text-white">
@@ -37,7 +35,7 @@ export default function Schedule() {
               Agosto - Septiembre 2025
             </p>
           </div>
-          <div className="absolute top-10 left-[14px] h-10 w-[4px] rounded-full border-blue-400 bg-slate-300"></div>
+          <div className="absolute top-10 left-[14px] h-[70%] w-[4px] rounded-full border-blue-400 bg-slate-300 sm:top-[37px] md:top-[38px]"></div>
         </div>
         <div className="relative flex">
           <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-[#0A4C8A] text-sm font-bold text-white">
@@ -50,7 +48,7 @@ export default function Schedule() {
             </p>
             <p className="mt-1 text-xs text-gray-500">Septiembre 2025</p>
           </div>
-          <div className="absolute top-10 left-[14px] h-10 w-[4px] rounded-full border-blue-400 bg-slate-300"></div>
+          <div className="absolute top-10 left-[14px] h-[70%] w-[4px] rounded-full border-blue-400 bg-slate-300 sm:top-[37px] md:top-[38px]"></div>
         </div>
         <div className="flex">
           <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-[#0A4C8A] text-sm font-bold text-white">
