@@ -5,11 +5,13 @@ import { Question } from "./SurveyLayout";
 type SurveyProgressProps = {
   currentQuestionIndex: number;
   questions: Question[];
+  setCurrentQuestionIndex: (index: number) => void;
 };
 
 export default function SurveyProgress({
   currentQuestionIndex,
   questions,
+  setCurrentQuestionIndex,
 }: SurveyProgressProps) {
   return (
     <div className="md:borders md:bg-[#f8fafc]s md:shadow-mds rounded-lg border-gray-200 py-4 shadow-gray-200/80 md:p-6">
@@ -26,6 +28,8 @@ export default function SurveyProgress({
             index={index + 1}
             current={question.index === currentQuestionIndex}
             completed={question.index < currentQuestionIndex}
+            currentQuestionIndex={currentQuestionIndex}
+            setCurrentQuestionIndex={setCurrentQuestionIndex}
           />
         ))}
       </div>
@@ -40,6 +44,8 @@ type ProgressStepProps = {
   index: number;
   current: boolean;
   completed: boolean;
+  currentQuestionIndex: number;
+  setCurrentQuestionIndex: (index: number) => void;
 };
 
 function ProgressStep({
@@ -49,7 +55,12 @@ function ProgressStep({
   index,
   current,
   completed,
+  currentQuestionIndex,
+  setCurrentQuestionIndex,
 }: ProgressStepProps) {
+  const handleClick = () => {
+    if (index - 1 < currentQuestionIndex) setCurrentQuestionIndex(index - 1);
+  };
   return (
     <div className="relative flex w-20 shrink-0 flex-col items-center sm:w-38 md:w-52">
       {/* Horizontal line */}
@@ -61,7 +72,8 @@ function ProgressStep({
 
       {/* Step indicator with icon */}
       <div
-        className={`flex size-8 flex-shrink-0 items-center justify-center rounded-full border-2 ${completed ? "border-[#0A4C8A] !bg-[#0A4C8A] text-white" : current ? "border-[#0A4C8A] !bg-[#0A4C8A] text-white" : "border-gray-300 text-gray-500"} bg-gray-200 text-sm font-medium text-[#0A4C8A]`}
+        onClick={handleClick}
+        className={`flex size-8 flex-shrink-0 cursor-pointer items-center justify-center rounded-full border-2 ${completed ? "border-[#0A4C8A] !bg-[#0A4C8A] text-white" : current ? "border-[#0A4C8A] !bg-[#0A4C8A] text-white" : "border-gray-300 text-gray-500"} bg-gray-200 text-sm font-medium text-[#0A4C8A]`}
       >
         {completed ? (
           <svg

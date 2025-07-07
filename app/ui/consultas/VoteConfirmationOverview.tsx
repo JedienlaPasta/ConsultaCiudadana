@@ -43,7 +43,7 @@ export default function VoteConfirmationOverview({
       </div>
 
       {/* Sector Selection Summary */}
-      <div className="rounded-lg border border-blue-200 bg-blue-50 p-4">
+      <div className="rounded-lg border border-slate-300 bg-slate-200/60 p-4">
         <h3 className="mb-3 flex items-center gap-2 text-lg font-semibold text-[#23396f]">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -60,43 +60,50 @@ export default function VoteConfirmationOverview({
           Sector de Votación
         </h3>
         {selectedSector ? (
-          <div className="rounded-lg border border-gray-300/70 bg-white p-3">
-            <h4 className="font-medium text-gray-900">
-              {selectedSector?.name}
-            </h4>
-            <div className="flex gap-4 text-xs text-gray-500">
-              <div className="flex items-center gap-1">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="size-3.5 text-gray-500"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                  <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" />
-                  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
-                </svg>
-                <p>Población:</p>
+          <div className="relative overflow-hidden rounded-lg border border-gray-300/70 bg-white p-3">
+            <span className="absolute top-0 left-0 flex h-full w-12 flex-shrink-0 items-center justify-center bg-blue-500 text-sm font-medium text-white">
+              1
+            </span>
+            <div className="ml-12">
+              <h4 className="font-medium text-gray-900">
+                {selectedSector?.name}
+              </h4>
+              <div className="flex gap-4 text-xs text-gray-500">
+                <div className="flex items-center gap-1">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="size-3.5 text-gray-500"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" />
+                    <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+                  </svg>
+                  <p>Población:</p>
 
-                <span className="font-medium">{selectedSector.population}</span>
-              </div>
-              <div className="flex items-center gap-1">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="size-3.5 text-gray-400"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"
-                  />
-                </svg>
-                <span className="font-medium">{selectedSector.area}</span>
+                  <span className="font-medium">
+                    {selectedSector.population}
+                  </span>
+                </div>
+                <div className="flex items-center gap-1">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="size-3.5 text-gray-400"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"
+                    />
+                  </svg>
+                  <span className="font-medium">{selectedSector.area}</span>
+                </div>
               </div>
             </div>
           </div>
@@ -110,11 +117,11 @@ export default function VoteConfirmationOverview({
       </div>
 
       {/* Urban Components Summary */}
-      <div className="rounded-lg border border-green-200 bg-green-50 p-4">
+      <div className="rounded-lg border border-slate-300 bg-slate-200/60 p-4">
         <h3 className="mb-3 flex items-center gap-2 text-lg font-semibold text-[#23396f]">
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="h-5 w-5 text-green-600"
+            className="h-5 w-5 text-emerald-500"
             viewBox="0 0 20 20"
             fill="currentColor"
           >
@@ -129,20 +136,21 @@ export default function VoteConfirmationOverview({
         {selectedComponents.length > 0 ? (
           <div className="space-y-2">
             {selectedComponents.map((component, index) => (
-              <div
-                key={component.id}
-                className="rounded-lg border border-gray-300/70 bg-white p-3"
-              >
-                <div className="flex items-start gap-3">
-                  <span className="flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-green-600 text-sm font-medium text-white">
+              <div key={component.id}>
+                <div className="relative overflow-hidden rounded-lg border border-gray-300/70 bg-white p-3">
+                  <span className="absolute top-0 left-0 flex h-full w-12 flex-shrink-0 items-center justify-center bg-emerald-500 text-sm font-medium text-white">
                     {index + 1}
                   </span>
-                  <div>
+                  <div className="ml-12">
                     <h4 className="font-medium text-gray-900">
-                      {component.name}
+                      {component.name === "Tramo conector"
+                        ? tramoConectorOption?.name
+                        : component.name}
                     </h4>
                     <p className="text-sm text-gray-600">
-                      {component.description}
+                      {component.name === "Tramo conector"
+                        ? tramoConectorOption?.description
+                        : component.description}
                     </p>
                   </div>
                 </div>
@@ -150,7 +158,7 @@ export default function VoteConfirmationOverview({
             ))}
 
             {/* Tramo Conector Sub-option */}
-            {tramoConectorOption && (
+            {/* {tramoConectorOption && (
               <div className="ml-4 rounded-lg border border-blue-200 bg-blue-50 p-3">
                 <h5 className="mb-2 text-sm font-medium text-blue-900">
                   Tramo conector seleccionado:
@@ -162,7 +170,7 @@ export default function VoteConfirmationOverview({
                   {tramoConectorOption.description}
                 </p>
               </div>
-            )}
+            )} */}
           </div>
         ) : (
           <div className="rounded-md border border-red-200 bg-red-50 p-3">

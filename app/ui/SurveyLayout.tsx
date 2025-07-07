@@ -73,9 +73,9 @@ export default function SurveyLayout() {
       return;
     }
     if (nextQuestionIndex > QUESTIONS_LIST.length - 1) {
-      const toastId = toast.loading("Enviando respuesta");
+      const toastId = toast.loading("Guardando tu respuesta");
       await setTimeout(() => {
-        toast.success("Respuesta enviada, gracias por participar!", {
+        toast.success("Respuesta guardada, gracias por participar!", {
           id: toastId,
         });
         router.push("/");
@@ -113,6 +113,7 @@ export default function SurveyLayout() {
         <SurveyProgress
           currentQuestionIndex={currentQuestionIndex}
           questions={QUESTIONS_LIST}
+          setCurrentQuestionIndex={setCurrentQuestionIndex}
         />
       </div>
       <div className="space-y-6 md:space-y-8 lg:col-span-1">
