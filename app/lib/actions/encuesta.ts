@@ -15,6 +15,10 @@ export async function registerVote(formdata: FormData) {
       };
     }
   } catch (error) {
-    console.log(error);
+    console.error("Error al ingresar el voto:", error);
+    return {
+      success: false,
+      message: "No se pudo registrar el voto, intente nuevamente",
+    };
   }
 }
