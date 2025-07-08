@@ -1,6 +1,6 @@
 "use client";
 
-import { Question } from "../SurveyLayout";
+import { Question } from "./SurveyLayout";
 
 type SectorSelectionListProps = {
   selectedSector: string | null;

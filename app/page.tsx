@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { getSession } from "./lib/actions/auth";
 import Footer from "./ui/Footer";
-import Hero from "./ui/home/Hero";
+import Hero from "./ui/Hero";
 import SurveysList from "./ui/SurveysList";
 import Navbar from "./ui/Navbar";
 

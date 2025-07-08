@@ -70,7 +70,16 @@ export default function Navbar({ isLoggedIn }: { isLoggedIn: boolean }) {
           </button>
 
           {/* Desktop menu */}
-          <ul className="hidden items-center space-x-5 md:flex">
+          <ul className="hidden items-center space-x-0 md:flex lg:space-x-5">
+            <li className="max-[850px]:hidden">
+              <Link
+                href="/dashboard"
+                id="gestion-link"
+                className="flex min-h-11 items-center rounded-sm px-4 text-white transition-colors hover:bg-[#0B4E91]"
+              >
+                Dashboard
+              </Link>
+            </li>
             <li>
               <Link
                 href="/consultas"
@@ -107,6 +116,17 @@ export default function Navbar({ isLoggedIn }: { isLoggedIn: boolean }) {
         className={`absolute top-full left-0 w-full overflow-hidden bg-[#06315c] shadow-lg transition-all duration-500 ease-in-out md:hidden ${isMenuOpen ? "max-h-[300px]" : "max-h-0"}`}
       >
         <ul className="flex flex-col divide-y divide-[#0A4581]/30">
+          <li>
+            <Link
+              href="/dashboard"
+              className="block w-full text-white transition-colors hover:bg-[#0A4581]"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              <div className="flex items-center px-6 py-4">
+                <span className="text-sm font-medium">Dashboard</span>
+              </div>
+            </Link>
+          </li>
           <li>
             <Link
               href="/consultas"

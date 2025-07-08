@@ -1,5 +1,5 @@
 import Navbar from "@/app/ui/Navbar";
-import SurveyHeader from "@/app/ui/SurveyHeader";
+import SurveyHeader from "@/app/ui/consultas/SurveyHeader";
 import React from "react";
 import { getSession } from "@/app/lib/actions/auth";
 

@@ -1,42 +1,13 @@
 @import "tailwindcss";
 
-/* :root {
-  --background: #ecf0f6;
-  --foreground: #323232;
-} */
-
 html {
   scroll-behavior: smooth;
   scrollbar-gutter: stable;
 }
 
 body {
-  /* background: var(--background);
-  color: var(--foreground); */
   font-family: Arial, Helvetica, sans-serif;
 }
-
-/* leaflet-container {
-  height: 500px; 
-  width: 100%;
-} */
-
-/* CSS para el div de información (opcional, copiado de antes) */
-/* .info {
-  padding: 6px 8px;
-  font:
-    14px/16px Arial,
-    Helvetica,
-    sans-serif;
-  background: white;
-  background: rgba(255, 255, 255, 0.8);
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-  border-radius: 5px;
-  margin-bottom: 10px;
-}
-#selected-sector-info {
-  font-weight: bold;
-} */
 
 .leaflet-container *,
 .leaflet-container *:focus,
@@ -52,23 +23,20 @@ path.leaflet-interactive {
 }
 
 .custom-radio-container input:checked + .custom-radio-checkmark {
-  border-color: #3b82f6; /* Tailwind's blue-500 */
-  background-color: #ffffff; /* White background for the outer circle when checked */
+  border-color: #3b82f6;
+  background-color: #ffffff;
 }
 
 .custom-radio-container
   input:checked
   + .custom-radio-checkmark
   .custom-radio-dot {
-  transform: scale(1); /* Show the inner dot */
+  transform: scale(1);
 }
 
-/* Optional: Hover effect for the custom radio button */
 .custom-radio-container:hover .custom-radio-checkmark {
-  background-color: #e5e7eb; /* Tailwind's gray-200 on hover */
+  background-color: #e5e7eb;
 }
-
-/* Add this to your existing globals.css file */
 
 /* Custom tooltip styling */
 .my-tooltip {
@@ -85,17 +53,4 @@ path.leaflet-interactive {
 
 .my-tooltip::before {
   border-top-color: #3b82f6 !important;
-}
-
-/* Alternative modern style */
-.my-tooltip-modern {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
-  border: none !important;
-  border-radius: 12px !important;
-  color: white !important;
-  font-weight: 500 !important;
-  font-size: 13px !important;
-  padding: 10px 16px !important;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2) !important;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) !important;
 }

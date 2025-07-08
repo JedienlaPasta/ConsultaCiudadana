@@ -1,14 +1,14 @@
 "use client";
 import { useRef, useState } from "react";
-import SurveyProgress from "./SurveyProgress";
-import OptionSelectionList from "./consultas/OptionSelectionList";
-import VoteConfirmationOverview from "./consultas/VoteConfirmationOverview";
+import OptionSelectionList from "./OptionSelectionList";
+import VoteConfirmationOverview from "./VoteConfirmationOverview";
 import { useRouter } from "next/navigation";
-import { QUESTIONS_LIST } from "../lib/data";
+import { QUESTIONS_LIST } from "../../lib/data";
 import { toast } from "sonner";
-import RexLoader from "./RexAnimation";
-import MapSection from "./consultas/MapSection";
-import { registerVote } from "../lib/actions/encuesta";
+import RexLoader from "../RexAnimation";
+import MapSection from "./MapSection";
+import { registerVote } from "../../lib/actions/encuesta";
+import SurveyProgress from "./SurveyProgress";
 
 export type Question = {
   index: number;

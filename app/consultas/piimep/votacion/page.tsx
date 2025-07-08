@@ -1,5 +1,5 @@
 import Footer from "@/app/ui/Footer";
-import SurveyLayout from "@/app/ui/SurveyLayout";
+import SurveyLayout from "@/app/ui/consultas/SurveyLayout";
 
 export default async function SurveyPage() {
   return (

@@ -1,6 +1,6 @@
 "use client";
 
-import { Question } from "../SurveyLayout";
+import { Question } from "./SurveyLayout";
 
 type OptionSelectionListProps = {
   selectedOptions: string[];
@@ -156,7 +156,9 @@ function OptionItem({ option, isSelected, onSelect }: OptionItemProps) {
           checked={isSelected}
           onChange={() => onSelect(option.id)}
         />
-        <h5 className="font-medium text-slate-700 group-hover:text-blue-700">
+        <h5
+          className={`font-medium group-hover:text-[#0F69C4] ${isSelected ? "text-[#0F69C4]" : "text-slate-700"}`}
+        >
           {option.name}
         </h5>
       </div>
