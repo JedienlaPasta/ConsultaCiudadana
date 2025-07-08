@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { roboto } from "./fonts";
 import { signInWithClaveUnica, signOutClaveUnica } from "../lib/actions/auth";
 import { toast } from "sonner";
@@ -10,6 +10,7 @@ export default function ClaveUnicaBtn({ isLoggedIn }: { isLoggedIn: boolean }) {
   const pathname = usePathname();
   const [isUserLoggedIn, setIsUserLoggedIn] = useState<boolean>(isLoggedIn);
   const searchParams = useSearchParams();
+  const loginToastShown = useRef(false);
 
   // Check for logout success on component mount
   useEffect(() => {
@@ -22,7 +23,8 @@ export default function ClaveUnicaBtn({ isLoggedIn }: { isLoggedIn: boolean }) {
   }, []);
 
   useEffect(() => {
-    if (searchParams.get("login_success") === "true") {
+    if (searchParams.get("login_success") === "true" && !loginToastShown.current) {
+      loginToastShown.current = true; // Mark as shown
       toast.success("¡Bienvenido! Has iniciado sesión correctamente.");
       // Clean up URL
       const url = new URL(window.location.href);
