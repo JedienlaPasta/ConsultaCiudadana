@@ -23,12 +23,20 @@ export default function ClaveUnicaBtn({ isLoggedIn }: { isLoggedIn: boolean }) {
   }, []);
 
   useEffect(() => {
-    if (
-      searchParams.get("login_success") === "true" &&
-      !loginToastShown.current
-    ) {
-      loginToastShown.current = true;
-      toast.success("¡Bienvenido! Has iniciado sesión correctamente.");
+    if (searchParams.get("login_success") === "true") {
+      const toastShownKey = 'login_toast_shown';
+      
+      // Check if toast was already shown in this session
+      if (!sessionStorage.getItem(toastShownKey)) {
+        sessionStorage.setItem(toastShownKey, 'true');
+        toast.success("¡Bienvenido! Has iniciado sesión correctamente.");
+        
+        // Clean up sessionStorage after a delay
+        setTimeout(() => {
+          sessionStorage.removeItem(toastShownKey);
+        }, 1000);
+      }
+      
       // Clean up URL
       const url = new URL(window.location.href);
       url.searchParams.delete("login_success");
