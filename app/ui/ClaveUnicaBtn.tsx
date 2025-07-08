@@ -23,8 +23,11 @@ export default function ClaveUnicaBtn({ isLoggedIn }: { isLoggedIn: boolean }) {
   }, []);
 
   useEffect(() => {
-    if (searchParams.get("login_success") === "true" && !loginToastShown.current) {
-      loginToastShown.current = true; // Mark as shown
+    if (
+      searchParams.get("login_success") === "true" &&
+      !loginToastShown.current
+    ) {
+      loginToastShown.current = true;
       toast.success("¡Bienvenido! Has iniciado sesión correctamente.");
       // Clean up URL
       const url = new URL(window.location.href);
