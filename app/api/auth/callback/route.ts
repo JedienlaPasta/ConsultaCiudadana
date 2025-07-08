@@ -47,6 +47,11 @@ export async function GET(request: Request) {
     returnTo = cookieStore.get("claveunica_return_to")?.value || "/";
     console.log("Return To:", returnTo);
     cookieStore.delete("claveunica_return_to");
+    
+    // Add success parameter to trigger welcome toast
+    const urlWithSuccess = new URL(returnTo, request.url);
+    urlWithSuccess.searchParams.set('login_success', 'true');
+    returnTo = urlWithSuccess.pathname + urlWithSuccess.search;
   } catch (error: unknown) {
     console.error("Authentication failed:", error);
     return redirect("/auth/error?error=auth_failed");

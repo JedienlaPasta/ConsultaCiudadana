@@ -4,11 +4,12 @@ import React, { useState, useEffect } from "react";
 import { roboto } from "./fonts";
 import { signInWithClaveUnica, signOutClaveUnica } from "../lib/actions/auth";
 import { toast } from "sonner";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 
 export default function ClaveUnicaBtn({ isLoggedIn }: { isLoggedIn: boolean }) {
   const pathname = usePathname();
   const [isUserLoggedIn, setIsUserLoggedIn] = useState<boolean>(isLoggedIn);
+  const searchParams = useSearchParams();
 
   // Check for logout success on component mount
   useEffect(() => {
@@ -19,6 +20,16 @@ export default function ClaveUnicaBtn({ isLoggedIn }: { isLoggedIn: boolean }) {
       setIsUserLoggedIn(false);
     }
   }, []);
+
+  useEffect(() => {
+    if (searchParams.get("login_success") === "true") {
+      toast.success("¡Bienvenido! Has iniciado sesión correctamente.");
+      // Clean up URL
+      const url = new URL(window.location.href);
+      url.searchParams.delete("login_success");
+      window.history.replaceState({}, "", url.pathname + url.search);
+    }
+  }, [searchParams]);
 
   const logout = async () => {
     const toastId = toast.loading("Cerrando sesión...");
