@@ -217,20 +217,20 @@ export const surveysList = [
     title: "Plan PIIMEP",
     description:
       "Consulta para la mejora de espacios públicos de la comuna de El Quisco",
-    endDate: "2021-01-02",
+    endDate: "2025-07-30",
   },
   {
     id: 2,
     title: "Plan PIIMEP",
     description:
-      "Consulta para la mejora de espacios públicos de la comuna de El Quisco, Consulta para la mejora de espacios públicos de la comuna de El Quisco, Consulta para la mejora de espacios públicos de la comuna de El Quisco",
-    endDate: "2025-06-15",
+      "Consulta para la mejora de espacios públicos de la comuna de El Quisco",
+    endDate: "2025-07-14",
   },
   {
     id: 3,
     title: "Plan PIIMEP",
     description:
       "Consulta para la mejora de espacios públicos de la comuna de El Quisco",
-    endDate: "2025-07-30",
+    endDate: "2025-06-15",
   },
 ];

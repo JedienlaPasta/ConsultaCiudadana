@@ -4,7 +4,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useState, useEffect } from "react";
 
 const filterTabs = [
-  { key: "todos", label: "Todos" },
+  { key: "todas", label: "Todas" },
   { key: "activa", label: "Activa" },
   { key: "cerrada", label: "Cerrada" },
 ];
@@ -12,28 +12,27 @@ const filterTabs = [
 export default function SurveyFilter() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [currentTab, setCurrentTab] = useState("todos");
+  const [currentTab, setCurrentTab] = useState("todas");
 
-  // Update current tab based on URL params
   useEffect(() => {
-    const filter = searchParams.get("filter") || "todos";
+    const filter = searchParams.get("filter") || "todas";
     setCurrentTab(filter);
   }, [searchParams]);
 
   const handleTabChange = (tabKey: string) => {
     setCurrentTab(tabKey);
     const params = new URLSearchParams(searchParams.toString());
-    if (tabKey === "todos") {
+    if (tabKey === "todas") {
       params.delete("filter");
     } else {
       params.set("filter", tabKey);
     }
-    router.push(`/consultas?${params.toString()}`);
+    router.replace(`/consultas?${params.toString()}`, { scroll: false });
   };
 
   return (
     <div className="mb-6 flex items-center justify-start">
-      <div className="flex items-center overflow-hidden rounded-lg border border-gray-200 bg-white p-1 shadow-sm">
+      <div className="p-1s flex items-center overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm">
         {filterTabs.map((tab) => (
           <Tab
             key={tab.key}
@@ -62,8 +61,8 @@ function Tab({ title, isActive, onClick }: TabProps) {
       className={`px-6 py-2 text-sm font-medium transition-colors duration-200 ${
         isActive
           ? "bg-[#0A4581] text-white"
-          : "bg-white text-gray-700 hover:cursor-pointer hover:bg-gray-50 hover:text-blue-500"
-      } sfirst:rounded-l-lg slast:rounded-r-lg rounded-lg border-r border-gray-200 last:border-r-0`}
+          : "bg-white text-gray-700 hover:cursor-pointer hover:bg-gray-200/90"
+      }`}
     >
       {title}
     </button>

@@ -33,7 +33,7 @@ export default function SurveysList() {
     );
   }
   return (
-    <div className="mx-auto">
+    <div>
       <div className="grid grid-cols-1 gap-4 md:gap-6">
         {surveysList.map((survey, index) => (
           <Survey key={survey.id + "-" + index} survey={survey} />
