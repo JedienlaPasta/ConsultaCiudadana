@@ -19,16 +19,14 @@ export default function SurveysList() {
   if (loading) {
     return (
       <div>
-        {loading && (
-          <div className="flex items-center justify-center rounded-lg bg-gray-100 p-4">
-            <div className="flex w-full flex-col items-center gap-1 rounded-lg bg-white py-5 md:gap-2 md:px-10 md:py-8">
-              <RexLoader />
-              <p className="animate-pulse text-sm text-slate-500">
-                Cargando las consultas...
-              </p>
-            </div>
+        <div className="flex items-center justify-center rounded-lg bg-slate-200/60 p-4">
+          <div className="flex w-full flex-col items-center gap-1 rounded-lg bg-white py-5 md:gap-2 md:px-10 md:py-8">
+            <RexLoader />
+            <p className="animate-pulse text-sm text-slate-500">
+              Cargando las consultas...
+            </p>
           </div>
-        )}
+        </div>
       </div>
     );
   }

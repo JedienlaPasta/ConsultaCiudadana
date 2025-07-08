@@ -204,11 +204,15 @@ function QuestionSection({
 
   if (isLoading)
     return (
-      <div className="flex flex-col items-center gap-1 rounded-lg bg-slate-200/70 px-4 py-5 md:gap-2 md:px-10 md:py-8">
-        <RexLoader />
-        <p className="animate-pulse text-sm text-slate-500">
-          Cargando encuesta...
-        </p>
+      <div>
+        <div className="flex items-center justify-center rounded-lg bg-slate-200/60 p-4">
+          <div className="flex w-full flex-col items-center gap-1 rounded-lg bg-white py-5 md:gap-2 md:px-10 md:py-8">
+            <RexLoader />
+            <p className="animate-pulse text-sm text-slate-500">
+              Cargando preguntas...
+            </p>
+          </div>
+        </div>
       </div>
     );
 
