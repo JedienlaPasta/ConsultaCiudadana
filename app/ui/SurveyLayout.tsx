@@ -8,6 +8,7 @@ import { QUESTIONS_LIST } from "../lib/data";
 import { toast } from "sonner";
 import RexLoader from "./RexAnimation";
 import MapSection from "./consultas/MapSection";
+import { registerVote } from "../lib/actions/encuesta";
 
 export type Question = {
   index: number;
@@ -73,13 +74,13 @@ export default function SurveyLayout() {
       return;
     }
     if (nextQuestionIndex > QUESTIONS_LIST.length - 1) {
-      const toastId = toast.loading("Guardando tu respuesta");
-      await setTimeout(() => {
-        toast.success("Respuesta guardada, gracias por participar!", {
-          id: toastId,
-        });
-        router.push("/");
-      }, 1000);
+      // const toastId = toast.loading("Guardando tu voto");
+      // await setTimeout(() => {
+      //   toast.success("Voto guardado, gracias por participar!", {
+      //     id: toastId,
+      //   });
+      //   router.push("/");
+      // }, 1000);
       return;
     }
     // Check if questions were checked before continuing
@@ -104,6 +105,35 @@ export default function SurveyLayout() {
     }, 700);
   };
 
+  const formAction = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const myFormData = new FormData();
+    myFormData.append("sectorId", selectedSectorId);
+    myFormData.append("options", selectedOptions.join(","));
+    myFormData.append("subOption", selectedSubOption);
+
+    const toastId = toast.loading("Guardando tu voto...");
+    try {
+      const response = await registerVote(myFormData);
+      if (!response.success) {
+        throw new Error(response.message);
+      }
+
+      toast.success(response.message, { id: toastId });
+      setTimeout(() => {
+        router.push("/");
+      }, 1000);
+    } catch (error) {
+      console.log(error instanceof Error ? error.message : "Error desconocido");
+      toast.error("No se pudo registrar el voto, intente nuevamente", {
+        id: toastId,
+      });
+    }
+  };
+
+  console.log(QUESTIONS_LIST.flat().length);
+
   return (
     <div
       ref={topRef}
@@ -116,7 +146,10 @@ export default function SurveyLayout() {
           setCurrentQuestionIndex={setCurrentQuestionIndex}
         />
       </div>
-      <div className="space-y-6 md:space-y-8 lg:col-span-1">
+      <form
+        onSubmit={formAction}
+        className="space-y-6 md:space-y-8 lg:col-span-1"
+      >
         <QuestionSection {...questionSectionProps} />
         {!isLoading ? (
           <div className="grid gap-4 md:grid-cols-2">
@@ -138,7 +171,7 @@ export default function SurveyLayout() {
             </button>
           </div>
         ) : null}
-      </div>
+      </form>
       <div className="col-span- grid-cols-3"></div>
     </div>
   );

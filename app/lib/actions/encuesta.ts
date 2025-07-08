@@ -14,6 +14,11 @@ export async function registerVote(formdata: FormData) {
         message: "No se pudo establecer conexión con la base de datos.",
       };
     }
+
+    return {
+      success: true,
+      message: "Voto guardado, gracias por participar!",
+    };
   } catch (error) {
     console.error("Error al ingresar el voto:", error);
     return {
