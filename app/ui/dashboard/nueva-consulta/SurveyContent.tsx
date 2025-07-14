@@ -1,10 +1,10 @@
 "use client";
 
 import {
-  ArrayItemTypeMap,
   FormData,
+  ArrayItemTypeMap,
   FormDataArrays,
-} from "@/app/dashboard/nueva-consulta/page";
+} from "./NewSurveyContentLayout";
 
 type SurveyContentProps = {
   formData: FormData;
@@ -74,38 +74,6 @@ export default function SurveyContent({
         </div>
       </div>
 
-      {/* Progress Overview */}
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-        <div className="rounded-xl border border-blue-200 bg-white p-4 text-center">
-          <div className="mb-2 text-2xl">🎯</div>
-          <div className="text-xl font-bold text-blue-600">
-            {formData.objectives.filter((obj) => obj.trim()).length}
-          </div>
-          <div className="text-sm text-gray-600">Objetivos definidos</div>
-        </div>
-        <div className="rounded-xl border border-green-200 bg-white p-4 text-center">
-          <div className="mb-2 text-2xl">📄</div>
-          <div className="text-xl font-bold text-green-600">
-            {
-              formData.survey_options_definitions.filter((def) => def.trim())
-                .length
-            }
-          </div>
-          <div className="text-sm text-gray-600">Definiciones creadas</div>
-        </div>
-        <div className="rounded-xl border border-orange-200 bg-white p-4 text-center">
-          <div className="mb-2 text-2xl">❓</div>
-          <div className="text-xl font-bold text-orange-600">
-            {
-              formData.frequently_asked_questions.filter((faq) =>
-                faq.question.trim(),
-              ).length
-            }
-          </div>
-          <div className="text-sm text-gray-600">Preguntas frecuentes</div>
-        </div>
-      </div>
-
       {/* Objectives Section */}
       <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
         <div className="border-b border-blue-200 bg-gradient-to-r from-blue-50 to-indigo-50 p-6">
@@ -145,7 +113,6 @@ export default function SurveyContent({
                   <div className="flex items-center space-x-3">
                     <div className="flex-1">
                       <label className="mb-2 block text-sm font-medium text-gray-700">
-                        <span className="mr-1">🎯</span>
                         Objetivo {index + 1}
                       </label>
                       <input
@@ -177,12 +144,9 @@ export default function SurveyContent({
 
           <div className="mt-6">
             <button
-              className="group flex w-full items-center justify-center rounded-xl border-2 border-dashed border-blue-300 bg-blue-50 p-4 transition-all duration-200 hover:border-blue-400 hover:bg-blue-100"
+              className="group flex w-full items-center justify-center rounded-xl border-2 border-blue-300 bg-blue-50 p-4 transition-all duration-200 hover:border-blue-400 hover:bg-blue-100"
               onClick={() => addArrayItem("objectives", "")}
             >
-              <span className="mr-3 text-xl transition-transform duration-200 group-hover:scale-110">
-                ➕
-              </span>
               <span className="text-lg font-semibold text-blue-700">
                 Agregar Nuevo Objetivo
               </span>
@@ -237,7 +201,23 @@ export default function SurveyContent({
                         type="text"
                         className="w-full rounded-lg border border-gray-300 px-4 py-3 transition-all duration-200 focus:border-green-500 focus:ring-2 focus:ring-green-500"
                         placeholder={`Ej: Opción para mejorar infraestructura...`}
-                        value={definition}
+                        value={definition.name}
+                        onChange={(e) =>
+                          updateArrayItem(
+                            "survey_options_definitions",
+                            index,
+                            e.target.value,
+                          )
+                        }
+                      />
+                      <label className="my-2 block text-sm font-medium text-gray-700">
+                        Descripción
+                      </label>
+                      <input
+                        type="text"
+                        className="w-full rounded-lg border border-gray-300 px-4 py-3 transition-all duration-200 focus:border-green-500 focus:ring-2 focus:ring-green-500"
+                        placeholder={`Descripción de la opción...`}
+                        value={definition.description}
                         onChange={(e) =>
                           updateArrayItem(
                             "survey_options_definitions",

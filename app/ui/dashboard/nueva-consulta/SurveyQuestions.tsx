@@ -1,10 +1,6 @@
 "use client";
 
-import {
-  FormData,
-  Question,
-  QuestionOption,
-} from "@/app/dashboard/nueva-consulta/page";
+import { FormData, Question, QuestionOption } from "./NewSurveyContentLayout";
 
 type SurveyQuestionsProps = {
   formData: FormData;
@@ -119,31 +115,6 @@ export default function SurveyQuestions({
             </span>
           </p>
         </div>
-      </div>
-
-      {/* Progress Indicator */}
-      <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
-        <div className="mb-4 flex items-center justify-between">
-          <h3 className="text-lg font-semibold text-gray-900">
-            Progreso de Preguntas
-          </h3>
-          <span className="rounded-full bg-purple-100 px-3 py-1 text-sm font-medium text-purple-800">
-            {formData.questions.length} preguntas configuradas
-          </span>
-        </div>
-        <div className="h-2 w-full rounded-full bg-gray-200">
-          <div
-            className="h-2 rounded-full bg-gradient-to-r from-purple-500 to-purple-600 transition-all duration-300"
-            style={{
-              width: `${Math.min((formData.questions.length / 5) * 100, 100)}%`,
-            }}
-          ></div>
-        </div>
-        <p className="mt-2 text-sm text-gray-600">
-          {formData.questions.length < 2
-            ? `Faltan ${2 - formData.questions.length} preguntas mínimas`
-            : "Configuración de preguntas completa"}
-        </p>
       </div>
 
       {/* Questions Container */}

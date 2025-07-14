@@ -1,44 +1,30 @@
 "use client";
 
-import { FormData } from "@/app/dashboard/nueva-consulta/page";
-import { useState, useEffect } from "react";
+import Dropdown from "../../Dropdown";
+import { FormData } from "./NewSurveyContentLayout";
+import { useState } from "react";
 
 type SurveyGeneralInfoProps = {
   formData: FormData;
   updateFormData: (field: string, value: string) => void;
 };
 
+const departmentsList = [
+  { id: 1, name: "SECPLA" },
+  { id: 2, name: "Obras Públicas" },
+  { id: 3, name: "Medio Ambiente" },
+  { id: 4, name: "Turismo" },
+  { id: 5, name: "Educación" },
+  { id: 6, name: "Salud" },
+];
+
 export default function SurveyGeneralInfo({
   formData,
   updateFormData,
 }: SurveyGeneralInfoProps) {
-  const [completionPercentage, setCompletionPercentage] = useState(0);
   const [validationErrors, setValidationErrors] = useState<
     Record<string, string>
   >({});
-
-  // Calculate completion percentage
-  useEffect(() => {
-    const requiredFields = [
-      "survey_name",
-      "department",
-      "survey_short_description",
-      "survey_large_description",
-      "start_date",
-      "end_date",
-    ];
-
-    const completedFields = requiredFields.filter(
-      (field) =>
-        formData[field as keyof FormData] &&
-        String(formData[field as keyof FormData]).trim() !== "",
-    ).length;
-
-    const percentage = Math.round(
-      (completedFields / requiredFields.length) * 100,
-    );
-    setCompletionPercentage(percentage);
-  }, [formData]);
 
   // Validation function
   const validateField = (field: string, value: string) => {
@@ -53,12 +39,9 @@ export default function SurveyGeneralInfo({
         }
         break;
       case "survey_short_description":
-        if (value.length < 20) {
+        if (value.length < 50) {
           errors[field] =
             "La descripción corta debe tener al menos 20 caracteres";
-        } else if (value.length > 200) {
-          errors[field] =
-            "La descripción corta no puede exceder 200 caracteres";
         } else {
           delete errors[field];
         }
@@ -94,69 +77,23 @@ export default function SurveyGeneralInfo({
     validateField(field, value);
   };
 
-  const getProgressColor = () => {
-    if (completionPercentage >= 80) return "bg-green-500";
-    if (completionPercentage >= 50) return "bg-yellow-500";
-    return "bg-red-500";
-  };
-
-  const getProgressTextColor = () => {
-    if (completionPercentage >= 80) return "text-green-700";
-    if (completionPercentage >= 50) return "text-yellow-700";
-    return "text-red-700";
-  };
-
   return (
-    <div className="space-y-8">
-      {/* Progress Overview Card */}
-      <div className="rounded-xl border border-blue-200 bg-gradient-to-r from-blue-50 via-indigo-50 to-purple-50 p-6 shadow-sm">
-        <div className="mb-4 flex items-center justify-between">
-          <div className="flex items-center space-x-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-100">
-              <span className="text-xl">📊</span>
-            </div>
-            <div>
-              <h3 className="font-semibold text-gray-900">
-                Progreso de Información Básica
-              </h3>
-              <p className="text-sm text-gray-600">
-                Completa todos los campos requeridos
-              </p>
-            </div>
-          </div>
-          <div className={`text-2xl font-bold ${getProgressTextColor()}`}>
-            {completionPercentage}%
-          </div>
-        </div>
-        <div className="h-3 w-full rounded-full bg-gray-200">
-          <div
-            className={`h-3 rounded-full transition-all duration-500 ${getProgressColor()}`}
-            style={{ width: `${completionPercentage}%` }}
-          ></div>
-        </div>
-      </div>
-
+    <div className="space-y-5">
       {/* Enhanced Main Card */}
-      <div className="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-lg transition-all duration-300 hover:shadow-xl">
-        <div className="border-b border-gray-100 bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 p-6">
+      <div className="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
+        <div className="border-b border-gray-100 bg-gray-100 p-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
-              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-white/20 backdrop-blur-sm">
+              <div className="flex size-12 items-center justify-center rounded-full bg-white">
                 <span className="text-2xl">📄</span>
               </div>
               <div>
-                <h2 className="text-2xl font-bold text-white">
-                  Información Básica
+                <h2 className="text-2xl font-bold text-slate-700">
+                  Información General
                 </h2>
-                <p className="mt-1 text-blue-100">
+                <p className="mt-1 text-slate-600">
                   Configura la información principal de la consulta ciudadana
                 </p>
-              </div>
-            </div>
-            <div className="hidden items-center space-x-2 text-white/80 md:flex">
-              <span className="text-sm">Paso 1 de 5</span>
-              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white/20">
-                <span className="text-sm font-semibold">1</span>
               </div>
             </div>
           </div>
@@ -165,18 +102,18 @@ export default function SurveyGeneralInfo({
         <div className="p-8">
           <div className="space-y-8">
             <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-              <div className="space-y-3">
+              <div className="space-y-2">
                 <label className="flex items-center text-sm font-semibold text-gray-700">
-                  <span className="mr-2">📝</span>
                   Nombre de la Consulta
                   <span className="ml-1 text-red-500">*</span>
                 </label>
                 <div className="relative">
                   <input
                     type="text"
-                    className={`w-full rounded-lg border px-4 py-3 text-gray-900 placeholder-gray-500 transition-all duration-200 focus:ring-2 focus:ring-offset-1 ${
+                    maxLength={60}
+                    className={`h-10 w-full rounded-lg border border-slate-300 bg-white px-4 text-sm text-slate-700 shadow-sm transition-all outline-none placeholder:text-gray-400 focus-within:border-blue-500 focus:outline-none ${
                       validationErrors.survey_name
-                        ? "border-red-300 focus:border-red-500 focus:ring-red-200"
+                        ? "border-red-300 focus:border-rose-400 focus:ring-red-200"
                         : formData.survey_name
                           ? "border-green-300 focus:border-green-500 focus:ring-green-200"
                           : "border-gray-300 focus:border-blue-500 focus:ring-blue-200"
@@ -187,80 +124,48 @@ export default function SurveyGeneralInfo({
                       handleFieldChange("survey_name", e.target.value)
                     }
                   />
-                  {formData.survey_name && !validationErrors.survey_name && (
-                    <div className="absolute top-1/2 right-3 -translate-y-1/2 transform">
-                      <span className="text-green-500">✓</span>
-                    </div>
-                  )}
                 </div>
                 {validationErrors.survey_name && (
                   <p className="flex items-center text-sm text-red-600">
-                    <span className="mr-1">⚠️</span>
                     {validationErrors.survey_name}
                   </p>
                 )}
                 <div className="text-xs text-gray-500">
-                  {formData.survey_name.length}/100 caracteres
+                  {formData.survey_name.length}/60 caracteres
                 </div>
               </div>
 
-              <div className="space-y-3">
-                <label className="flex items-center text-sm font-semibold text-gray-700">
-                  <span className="mr-2">🏢</span>
-                  Departamento
-                  <span className="ml-1 text-red-500">*</span>
-                </label>
-                <div className="relative">
-                  <select
-                    className={`w-full appearance-none rounded-lg border px-4 py-3 text-gray-900 transition-all duration-200 focus:ring-2 focus:ring-offset-1 ${
-                      formData.department
-                        ? "border-green-300 focus:border-green-500 focus:ring-green-200"
-                        : "border-gray-300 focus:border-blue-500 focus:ring-blue-200"
-                    }`}
-                    value={formData.department}
-                    onChange={(e) =>
-                      handleFieldChange("department", e.target.value)
-                    }
-                  >
-                    <option value="">Selecciona el departamento</option>
-                    <option value="secpla">SECPLA</option>
-                    <option value="obras">Obras Públicas</option>
-                    <option value="medio-ambiente">Medio Ambiente</option>
-                    <option value="turismo">Turismo</option>
-                    <option value="educacion">Educación</option>
-                    <option value="salud">Salud</option>
-                  </select>
-                  <div className="pointer-events-none absolute top-1/2 right-3 -translate-y-1/2 transform">
-                    <span className="text-gray-400">▼</span>
-                  </div>
-                  {formData.department && (
-                    <div className="absolute top-1/2 right-8 -translate-y-1/2 transform">
-                      <span className="text-green-500">✓</span>
-                    </div>
-                  )}
-                </div>
+              <div className="space-y-2">
+                <Dropdown
+                  label="Departamento"
+                  name="department"
+                  value={formData.department}
+                  setValue={handleFieldChange}
+                  options={departmentsList}
+                />
               </div>
             </div>
 
-            <div className="space-y-3">
+            <div className="space-y-2">
               <label className="flex items-center text-sm font-semibold text-gray-700">
-                <span className="mr-2">📝</span>
                 Descripción Corta
                 <span className="ml-1 text-red-500">*</span>
               </label>
               <div className="relative">
                 <textarea
-                  className={`w-full resize-none rounded-lg border px-4 py-3 text-gray-900 placeholder-gray-500 transition-all duration-200 focus:ring-2 focus:ring-offset-1 ${
+                  className={`w-full resize-none rounded-lg border px-4 py-3 text-gray-900 placeholder-gray-500 transition-all duration-200 outline-none focus:ring-2 focus:ring-offset-1 ${
                     validationErrors.survey_short_description
                       ? "border-red-300 focus:border-red-500 focus:ring-red-200"
                       : formData.survey_short_description &&
-                          formData.survey_short_description.length >= 20
+                          formData.survey_short_description.length >= 50
                         ? "border-green-300 focus:border-green-500 focus:ring-green-200"
                         : "border-gray-300 focus:border-blue-500 focus:ring-blue-200"
                   }`}
                   placeholder="Descripción breve que aparecerá en las listas de consultas"
                   rows={3}
                   value={formData.survey_short_description}
+                  minLength={50}
+                  maxLength={200}
                   onChange={(e) =>
                     handleFieldChange(
                       "survey_short_description",
@@ -268,17 +173,9 @@ export default function SurveyGeneralInfo({
                     )
                   }
                 />
-                {formData.survey_short_description &&
-                  !validationErrors.survey_short_description &&
-                  formData.survey_short_description.length >= 20 && (
-                    <div className="absolute top-3 right-3">
-                      <span className="text-green-500">✓</span>
-                    </div>
-                  )}
               </div>
               {validationErrors.survey_short_description && (
                 <p className="flex items-center text-sm text-red-600">
-                  <span className="mr-1">⚠️</span>
                   {validationErrors.survey_short_description}
                 </p>
               )}
@@ -296,15 +193,14 @@ export default function SurveyGeneralInfo({
               </div>
             </div>
 
-            <div className="space-y-3">
+            <div className="space-y-2">
               <label className="flex items-center text-sm font-semibold text-gray-700">
-                <span className="mr-2">📄</span>
                 Descripción Detallada
                 <span className="ml-1 text-red-500">*</span>
               </label>
               <div className="relative">
                 <textarea
-                  className={`w-full resize-none rounded-lg border px-4 py-3 text-gray-900 placeholder-gray-500 transition-all duration-200 focus:ring-2 focus:ring-offset-1 ${
+                  className={`w-full resize-none rounded-lg border px-4 py-3 text-gray-900 placeholder-gray-500 transition-all duration-200 outline-none focus:ring-2 focus:ring-offset-1 ${
                     validationErrors.survey_large_description
                       ? "border-red-300 focus:border-red-500 focus:ring-red-200"
                       : formData.survey_large_description &&
@@ -322,17 +218,9 @@ export default function SurveyGeneralInfo({
                     )
                   }
                 />
-                {formData.survey_large_description &&
-                  !validationErrors.survey_large_description &&
-                  formData.survey_large_description.length >= 50 && (
-                    <div className="absolute top-3 right-3">
-                      <span className="text-green-500">✓</span>
-                    </div>
-                  )}
               </div>
               {validationErrors.survey_large_description && (
                 <p className="flex items-center text-sm text-red-600">
-                  <span className="mr-1">⚠️</span>
                   {validationErrors.survey_large_description}
                 </p>
               )}
@@ -345,16 +233,15 @@ export default function SurveyGeneralInfo({
             </div>
 
             <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-              <div className="space-y-3">
+              <div className="space-y-2">
                 <label className="flex items-center text-sm font-semibold text-gray-700">
-                  <span className="mr-2">📅</span>
                   Fecha de Inicio
                   <span className="ml-1 text-red-500">*</span>
                 </label>
                 <div className="relative">
                   <input
                     type="date"
-                    className={`w-full rounded-lg border px-4 py-3 text-gray-900 transition-all duration-200 focus:ring-2 focus:ring-offset-1 ${
+                    className={`w-full rounded-lg border px-4 py-3 text-gray-900 transition-all duration-200 outline-none focus:ring-2 focus:ring-offset-1 ${
                       formData.start_date
                         ? "border-green-300 focus:border-green-500 focus:ring-green-200"
                         : "border-gray-300 focus:border-blue-500 focus:ring-blue-200"
@@ -364,24 +251,18 @@ export default function SurveyGeneralInfo({
                       handleFieldChange("start_date", e.target.value)
                     }
                   />
-                  {formData.start_date && (
-                    <div className="absolute top-1/2 right-3 -translate-y-1/2 transform">
-                      <span className="text-green-500">✓</span>
-                    </div>
-                  )}
                 </div>
               </div>
 
-              <div className="space-y-3">
+              <div className="space-y-2">
                 <label className="flex items-center text-sm font-semibold text-gray-700">
-                  <span className="mr-2">📅</span>
                   Fecha de Término
                   <span className="ml-1 text-red-500">*</span>
                 </label>
                 <div className="relative">
                   <input
                     type="date"
-                    className={`w-full rounded-lg border px-4 py-3 text-gray-900 transition-all duration-200 focus:ring-2 focus:ring-offset-1 ${
+                    className={`w-full rounded-lg border px-4 py-3 text-gray-900 transition-all duration-200 outline-none focus:ring-2 focus:ring-offset-1 ${
                       validationErrors.end_date
                         ? "border-red-300 focus:border-red-500 focus:ring-red-200"
                         : formData.end_date
@@ -393,15 +274,9 @@ export default function SurveyGeneralInfo({
                       handleFieldChange("end_date", e.target.value)
                     }
                   />
-                  {formData.end_date && !validationErrors.end_date && (
-                    <div className="absolute top-1/2 right-3 -translate-y-1/2 transform">
-                      <span className="text-green-500">✓</span>
-                    </div>
-                  )}
                 </div>
                 {validationErrors.end_date && (
                   <p className="flex items-center text-sm text-red-600">
-                    <span className="mr-1">⚠️</span>
                     {validationErrors.end_date}
                   </p>
                 )}
@@ -412,16 +287,27 @@ export default function SurveyGeneralInfo({
       </div>
 
       {/* Tips Card */}
-      <div className="rounded-xl border border-amber-200 bg-gradient-to-r from-amber-50 to-orange-50 p-6">
+      <div className="rounded-xl border border-blue-200 bg-blue-50 p-6">
         <div className="flex items-start space-x-3">
-          <div className="mt-1 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-amber-100">
-            <span className="text-lg">💡</span>
-          </div>
           <div>
-            <h3 className="mb-2 font-semibold text-amber-800">
-              Consejos para una mejor consulta
-            </h3>
-            <ul className="space-y-1 text-sm text-amber-700">
+            <div className="mb-2 flex items-center">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="mr-2 h-5 w-5 text-[#0A4C8A]"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                  clipRule="evenodd"
+                />
+              </svg>
+              <h3 className="font-semibold text-[#0A4C8A]">
+                Consejos para una mejor consulta
+              </h3>
+            </div>
+            <ul className="space-y-1 text-sm text-slate-600">
               <li>• Usa un nombre descriptivo y claro para la consulta</li>
               <li>• La descripción corta debe resumir el objetivo principal</li>
               <li>
