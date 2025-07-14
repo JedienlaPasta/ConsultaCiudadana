@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import TabBtn from "./TabBtn";
 import SurveyGeneralInfo from "./SurveyGeneralInfo";
 import SurveyContent from "./SurveyContent";
@@ -28,7 +28,7 @@ export type OptionDefinition = {
 
 export type QuestionOption = {
   id: number;
-  text: string;
+  option: string;
   hasSubQuestion: boolean;
   subQuestion: string;
   subOptions: string[];
@@ -36,7 +36,7 @@ export type QuestionOption = {
 
 export type Question = {
   id: number;
-  text: string;
+  question: string;
   isMapQuestion: boolean;
   options: QuestionOption[];
 };
@@ -59,7 +59,7 @@ export type FormData = {
 export type FormDataArrays = {
   objectives: string[];
   chronogram: ChronogramItem[];
-  survey_options_definitions: string[];
+  survey_options_definitions: OptionDefinition[];
   frequently_asked_questions: FAQ[];
   questions: Question[];
 };
@@ -68,98 +68,122 @@ export type FormDataArrays = {
 export type ArrayItemTypeMap<K extends keyof FormDataArrays> =
   FormDataArrays[K] extends (infer U)[] ? U : never;
 
+// Define initial form data as a constant
+const INITIAL_FORM_DATA: FormData = {
+  // General Info
+  survey_name: "",
+  survey_short_description: "",
+  survey_large_description: "",
+  start_date: "",
+  end_date: "",
+  department: "",
+
+  // Dynamic Arrays
+  objectives: ["", "", ""],
+  chronogram: [
+    { phase: "", description: "", date: "" },
+    { phase: "", description: "", date: "" },
+    { phase: "", description: "", date: "" },
+  ],
+  survey_options_definitions: [
+    { name: "", description: "" },
+    { name: "", description: "" },
+    { name: "", description: "" },
+    { name: "", description: "" },
+    { name: "", description: "" },
+  ],
+  frequently_asked_questions: [
+    { question: "", answer: "" },
+    { question: "", answer: "" },
+    { question: "", answer: "" },
+  ],
+
+  // Questions and Options
+  questions: [
+    {
+      id: 1,
+      question: "",
+      isMapQuestion: false,
+      options: [
+        {
+          id: 1,
+          option: "",
+          hasSubQuestion: false,
+          subQuestion: "",
+          subOptions: [],
+        },
+        {
+          id: 2,
+          option: "",
+          hasSubQuestion: false,
+          subQuestion: "",
+          subOptions: [],
+        },
+        {
+          id: 3,
+          option: "",
+          hasSubQuestion: false,
+          subQuestion: "",
+          subOptions: [],
+        },
+      ],
+    },
+    {
+      id: 2,
+      question: "",
+      isMapQuestion: false,
+      options: [
+        {
+          id: 1,
+          option: "",
+          hasSubQuestion: false,
+          subQuestion: "",
+          subOptions: [],
+        },
+        {
+          id: 2,
+          option: "",
+          hasSubQuestion: false,
+          subQuestion: "",
+          subOptions: [],
+        },
+        {
+          id: 3,
+          option: "",
+          hasSubQuestion: false,
+          subQuestion: "",
+          subOptions: [],
+        },
+      ],
+    },
+  ],
+};
+
+const STORAGE_KEY = "survey_form_data";
+
 export default function NewSurveyContentLayout() {
   const [currentStep, setCurrentStep] = useState(0);
-  const [formData, setFormData] = useState<FormData>({
-    // General Info
-    survey_name: "",
-    survey_short_description: "",
-    survey_large_description: "",
-    start_date: "",
-    end_date: "",
-    department: "",
+  const [formData, setFormData] = useState<FormData>(INITIAL_FORM_DATA);
 
-    // Dynamic Arrays
-    objectives: ["", "", ""],
-    chronogram: [
-      { phase: "", description: "", date: "" },
-      { phase: "", description: "", date: "" },
-      { phase: "", description: "", date: "" },
-    ],
-    survey_options_definitions: [
-      { name: "", description: "" },
-      { name: "", description: "" },
-      { name: "", description: "" },
-      { name: "", description: "" },
-      { name: "", description: "" },
-    ],
-    frequently_asked_questions: [
-      { question: "", answer: "" },
-      { question: "", answer: "" },
-      { question: "", answer: "" },
-    ],
+  // Load data from localStorage on component mount
+  useEffect(() => {
+    const savedData = localStorage.getItem(STORAGE_KEY);
+    if (savedData) {
+      try {
+        const parsedData = JSON.parse(savedData);
+        setFormData(parsedData);
+      } catch (error) {
+        console.error("Error parsing saved form data:", error);
+      }
+    }
+  }, []);
 
-    // Questions and Options
-    questions: [
-      {
-        id: 1,
-        text: "",
-        isMapQuestion: false,
-        options: [
-          {
-            id: 1,
-            text: "",
-            hasSubQuestion: false,
-            subQuestion: "",
-            subOptions: ["", ""],
-          },
-          {
-            id: 2,
-            text: "",
-            hasSubQuestion: false,
-            subQuestion: "",
-            subOptions: ["", ""],
-          },
-          {
-            id: 3,
-            text: "",
-            hasSubQuestion: false,
-            subQuestion: "",
-            subOptions: ["", ""],
-          },
-        ],
-      },
-      {
-        id: 2,
-        text: "",
-        isMapQuestion: false,
-        options: [
-          {
-            id: 1,
-            text: "",
-            hasSubQuestion: false,
-            subQuestion: "",
-            subOptions: ["", ""],
-          },
-          {
-            id: 2,
-            text: "",
-            hasSubQuestion: false,
-            subQuestion: "",
-            subOptions: ["", ""],
-          },
-          {
-            id: 3,
-            text: "",
-            hasSubQuestion: false,
-            subQuestion: "",
-            subOptions: ["", ""],
-          },
-        ],
-      },
-    ],
-  });
+  // Save data to localStorage whenever formData changes
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
+  }, [formData]);
 
+  console.log(formData);
   const updateFormData = (field: string, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
@@ -236,26 +260,26 @@ export default function NewSurveyContentLayout() {
   const addQuestion = () => {
     const newQuestion = {
       id: formData.questions.length + 1,
-      text: "",
+      question: "",
       isMapQuestion: false,
       options: [
         {
           id: 1,
-          text: "",
+          option: "",
           hasSubQuestion: false,
           subQuestion: "",
           subOptions: ["", ""],
         },
         {
           id: 2,
-          text: "",
+          option: "",
           hasSubQuestion: false,
           subQuestion: "",
           subOptions: ["", ""],
         },
         {
           id: 3,
-          text: "",
+          option: "",
           hasSubQuestion: false,
           subQuestion: "",
           subOptions: ["", ""],
@@ -271,7 +295,7 @@ export default function NewSurveyContentLayout() {
   const addQuestionOption = (questionIndex: number) => {
     const newOption = {
       id: formData.questions[questionIndex].options.length + 1,
-      text: "",
+      option: "",
       hasSubQuestion: false,
       subQuestion: "",
       subOptions: ["", ""],
@@ -305,25 +329,37 @@ export default function NewSurveyContentLayout() {
     myFormData.append("end_date", formData.end_date);
     myFormData.append("department", formData.department);
 
-    // Content
-    myFormData.append("objectives", formData.objectives.join(","));
-    myFormData.append("chronogram", formData.chronogram.join(","));
+    // Content - Serialize objects as JSON strings
+    myFormData.append("objectives", JSON.stringify(formData.objectives));
+    myFormData.append("chronogram", JSON.stringify(formData.chronogram));
     myFormData.append(
-      "survey_option_definitions",
-      formData.survey_options_definitions.join(","),
+      "survey_options_definitions",
+      JSON.stringify(formData.survey_options_definitions),
     );
     myFormData.append(
       "frequently_asked_questions",
-      formData.frequently_asked_questions.join(","),
+      JSON.stringify(formData.frequently_asked_questions),
     );
-    myFormData.append("questions", formData.questions.join(","));
-    createSurvey(myFormData);
+    myFormData.append("questions", JSON.stringify(formData.questions));
+
+    try {
+      const result = await createSurvey(myFormData);
+      console.log("Survey creation result:", result);
+    } catch (error) {
+      console.error("Error creating survey:", error);
+    }
+  };
+
+  const resetForm = () => {
+    setFormData(INITIAL_FORM_DATA);
+    localStorage.removeItem(STORAGE_KEY);
   };
 
   return (
     <div className="container mx-auto max-w-[80rem] space-y-2 px-4 py-6 md:px-8 md:py-8">
       {/* Enhanced Tab Navigation */}
       <div className="space-y-5">
+        <button onClick={resetForm}>Reset</button>
         <div className="flex flex-wrap justify-center overflow-hidden rounded-xl border border-gray-200 bg-gray-50/50 shadow-sm">
           <TabBtn
             isActive={0 === currentStep}

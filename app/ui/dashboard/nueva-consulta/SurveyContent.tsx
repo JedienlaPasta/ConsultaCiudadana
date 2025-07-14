@@ -58,24 +58,8 @@ export default function SurveyContent({
 
   return (
     <div className="space-y-8">
-      {/* Header Section */}
-      <div className="space-y-4 text-center">
-        <div className="inline-flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-blue-600 text-2xl text-white shadow-lg">
-          📝
-        </div>
-        <div>
-          <h2 className="mb-2 text-3xl font-bold text-gray-900">
-            Contenido de la Consulta
-          </h2>
-          <p className="mx-auto max-w-2xl text-lg text-gray-600">
-            Define los elementos principales que conformarán tu consulta
-            ciudadana
-          </p>
-        </div>
-      </div>
-
       {/* Objectives Section */}
-      <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
+      <div className="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
         <div className="border-b border-blue-200 bg-gradient-to-r from-blue-50 to-indigo-50 p-6">
           <div className="flex items-center justify-between">
             <div>
@@ -86,7 +70,7 @@ export default function SurveyContent({
               <p className="text-gray-600">
                 Define los objetivos principales que buscas alcanzar
                 <span className="mt-1 block text-sm font-medium text-blue-600">
-                  Se requieren mínimo 3 objetivos
+                  Se requieren mínimo 2 objetivos
                 </span>
               </p>
             </div>
@@ -162,7 +146,7 @@ export default function SurveyContent({
             <div>
               <h3 className="mb-2 flex items-center text-xl font-semibold text-gray-900">
                 <span className="mr-3">📄</span>
-                Definiciones de Opciones
+                Definiciones de Conceptos
               </h3>
               <p className="text-gray-600">
                 Define las opciones principales que estarán disponibles
@@ -203,11 +187,10 @@ export default function SurveyContent({
                         placeholder={`Ej: Opción para mejorar infraestructura...`}
                         value={definition.name}
                         onChange={(e) =>
-                          updateArrayItem(
-                            "survey_options_definitions",
-                            index,
-                            e.target.value,
-                          )
+                          updateArrayItem("survey_options_definitions", index, {
+                            ...definition,
+                            name: e.target.value,
+                          })
                         }
                       />
                       <label className="my-2 block text-sm font-medium text-gray-700">
@@ -219,11 +202,10 @@ export default function SurveyContent({
                         placeholder={`Descripción de la opción...`}
                         value={definition.description}
                         onChange={(e) =>
-                          updateArrayItem(
-                            "survey_options_definitions",
-                            index,
-                            e.target.value,
-                          )
+                          updateArrayItem("survey_options_definitions", index, {
+                            ...definition,
+                            description: e.target.value,
+                          })
                         }
                       />
                     </div>
@@ -249,7 +231,12 @@ export default function SurveyContent({
           <div className="mt-6">
             <button
               className="group flex w-full items-center justify-center rounded-xl border-2 border-dashed border-green-300 bg-green-50 p-4 transition-all duration-200 hover:border-green-400 hover:bg-green-100"
-              onClick={() => addArrayItem("survey_options_definitions", "")}
+              onClick={() =>
+                addArrayItem("survey_options_definitions", {
+                  name: "",
+                  description: "",
+                })
+              }
             >
               <span className="mr-3 text-xl transition-transform duration-200 group-hover:scale-110">
                 ➕

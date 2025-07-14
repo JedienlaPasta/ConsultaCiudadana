@@ -26,7 +26,7 @@ export async function checkVotanteRecord(
 
     const checkVotanteRequest = pool.request();
     const result = await checkVotanteRequest.input("rut", sql.Int, rut).query(`
-        SELECT rut, dv FROM Votantes WHERE rut = @rut
+        SELECT rut, dv FROM usuarios WHERE rut = @rut
         `);
 
     if (result.recordset.length > 0) {
@@ -56,8 +56,8 @@ export async function checkVotanteRecord(
       .input("rut", sql.Int, rut)
       .input("dv", sql.NVarChar, dv)
       .input("nombreCompleto", sql.NVarChar, nombreCU).query(`
-        INSERT INTO Votantes (rut, dv, fecha_creacion, nombre_completo) 
-        VALUES (@rut, @dv, GETUTCDATE(), @nombreCompleto)
+        INSERT INTO usuarios (rut, dv, nombre_completo, created_at) 
+        VALUES (@rut, @dv, @nombreCompleto, GETUTCDATE())
       `);
     console.log("Registro insertado en la base de datos.");
     return {

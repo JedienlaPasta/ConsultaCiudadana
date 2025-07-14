@@ -139,10 +139,10 @@ export default function SurveyQuestions({
                 <div className="flex-1">
                   <h3 className="mb-2 text-xl font-semibold text-gray-900">
                     Pregunta {questionIndex + 1}
-                    {question.text && (
+                    {question.question && (
                       <span className="ml-2 font-normal text-gray-600">
-                        - {question.text.substring(0, 50)}
-                        {question.text.length > 50 && "..."}
+                        - {question.question.substring(0, 50)}
+                        {question.question.length > 50 && "..."}
                       </span>
                     )}
                   </h3>
@@ -192,9 +192,13 @@ export default function SurveyQuestions({
                       type="text"
                       className="w-full rounded-lg border border-gray-300 px-4 py-3 transition-all duration-200 focus:border-purple-500 focus:ring-2 focus:ring-purple-500"
                       placeholder="Ej: ¿Cuál es tu opinión sobre...?"
-                      value={question.text}
+                      value={question.question}
                       onChange={(e) =>
-                        updateQuestion(questionIndex, "text", e.target.value)
+                        updateQuestion(
+                          questionIndex,
+                          "question",
+                          e.target.value,
+                        )
                       }
                     />
                   </div>
@@ -296,12 +300,12 @@ export default function SurveyQuestions({
                             type="text"
                             className="w-full rounded-lg border border-gray-300 px-4 py-3 transition-all duration-200 focus:border-purple-500 focus:ring-2 focus:ring-purple-500"
                             placeholder={`Ej: Opción ${optionIndex + 1}`}
-                            value={option.text}
+                            value={option.option}
                             onChange={(e) =>
                               updateQuestionOption(
                                 questionIndex,
                                 optionIndex,
-                                "text",
+                                "option",
                                 e.target.value,
                               )
                             }

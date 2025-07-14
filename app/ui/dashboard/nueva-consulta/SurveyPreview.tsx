@@ -25,25 +25,21 @@ export default function SurveyPreview({
     {
       label: "Objetivos",
       count: completedObjectives,
-      icon: "🎯",
       color: "bg-blue-50 text-blue-700 border-blue-200",
     },
     {
       label: "Preguntas",
       count: formData.questions.length,
-      icon: "❓",
       color: "bg-purple-50 text-purple-700 border-purple-200",
     },
     {
       label: "FAQ",
       count: completedFAQs,
-      icon: "💬",
       color: "bg-green-50 text-green-700 border-green-200",
     },
     {
       label: "Fases del Cronograma",
       count: completedChronogram,
-      icon: "📅",
       color: "bg-orange-50 text-orange-700 border-orange-200",
     },
   ];
@@ -145,7 +141,6 @@ export default function SurveyPreview({
             key={index}
             className={`rounded-xl border-2 p-6 text-center transition-all duration-200 hover:shadow-md ${stat.color}`}
           >
-            <div className="mb-2 text-2xl">{stat.icon}</div>
             <div className="mb-1 text-2xl font-bold">{stat.count}</div>
             <div className="text-sm font-medium">{stat.label}</div>
           </div>
