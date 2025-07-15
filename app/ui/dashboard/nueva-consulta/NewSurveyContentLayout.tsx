@@ -163,7 +163,7 @@ const INITIAL_FORM_DATA: FormData = {
 const STORAGE_KEY = "survey_form_data";
 
 export default function NewSurveyContentLayout() {
-  const [currentStep, setCurrentStep] = useState(0);
+  const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState<FormData>(INITIAL_FORM_DATA);
 
   // Load data from localStorage on component mount
@@ -361,71 +361,78 @@ export default function NewSurveyContentLayout() {
     }
   };
 
-  const resetForm = () => {
-    setFormData(INITIAL_FORM_DATA);
-    localStorage.removeItem(STORAGE_KEY);
-  };
+  // const resetForm = () => {
+  //   setFormData(INITIAL_FORM_DATA);
+  //   localStorage.removeItem(STORAGE_KEY);
+  // };
 
   return (
     <div className="container mx-auto max-w-[80rem] space-y-2 px-4 py-6 md:px-8 md:py-8">
       {/* Enhanced Tab Navigation */}
-      <div className="space-y-5">
-        <button onClick={resetForm}>Reset</button>
-        <div className="flex flex-wrap justify-center overflow-hidden rounded-xl border border-gray-200 bg-gray-50/50 shadow-sm">
+      <div className="space-y-5s flex gap-5">
+        {/* <button onClick={resetForm} className="cursor-pointer">
+          Reset
+        </button> */}
+        <div className="flex w-80 flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-lg">
           <TabBtn
-            isActive={0 === currentStep}
-            onClick={() => setCurrentStep(0)}
+            currentStep={currentStep}
+            index={1}
+            onClick={() => setCurrentStep(1)}
           >
             Información General
           </TabBtn>
           <TabBtn
-            isActive={1 === currentStep}
-            onClick={() => setCurrentStep(1)}
+            currentStep={currentStep}
+            index={2}
+            onClick={() => setCurrentStep(2)}
           >
             Contenido
           </TabBtn>
           <TabBtn
-            isActive={2 === currentStep}
-            onClick={() => setCurrentStep(2)}
+            currentStep={currentStep}
+            index={3}
+            onClick={() => setCurrentStep(3)}
           >
             Cronograma
           </TabBtn>
           <TabBtn
-            isActive={3 === currentStep}
-            onClick={() => setCurrentStep(3)}
+            currentStep={currentStep}
+            index={4}
+            onClick={() => setCurrentStep(4)}
           >
             Preguntas
           </TabBtn>
           <TabBtn
-            isActive={4 === currentStep}
-            onClick={() => setCurrentStep(4)}
+            currentStep={currentStep}
+            index={5}
+            onClick={() => setCurrentStep(5)}
           >
             Revisión
           </TabBtn>
         </div>
 
         {/* Enhanced Content Area */}
-        <div className="p-8s">
-          {currentStep === 0 ? (
+        <div className="p-8s flex-1">
+          {currentStep === 1 ? (
             <SurveyGeneralInfo
               formData={formData}
               updateFormData={updateFormData}
             />
-          ) : currentStep === 1 ? (
+          ) : currentStep === 2 ? (
             <SurveyContent
               formData={formData}
               updateArrayItem={updateArrayItem}
               removeArrayItem={removeArrayItem}
               addArrayItem={addArrayItem}
             />
-          ) : currentStep === 2 ? (
+          ) : currentStep === 3 ? (
             <SurveyChronogram
               formData={formData}
               updateArrayItem={updateArrayItem}
               removeArrayItem={removeArrayItem}
               addArrayItem={addArrayItem}
             />
-          ) : currentStep === 3 ? (
+          ) : currentStep === 4 ? (
             <SurveyQuestions
               formData={formData}
               updateQuestion={updateQuestion}

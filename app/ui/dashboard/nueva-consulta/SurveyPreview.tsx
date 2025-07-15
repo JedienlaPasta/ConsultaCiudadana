@@ -46,22 +46,6 @@ export default function SurveyPreview({
 
   return (
     <div className="space-y-8">
-      {/* Header Section */}
-      <div className="space-y-4 text-center">
-        <div className="inline-flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-green-500 to-green-600 text-2xl text-white shadow-lg">
-          👁️
-        </div>
-        <div>
-          <h2 className="mb-2 text-3xl font-bold text-gray-900">
-            Revisión Final
-          </h2>
-          <p className="mx-auto max-w-2xl text-lg text-gray-600">
-            Revisa cuidadosamente toda la información antes de crear la consulta
-            ciudadana
-          </p>
-        </div>
-      </div>
-
       {/* Survey Overview Card */}
       <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
         <div className="border-b border-gray-200 bg-gradient-to-r from-gray-50 to-gray-100 p-6">
