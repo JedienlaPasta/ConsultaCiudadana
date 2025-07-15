@@ -111,12 +111,10 @@ export default function SurveyGeneralInfo({
                   <input
                     type="text"
                     maxLength={60}
-                    className={`h-10 w-full rounded-lg border border-slate-300 bg-white px-4 text-sm text-slate-700 shadow-sm transition-all outline-none placeholder:text-gray-400 focus-within:border-blue-500 focus:outline-none ${
+                    className={`h-10 w-full rounded-lg border bg-white px-4 text-sm text-slate-700 shadow-sm transition-all outline-none placeholder:text-gray-400 focus:ring-2 focus:ring-offset-1 ${
                       validationErrors.survey_name
                         ? "border-red-300 focus:border-rose-400 focus:ring-red-200"
-                        : formData.survey_name
-                          ? "border-green-300 focus:border-green-500 focus:ring-green-200"
-                          : "border-gray-300 focus:border-blue-500 focus:ring-blue-200"
+                        : "border-slate-300 focus:border-blue-500 focus:ring-blue-200"
                     }`}
                     placeholder="Ej: Plan PIIMEP - Mejora de Espacios Públicos"
                     value={formData.survey_name}
@@ -153,13 +151,10 @@ export default function SurveyGeneralInfo({
               </label>
               <div className="relative">
                 <textarea
-                  className={`w-full resize-none rounded-lg border px-4 py-3 text-gray-900 placeholder-gray-500 transition-all duration-200 outline-none focus:ring-2 focus:ring-offset-1 ${
+                  className={`h-20 w-full resize-none rounded-lg border bg-white px-4 py-2 text-sm text-slate-700 shadow-sm transition-all outline-none placeholder:text-gray-400 focus:ring-2 focus:ring-offset-1 ${
                     validationErrors.survey_short_description
                       ? "border-red-300 focus:border-red-500 focus:ring-red-200"
-                      : formData.survey_short_description &&
-                          formData.survey_short_description.length >= 50
-                        ? "border-green-300 focus:border-green-500 focus:ring-green-200"
-                        : "border-gray-300 focus:border-blue-500 focus:ring-blue-200"
+                      : "border-gray-300 focus:border-blue-500 focus:ring-blue-200"
                   }`}
                   placeholder="Descripción breve que aparecerá en las listas de consultas"
                   rows={3}
@@ -180,7 +175,7 @@ export default function SurveyGeneralInfo({
                 </p>
               )}
               <div className="flex justify-between text-xs text-gray-500">
-                <span>Mínimo 20 caracteres</span>
+                <span>Mínimo 50 caracteres</span>
                 <span
                   className={
                     formData.survey_short_description.length > 200
@@ -200,13 +195,10 @@ export default function SurveyGeneralInfo({
               </label>
               <div className="relative">
                 <textarea
-                  className={`w-full resize-none rounded-lg border px-4 py-3 text-gray-900 placeholder-gray-500 transition-all duration-200 outline-none focus:ring-2 focus:ring-offset-1 ${
+                  className={`h-30 w-full resize-none rounded-lg border bg-white px-4 py-2 text-sm text-slate-700 shadow-sm transition-all outline-none placeholder:text-gray-400 focus:ring-2 focus:ring-offset-1 ${
                     validationErrors.survey_large_description
                       ? "border-red-300 focus:border-red-500 focus:ring-red-200"
-                      : formData.survey_large_description &&
-                          formData.survey_large_description.length >= 50
-                        ? "border-green-300 focus:border-green-500 focus:ring-green-200"
-                        : "border-gray-300 focus:border-blue-500 focus:ring-blue-200"
+                      : "border-gray-300 focus:border-blue-500 focus:ring-blue-200"
                   }`}
                   placeholder="Descripción completa que aparecerá en la página de detalle de la consulta"
                   rows={6}
@@ -241,11 +233,7 @@ export default function SurveyGeneralInfo({
                 <div className="relative">
                   <input
                     type="date"
-                    className={`w-full rounded-lg border px-4 py-3 text-gray-900 transition-all duration-200 outline-none focus:ring-2 focus:ring-offset-1 ${
-                      formData.start_date
-                        ? "border-green-300 focus:border-green-500 focus:ring-green-200"
-                        : "border-gray-300 focus:border-blue-500 focus:ring-blue-200"
-                    }`}
+                    className={`h-10 w-full rounded-lg border border-slate-300 bg-white px-4 text-sm text-slate-700 shadow-sm transition-all outline-none placeholder:text-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:ring-offset-1`}
                     value={formData.start_date}
                     onChange={(e) =>
                       handleFieldChange("start_date", e.target.value)
@@ -262,12 +250,10 @@ export default function SurveyGeneralInfo({
                 <div className="relative">
                   <input
                     type="date"
-                    className={`w-full rounded-lg border px-4 py-3 text-gray-900 transition-all duration-200 outline-none focus:ring-2 focus:ring-offset-1 ${
+                    className={`h-10 w-full rounded-lg border bg-white px-4 text-sm text-slate-700 shadow-sm transition-all outline-none placeholder:text-gray-400 focus:ring-2 focus:ring-offset-1 ${
                       validationErrors.end_date
                         ? "border-red-300 focus:border-red-500 focus:ring-red-200"
-                        : formData.end_date
-                          ? "border-green-300 focus:border-green-500 focus:ring-green-200"
-                          : "border-gray-300 focus:border-blue-500 focus:ring-blue-200"
+                        : "border-slate-300 focus:border-blue-500 focus:ring-blue-200"
                     }`}
                     value={formData.end_date}
                     onChange={(e) =>

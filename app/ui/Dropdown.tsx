@@ -83,7 +83,7 @@ export default function Dropdown({
         placeholder="Nombre departamento..."
         autoComplete="off"
         required
-        className={`${readOnly && "cursor-pointer"} h-10 w-full rounded-lg border border-slate-300 bg-white px-4 text-sm text-slate-700 shadow-sm transition-all outline-none placeholder:text-gray-400 focus-within:border-blue-500 focus:outline-none`}
+        className={`${readOnly && "cursor-pointer"} h-10 w-full rounded-lg border border-slate-300 bg-white px-4 text-sm text-slate-700 shadow-sm transition-all outline-none placeholder:text-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:ring-offset-1`}
       />
       {/* Dropdown List */}
       {isOpen && (

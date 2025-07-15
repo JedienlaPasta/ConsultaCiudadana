@@ -85,7 +85,7 @@ export default function SurveyContent({
             {formData.objectives.map((objective, index) => (
               <div
                 key={index}
-                className={`relative rounded-xl border border-l-4 border-gray-200 transition-all duration-200 hover:shadow-md ${objectiveColors[index % objectiveColors.length]}`}
+                className={`relative rounded-xl border border-l-4 border-gray-200 transition-all duration-200 ${objectiveColors[index % objectiveColors.length]}`}
               >
                 <div className="absolute top-4 -left-6 flex h-12 w-12 items-center justify-center rounded-full border-4 border-blue-200 bg-white shadow-sm">
                   <span className="text-lg font-bold text-blue-600">
@@ -94,14 +94,14 @@ export default function SurveyContent({
                 </div>
 
                 <div className="ml-6 p-4">
-                  <div className="flex items-center space-x-3">
-                    <div className="flex-1">
-                      <label className="mb-2 block text-sm font-medium text-gray-700">
+                  <div className="flex items-end space-x-3">
+                    <div className="flex-1 space-y-2">
+                      <label className="block text-sm font-semibold text-gray-700">
                         Objetivo {index + 1}
                       </label>
                       <input
                         type="text"
-                        className="w-full rounded-lg border border-gray-300 px-4 py-3 transition-all duration-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
+                        className="h-10 w-full rounded-lg border border-slate-300 bg-white px-4 text-sm text-slate-700 shadow-sm transition-all outline-none placeholder:text-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:ring-offset-1"
                         placeholder={`Ej: Mejorar la calidad de vida en el sector...`}
                         value={objective}
                         onChange={(e) =>
@@ -116,7 +116,25 @@ export default function SurveyContent({
                         title="Eliminar objetivo"
                       >
                         <span className="transition-transform duration-200 group-hover:scale-110">
-                          🗑️
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            className="icon icon-tabler icons-tabler-outline icon-tabler-trash"
+                          >
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <path d="M4 7l16 0" />
+                            <path d="M10 11l0 6" />
+                            <path d="M14 11l0 6" />
+                            <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+                            <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+                          </svg>
                         </span>
                       </button>
                     )}

@@ -265,8 +265,8 @@ export async function createSurvey(formData: FormData) {
               const subPreguntaRequest = new sql.Request(transaction);
               const subPreguntaResult = await subPreguntaRequest
                 .input("encuesta_id", sql.Int, encuestaId)
-                .input("indice", sql.Int, i + 1)
-                .input("paso", sql.NVarChar, `SubPaso de ${i + 1}.${j + 1}`)
+                .input("indice", sql.Int, i + 1) // Creo que la subpregunta siempre seria 1, por lo que su indice debiese ser siempre "1".
+                .input("paso", sql.NVarChar, `SubPaso de ${i + 1}.${j + 1}`) // Si el indice es siempre 1, en paso podria poner algo que la relacione a la opcion a la cual corresponde.
                 .input(
                   "paso_descripcion",
                   sql.NVarChar,
