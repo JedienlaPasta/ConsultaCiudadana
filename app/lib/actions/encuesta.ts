@@ -163,7 +163,7 @@ export async function createSurvey(formData: FormData) {
         .input("fecha_inicio", sql.DateTime2, validatedData.data.start_date)
         .input("fecha_termino", sql.DateTime2, validatedData.data.end_date)
         .input("departamento", sql.NVarChar, validatedData.data.department)
-        .input("created_by", sql.Int, 12345678).query(`
+        .input("created_by", sql.Int, 55555555).query(`
           INSERT INTO encuestas (titulo, descripcion_corta, descripcion_larga, fecha_inicio, fecha_termino, departamento, created_by) 
           OUTPUT INSERTED.id
           VALUES (@titulo, @descripcion_corta, @descripcion_larga, @fecha_inicio, @fecha_termino, @departamento, @created_by)

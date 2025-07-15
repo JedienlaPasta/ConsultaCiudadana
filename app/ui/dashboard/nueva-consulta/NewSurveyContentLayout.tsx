@@ -8,6 +8,7 @@ import SurveyChronogram from "./SurveyChronogram";
 import SurveyQuestions from "./SurveyQuestions";
 import SurveyPreview from "./SurveyPreview";
 import { createSurvey } from "@/app/lib/actions/encuesta";
+import { toast } from "sonner";
 
 // Type definitions
 export type ChronogramItem = {
@@ -342,11 +343,21 @@ export default function NewSurveyContentLayout() {
     );
     myFormData.append("questions", JSON.stringify(formData.questions));
 
+    const toastId = toast.loading("Guardando consulta...");
     try {
-      const result = await createSurvey(myFormData);
-      console.log("Survey creation result:", result);
+      const response = await createSurvey(myFormData);
+      if (!response.success) {
+        throw new Error(response.message);
+      }
+
+      toast.success(response.message, { id: toastId });
+      // router.push("/");
+      // console.log("Survey creation result:", response);
     } catch (error) {
-      console.error("Error creating survey:", error);
+      // console.error("Error creating survey:", error);
+      const message =
+        error instanceof Error ? error.message : "Error al iniciar sesión";
+      toast.error(message, { id: toastId });
     }
   };
 

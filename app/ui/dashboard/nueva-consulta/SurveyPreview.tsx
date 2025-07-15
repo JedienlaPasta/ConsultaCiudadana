@@ -191,7 +191,7 @@ export default function SurveyPreview({
                 {formData.questions.slice(0, 3).map((question, index) => (
                   <li key={index} className="border-l-2 border-purple-200 pl-3">
                     <p className="text-sm font-medium text-gray-800">
-                      {index + 1}. {question.text || "Pregunta sin título"}
+                      {index + 1}. {question.question || "Pregunta sin título"}
                     </p>
                     <p className="mt-1 text-xs text-gray-500">
                       {question.options.length} opciones
