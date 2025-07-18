@@ -37,8 +37,12 @@ const SurveySchema = z.object({
   survey_large_description: z
     .string()
     .min(50, { message: "La descripción es requerida" }),
-  start_date: z.string(),
-  end_date: z.string(),
+  start_date: z.string().refine((date) => !isNaN(Date.parse(date)), {
+    message: "Fecha de inicio inválida",
+  }),
+  end_date: z.string().refine((date) => !isNaN(Date.parse(date)), {
+    message: "Fecha de término inválida",
+  }),
   department: z.string().min(3, { message: "El departamento es requerido" }),
 
   objectives: z.array(z.string()),
@@ -66,29 +70,63 @@ const SurveySchema = z.object({
     }),
   ),
   questions: z.array(
-    z.object({
-      id: z.number(),
-      question: z
-        .string()
-        .min(5, { message: "El texto de la pregunta es requerido" }),
-      isMapQuestion: z.boolean(),
-      options: z.array(
-        z.object({
-          id: z.number(),
-          option: z
-            .string()
-            .min(1, { message: "El texto de la opción es requerido" }),
-          hasSubQuestion: z.boolean(),
-          subQuestion: z.string().optional(),
-          subOptions: z.array(z.string()).optional(),
-        }),
+    z
+      .object({
+        id: z.number(),
+        questionId: z.number(),
+        isMapQuestion: z.boolean(),
+        minOptions: z.coerce.number(),
+        maxOptions: z.coerce.number(),
+      })
+      .and(
+        z.discriminatedUnion("isMapQuestion", [
+          // Case 1: Map question with questionId !== 0
+          z.object({
+            isMapQuestion: z.literal(true),
+            questionId: z.number().refine((val) => val !== 0, {
+              message: "questionId invalido para pregunta tipo Mapa",
+            }),
+            question: z.string().optional(),
+            options: z.array(z.any()).optional(),
+          }),
+          // Case 2: Regular question with questionId === 0
+          z
+            .object({
+              isMapQuestion: z.literal(false),
+              questionId: z.literal(0),
+              question: z
+                .string()
+                .min(5, { message: "El texto de la pregunta es requerido" }),
+              minOptions: z.coerce.number().min(1, {
+                message: "El mínimo de opciones debe ser al menos 1",
+              }),
+              maxOptions: z.coerce.number().min(1, {
+                message: "El máximo de opciones debe ser al menos 1",
+              }),
+              options: z.array(
+                z.object({
+                  id: z.number(),
+                  option: z
+                    .string()
+                    .min(1, { message: "El texto de la opción es requerido" }),
+                  hasSubQuestion: z.boolean(),
+                  subQuestion: z.string().optional(),
+                  subOptions: z.array(z.string()).optional(),
+                }),
+              ),
+            })
+            .refine((data) => data.maxOptions >= data.minOptions, {
+              message:
+                "El número máximo de opciones a elegir debe ser mayor o igual al mínimo",
+              path: ["maxOptions"],
+            }),
+        ]),
       ),
-    }),
   ),
 });
 
 export async function createSurvey(formData: FormData) {
-  // console.log(formData);
+  console.log(formData);
   const surveyName = formData.get("survey_name") as string;
   const surveyShortDescription = formData.get(
     "survey_short_description",
@@ -126,9 +164,29 @@ export async function createSurvey(formData: FormData) {
 
   if (!validatedData.success) {
     console.error("Error al validar los datos:", validatedData.error);
+
+    const errors = validatedData.error.issues;
+    const fieldErrors = errors.map((error) => {
+      const field = error.path.join(".");
+      if (field.includes("minOptions") || field.includes("maxOptions")) {
+        return "Las opciones mínimas y máximas deben ser números válidos";
+      }
+      if (field.includes("survey_name")) {
+        return "El nombre de la encuesta es requerido";
+      }
+      return error.message;
+    });
+
     return {
       success: false,
-      message: "No se pudo registrar la consulta, intente nuevamente",
+      message: fieldErrors[0] || "Error de validación",
+    };
+  }
+
+  if (new Date(startDate) >= new Date(endDate)) {
+    return {
+      success: false,
+      message: "La fecha de término debe ser posterior a la de inicio",
     };
   }
 
@@ -232,12 +290,35 @@ export async function createSurvey(formData: FormData) {
       // 6. Insertar preguntas y opciones
       for (let i = 0; i < validatedData.data.questions.length; i++) {
         const question = validatedData.data.questions[i];
-        if (question.question.trim()) {
-          // Insertar pregunta
+        let preguntaId: number;
+
+        if (question.questionId > 0) {
+          // Si questionId !== 0, la pregunta ya existe, por lo que solo se asocia (le estaria pasando el id de la pregunta)
+          preguntaId = question.questionId;
+          console.log("ID pregunta:", preguntaId);
+
+          const checkPreguntaRequest = new sql.Request(transaction);
+          const checkPreguntaResult = await checkPreguntaRequest.input(
+            "id",
+            sql.Int,
+            question.questionId,
+          ).query(`
+              SELECT es_global FROM preguntas WHERE id = @id
+            `);
+          if (checkPreguntaResult.recordset.length === 0) {
+            throw new Error(
+              `La pregunta con ID ${question.questionId} no existe`,
+            );
+          }
+          if (!checkPreguntaResult.recordset[0].es_global) {
+            throw new Error(
+              `La pregunta con ID ${question.questionId} no es reutilizable`,
+            );
+          }
+        } else {
+          // Si questionId === 0, insertar nueva pregunta
           const preguntaRequest = new sql.Request(transaction);
           const preguntaResult = await preguntaRequest
-            .input("encuesta_id", sql.Int, encuestaId)
-            .input("indice", sql.Int, i + 1)
             .input("paso", sql.NVarChar, `Paso ${i + 1}`)
             .input(
               "paso_descripcion",
@@ -250,63 +331,97 @@ export async function createSurvey(formData: FormData) {
               "tipo",
               sql.NVarChar,
               question.isMapQuestion ? "mapa" : "normal",
-            ).query(`
-              INSERT INTO preguntas (encuesta_id, indice, paso, paso_descripcion, pregunta, pregunta_descripcion, tipo) 
+            )
+            .input("multiples_respuestas", sql.Bit, question.maxOptions > 1)
+            .input("min_respuestas", sql.Int, question.minOptions)
+            .input("max_respuestas", sql.Int, question.maxOptions).query(`
+              INSERT INTO preguntas (paso, paso_descripcion, pregunta, pregunta_descripcion, tipo, multiples_respuestas, min_respuestas, max_respuestas) 
               OUTPUT INSERTED.id
-              VALUES (@encuesta_id, @indice, @paso, @paso_descripcion, @pregunta, @pregunta_descripcion, @tipo)
+              VALUES (@paso, @paso_descripcion, @pregunta, @pregunta_descripcion, @tipo, @multiples_respuestas, @min_respuestas, @max_respuestas)
             `);
 
-          const preguntaId = preguntaResult.recordset[0].id;
+          preguntaId = preguntaResult.recordset[0].id;
+        }
 
-          // Insertar opciones de la pregunta (subpreguntas y subopciones tambien)
-          for (let j = 0; j < question.options.length; j++) {
-            const option = question.options[j];
-            if (option.hasSubQuestion && option.subQuestion?.trim()) {
-              const subPreguntaRequest = new sql.Request(transaction);
-              const subPreguntaResult = await subPreguntaRequest
-                .input("encuesta_id", sql.Int, encuestaId)
-                .input("indice", sql.Int, i + 1) // Creo que la subpregunta siempre seria 1, por lo que su indice debiese ser siempre "1".
-                .input("paso", sql.NVarChar, `SubPaso de ${i + 1}.${j + 1}`) // Si el indice es siempre 1, en paso podria poner algo que la relacione a la opcion a la cual corresponde.
-                .input(
-                  "paso_descripcion",
-                  sql.NVarChar,
-                  `SubPregunta ligada a opción ${option.option}`,
+        // Asociar pregunta a la encuesta
+        const encuestaPreguntaRequest = new sql.Request(transaction);
+        await encuestaPreguntaRequest
+          .input("encuesta_id", sql.Int, encuestaId)
+          .input("pregunta_id", sql.Int, preguntaId)
+          .input("orden", sql.Int, i + 1).query(`
+            INSERT INTO encuestas_preguntas (encuesta_id, pregunta_id, orden) 
+            VALUES (@encuesta_id, @pregunta_id, @orden)
+          `);
+
+        // Insertar opciones de la pregunta (subpreguntas y subopciones tambien)
+        if (!question.questionId || question.questionId <= 0) {
+          if (question.options && question.options.length > 0) {
+            for (let j = 0; j < question.options.length; j++) {
+              const option = question.options[j];
+              let subPreguntaId: number | null = null;
+
+              if (
+                option.hasSubQuestion &&
+                option.subQuestion?.trim() &&
+                option.subOptions.some(
+                  (option: string) => option.trim().length > 0,
                 )
-                .input("pregunta", sql.NVarChar, option.subQuestion)
-                .input("pregunta_descripcion", sql.NVarChar, option.subQuestion)
-                .input("tipo", sql.NVarChar, "normal").query(`
-                  INSERT INTO preguntas (encuesta_id, indice, paso, paso_descripcion, pregunta, pregunta_descripcion, tipo) 
+              ) {
+                const subPreguntaRequest = new sql.Request(transaction);
+                const subPreguntaResult = await subPreguntaRequest
+                  .input("paso", sql.NVarChar, `SubPaso de ${i + 1}.${j + 1}`) // Nombre del paso, ej: Selecciona tu sector
+                  .input(
+                    "paso_descripcion",
+                    sql.NVarChar,
+                    `SubPregunta ligada a opción ${option.option}`,
+                  )
+                  .input("pregunta", sql.NVarChar, option.subQuestion)
+                  .input(
+                    "pregunta_descripcion",
+                    sql.NVarChar,
+                    option.subQuestion,
+                  )
+                  .input("tipo", sql.NVarChar, "normal").query(`
+                  INSERT INTO preguntas (paso, paso_descripcion, pregunta, pregunta_descripcion, tipo) 
                   OUTPUT INSERTED.id
-                  VALUES (@encuesta_id, @indice, @paso, @paso_descripcion, @pregunta, @pregunta_descripcion, @tipo)
+                  VALUES (@paso, @paso_descripcion, @pregunta, @pregunta_descripcion, @tipo)
                 `);
-              const subPreguntaId = subPreguntaResult.recordset[0].id;
-              // Insertar subopciones de la subpregunta
-              if (option.subOptions && option.subOptions.length > 0) {
-                for (let k = 0; k < option.subOptions.length; k++) {
-                  const subOption = option.subOptions[k];
-                  if (subOption.trim()) {
-                    const subOpcionRequest = new sql.Request(transaction);
-                    await subOpcionRequest
-                      .input("pregunta_id", sql.Int, subPreguntaId)
-                      .input("indice", sql.Int, k + 1)
-                      .input("opcion", sql.NVarChar, subOption)
-                      .input("descripcion", sql.NVarChar, subOption).query(`
-                        INSERT INTO opciones (pregunta_id, indice, opcion, descripcion) 
-                        VALUES (@pregunta_id, @indice, @opcion, @descripcion)
+
+                subPreguntaId = subPreguntaResult.recordset[0].id;
+
+                // Insertar subopciones de la subpregunta
+                if (option.subOptions && option.subOptions.length > 0) {
+                  for (let k = 0; k < option.subOptions.length; k++) {
+                    const subOption = option.subOptions[k];
+                    if (subOption.trim()) {
+                      const subOpcionRequest = new sql.Request(transaction);
+                      await subOpcionRequest
+                        .input("pregunta_id", sql.Int, subPreguntaId)
+                        .input("orden", sql.Int, k + 1)
+                        .input("opcion", sql.NVarChar, subOption)
+                        .input("descripcion", sql.NVarChar, subOption).query(`
+                        INSERT INTO opciones (pregunta_id, orden, opcion, descripcion) 
+                        VALUES (@pregunta_id, @orden, @opcion, @descripcion)
                       `);
+                    }
                   }
                 }
               }
-            } else if (option.option.trim()) {
-              const opcionRequest = new sql.Request(transaction);
-              await opcionRequest
-                .input("pregunta_id", sql.Int, preguntaId)
-                .input("indice", sql.Int, j + 1)
-                .input("opcion", sql.NVarChar, option.option)
-                .input("descripcion", sql.NVarChar, option.option).query(`
-                  INSERT INTO opciones (pregunta_id, indice, opcion, descripcion) 
-                  VALUES (@pregunta_id, @indice, @opcion, @descripcion)
+
+              // Insertar opcion principal
+              if (option.option.trim()) {
+                const opcionRequest = new sql.Request(transaction);
+                await opcionRequest
+                  .input("pregunta_id", sql.Int, preguntaId)
+                  .input("orden", sql.Int, j + 1)
+                  .input("opcion", sql.NVarChar, option.option)
+                  .input("descripcion", sql.NVarChar, option.option)
+                  .input("sub_pregunta_id", sql.Int, subPreguntaId ?? null)
+                  .query(`
+                  INSERT INTO opciones (pregunta_id, orden, opcion, descripcion, sub_pregunta_id) 
+                  VALUES (@pregunta_id, @orden, @opcion, @descripcion, @sub_pregunta_id)
                 `);
+              }
             }
           }
         }

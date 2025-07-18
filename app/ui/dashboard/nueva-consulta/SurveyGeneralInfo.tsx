@@ -81,26 +81,23 @@ export default function SurveyGeneralInfo({
     <div className="space-y-5">
       {/* Enhanced Main Card */}
       <div className="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
-        <div className="border-b border-gray-100 bg-gray-100 p-6">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
-              <div className="flex size-12 items-center justify-center rounded-full bg-white">
-                <span className="text-2xl">📄</span>
-              </div>
-              <div>
-                <h2 className="text-2xl font-bold text-slate-700">
-                  Información General
-                </h2>
-                <p className="mt-1 text-slate-600">
-                  Configura la información principal de la consulta ciudadana
-                </p>
-              </div>
-            </div>
-          </div>
+        <div className="px-8">
+          <h2 className="border-b border-gray-200/80 pt-7 pb-5 text-xl font-bold text-slate-700">
+            Información General
+          </h2>
+        </div>
+        <div className="p-8 pt-6 pb-0">
+          <p className="text-sm font-semibold text-slate-700">
+            Especifica los datos principales de tu consulta.
+          </p>
+          <p className="text-sm text-slate-600">
+            Rellena cada uno de los campos con información relevante para tu
+            consulta.
+          </p>
         </div>
 
-        <div className="p-8">
-          <div className="space-y-8">
+        <div className="p-8 pt-6">
+          <div className="space-y-6">
             <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
               <div className="space-y-2">
                 <label className="flex items-center text-sm font-semibold text-gray-700">

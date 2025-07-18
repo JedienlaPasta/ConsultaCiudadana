@@ -23,7 +23,7 @@ export default function TabBtn({
         isActive
           ? "border-r-1s border-blue-600 bg-blue-50"
           : isCompleted
-            ? "bg-green-50"
+            ? "bg-emerald-50"
             : "bg-white hover:bg-gray-50"
       } ${index !== 5 ? "border-b border-gray-100" : ""}`}
     >
@@ -33,7 +33,7 @@ export default function TabBtn({
           isActive
             ? "border-blue-600 bg-blue-600 text-white shadow-lg"
             : isCompleted
-              ? "border-green-600 bg-green-600 text-white"
+              ? "border-emerald-600 bg-emerald-600 text-white"
               : "border-gray-300 bg-white text-gray-500 group-hover:border-gray-400"
         }`}
       >
@@ -60,10 +60,10 @@ export default function TabBtn({
         <span
           className={`text-sm font-medium transition-colors duration-300 ${
             isActive
-              ? "text-blue-900"
+              ? "text-blue-800"
               : isCompleted
-                ? "text-green-900"
-                : "text-gray-700 group-hover:text-gray-900"
+                ? "text-emerald-800"
+                : "text-gray-700 group-hover:text-gray-800"
           }`}
         >
           {children}
@@ -73,7 +73,7 @@ export default function TabBtn({
             isActive
               ? "text-blue-600"
               : isCompleted
-                ? "text-green-600"
+                ? "text-emerald-600"
                 : "text-gray-500"
           }`}
         >

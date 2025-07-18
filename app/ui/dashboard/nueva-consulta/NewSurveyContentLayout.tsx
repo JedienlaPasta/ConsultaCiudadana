@@ -3,8 +3,8 @@
 import { useState, useEffect } from "react";
 import TabBtn from "./TabBtn";
 import SurveyGeneralInfo from "./SurveyGeneralInfo";
-import SurveyContent from "./SurveyContent";
-import SurveyChronogram from "./SurveyChronogram";
+import SurveyObjectivesChronogram from "./SurveyObjectivesChronogram";
+import SurveyConceptsFAQ from "./SurveyConceptsFAQ";
 import SurveyQuestions from "./SurveyQuestions";
 import SurveyPreview from "./SurveyPreview";
 import { createSurvey } from "@/app/lib/actions/encuesta";
@@ -37,8 +37,11 @@ export type QuestionOption = {
 
 export type Question = {
   id: number;
+  questionId: number;
   question: string;
   isMapQuestion: boolean;
+  maxOptions: number;
+  minOptions: number;
   options: QuestionOption[];
 };
 
@@ -103,57 +106,49 @@ const INITIAL_FORM_DATA: FormData = {
   questions: [
     {
       id: 1,
+      questionId: 0,
       question: "",
       isMapQuestion: false,
+      maxOptions: 1,
+      minOptions: 1,
       options: [
         {
           id: 1,
           option: "",
           hasSubQuestion: false,
           subQuestion: "",
-          subOptions: [""],
+          subOptions: ["", ""],
         },
         {
           id: 2,
           option: "",
           hasSubQuestion: false,
           subQuestion: "",
-          subOptions: [""],
-        },
-        {
-          id: 3,
-          option: "",
-          hasSubQuestion: false,
-          subQuestion: "",
-          subOptions: [""],
+          subOptions: ["", ""],
         },
       ],
     },
     {
       id: 2,
+      questionId: 0,
       question: "",
       isMapQuestion: false,
+      maxOptions: 1,
+      minOptions: 1,
       options: [
         {
           id: 1,
           option: "",
           hasSubQuestion: false,
           subQuestion: "",
-          subOptions: [""],
+          subOptions: ["", ""],
         },
         {
           id: 2,
           option: "",
           hasSubQuestion: false,
           subQuestion: "",
-          subOptions: [""],
-        },
-        {
-          id: 3,
-          option: "",
-          hasSubQuestion: false,
-          subQuestion: "",
-          subOptions: [""],
+          subOptions: ["", ""],
         },
       ],
     },
@@ -231,9 +226,18 @@ export default function NewSurveyContentLayout() {
   ) => {
     setFormData((prev) => ({
       ...prev,
-      questions: prev.questions.map((q, i) =>
-        i === questionIndex ? { ...q, [field]: value } : q,
-      ),
+      questions: prev.questions.map((question, index) => {
+        if (index !== questionIndex) return question;
+        const updatedQuestion = { ...question, [field]: value };
+
+        if (field === "isMapQuestion" && value === true) {
+          updatedQuestion.questionId = 1;
+        } else {
+          updatedQuestion.questionId = 0;
+        }
+
+        return updatedQuestion;
+      }),
     }));
   };
 
@@ -261,8 +265,11 @@ export default function NewSurveyContentLayout() {
   const addQuestion = () => {
     const newQuestion = {
       id: formData.questions.length + 1,
+      questionId: 0,
       question: "",
       isMapQuestion: false,
+      maxOptions: 1,
+      minOptions: 1,
       options: [
         {
           id: 1,
@@ -273,13 +280,6 @@ export default function NewSurveyContentLayout() {
         },
         {
           id: 2,
-          option: "",
-          hasSubQuestion: false,
-          subQuestion: "",
-          subOptions: ["", ""],
-        },
-        {
-          id: 3,
           option: "",
           hasSubQuestion: false,
           subQuestion: "",
@@ -315,6 +315,34 @@ export default function NewSurveyContentLayout() {
   };
 
   const handleSubmit = async () => {
+    // Filter out empty questions before submitting
+    const validQuestions = formData.questions.filter((question) => {
+      // Keep the question if it has meaningful content
+      const hasQuestionText = question.question.trim() !== "";
+      const isMapQuestion = question.isMapQuestion;
+      const hasValidOptions = question.options.some((option) => {
+        const hasOptionText = option.option.trim() !== "";
+        const hasSubQuestion = option.subQuestion.trim() !== "";
+        const hasValidSubOptions = option.subOptions.some(subOpt => subOpt.trim() !== "");
+        return hasOptionText || hasSubQuestion || hasValidSubOptions;
+      });
+      
+      return hasQuestionText || isMapQuestion || hasValidOptions;
+    }).map((question) => ({
+      ...question,
+      // Also clean up empty options within each question
+      options: question.options.filter((option) => {
+        const hasOptionText = option.option.trim() !== "";
+        const hasSubQuestion = option.subQuestion.trim() !== "";
+        const hasValidSubOptions = option.subOptions.some(subOpt => subOpt.trim() !== "");
+        return hasOptionText || hasSubQuestion || hasValidSubOptions;
+      }).map((option) => ({
+        ...option,
+        // Clean up empty sub-options
+        subOptions: option.subOptions.filter(subOpt => subOpt.trim() !== "")
+      }))
+    }));
+
     const myFormData = new FormData();
     // General Info
     myFormData.append("survey_name", formData.survey_name);
@@ -341,7 +369,8 @@ export default function NewSurveyContentLayout() {
       "frequently_asked_questions",
       JSON.stringify(formData.frequently_asked_questions),
     );
-    myFormData.append("questions", JSON.stringify(formData.questions));
+    // Use the filtered questions instead of the original formData.questions
+    myFormData.append("questions", JSON.stringify(validQuestions));
 
     const toastId = toast.loading("Guardando consulta...");
     try {
@@ -386,47 +415,47 @@ export default function NewSurveyContentLayout() {
             index={2}
             onClick={() => setCurrentStep(2)}
           >
-            Contenido
+            Objetivos y Cronograma
           </TabBtn>
           <TabBtn
             currentStep={currentStep}
             index={3}
             onClick={() => setCurrentStep(3)}
           >
-            Cronograma
+            Conceptos y FAQ
           </TabBtn>
           <TabBtn
             currentStep={currentStep}
             index={4}
             onClick={() => setCurrentStep(4)}
           >
-            Preguntas
+            Contenido Consulta
           </TabBtn>
           <TabBtn
             currentStep={currentStep}
             index={5}
             onClick={() => setCurrentStep(5)}
           >
-            Revisión
+            Vista Previa
           </TabBtn>
         </div>
 
         {/* Enhanced Content Area */}
-        <div className="p-8s flex-1">
+        <div className="flex-1">
           {currentStep === 1 ? (
             <SurveyGeneralInfo
               formData={formData}
               updateFormData={updateFormData}
             />
           ) : currentStep === 2 ? (
-            <SurveyContent
+            <SurveyObjectivesChronogram
               formData={formData}
               updateArrayItem={updateArrayItem}
               removeArrayItem={removeArrayItem}
               addArrayItem={addArrayItem}
             />
           ) : currentStep === 3 ? (
-            <SurveyChronogram
+            <SurveyConceptsFAQ
               formData={formData}
               updateArrayItem={updateArrayItem}
               removeArrayItem={removeArrayItem}

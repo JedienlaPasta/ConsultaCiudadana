@@ -35,7 +35,7 @@ export default function SurveyPreview({
     {
       label: "FAQ",
       count: completedFAQs,
-      color: "bg-green-50 text-green-700 border-green-200",
+      color: "bg-emerald-50 text-emerald-700 border-emerald-200",
     },
     {
       label: "Fases del Cronograma",
@@ -48,11 +48,19 @@ export default function SurveyPreview({
     <div className="space-y-8">
       {/* Survey Overview Card */}
       <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
-        <div className="border-b border-gray-200 bg-gradient-to-r from-gray-50 to-gray-100 p-6">
-          <h3 className="mb-2 text-xl font-semibold text-gray-900">
-            Información General
-          </h3>
-          <p className="text-gray-600">Datos básicos de la consulta</p>
+        <div className="px-8">
+          <h2 className="border-b border-gray-200/80 pt-7 pb-5 text-xl font-bold text-slate-700">
+            Vista Previa de la Consulta
+          </h2>
+        </div>
+        <div className="p-8 py-6">
+          <p className="text-sm font-semibold text-slate-700">
+            Verifica que la información de tu consulta sea correcta.
+          </p>
+          <p className="text-sm text-slate-600">
+            Ten en cuenta que para que tu consulta sea válida, debes completar
+            todos los campos obligatorios.
+          </p>
         </div>
 
         <div className="p-6">
@@ -60,13 +68,12 @@ export default function SurveyPreview({
             <div className="space-y-6">
               <div className="group">
                 <div className="mb-2 flex items-center">
-                  <span className="mr-2 text-lg">📝</span>
-                  <h4 className="font-semibold text-gray-900">
+                  <h4 className="text-sm font-semibold text-gray-700">
                     Nombre de la Consulta
                   </h4>
                 </div>
-                <div className="rounded-lg border border-gray-200 bg-gray-50 p-4">
-                  <p className="font-medium text-gray-800">
+                <div className="flex h-10 w-full items-center rounded-lg border border-slate-300 bg-white px-4 text-sm text-slate-700 shadow-sm">
+                  <p className="font-medium text-slate-600">
                     {formData.survey_name || "Sin definir"}
                   </p>
                 </div>
@@ -74,11 +81,12 @@ export default function SurveyPreview({
 
               <div className="group">
                 <div className="mb-2 flex items-center">
-                  <span className="mr-2 text-lg">🏢</span>
-                  <h4 className="font-semibold text-gray-900">Departamento</h4>
+                  <h4 className="text-sm font-semibold text-gray-700">
+                    Departamento
+                  </h4>
                 </div>
-                <div className="rounded-lg border border-gray-200 bg-gray-50 p-4">
-                  <p className="font-medium text-gray-800">
+                <div className="flex h-10 w-full items-center rounded-lg border border-slate-300 bg-white px-4 text-sm text-slate-700 shadow-sm">
+                  <p className="font-medium text-slate-600">
                     {formData.department || "Sin definir"}
                   </p>
                 </div>
@@ -88,13 +96,12 @@ export default function SurveyPreview({
             <div className="space-y-6">
               <div className="group">
                 <div className="mb-2 flex items-center">
-                  <span className="mr-2 text-lg">📅</span>
-                  <h4 className="font-semibold text-gray-900">
+                  <h4 className="text-sm font-semibold text-gray-700">
                     Período de Consulta
                   </h4>
                 </div>
-                <div className="rounded-lg border border-gray-200 bg-gray-50 p-4">
-                  <p className="font-medium text-gray-800">
+                <div className="flex h-10 w-full items-center rounded-lg border border-slate-300 bg-white px-4 text-sm text-slate-700 shadow-sm">
+                  <p className="font-medium text-slate-600">
                     {formData.start_date && formData.end_date
                       ? `${formData.start_date} - ${formData.end_date}`
                       : "Sin definir"}
@@ -104,11 +111,12 @@ export default function SurveyPreview({
 
               <div className="group">
                 <div className="mb-2 flex items-center">
-                  <span className="mr-2 text-lg">📄</span>
-                  <h4 className="font-semibold text-gray-900">Descripción</h4>
+                  <h4 className="text-sm font-semibold text-gray-700">
+                    Descripción
+                  </h4>
                 </div>
-                <div className="max-h-24 overflow-y-auto rounded-lg border border-gray-200 bg-gray-50 p-4">
-                  <p className="text-sm leading-relaxed text-gray-800">
+                <div className="max-h-24 w-full overflow-y-auto rounded-lg border border-slate-300 bg-white px-4 py-2 text-slate-700 shadow-sm">
+                  <p className="text-sm leading-relaxed text-slate-600">
                     {formData.survey_short_description || "Sin definir"}
                   </p>
                 </div>
@@ -148,8 +156,10 @@ export default function SurveyPreview({
                   .filter((obj) => obj.trim())
                   .map((objective, index) => (
                     <li key={index} className="flex items-start">
-                      <span className="mt-1 mr-2 text-blue-500">•</span>
-                      <span className="text-sm text-gray-700">{objective}</span>
+                      <span className="-mt-0.5 mr-2 text-blue-500">•</span>
+                      <span className="text-sm text-slate-700">
+                        {objective}
+                      </span>
                     </li>
                   ))}
               </ul>
@@ -175,11 +185,15 @@ export default function SurveyPreview({
                 {formData.questions.slice(0, 3).map((question, index) => (
                   <li key={index} className="border-l-2 border-purple-200 pl-3">
                     <p className="text-sm font-medium text-gray-800">
-                      {index + 1}. {question.question || "Pregunta sin título"}
+                      {index + 1}.{" "}
+                      {question.isMapQuestion
+                        ? "Selecciona tu Sector de Votación"
+                        : question.question || "Pregunta sin título"}
                     </p>
                     <p className="mt-1 text-xs text-gray-500">
-                      {question.options.length} opciones
-                      {question.isMapQuestion && " • Pregunta de mapa"}
+                      {question.isMapQuestion
+                        ? "Mapa interactivo"
+                        : question.options.length + " opciones"}
                     </p>
                   </li>
                 ))}
@@ -199,22 +213,20 @@ export default function SurveyPreview({
       </div>
 
       {/* Action Section */}
-      <div className="rounded-2xl border-2 border-green-200 bg-gradient-to-r from-green-50 to-emerald-50 p-8 text-center">
+      <div className="rounded-2xl border-2 border-emerald-200 bg-gradient-to-r from-emerald-50 to-emerald-50 p-8 text-center">
         <div className="mx-auto max-w-md space-y-4">
           <div className="mb-4 text-4xl">🚀</div>
-          <h3 className="mb-2 text-xl font-bold text-gray-900">
+          <h3 className="mb-2 text-xl font-bold text-slate-800">
             ¿Todo listo para crear la consulta?
           </h3>
           <p className="mb-6 text-gray-600">
-            Una vez creada, podrás publicarla y comenzar a recibir respuestas de
-            los ciudadanos.
+            Una vez creada, debe ser revisada y autorizada por un administrador.
           </p>
           <button
-            className="inline-flex transform items-center justify-center rounded-xl bg-gradient-to-r from-green-600 to-green-700 px-8 py-4 text-lg font-semibold text-white shadow-lg transition-all duration-200 hover:-translate-y-0.5 hover:from-green-700 hover:to-green-800 hover:shadow-xl"
+            className="inline-flex h-10 transform cursor-pointer items-center justify-center rounded-lg bg-gradient-to-r from-emerald-600 to-emerald-700 px-8 py-4 font-medium text-white shadow-lg transition-all duration-200 hover:-translate-y-0.5 hover:from-emerald-700 hover:to-emerald-800 hover:shadow-xl"
             onClick={handleSubmit}
           >
-            <span className="mr-3 text-xl">💾</span>
-            Crear Consulta Ciudadana
+            Guardar Consulta
           </button>
         </div>
       </div>
