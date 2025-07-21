@@ -3,8 +3,16 @@ import { SurveyFormData } from "@/app/lib/definitions/encuesta";
 import { formatDate } from "@/app/lib/utils/format";
 
 export default function SurveyHeader({ survey }: { survey?: SurveyFormData }) {
-  const endDate = String(survey?.survey_end_date);
+  const endDate = survey?.survey_end_date
+    ? String(survey?.survey_end_date)
+    : "";
   const isActive = new Date(endDate) > new Date() ? "Activa" : "Finalizada";
+  const surveyDepartment = survey?.department || "No disponible";
+  const surveyName = survey?.survey_name || "No disponible";
+
+  const formatedEndDate = endDate
+    ? formatDate(new Date(endDate))
+    : "No disponible";
 
   return (
     <div className="bg-[#0A4C8A] text-white">
@@ -18,15 +26,15 @@ export default function SurveyHeader({ survey }: { survey?: SurveyFormData }) {
             {isActive}
           </span>
           <span className="rounded-full bg-[#1E5A9A] px-3 py-1 text-xs text-white">
-            {survey?.department}
+            {surveyName}
           </span>
         </div>
 
         <h1 className="mb-2 text-2xl font-bold md:text-3xl">
-          {survey?.survey_name}
+          {surveyDepartment}
         </h1>
         <div className="flex items-center text-sm">
-          <span>Fecha límite: {formatDate(new Date(endDate))}</span>
+          <span>Fecha límite: {formatedEndDate}</span>
         </div>
       </div>
     </div>
