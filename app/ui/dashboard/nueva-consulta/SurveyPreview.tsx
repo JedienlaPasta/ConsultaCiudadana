@@ -1,9 +1,9 @@
 "use client";
 
-import { FormData } from "./NewSurveyContentLayout";
+import { SurveyFormData } from "@/app/lib/definitions/encuesta";
 
 type SurveyPreviewProps = {
-  formData: FormData;
+  formData: SurveyFormData;
   handleSubmit: () => void;
 };
 
@@ -102,8 +102,8 @@ export default function SurveyPreview({
                 </div>
                 <div className="flex h-10 w-full items-center rounded-lg border border-slate-300 bg-white px-4 text-sm text-slate-700 shadow-sm">
                   <p className="text-slate-600">
-                    {formData.start_date && formData.end_date
-                      ? `${formData.start_date} - ${formData.end_date}`
+                    {formData.survey_start_date && formData.survey_end_date
+                      ? `${formData.survey_start_date} - ${formData.survey_end_date}`
                       : "Sin definir"}
                   </p>
                 </div>
