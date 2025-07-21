@@ -11,7 +11,6 @@ import { getSurveyDetails } from "@/app/lib/data/encuesta";
 
 type SurveyDetailsProps = {
   params: Promise<{ id: string }>;
-  children: React.ReactNode;
 };
 
 export default async function SurveyDetail(props: SurveyDetailsProps) {
@@ -21,7 +20,7 @@ export default async function SurveyDetail(props: SurveyDetailsProps) {
   const params = await props.params;
   const id = params.id;
   const survey = await getSurveyDetails(id);
-  console.log(survey);
+  console.log("Survey in page.tsx:", survey);
 
   return (
     <div className="min-h-screen bg-gray-50">

@@ -54,10 +54,10 @@ export default function SurveyGeneralInfo({
           delete errors[field];
         }
         break;
-      case "start_date":
-      case "end_date":
+      case "survey_start_date":
+      case "survey_end_date":
         if (
-          field === "end_date" &&
+          field === "survey_end_date" &&
           formData.survey_start_date &&
           value <= formData.survey_start_date
         ) {
@@ -233,7 +233,7 @@ export default function SurveyGeneralInfo({
                     className={`h-10 w-full rounded-lg border border-slate-300 bg-white px-4 text-sm text-slate-700 shadow-sm transition-all outline-none placeholder:text-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:ring-offset-1`}
                     value={formData.survey_start_date}
                     onChange={(e) =>
-                      handleFieldChange("start_date", e.target.value)
+                      handleFieldChange("survey_start_date", e.target.value)
                     }
                   />
                 </div>
@@ -248,19 +248,19 @@ export default function SurveyGeneralInfo({
                   <input
                     type="date"
                     className={`h-10 w-full rounded-lg border bg-white px-4 text-sm text-slate-700 shadow-sm transition-all outline-none placeholder:text-gray-400 focus:ring-2 focus:ring-offset-1 ${
-                      validationErrors.end_date
+                      validationErrors.survey_end_date
                         ? "border-red-300 focus:border-red-500 focus:ring-red-200"
                         : "border-slate-300 focus:border-blue-500 focus:ring-blue-200"
                     }`}
                     value={formData.survey_end_date}
                     onChange={(e) =>
-                      handleFieldChange("end_date", e.target.value)
+                      handleFieldChange("survey_end_date", e.target.value)
                     }
                   />
                 </div>
-                {validationErrors.end_date && (
+                {validationErrors.survey_end_date && (
                   <p className="flex items-center text-sm text-red-600">
-                    {validationErrors.end_date}
+                    {validationErrors.survey_end_date}
                   </p>
                 )}
               </div>

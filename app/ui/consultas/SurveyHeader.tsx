@@ -3,8 +3,6 @@ import { SurveyFormData } from "@/app/lib/definitions/encuesta";
 import { formatDate } from "@/app/lib/utils/format";
 
 export default function SurveyHeader({ survey }: { survey: SurveyFormData }) {
-  console.log(survey);
-
   const endDate = String(survey.survey_end_date);
   const isActive = new Date(endDate) > new Date() ? "Activa" : "Finalizada";
 

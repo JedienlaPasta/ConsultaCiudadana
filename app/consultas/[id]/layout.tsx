@@ -11,12 +11,10 @@ type SurveyDetailsProps = {
 
 export default async function Layout(props: SurveyDetailsProps) {
   const session = await getSession();
-  console.log("Session in layout:", session);
 
   const params = await props.params;
   const id = params.id;
   const survey = await getSurveyDetails(id);
-  console.log("Survey in layout:", survey);
 
   return (
     <div>
