@@ -1,10 +1,14 @@
 "use client";
 
-import { FormData, Question, QuestionOption } from "./NewSurveyContentLayout";
+import {
+  Question,
+  QuestionOption,
+  SurveyFormData,
+} from "@/app/lib/definitions/encuesta";
 
 type SurveyQuestionsProps = {
-  formData: FormData;
-  setFormData: React.Dispatch<React.SetStateAction<FormData>>;
+  formData: SurveyFormData;
+  setFormData: React.Dispatch<React.SetStateAction<SurveyFormData>>;
   updateQuestion: (
     questionIndex: number,
     field: keyof Question,

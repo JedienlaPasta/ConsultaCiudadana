@@ -211,37 +211,41 @@ export async function createSurvey(formData: FormData) {
       const encuestaRequest = new sql.Request(transaction);
       // 1. Insertar encuesta
       const encuestaResult = await encuestaRequest
-        .input("titulo", sql.NVarChar, validatedData.data.survey_name)
+        .input("survey_name", sql.NVarChar, validatedData.data.survey_name)
         .input(
-          "descripcion_corta",
+          "survey_short_description",
           sql.NVarChar,
           validatedData.data.survey_short_description,
         )
         .input(
-          "descripcion_larga",
+          "survey_large_description",
           sql.NVarChar,
           validatedData.data.survey_large_description,
         )
-        .input("fecha_inicio", sql.DateTime2, validatedData.data.start_date)
-        .input("fecha_termino", sql.DateTime2, validatedData.data.end_date)
-        .input("departamento", sql.NVarChar, validatedData.data.department)
+        .input(
+          "survey_start_date",
+          sql.DateTime2,
+          validatedData.data.start_date,
+        )
+        .input("survey_end_date", sql.DateTime2, validatedData.data.end_date)
+        .input("department", sql.NVarChar, validatedData.data.department)
         .input("created_by", sql.Int, 55555555).query(`
-          INSERT INTO encuestas (titulo, descripcion_corta, descripcion_larga, fecha_inicio, fecha_termino, departamento, created_by) 
+          INSERT INTO encuestas (survey_name, survey_short_description, survey_large_description, survey_start_date, survey_end_date, department, created_by) 
           OUTPUT INSERTED.id
-          VALUES (@titulo, @descripcion_corta, @descripcion_larga, @fecha_inicio, @fecha_termino, @departamento, @created_by)
+          VALUES (@survey_name, @survey_short_description, @survey_large_description, @survey_start_date, @survey_end_date, @department, @created_by)
         `);
 
-      const encuestaId = encuestaResult.recordset[0].id;
+      const surveyId = encuestaResult.recordset[0].id;
 
       // 2. Insertar objetivos
       for (const objetivo of validatedData.data.objectives) {
         if (objetivo.trim()) {
           const objetivoRequest = new sql.Request(transaction);
           await objetivoRequest
-            .input("encuesta_id", sql.Int, encuestaId)
-            .input("objetivo", sql.NVarChar, objetivo)
+            .input("survey_id", sql.Int, surveyId)
+            .input("objective", sql.NVarChar, objetivo)
             .query(
-              `INSERT INTO objetivos (encuesta_id, objetivo) VALUES (@encuesta_id, @objetivo)`,
+              `INSERT INTO objetivos (survey_id, objective) VALUES (@survey_id, @objective)`,
             );
         }
       }
@@ -252,13 +256,13 @@ export async function createSurvey(formData: FormData) {
         if (item.phase.trim() && item.description.trim()) {
           const cronogramaRequest = new sql.Request(transaction);
           await cronogramaRequest
-            .input("encuesta_id", sql.Int, encuestaId)
-            .input("nombre", sql.NVarChar, item.phase)
-            .input("descripcion", sql.NVarChar, item.description)
-            .input("periodo", sql.NVarChar, item.date)
-            .input("orden", sql.Int, i + 1).query(`
-              INSERT INTO cronogramas (encuesta_id, nombre, descripcion, periodo, orden) 
-              VALUES (@encuesta_id, @nombre, @descripcion, @periodo, @orden)
+            .input("survey_id", sql.Int, surveyId)
+            .input("chronogram_name", sql.NVarChar, item.phase)
+            .input("chronogram_description", sql.NVarChar, item.description)
+            .input("estimated_period", sql.NVarChar, item.date)
+            .input("chronogram_order", sql.Int, i + 1).query(`
+              INSERT INTO cronogramas (survey_id, chronogram_name, chronogram_description, estimated_period, chronogram_order) 
+              VALUES (@survey_id, @chronogram_name, @chronogram_description, @estimated_period, @chronogram_order)
             `);
         }
       }
@@ -268,11 +272,11 @@ export async function createSurvey(formData: FormData) {
         if (termino.name.trim() && termino.description.trim()) {
           const terminoRequest = new sql.Request(transaction);
           await terminoRequest
-            .input("encuesta_id", sql.Int, encuestaId)
-            .input("nombre", sql.NVarChar, termino.name)
-            .input("descripcion", sql.NVarChar, termino.description)
+            .input("survey_id", sql.Int, surveyId)
+            .input("concept_name", sql.NVarChar, termino.name)
+            .input("concept_description", sql.NVarChar, termino.description)
             .query(
-              `INSERT INTO terminos (encuesta_id, nombre, descripcion) VALUES (@encuesta_id, @nombre, @descripcion)`,
+              `INSERT INTO terminos (survey_id, concept_name, concept_description) VALUES (@survey_id, @concept_name, @concept_description)`,
             );
         }
       }
@@ -282,11 +286,11 @@ export async function createSurvey(formData: FormData) {
         if (faq.question.trim() && faq.answer.trim()) {
           const faqRequest = new sql.Request(transaction);
           await faqRequest
-            .input("encuesta_id", sql.Int, encuestaId)
-            .input("pregunta", sql.NVarChar, faq.question)
-            .input("respuesta", sql.NVarChar, faq.answer)
+            .input("survey_id", sql.Int, surveyId)
+            .input("faq_question", sql.NVarChar, faq.question)
+            .input("faq_answer", sql.NVarChar, faq.answer)
             .query(
-              `INSERT INTO faq (encuesta_id, pregunta, respuesta) VALUES (@encuesta_id, @pregunta, @respuesta)`,
+              `INSERT INTO faq (survey_id, faq_question, faq_answer) VALUES (@survey_id, @faq_question, @faq_answer)`,
             );
         }
       }
@@ -294,12 +298,12 @@ export async function createSurvey(formData: FormData) {
       // 6. Insertar preguntas y opciones
       for (let i = 0; i < validatedData.data.questions.length; i++) {
         const question = validatedData.data.questions[i];
-        let preguntaId: number;
+        let questionId: number;
 
         if (question.questionId > 0) {
           // Si questionId !== 0, la pregunta ya existe, por lo que solo se asocia (le estaria pasando el id de la pregunta)
-          preguntaId = question.questionId;
-          console.log("ID pregunta:", preguntaId);
+          questionId = question.questionId;
+          console.log("ID pregunta:", questionId);
 
           const checkPreguntaRequest = new sql.Request(transaction);
           const checkPreguntaResult = await checkPreguntaRequest.input(
@@ -307,14 +311,14 @@ export async function createSurvey(formData: FormData) {
             sql.Int,
             question.questionId,
           ).query(`
-              SELECT es_global FROM preguntas WHERE id = @id
+              SELECT is_global FROM preguntas WHERE id = @id
             `);
           if (checkPreguntaResult.recordset.length === 0) {
             throw new Error(
               `La pregunta con ID ${question.questionId} no existe`,
             );
           }
-          if (!checkPreguntaResult.recordset[0].es_global) {
+          if (!checkPreguntaResult.recordset[0].is_global) {
             throw new Error(
               `La pregunta con ID ${question.questionId} no es reutilizable`,
             );
@@ -324,30 +328,30 @@ export async function createSurvey(formData: FormData) {
           // Si questionId === 0, insertar nueva pregunta
           const preguntaRequest = new sql.Request(transaction);
           const preguntaResult = await preguntaRequest
-            .input("paso", sql.NVarChar, question.step)
-            .input("paso_descripcion", sql.NVarChar, question.step_description)
-            .input("pregunta", sql.NVarChar, question.question)
-            .input("pregunta_descripcion", sql.NVarChar, question.question)
-            .input("tipo", sql.NVarChar, questionType)
-            .input("multiples_respuestas", sql.Bit, question.maxOptions > 1)
-            .input("min_respuestas", sql.Int, question.minOptions)
-            .input("max_respuestas", sql.Int, question.maxOptions).query(`
-              INSERT INTO preguntas (paso, paso_descripcion, pregunta, pregunta_descripcion, tipo, multiples_respuestas, min_respuestas, max_respuestas) 
+            .input("step", sql.NVarChar, question.step)
+            .input("step_description", sql.NVarChar, question.step_description)
+            .input("question", sql.NVarChar, question.question)
+            .input("question_description", sql.NVarChar, question.question) // Falta este valor <=======================
+            .input("question_type", sql.NVarChar, questionType)
+            .input("multiple_answers", sql.Bit, question.maxOptions > 1)
+            .input("min_answers", sql.Int, question.minOptions)
+            .input("max_answers", sql.Int, question.maxOptions).query(`
+              INSERT INTO preguntas (step, step_description, question, question_description, question_type, multiple_answers, min_answers, max_answers) 
               OUTPUT INSERTED.id
-              VALUES (@paso, @paso_descripcion, @pregunta, @pregunta_descripcion, @tipo, @multiples_respuestas, @min_respuestas, @max_respuestas)
+              VALUES (@step, @step_description, @question, @question_description, @question_type, @multiple_answers, @min_answers, @max_answers)
             `);
 
-          preguntaId = preguntaResult.recordset[0].id;
+          questionId = preguntaResult.recordset[0].id;
         }
 
         // Asociar pregunta a la encuesta
         const encuestaPreguntaRequest = new sql.Request(transaction);
         await encuestaPreguntaRequest
-          .input("encuesta_id", sql.Int, encuestaId)
-          .input("pregunta_id", sql.Int, preguntaId)
-          .input("orden", sql.Int, i + 1).query(`
-            INSERT INTO encuestas_preguntas (encuesta_id, pregunta_id, orden) 
-            VALUES (@encuesta_id, @pregunta_id, @orden)
+          .input("survey_id", sql.Int, surveyId)
+          .input("question_id", sql.Int, questionId)
+          .input("question_order", sql.Int, i + 1).query(`
+            INSERT INTO encuestas_preguntas (survey_id, question_id, question_order) 
+            VALUES (@survey_id, @question_id, @question_order)
           `);
 
         // Insertar opciones de la pregunta (subpreguntas y subopciones tambien)
@@ -355,7 +359,7 @@ export async function createSurvey(formData: FormData) {
           if (question.options && question.options.length > 0) {
             for (let j = 0; j < question.options.length; j++) {
               const option = question.options[j];
-              let subPreguntaId: number | null = null;
+              let subQuestionId: number | null = null;
 
               if (
                 option.hasSubQuestion &&
@@ -366,25 +370,25 @@ export async function createSurvey(formData: FormData) {
               ) {
                 const subPreguntaRequest = new sql.Request(transaction);
                 const subPreguntaResult = await subPreguntaRequest
-                  .input("paso", sql.NVarChar, `SubPaso de ${question.step}`) // Nombre del paso, ej: Selecciona tu sector
+                  .input("step", sql.NVarChar, `SubPaso de ${question.step}`) // Nombre del paso, ej: Selecciona tu sector
                   .input(
-                    "paso_descripcion",
+                    "step_description",
                     sql.NVarChar,
                     `SubPregunta ligada a opción ${option.option}`,
                   )
-                  .input("pregunta", sql.NVarChar, option.subQuestion)
+                  .input("question", sql.NVarChar, option.subQuestion)
                   .input(
-                    "pregunta_descripcion",
+                    "question_description",
                     sql.NVarChar,
                     option.subQuestion,
                   )
-                  .input("tipo", sql.NVarChar, "normal").query(`
-                  INSERT INTO preguntas (paso, paso_descripcion, pregunta, pregunta_descripcion, tipo) 
+                  .input("question_type", sql.NVarChar, "normal").query(`
+                  INSERT INTO preguntas (step, step_description, question, question_description, question_type) 
                   OUTPUT INSERTED.id
-                  VALUES (@paso, @paso_descripcion, @pregunta, @pregunta_descripcion, @tipo)
+                  VALUES (@step, @step_description, @question, @question_description, @question_type)
                 `);
 
-                subPreguntaId = subPreguntaResult.recordset[0].id;
+                subQuestionId = subPreguntaResult.recordset[0].id;
 
                 // Insertar subopciones de la subpregunta
                 if (option.subOptions && option.subOptions.length > 0) {
@@ -393,12 +397,13 @@ export async function createSurvey(formData: FormData) {
                     if (subOption.trim()) {
                       const subOpcionRequest = new sql.Request(transaction);
                       await subOpcionRequest
-                        .input("pregunta_id", sql.Int, subPreguntaId)
-                        .input("orden", sql.Int, k + 1)
-                        .input("opcion", sql.NVarChar, subOption)
-                        .input("descripcion", sql.NVarChar, subOption).query(`
-                        INSERT INTO opciones (pregunta_id, orden, opcion, descripcion) 
-                        VALUES (@pregunta_id, @orden, @opcion, @descripcion)
+                        .input("question_id", sql.Int, subQuestionId)
+                        .input("option_order", sql.Int, k + 1)
+                        .input("option_name", sql.NVarChar, subOption)
+                        .input("option_description", sql.NVarChar, subOption)
+                        .query(`
+                        INSERT INTO opciones (question_id, option_order, option_name, option_description) 
+                        VALUES (@question_id, @option_order, @option_name, @option_description)
                       `);
                     }
                   }
@@ -409,14 +414,14 @@ export async function createSurvey(formData: FormData) {
               if (option.option.trim()) {
                 const opcionRequest = new sql.Request(transaction);
                 await opcionRequest
-                  .input("pregunta_id", sql.Int, preguntaId)
-                  .input("orden", sql.Int, j + 1)
-                  .input("opcion", sql.NVarChar, option.option)
-                  .input("descripcion", sql.NVarChar, option.option)
-                  .input("sub_pregunta_id", sql.Int, subPreguntaId ?? null)
+                  .input("question_id", sql.Int, questionId)
+                  .input("option_order", sql.Int, j + 1)
+                  .input("option_name", sql.NVarChar, option.option)
+                  .input("option_description", sql.NVarChar, option.option)
+                  .input("sub_question_id", sql.Int, subQuestionId ?? null)
                   .query(`
-                  INSERT INTO opciones (pregunta_id, orden, opcion, descripcion, sub_pregunta_id) 
-                  VALUES (@pregunta_id, @orden, @opcion, @descripcion, @sub_pregunta_id)
+                  INSERT INTO opciones (question_id, option_order, option_name, option_description, sub_question_id) 
+                  VALUES (@question_id, @option_order, @option_name, @option_description, @sub_question_id)
                 `);
               }
             }
@@ -425,12 +430,12 @@ export async function createSurvey(formData: FormData) {
       }
 
       await transaction.commit();
-      console.log("Encuesta creada exitosamente con ID:", encuestaId);
+      console.log("Encuesta creada exitosamente con ID:", surveyId);
 
       return {
         success: true,
         message: "Encuesta creada exitosamente",
-        encuestaId: encuestaId,
+        surveyId: surveyId,
       };
     } catch (error) {
       console.error("Error al registrar la encuesta:", error);

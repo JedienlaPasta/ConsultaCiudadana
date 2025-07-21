@@ -2,12 +2,12 @@
 
 import {
   ArrayItemTypeMap,
-  FormData,
   FormDataArrays,
-} from "./NewSurveyContentLayout";
+  SurveyFormData,
+} from "@/app/lib/definitions/encuesta";
 
 type SurveyChronogramProps = {
-  formData: FormData;
+  formData: SurveyFormData;
   updateArrayItem: <K extends keyof FormDataArrays>(
     array: K,
     index: number,
@@ -23,7 +23,7 @@ type SurveyChronogramProps = {
   ) => void;
 };
 
-export default function SurveyChronogram({
+export default function SurveyConceptsFAQ({
   formData,
   removeArrayItem,
   updateArrayItem,

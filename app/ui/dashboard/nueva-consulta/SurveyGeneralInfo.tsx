@@ -1,11 +1,11 @@
 "use client";
 
+import { SurveyFormData } from "@/app/lib/definitions/encuesta";
 import Dropdown from "../../Dropdown";
-import { FormData } from "./NewSurveyContentLayout";
 import { useState } from "react";
 
 type SurveyGeneralInfoProps = {
-  formData: FormData;
+  formData: SurveyFormData;
   updateFormData: (field: string, value: string) => void;
 };
 
@@ -58,8 +58,8 @@ export default function SurveyGeneralInfo({
       case "end_date":
         if (
           field === "end_date" &&
-          formData.start_date &&
-          value <= formData.start_date
+          formData.survey_start_date &&
+          value <= formData.survey_start_date
         ) {
           errors[field] =
             "La fecha de término debe ser posterior a la fecha de inicio";
@@ -231,7 +231,7 @@ export default function SurveyGeneralInfo({
                   <input
                     type="date"
                     className={`h-10 w-full rounded-lg border border-slate-300 bg-white px-4 text-sm text-slate-700 shadow-sm transition-all outline-none placeholder:text-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:ring-offset-1`}
-                    value={formData.start_date}
+                    value={formData.survey_start_date}
                     onChange={(e) =>
                       handleFieldChange("start_date", e.target.value)
                     }
@@ -252,7 +252,7 @@ export default function SurveyGeneralInfo({
                         ? "border-red-300 focus:border-red-500 focus:ring-red-200"
                         : "border-slate-300 focus:border-blue-500 focus:ring-blue-200"
                     }`}
-                    value={formData.end_date}
+                    value={formData.survey_end_date}
                     onChange={(e) =>
                       handleFieldChange("end_date", e.target.value)
                     }

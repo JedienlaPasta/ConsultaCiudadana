@@ -9,79 +9,22 @@ import SurveyQuestions from "./SurveyQuestions";
 import SurveyPreview from "./SurveyPreview";
 import { createSurvey } from "@/app/lib/actions/encuesta";
 import { toast } from "sonner";
-
-// Type definitions
-export type ChronogramItem = {
-  phase: string;
-  description: string;
-  date: string;
-};
-
-export type FAQ = {
-  question: string;
-  answer: string;
-};
-
-export type OptionDefinition = {
-  name: string;
-  description: string;
-};
-
-export type QuestionOption = {
-  id: number;
-  option: string;
-  hasSubQuestion: boolean;
-  subQuestion: string;
-  subOptions: string[];
-};
-
-export type Question = {
-  id: number;
-  questionId: number;
-  question: string;
-  step: string;
-  step_description: string;
-  isMapQuestion: boolean;
-  maxOptions: number;
-  minOptions: number;
-  options: QuestionOption[];
-};
-
-export type FormData = {
-  survey_name: string;
-  survey_short_description: string;
-  survey_large_description: string;
-  start_date: string;
-  end_date: string;
-  department: string;
-  objectives: string[];
-  chronogram: ChronogramItem[];
-  survey_options_definitions: OptionDefinition[];
-  frequently_asked_questions: FAQ[];
-  questions: Question[];
-};
-
-// Create a mapped type to get the correct array type for each FormData key
-export type FormDataArrays = {
-  objectives: string[];
-  chronogram: ChronogramItem[];
-  survey_options_definitions: OptionDefinition[];
-  frequently_asked_questions: FAQ[];
-  questions: Question[];
-};
-
-// Helper type to get the item type from array name
-export type ArrayItemTypeMap<K extends keyof FormDataArrays> =
-  FormDataArrays[K] extends (infer U)[] ? U : never;
+import {
+  ArrayItemTypeMap,
+  FormDataArrays,
+  Question,
+  QuestionOption,
+  SurveyFormData,
+} from "@/app/lib/definitions/encuesta";
 
 // Define initial form data as a constant
-const INITIAL_FORM_DATA: FormData = {
+const INITIAL_FORM_DATA: SurveyFormData = {
   // General Info
   survey_name: "",
   survey_short_description: "",
   survey_large_description: "",
-  start_date: "",
-  end_date: "",
+  survey_start_date: "",
+  survey_end_date: "",
   department: "",
 
   // Dynamic Arrays
@@ -165,7 +108,7 @@ const STORAGE_KEY = "survey_form_data";
 
 export default function NewSurveyContentLayout() {
   const [currentStep, setCurrentStep] = useState(1);
-  const [formData, setFormData] = useState<FormData>(INITIAL_FORM_DATA);
+  const [formData, setFormData] = useState<SurveyFormData>(INITIAL_FORM_DATA);
 
   // Load data from localStorage on component mount
   useEffect(() => {
@@ -372,8 +315,8 @@ export default function NewSurveyContentLayout() {
       "survey_large_description",
       formData.survey_large_description,
     );
-    myFormData.append("start_date", formData.start_date);
-    myFormData.append("end_date", formData.end_date);
+    myFormData.append("start_date", formData.survey_start_date);
+    myFormData.append("end_date", formData.survey_end_date);
     myFormData.append("department", formData.department);
 
     // Content - Serialize objects as JSON strings

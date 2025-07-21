@@ -1,13 +1,13 @@
 "use client";
 
 import {
-  FormData,
   ArrayItemTypeMap,
   FormDataArrays,
-} from "./NewSurveyContentLayout";
+  SurveyFormData,
+} from "@/app/lib/definitions/encuesta";
 
 type SurveyContentProps = {
-  formData: FormData;
+  formData: SurveyFormData;
   updateArrayItem: <K extends keyof FormDataArrays>(
     array: K,
     index: number,
