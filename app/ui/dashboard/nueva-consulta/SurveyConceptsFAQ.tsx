@@ -32,7 +32,7 @@ export default function SurveyChronogram({
   return (
     <div className="space-y-8">
       {/* Survey Options Definitions Section */}
-      <div className="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm">
+      <div className="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
         <div className="relative px-8">
           <h2 className="border-b border-gray-200/80 pt-7 pb-5 text-xl font-bold text-slate-700">
             Conceptos Técnicos
@@ -158,7 +158,7 @@ export default function SurveyChronogram({
       </div>
 
       {/* FAQ Section */}
-      <div className="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm">
+      <div className="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
         <div className="relative px-8">
           <h2 className="border-b border-gray-200/80 pt-7 pb-5 text-xl font-bold text-slate-700">
             Preguntas Frecuentes

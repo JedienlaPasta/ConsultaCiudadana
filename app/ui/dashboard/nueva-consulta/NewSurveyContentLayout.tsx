@@ -39,6 +39,8 @@ export type Question = {
   id: number;
   questionId: number;
   question: string;
+  step: string;
+  step_description: string;
   isMapQuestion: boolean;
   maxOptions: number;
   minOptions: number;
@@ -108,6 +110,8 @@ const INITIAL_FORM_DATA: FormData = {
       id: 1,
       questionId: 0,
       question: "",
+      step: "",
+      step_description: "",
       isMapQuestion: false,
       maxOptions: 1,
       minOptions: 1,
@@ -132,6 +136,8 @@ const INITIAL_FORM_DATA: FormData = {
       id: 2,
       questionId: 0,
       question: "",
+      step: "",
+      step_description: "",
       isMapQuestion: false,
       maxOptions: 1,
       minOptions: 1,
@@ -267,6 +273,8 @@ export default function NewSurveyContentLayout() {
       id: formData.questions.length + 1,
       questionId: 0,
       question: "",
+      step: "",
+      step_description: "",
       isMapQuestion: false,
       maxOptions: 1,
       minOptions: 1,
@@ -316,32 +324,42 @@ export default function NewSurveyContentLayout() {
 
   const handleSubmit = async () => {
     // Filter out empty questions before submitting
-    const validQuestions = formData.questions.filter((question) => {
-      // Keep the question if it has meaningful content
-      const hasQuestionText = question.question.trim() !== "";
-      const isMapQuestion = question.isMapQuestion;
-      const hasValidOptions = question.options.some((option) => {
-        const hasOptionText = option.option.trim() !== "";
-        const hasSubQuestion = option.subQuestion.trim() !== "";
-        const hasValidSubOptions = option.subOptions.some(subOpt => subOpt.trim() !== "");
-        return hasOptionText || hasSubQuestion || hasValidSubOptions;
-      });
-      
-      return hasQuestionText || isMapQuestion || hasValidOptions;
-    }).map((question) => ({
-      ...question,
-      // Also clean up empty options within each question
-      options: question.options.filter((option) => {
-        const hasOptionText = option.option.trim() !== "";
-        const hasSubQuestion = option.subQuestion.trim() !== "";
-        const hasValidSubOptions = option.subOptions.some(subOpt => subOpt.trim() !== "");
-        return hasOptionText || hasSubQuestion || hasValidSubOptions;
-      }).map((option) => ({
-        ...option,
-        // Clean up empty sub-options
-        subOptions: option.subOptions.filter(subOpt => subOpt.trim() !== "")
-      }))
-    }));
+    const validQuestions = formData.questions
+      .filter((question) => {
+        // Keep the question if it has meaningful content
+        const hasQuestionText = question.question.trim() !== "";
+        const isMapQuestion = question.isMapQuestion;
+        const hasValidOptions = question.options.some((option) => {
+          const hasOptionText = option.option.trim() !== "";
+          const hasSubQuestion = option.subQuestion.trim() !== "";
+          const hasValidSubOptions = option.subOptions.some(
+            (subOpt) => subOpt.trim() !== "",
+          );
+          return hasOptionText || hasSubQuestion || hasValidSubOptions;
+        });
+
+        return hasQuestionText || isMapQuestion || hasValidOptions;
+      })
+      .map((question) => ({
+        ...question,
+        // Also clean up empty options within each question
+        options: question.options
+          .filter((option) => {
+            const hasOptionText = option.option.trim() !== "";
+            const hasSubQuestion = option.subQuestion.trim() !== "";
+            const hasValidSubOptions = option.subOptions.some(
+              (subOpt) => subOpt.trim() !== "",
+            );
+            return hasOptionText || hasSubQuestion || hasValidSubOptions;
+          })
+          .map((option) => ({
+            ...option,
+            // Clean up empty sub-options
+            subOptions: option.subOptions.filter(
+              (subOpt) => subOpt.trim() !== "",
+            ),
+          })),
+      }));
 
     const myFormData = new FormData();
     // General Info
@@ -402,7 +420,7 @@ export default function NewSurveyContentLayout() {
         {/* <button onClick={resetForm} className="cursor-pointer">
           Reset
         </button> */}
-        <div className="flex w-80 flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-lg">
+        <div className="flex w-80 flex-col overflow-hidden rounded-xl border border-gray-200 bg-white shadow-lg">
           <TabBtn
             currentStep={currentStep}
             index={1}

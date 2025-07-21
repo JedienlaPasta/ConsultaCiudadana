@@ -74,6 +74,8 @@ const SurveySchema = z.object({
       .object({
         id: z.number(),
         questionId: z.number(),
+        step: z.string(),
+        step_description: z.string(),
         isMapQuestion: z.boolean(),
         minOptions: z.coerce.number(),
         maxOptions: z.coerce.number(),
@@ -97,6 +99,8 @@ const SurveySchema = z.object({
               question: z
                 .string()
                 .min(5, { message: "El texto de la pregunta es requerido" }),
+              step: z.string(),
+              step_description: z.string(),
               minOptions: z.coerce.number().min(1, {
                 message: "El mínimo de opciones debe ser al menos 1",
               }),
@@ -316,22 +320,15 @@ export async function createSurvey(formData: FormData) {
             );
           }
         } else {
+          const questionType = question.isMapQuestion ? "mapa" : "normal";
           // Si questionId === 0, insertar nueva pregunta
           const preguntaRequest = new sql.Request(transaction);
           const preguntaResult = await preguntaRequest
-            .input("paso", sql.NVarChar, `Paso ${i + 1}`)
-            .input(
-              "paso_descripcion",
-              sql.NVarChar,
-              `Descripción del paso ${i + 1}`,
-            )
+            .input("paso", sql.NVarChar, question.step)
+            .input("paso_descripcion", sql.NVarChar, question.step_description)
             .input("pregunta", sql.NVarChar, question.question)
             .input("pregunta_descripcion", sql.NVarChar, question.question)
-            .input(
-              "tipo",
-              sql.NVarChar,
-              question.isMapQuestion ? "mapa" : "normal",
-            )
+            .input("tipo", sql.NVarChar, questionType)
             .input("multiples_respuestas", sql.Bit, question.maxOptions > 1)
             .input("min_respuestas", sql.Int, question.minOptions)
             .input("max_respuestas", sql.Int, question.maxOptions).query(`
@@ -369,7 +366,7 @@ export async function createSurvey(formData: FormData) {
               ) {
                 const subPreguntaRequest = new sql.Request(transaction);
                 const subPreguntaResult = await subPreguntaRequest
-                  .input("paso", sql.NVarChar, `SubPaso de ${i + 1}.${j + 1}`) // Nombre del paso, ej: Selecciona tu sector
+                  .input("paso", sql.NVarChar, `SubPaso de ${question.step}`) // Nombre del paso, ej: Selecciona tu sector
                   .input(
                     "paso_descripcion",
                     sql.NVarChar,

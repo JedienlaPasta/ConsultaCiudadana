@@ -32,7 +32,7 @@ export default function SurveyContent({
   return (
     <div className="space-y-8">
       {/* Objectives Section */}
-      <div className="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm">
+      <div className="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
         <div className="px-8">
           <h2 className="border-b border-gray-200/80 pt-7 pb-5 text-xl font-bold text-slate-700">
             Objetivos de la Consulta
@@ -50,13 +50,10 @@ export default function SurveyContent({
         <div className="p-6 pt-4">
           <div className="">
             {formData.objectives.map((objective, index) => (
-              <div
-                key={index}
-                className="relative bg-gray-50 transition-all duration-200"
-              >
+              <div key={index} className="relative">
                 <div className="py-2">
                   <div className="flex items-end space-x-3">
-                    <div className="relative flex-1 space-y-2 pl-8">
+                    <div className="relative flex-1 space-y-1 pl-8">
                       <label className="block text-sm font-semibold text-gray-700">
                         Objetivo {index + 1}
                         <span className="ml-1 text-red-500">*</span>
@@ -70,7 +67,7 @@ export default function SurveyContent({
                           updateArrayItem("objectives", index, e.target.value)
                         }
                       />
-                      <div className="absolute bottom-2 left-0 flex h-10 w-8 items-center justify-center rounded-l-lg bg-emerald-400">
+                      <div className="absolute bottom-1 left-0 flex h-10 w-8 items-center justify-center rounded-l-lg bg-emerald-400">
                         <span className="text-sm font-bold text-white">
                           {index + 1}
                         </span>
@@ -122,7 +119,7 @@ export default function SurveyContent({
       </div>
 
       {/* Chronogram Section */}
-      <div className="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm">
+      <div className="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
         <div className="px-8">
           <h2 className="border-b border-gray-200/80 pt-7 pb-5 text-xl font-bold text-slate-700">
             Cronograma del Proyecto

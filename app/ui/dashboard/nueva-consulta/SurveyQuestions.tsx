@@ -120,7 +120,7 @@ export default function SurveyQuestions({
 
   return (
     <div className="space-y-6">
-      <div className="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm">
+      <div className="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
         <div className="px-8">
           <h2 className="border-b border-gray-200/80 pt-7 pb-5 text-xl font-bold text-slate-700">
             Preguntas de la Consulta
@@ -199,10 +199,10 @@ export default function SurveyQuestions({
                 </button>
               )}
             </div>
-            <div className="rounded-b-xl border border-t-0 border-gray-200 px-8 pt-6 pb-8">
+            <div className="rounded-b-xl border border-t-0 border-gray-200 px-8 pt-6 pb-2">
               {questionIndex === 0 && (
                 <div className="flex- mb-4 flex items-center justify-center lg:justify-start">
-                  <label className="flex w-full cursor-pointer items-center space-x-3 rounded-lg border border-blue-200 bg-blue-50 p-3 transition-all duration-200 hover:bg-blue-100">
+                  <label className="flex w-full cursor-pointer items-center space-x-3 rounded-lg border border-blue-200 bg-blue-50 px-4 py-3 transition-all duration-200 hover:bg-blue-100">
                     <input
                       type="checkbox"
                       className="h-4 w-4 cursor-pointer rounded text-blue-600 focus:ring-blue-500"
@@ -215,7 +215,7 @@ export default function SurveyQuestions({
                         )
                       }
                     />
-                    <span className="text-sm font-medium text-blue-600">
+                    <span className="text-sm text-blue-600">
                       <span className="mr-1">📍</span>
                       Mapa interactivo
                     </span>
@@ -245,6 +245,46 @@ export default function SurveyQuestions({
                           )
                         }
                       />
+                    </div>
+                    <div className="mb-6 flex gap-4">
+                      <div className="flex-1">
+                        <label className="mb-2 flex items-center text-sm font-semibold text-gray-700">
+                          Nombre del Paso
+                          <span className="ml-1 text-red-500">*</span>
+                        </label>
+                        <input
+                          type="text"
+                          className="h-10 w-full rounded-lg border border-slate-300 bg-white px-4 text-sm text-slate-700 shadow-sm transition-all outline-none placeholder:text-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:ring-offset-1"
+                          placeholder="Seleccionar sector"
+                          value={question.step}
+                          onChange={(e) =>
+                            updateQuestion(
+                              questionIndex,
+                              "step",
+                              e.target.value,
+                            )
+                          }
+                        />
+                      </div>
+                      <div className="flex-1">
+                        <label className="mb-2 flex items-center text-sm font-semibold text-gray-700">
+                          Descripcion del Paso
+                          <span className="ml-1 text-red-500">*</span>
+                        </label>
+                        <input
+                          type="text"
+                          className="h-10 w-full rounded-lg border border-slate-300 bg-white px-4 text-sm text-slate-700 shadow-sm transition-all outline-none placeholder:text-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:ring-offset-1"
+                          placeholder="Tu lugar de residencia"
+                          value={question.step_description}
+                          onChange={(e) =>
+                            updateQuestion(
+                              questionIndex,
+                              "step_description",
+                              e.target.value,
+                            )
+                          }
+                        />
+                      </div>
                     </div>
                     <div className="mb-6 flex gap-4">
                       <div className="flex-1">
@@ -291,7 +331,7 @@ export default function SurveyQuestions({
 
                 {/* Map Question Info */}
                 {question.isMapQuestion && (
-                  <div className="rounded-xl border border-blue-200 bg-gradient-to-r from-blue-50 to-indigo-50 p-4">
+                  <div className="rounded-lg border border-blue-200 bg-gradient-to-r from-blue-50 to-indigo-50 p-4">
                     <div className="flex items-start">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"

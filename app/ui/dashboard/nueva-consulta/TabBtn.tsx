@@ -21,7 +21,7 @@ export default function TabBtn({
       onClick={onClick}
       className={`group relative flex cursor-pointer items-center gap-4 px-6 py-4 transition-all duration-300 hover:bg-gray-50 ${
         isActive
-          ? "border-r-1s border-blue-600 bg-blue-50"
+          ? "border-r-1s border-[#06539b] bg-blue-50"
           : isCompleted
             ? "bg-emerald-50"
             : "bg-white hover:bg-gray-50"
@@ -31,7 +31,7 @@ export default function TabBtn({
       <div
         className={`flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full border-2 font-semibold transition-all duration-300 ${
           isActive
-            ? "border-blue-600 bg-blue-600 text-white shadow-lg"
+            ? "border-[#06539b] bg-[#06539b] text-white shadow-lg"
             : isCompleted
               ? "border-emerald-600 bg-emerald-600 text-white"
               : "border-gray-300 bg-white text-gray-500 group-hover:border-gray-400"

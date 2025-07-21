@@ -47,7 +47,7 @@ export default function SurveyPreview({
   return (
     <div className="space-y-8">
       {/* Survey Overview Card */}
-      <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
+      <div className="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
         <div className="px-8">
           <h2 className="border-b border-gray-200/80 pt-7 pb-5 text-xl font-bold text-slate-700">
             Vista Previa de la Consulta
@@ -63,7 +63,7 @@ export default function SurveyPreview({
           </p>
         </div>
 
-        <div className="p-6">
+        <div className="px-8 pt-2 pb-6">
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
             <div className="space-y-6">
               <div className="group">
@@ -73,7 +73,7 @@ export default function SurveyPreview({
                   </h4>
                 </div>
                 <div className="flex h-10 w-full items-center rounded-lg border border-slate-300 bg-white px-4 text-sm text-slate-700 shadow-sm">
-                  <p className="font-medium text-slate-600">
+                  <p className="text-slate-600">
                     {formData.survey_name || "Sin definir"}
                   </p>
                 </div>
@@ -86,7 +86,7 @@ export default function SurveyPreview({
                   </h4>
                 </div>
                 <div className="flex h-10 w-full items-center rounded-lg border border-slate-300 bg-white px-4 text-sm text-slate-700 shadow-sm">
-                  <p className="font-medium text-slate-600">
+                  <p className="text-slate-600">
                     {formData.department || "Sin definir"}
                   </p>
                 </div>
@@ -101,7 +101,7 @@ export default function SurveyPreview({
                   </h4>
                 </div>
                 <div className="flex h-10 w-full items-center rounded-lg border border-slate-300 bg-white px-4 text-sm text-slate-700 shadow-sm">
-                  <p className="font-medium text-slate-600">
+                  <p className="text-slate-600">
                     {formData.start_date && formData.end_date
                       ? `${formData.start_date} - ${formData.end_date}`
                       : "Sin definir"}
@@ -111,7 +111,7 @@ export default function SurveyPreview({
 
               <div className="group">
                 <div className="mb-2 flex items-center">
-                  <h4 className="text-sm font-semibold text-gray-700">
+                  <h4 className="text-sm font-semibold text-slate-600">
                     Descripción
                   </h4>
                 </div>
@@ -142,7 +142,7 @@ export default function SurveyPreview({
       {/* Detailed Content Preview */}
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
         {/* Objectives Preview */}
-        <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
+        <div className="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
           <div className="border-b border-blue-200 bg-blue-50 p-4">
             <h4 className="flex items-center font-semibold text-blue-900">
               <span className="mr-2">🎯</span>
@@ -172,7 +172,7 @@ export default function SurveyPreview({
         </div>
 
         {/* Questions Preview */}
-        <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
+        <div className="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
           <div className="border-b border-purple-200 bg-purple-50 p-4">
             <h4 className="flex items-center font-semibold text-purple-900">
               <span className="mr-2">❓</span>
@@ -213,7 +213,7 @@ export default function SurveyPreview({
       </div>
 
       {/* Action Section */}
-      <div className="rounded-2xl border-2 border-emerald-200 bg-gradient-to-r from-emerald-50 to-emerald-50 p-8 text-center">
+      <div className="rounded-xl border-2 border-emerald-200 bg-gradient-to-r from-emerald-50 to-emerald-50 p-8 text-center">
         <div className="mx-auto max-w-md space-y-4">
           <div className="mb-4 text-4xl">🚀</div>
           <h3 className="mb-2 text-xl font-bold text-slate-800">
