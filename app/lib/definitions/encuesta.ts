@@ -16,12 +16,22 @@ export type OptionDefinition = {
   description: string;
 };
 
+export type SubOption = {
+  id: string;
+  option_name: string;
+  description: string;
+  sector_id?: string;
+};
+
 export type QuestionOption = {
   id: number;
-  option: string;
+  option_name: string;
+  sector_id?: string;
+  sector_population?: string;
+  sector_area?: string;
   hasSubQuestion: boolean;
   subQuestion: string;
-  subOptions: string[];
+  subOptions: SubOption[];
 };
 
 export type Question = {
@@ -65,17 +75,21 @@ export type ArrayItemTypeMap<K extends keyof FormDataArrays> =
 
 // ================================================================================================
 // Survey Data Definitions
-// export type SurveyData = {
-//   id: number;
-//   survey_name: string;
-//   survey_short_description: string;
-//   survey_large_description: string;
-//   survey_start_date: string;
-//   survey_end_date: string;
-//   department: string;
-//   objectives: string[];
-//   chronogram: ChronogramItem[];
-//   survey_options_definitions: OptionDefinition[];
-//   frequently_asked_questions: FAQ[];
-//   questions: Question[];
-// };
+export type SurveyData = {
+  survey_name: string;
+  survey_short_description: string;
+  survey_large_description: string;
+  survey_start_date: string;
+  survey_end_date: string;
+  department: string;
+  objectives: string[];
+  chronogram: ChronogramItem[];
+  survey_options_definitions: OptionDefinition[];
+  frequently_asked_questions: FAQ[];
+};
+
+export type SurveySector = {
+  sector: string;
+  sector_population: number;
+  sector_area: string;
+};

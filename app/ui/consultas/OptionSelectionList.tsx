@@ -1,6 +1,10 @@
 "use client";
 
-import { Question } from "./SurveyLayout";
+import {
+  Question,
+  QuestionOption,
+  SubOption,
+} from "@/app/lib/definitions/encuesta";
 
 type OptionSelectionListProps = {
   selectedOptions: string[];
@@ -40,10 +44,10 @@ export default function OptionSelectionList({
 
   const getSubOptions = () => {
     const allSubOptions =
-      question.options.find((option) => option.options)?.options || [];
+      question.options.find((option) => option.subOptions)?.subOptions || [];
 
     const filteredOptions = allSubOptions.filter(
-      (option) => option.sector === selectedSectorId,
+      (option) => option.sector_id === selectedSectorId,
     );
 
     // Si hay opciones para el sector seleccionado, mostrar solo esas
@@ -54,7 +58,7 @@ export default function OptionSelectionList({
     return optionsToShow.map((option) => (
       <OptionItem
         option={option}
-        key={option.name}
+        key={option.option_name}
         isSelected={selectedSubOption === option.id}
         onSelect={() => setSelectedSubOption(option.id)}
       />
@@ -73,7 +77,7 @@ export default function OptionSelectionList({
         <div className="flex items-center gap-2 text-sm text-gray-500">
           <span className="inline-block h-3 w-3 rounded-full bg-blue-500"></span>
           <span>
-            {selectedOptions.length}/{question.answers} seleccionados
+            {selectedOptions.length}/{question.maxOptions} seleccionados
           </span>
         </div>
       </div>
@@ -82,8 +86,8 @@ export default function OptionSelectionList({
         {question.options.map((option) => (
           <OptionItem
             option={option}
-            key={option.name}
-            isSelected={selectedOptions.includes(option.id)}
+            key={option.option_name}
+            isSelected={selectedOptions.includes(String(option.id))}
             onSelect={handleOptionSelect}
           />
         ))}
@@ -94,12 +98,12 @@ export default function OptionSelectionList({
         <div className="space-y-4">
           <div className="flex items-center justify-between">
             <h3 className="text-lg font-semibold text-slate-700">
-              {question.options[0].question}
+              {question.options[0].subQuestion}
             </h3>
             <div className="flex items-center gap-2 text-sm text-gray-500">
               <span className="inline-block h-3 w-3 rounded-full bg-blue-500"></span>
               <span>
-                {selectedSubOption ? "1" : "0"}/{question.options[0].answers}{" "}
+                {selectedSubOption ? "1" : "0"}/{question.maxOptions}{" "}
                 seleccionados
               </span>
             </div>
@@ -113,14 +117,14 @@ export default function OptionSelectionList({
   );
 }
 
-type Option = {
-  id: string;
-  name: string;
-  description?: string;
-};
+// type Option = {
+//   id: string;
+//   option_name: string;
+//   description?: string;
+// };
 
 type OptionItemProps = {
-  option: Option;
+  option: QuestionOption | SubOption;
   isSelected: boolean;
   onSelect: (optionId: string) => void;
 };
@@ -128,7 +132,7 @@ type OptionItemProps = {
 function OptionItem({ option, isSelected, onSelect }: OptionItemProps) {
   return (
     <div
-      onClick={() => onSelect(option.id)}
+      onClick={() => onSelect(String(option.id))}
       className={`group relative flex cursor-pointer flex-col rounded-lg border-2 px-4 py-3 transition-all duration-200 hover:border-blue-200 hover:shadow-md md:p-4 ${isSelected ? "!border-[#0F69C4] !bg-blue-50 shadow-md" : "border-gray-200"}`}
     >
       {isSelected && (
@@ -154,16 +158,18 @@ function OptionItem({ option, isSelected, onSelect }: OptionItemProps) {
           name={`option-${option.id}`}
           className="size-4 cursor-pointer accent-[#0F69C4]"
           checked={isSelected}
-          onChange={() => onSelect(option.id)}
+          onChange={() => onSelect(String(option.id))}
         />
         <h5
           className={`font-medium group-hover:text-[#0F69C4] ${isSelected ? "text-[#0F69C4]" : "text-slate-700"}`}
         >
-          {option.name}
+          {option.option_name}
         </h5>
       </div>
 
-      <p className="line-clamp-2 text-xs text-gray-500">{option.description}</p>
+      <p className="line-clamp-2 text-xs text-gray-500">
+        {option.description || ""}
+      </p>
     </div>
   );
 }

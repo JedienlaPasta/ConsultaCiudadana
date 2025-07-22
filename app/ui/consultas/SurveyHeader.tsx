@@ -26,13 +26,11 @@ export default function SurveyHeader({ survey }: { survey?: SurveyFormData }) {
             {isActive}
           </span>
           <span className="rounded-full bg-[#1E5A9A] px-3 py-1 text-xs text-white">
-            {surveyName}
+            {surveyDepartment}
           </span>
         </div>
 
-        <h1 className="mb-2 text-2xl font-bold md:text-3xl">
-          {surveyDepartment}
-        </h1>
+        <h1 className="mb-2 text-2xl font-bold md:text-3xl">{surveyName}</h1>
         <div className="flex items-center text-sm">
           <span>Fecha límite: {formatedEndDate}</span>
         </div>

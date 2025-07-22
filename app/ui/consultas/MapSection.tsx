@@ -4,7 +4,7 @@ import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import RexLoader from "../RexAnimation";
 import SectorSelectionList from "./SectorSelectionList";
-import { Question } from "./SurveyLayout";
+import { Question } from "@/app/lib/definitions/encuesta";
 
 // Importación dinámica del componente de mapa para desactivar SSR
 const DynamicMapComponent = dynamic(() => import("./MapComponent"), {

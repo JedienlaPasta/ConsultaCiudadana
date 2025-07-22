@@ -4,10 +4,11 @@ import Footer from "@/app/ui/Footer";
 import { getSession } from "@/app/lib/actions/auth";
 import AuthErrorHandler from "@/app/ui/error/AuthErrorHandler";
 import { Suspense } from "react";
-import FAQ from "@/app/ui/consultas/FAQ";
+import FAQComponent from "@/app/ui/consultas/FAQ";
 import Definitions from "@/app/ui/consultas/Definitions";
 import Schedule from "@/app/ui/consultas/Schedule";
 import { getSurveyDetails } from "@/app/lib/data/encuesta";
+import { formatDate } from "@/app/lib/utils/format";
 
 type SurveyDetailsProps = {
   params: Promise<{ id: string }>;
@@ -20,7 +21,9 @@ export default async function SurveyDetail(props: SurveyDetailsProps) {
   const params = await props.params;
   const id = params.id;
   const survey = await getSurveyDetails(id);
-  console.log("Survey in page.tsx:", survey);
+
+  const isSurveyActive =
+    new Date(survey.survey_end_date) > new Date() ? "Activa" : "Cerrada";
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -49,13 +52,6 @@ export default async function SurveyDetail(props: SurveyDetailsProps) {
                 </h3>
                 <p className="text-gray-600">
                   {survey.survey_large_description}
-                  {/* El Plan PIIMEP tiene como objetivo rediseñar los espacios
-                  públicos de nuestra comuna para mejorar la calidad de vida de
-                  los residentes. Con el crecimiento de la población en nuevas
-                  áreas y los cambios en los patrones de uso, es momento de
-                  evaluar y actualizar nuestros espacios para asegurar que
-                  satisfagan las necesidades actuales mientras nos preparamos
-                  para el crecimiento futuro. */}
                 </p>
               </span>
 
@@ -64,29 +60,21 @@ export default async function SurveyDetail(props: SurveyDetailsProps) {
                   Objetivos
                 </h3>
                 <ul className="list-disc space-y-1 pl-5 text-gray-600 md:space-y-2">
-                  <li>
-                    Mejorar la frecuencia de servicios en áreas de alta demanda
-                  </li>
-                  <li>Extender la cobertura a barrios desatendidos</li>
-                  <li>Reducir los tiempos de traslado para destinos comunes</li>
-                  <li>
-                    Mejor integración con sistemas de transporte regionales
-                  </li>
-                  <li>
-                    Implementar más infraestructura sostenible y accesible
-                  </li>
+                  {survey.objectives.map((objective) => (
+                    <li key={objective}>{objective}</li>
+                  ))}
                 </ul>
               </span>
 
-              <Schedule />
+              <Schedule schedule={survey.chronogram} />
             </div>
 
             {/* Guía de participación */}
-            <Definitions />
+            <Definitions definitions={survey.survey_options_definitions} />
 
             {/* Preguntas frecuentes Desktop */}
             <div className="hidden md:block">
-              <FAQ />
+              <FAQComponent faq={survey.frequently_asked_questions} />
             </div>
           </div>
 
@@ -101,23 +89,27 @@ export default async function SurveyDetail(props: SurveyDetailsProps) {
                 <div className="flex justify-between">
                   <span className="text-sm text-gray-600">Estado</span>
                   <span className="text-sm font-medium text-emerald-500">
-                    Activa
+                    {isSurveyActive}
                   </span>
                 </div>
 
                 <div className="flex justify-between">
                   <span className="text-sm text-gray-600">Departamento</span>
-                  <span className="text-sm">SECPLA</span>
+                  <span className="text-sm">{survey.department}</span>
                 </div>
 
                 <div className="flex justify-between">
                   <span className="text-sm text-gray-600">Fecha de inicio</span>
-                  <span className="text-sm">04 Agosto, 2025</span>
+                  <span className="text-sm">
+                    {formatDate(survey.survey_start_date)}
+                  </span>
                 </div>
 
                 <div className="flex justify-between">
                   <span className="text-sm text-gray-600">Fecha límite</span>
-                  <span className="text-sm">31 Agosto, 2025</span>
+                  <span className="text-sm">
+                    {formatDate(survey.survey_end_date)}
+                  </span>
                 </div>
               </div>
 
@@ -138,14 +130,10 @@ export default async function SurveyDetail(props: SurveyDetailsProps) {
                   </li>
                   <li className="flex">
                     <span className="mr-2">3.</span>
-                    <span>Elige en el mapa el sector en el que vives.</span>
-                  </li>
-                  <li className="flex">
-                    <span className="mr-2">4.</span>
                     <span>Envía tu voto antes de la fecha límite.</span>
                   </li>
                   <li className="flex">
-                    <span className="mr-2">5.</span>
+                    <span className="mr-2">4.</span>
                     <span>
                       Revisa los resultados el día siguiente al término de la
                       votación.
@@ -157,7 +145,7 @@ export default async function SurveyDetail(props: SurveyDetailsProps) {
               {isLoggedIn ? (
                 <Link
                   className="mt-5 flex min-h-11 w-full grow items-center justify-center gap-0.5 rounded-lg bg-[#0F69C4] py-[8px] pr-5 pl-4 text-center text-[#fff] transition-all select-none hover:bg-[#2275C9] hover:underline"
-                  href="/consultas/piimep/votacion"
+                  href={`/consultas/${id}/voto`}
                   aria-label="Iniciar sesión con ClaveÚnica"
                 >
                   Ir a votar
@@ -234,7 +222,7 @@ export default async function SurveyDetail(props: SurveyDetailsProps) {
 
           {/* Preguntas frecuentes Mobile */}
           <div className="md:hidden">
-            <FAQ />
+            <FAQComponent faq={survey.frequently_asked_questions} />
           </div>
         </div>
       </div>

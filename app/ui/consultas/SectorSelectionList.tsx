@@ -1,6 +1,6 @@
 "use client";
 
-import { Question } from "./SurveyLayout";
+import { Question } from "@/app/lib/definitions/encuesta";
 
 type SectorSelectionListProps = {
   selectedSector: string | null;
@@ -14,8 +14,11 @@ export default function SectorSelectionList({
   sectoresSurveyList,
 }: SectorSelectionListProps) {
   const handleSectorSelect = (sectorId: string) => {
+    console.log(sectorId);
     setSelectedSector(sectorId);
   };
+
+  console.log(sectoresSurveyList);
 
   return (
     <div className="mt-4 space-y-4 md:mt-8">
@@ -33,8 +36,8 @@ export default function SectorSelectionList({
         {sectoresSurveyList.options.map((sector) => (
           <SectorItem
             sector={sector}
-            key={sector.name}
-            isSelected={sector.id === selectedSector}
+            key={sector.option_name}
+            isSelected={String(sector.sector_id) === selectedSector}
             onSelect={handleSectorSelect}
           />
         ))}
@@ -44,10 +47,11 @@ export default function SectorSelectionList({
 }
 
 type Sector = {
-  id: string;
-  name: string;
-  population?: string;
-  area?: string;
+  // id: number;
+  option_name: string;
+  sector_id?: string;
+  sector_population?: string;
+  sector_area?: string;
 };
 
 type SectorItemProps = {
@@ -59,7 +63,7 @@ type SectorItemProps = {
 function SectorItem({ sector, isSelected, onSelect }: SectorItemProps) {
   return (
     <div
-      onClick={() => onSelect(sector.id)}
+      onClick={() => onSelect(sector?.sector_id || "")}
       className={`group relative flex cursor-pointer flex-col rounded-lg border-2 px-4 py-3 transition-all duration-200 hover:border-blue-200 hover:shadow-md md:p-4 ${isSelected ? "!border-[#0F69C4] !bg-blue-50 shadow-md" : "border-gray-200"}`}
     >
       {isSelected && (
@@ -85,12 +89,12 @@ function SectorItem({ sector, isSelected, onSelect }: SectorItemProps) {
           name="sectorSelection"
           className="size-4 cursor-pointer accent-[#0F69C4]"
           checked={isSelected}
-          onChange={() => onSelect(sector.id)}
+          onChange={() => onSelect(sector?.sector_id || "")}
         />
         <h5
           className={`font-medium group-hover:text-[#0F69C4] ${isSelected ? "text-[#0F69C4]" : "text-slate-700"}`}
         >
-          {sector.name}
+          {sector.option_name}
         </h5>
       </div>
 
@@ -111,7 +115,7 @@ function SectorItem({ sector, isSelected, onSelect }: SectorItemProps) {
           </svg>
           <p>Población:</p>
 
-          <span className="font-medium">{sector.population}</span>
+          <span className="font-medium">{sector?.sector_population || ""}</span>
         </div>
 
         <div className="flex items-center gap-1">
@@ -129,7 +133,7 @@ function SectorItem({ sector, isSelected, onSelect }: SectorItemProps) {
               d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"
             />
           </svg>
-          <span className="font-medium">{sector.area}</span>
+          <span className="font-medium">{sector?.sector_area || ""}</span>
         </div>
       </div>
     </div>

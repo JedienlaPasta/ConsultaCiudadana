@@ -3,6 +3,7 @@
 import {
   Question,
   QuestionOption,
+  SubOption,
   SurveyFormData,
 } from "@/app/lib/definitions/encuesta";
 
@@ -18,7 +19,7 @@ type SurveyQuestionsProps = {
     questionIndex: number,
     optionIndex: number,
     field: keyof QuestionOption,
-    value: string | boolean | string[],
+    value: string | boolean | string[] | SubOption[],
   ) => void;
   addQuestionOption: (questionIndex: number) => void;
   addQuestion: () => void;
@@ -78,20 +79,33 @@ export default function SurveyQuestions({
     questionIndex: number,
     optionIndex: number,
     subIndex: number,
+    field: keyof SubOption,
     value: string,
   ) => {
     const question = formData.questions[questionIndex];
     const option = question.options[optionIndex];
     const newSubOptions = [...option.subOptions];
-    newSubOptions[subIndex] = value;
+
+    // Update the specific field of the SubOption object
+    newSubOptions[subIndex] = {
+      ...newSubOptions[subIndex],
+      [field]: value,
+    };
 
     // Check if we need to add a new sub-option BEFORE updating
     const shouldAddNew =
-      subIndex === option.subOptions.length - 1 && value.trim() !== "";
+      subIndex === option.subOptions.length - 1 &&
+      field === "option_name" &&
+      value.trim() !== "";
 
     // If we're adding a new sub-option, include it in the same state update
     if (shouldAddNew) {
-      newSubOptions.push("");
+      newSubOptions.push({
+        id: "",
+        option_name: "",
+        description: "",
+        sector_id: "",
+      });
     }
 
     updateQuestionOption(
@@ -110,7 +124,7 @@ export default function SurveyQuestions({
     const question = formData.questions[questionIndex];
 
     // Update the current option
-    updateQuestionOption(questionIndex, optionIndex, "option", value);
+    updateQuestionOption(questionIndex, optionIndex, "option_name", value);
 
     // Check if this is the last option and it's not empty
     const isLastOption = optionIndex === question.options.length - 1;
@@ -376,7 +390,8 @@ export default function SurveyQuestions({
                         {
                           question.options.filter(
                             (option) =>
-                              option.option && option.option.trim().length > 0,
+                              option.option_name &&
+                              option.option_name.trim().length > 0,
                           ).length
                         }{" "}
                         opciones
@@ -451,7 +466,7 @@ export default function SurveyQuestions({
                               type="text"
                               className="h-10 w-full rounded-lg border border-slate-300 bg-white px-4 text-sm text-slate-700 shadow-sm transition-all outline-none placeholder:text-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:ring-offset-1"
                               placeholder={`Ej: Opción ${optionIndex + 1}`}
-                              value={option.option}
+                              value={option.option_name}
                               onChange={(e) =>
                                 updateOptionWithAutoAdd(
                                   questionIndex,
@@ -525,7 +540,8 @@ export default function SurveyQuestions({
                                       option.subOptions.filter(
                                         (subOption) =>
                                           subOption &&
-                                          subOption.trim().length > 0,
+                                          subOption.option_name.trim().length >
+                                            0,
                                       ).length
                                     }{" "}
                                     sub-opciones
@@ -545,12 +561,13 @@ export default function SurveyQuestions({
                                           type="text"
                                           className="h-10 w-full rounded-lg border border-slate-300 bg-white px-4 text-sm text-slate-700 shadow-sm transition-all outline-none placeholder:text-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:ring-offset-1"
                                           placeholder={`Sub-opción ${subIndex + 1}`}
-                                          value={subOption}
+                                          value={subOption.option_name}
                                           onChange={(e) =>
                                             updateSubOption(
                                               questionIndex,
                                               optionIndex,
                                               subIndex,
+                                              "option_name",
                                               e.target.value,
                                             )
                                           }

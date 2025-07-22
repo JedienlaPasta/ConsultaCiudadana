@@ -1,5 +1,9 @@
-export const formatDate = (date: Date | null) => {
+export const formatDate = (date: Date | string) => {
   if (!date) return "";
+  if (typeof date === "string") {
+    date = new Date(date);
+  }
+
   const esDate = date.toLocaleString("es-ES", {
     year: "numeric",
     month: "long",

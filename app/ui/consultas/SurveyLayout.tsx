@@ -3,38 +3,47 @@ import { useRef, useState } from "react";
 import OptionSelectionList from "./OptionSelectionList";
 import VoteConfirmationOverview from "./VoteConfirmationOverview";
 import { useRouter } from "next/navigation";
-import { QUESTIONS_LIST } from "../../lib/data";
+// import { QUESTIONS_LIST } from "../../lib/data";
 import { toast } from "sonner";
 import RexLoader from "../RexAnimation";
 import MapSection from "./MapSection";
 import { registerVote } from "../../lib/actions/encuesta";
 import SurveyProgress from "./SurveyProgress";
+import { Question, SurveySector } from "@/app/lib/definitions/encuesta";
 
-export type Question = {
-  index: number;
-  step: string;
-  step_description: string;
-  question: string;
-  description: string;
-  answers: number;
-  options: {
-    id: string;
-    name: string;
-    question?: string;
-    description?: string;
-    answers?: number;
-    population?: string;
-    area?: string;
-    options?: {
-      id: string;
-      name: string;
-      description: string;
-      sector?: string;
-    }[];
-  }[];
+// export type Question = {
+//   index: number;
+//   step: string;
+//   step_description: string;
+//   question: string;
+//   description: string;
+//   answers: number;
+//   options: {
+//     id: string;
+//     name: string;
+//     question?: string;
+//     description?: string;
+//     answers?: number;
+//     population?: string;
+//     area?: string;
+//     options?: {
+//       id: string;
+//       name: string;
+//       description: string;
+//       sector?: string;
+//     }[];
+//   }[];
+// };
+
+type SurveyLayoutProps = {
+  surveyQuestions: Question[];
+  surveySectors: SurveySector[];
 };
 
-export default function SurveyLayout() {
+export default function SurveyLayout({
+  surveyQuestions,
+  surveySectors,
+}: SurveyLayoutProps) {
   const [selectedSectorId, setSelectedSectorId] = useState("");
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
   const [selectedSubOption, setSelectedSubOption] = useState<string>("");
@@ -42,11 +51,14 @@ export default function SurveyLayout() {
   const [isLoading, setIsLoading] = useState(false);
   const topRef = useRef<HTMLDivElement>(null);
 
+  console.log(selectedSectorId);
+
   const router = useRouter();
 
   const questionSectionProps = {
     isLoading,
-    question: QUESTIONS_LIST[currentQuestionIndex],
+    question: surveyQuestions[currentQuestionIndex],
+    surveyQuestions: surveyQuestions,
     currentQuestionIndex,
     selectedSectorId,
     selectedOptions,
@@ -57,7 +69,7 @@ export default function SurveyLayout() {
   };
 
   const checkSelectedOptions = () => {
-    const isSectorQuestion = QUESTIONS_LIST[0].index === currentQuestionIndex; // Should always be the first question, index 0
+    const isSectorQuestion = surveyQuestions[0].isMapQuestion; // Should always be the first question, index 0
     const isTramoConectorSelected = selectedOptions.some(
       (option) => option === "1",
     );
@@ -73,7 +85,7 @@ export default function SurveyLayout() {
     if (nextQuestionIndex < 0) {
       return;
     }
-    if (nextQuestionIndex > QUESTIONS_LIST.length - 1) {
+    if (nextQuestionIndex > surveyQuestions.length - 1) {
       // const toastId = toast.loading("Guardando tu voto");
       // await setTimeout(() => {
       //   toast.success("Voto guardado, gracias por participar!", {
@@ -132,8 +144,6 @@ export default function SurveyLayout() {
     }
   };
 
-  console.log(QUESTIONS_LIST.flat().length);
-
   return (
     <div
       ref={topRef}
@@ -142,7 +152,7 @@ export default function SurveyLayout() {
       <div className="rounded-lg bg-slate-200/60 lg:col-span-1">
         <SurveyProgress
           currentQuestionIndex={currentQuestionIndex}
-          questions={QUESTIONS_LIST}
+          questions={surveyQuestions}
           setCurrentQuestionIndex={setCurrentQuestionIndex}
         />
       </div>
@@ -165,7 +175,7 @@ export default function SurveyLayout() {
               disabled={!checkSelectedOptions()}
               className="col-span-1 w-full cursor-pointer rounded-lg bg-blue-500 py-3 text-sm text-white transition-all active:scale-95 disabled:cursor-not-allowed disabled:bg-blue-300"
             >
-              {currentQuestionIndex === QUESTIONS_LIST.flat().length - 1
+              {currentQuestionIndex === surveyQuestions.flat().length - 1
                 ? "Enviar"
                 : "Continuar"}
             </button>
@@ -180,6 +190,7 @@ export default function SurveyLayout() {
 type QuestionSectionProps = {
   isLoading: boolean;
   question: Question;
+  surveyQuestions: Question[];
   selectedOptions: string[];
   selectedSubOption: string;
   selectedSectorId: string;
@@ -192,6 +203,7 @@ type QuestionSectionProps = {
 function QuestionSection({
   isLoading,
   question,
+  surveyQuestions,
   selectedOptions,
   selectedSubOption,
   selectedSectorId,
@@ -223,7 +235,7 @@ function QuestionSection({
         selectedSectorId={selectedSectorId}
         selectedOptions={selectedOptions}
         selectedSubOption={selectedSubOption}
-        questions={QUESTIONS_LIST}
+        questions={surveyQuestions}
       />
     );
   }
@@ -232,11 +244,11 @@ function QuestionSection({
     <MapSection
       selectedSectorId={selectedSectorId}
       setSelectedSectorId={setSelectedSectorId}
-      sectoresSurveyList={QUESTIONS_LIST[0]}
+      sectoresSurveyList={surveyQuestions[0]}
     />
   ) : (
     <OptionSelectionList
-      question={QUESTIONS_LIST[currentQuestionIndex]}
+      question={surveyQuestions[currentQuestionIndex]}
       selectedOptions={selectedOptions}
       setSelectedOptions={setSelectedOptions}
       selectedSubOption={selectedSubOption}

@@ -14,6 +14,7 @@ import {
   FormDataArrays,
   Question,
   QuestionOption,
+  SubOption,
   SurveyFormData,
 } from "@/app/lib/definitions/encuesta";
 
@@ -61,17 +62,31 @@ const INITIAL_FORM_DATA: SurveyFormData = {
       options: [
         {
           id: 1,
-          option: "",
+          option_name: "",
           hasSubQuestion: false,
           subQuestion: "",
-          subOptions: ["", ""],
+          subOptions: [
+            {
+              id: "",
+              option_name: "",
+              description: "",
+              sector_id: "",
+            },
+          ],
         },
         {
           id: 2,
-          option: "",
+          option_name: "",
           hasSubQuestion: false,
           subQuestion: "",
-          subOptions: ["", ""],
+          subOptions: [
+            {
+              id: "",
+              option_name: "",
+              description: "",
+              sector_id: "",
+            },
+          ],
         },
       ],
     },
@@ -87,17 +102,31 @@ const INITIAL_FORM_DATA: SurveyFormData = {
       options: [
         {
           id: 1,
-          option: "",
+          option_name: "",
           hasSubQuestion: false,
           subQuestion: "",
-          subOptions: ["", ""],
+          subOptions: [
+            {
+              id: "",
+              option_name: "",
+              description: "",
+              sector_id: "",
+            },
+          ],
         },
         {
           id: 2,
-          option: "",
+          option_name: "",
           hasSubQuestion: false,
           subQuestion: "",
-          subOptions: ["", ""],
+          subOptions: [
+            {
+              id: "",
+              option_name: "",
+              description: "",
+              sector_id: "",
+            },
+          ],
         },
       ],
     },
@@ -194,7 +223,7 @@ export default function NewSurveyContentLayout() {
     questionIndex: number,
     optionIndex: number,
     field: keyof QuestionOption,
-    value: string | boolean | string[],
+    value: string | boolean | string[] | SubOption[], // Add SubOption[]
   ) => {
     setFormData((prev) => ({
       ...prev,
@@ -224,17 +253,31 @@ export default function NewSurveyContentLayout() {
       options: [
         {
           id: 1,
-          option: "",
+          option_name: "",
           hasSubQuestion: false,
           subQuestion: "",
-          subOptions: ["", ""],
+          subOptions: [
+            {
+              id: "",
+              option_name: "",
+              description: "",
+              sector_id: "",
+            },
+          ],
         },
         {
           id: 2,
-          option: "",
+          option_name: "",
           hasSubQuestion: false,
           subQuestion: "",
-          subOptions: ["", ""],
+          subOptions: [
+            {
+              id: "",
+              option_name: "",
+              description: "",
+              sector_id: "",
+            },
+          ],
         },
       ],
     };
@@ -247,10 +290,17 @@ export default function NewSurveyContentLayout() {
   const addQuestionOption = (questionIndex: number) => {
     const newOption = {
       id: formData.questions[questionIndex].options.length + 1,
-      option: "",
+      option_name: "",
       hasSubQuestion: false,
       subQuestion: "",
-      subOptions: ["", ""],
+      subOptions: [
+        {
+          id: "",
+          option_name: "",
+          description: "",
+          sector_id: "",
+        },
+      ],
     };
     setFormData((prev) => ({
       ...prev,
@@ -273,10 +323,10 @@ export default function NewSurveyContentLayout() {
         const hasQuestionText = question.question.trim() !== "";
         const isMapQuestion = question.isMapQuestion;
         const hasValidOptions = question.options.some((option) => {
-          const hasOptionText = option.option.trim() !== "";
+          const hasOptionText = option.option_name.trim() !== "";
           const hasSubQuestion = option.subQuestion.trim() !== "";
           const hasValidSubOptions = option.subOptions.some(
-            (subOpt) => subOpt.trim() !== "",
+            (subOpt) => subOpt.option_name.trim() !== "",
           );
           return hasOptionText || hasSubQuestion || hasValidSubOptions;
         });
@@ -288,10 +338,10 @@ export default function NewSurveyContentLayout() {
         // Also clean up empty options within each question
         options: question.options
           .filter((option) => {
-            const hasOptionText = option.option.trim() !== "";
+            const hasOptionText = option.option_name.trim() !== "";
             const hasSubQuestion = option.subQuestion.trim() !== "";
             const hasValidSubOptions = option.subOptions.some(
-              (subOpt) => subOpt.trim() !== "",
+              (subOpt) => subOpt.option_name.trim() !== "",
             );
             return hasOptionText || hasSubQuestion || hasValidSubOptions;
           })
@@ -299,7 +349,7 @@ export default function NewSurveyContentLayout() {
             ...option,
             // Clean up empty sub-options
             subOptions: option.subOptions.filter(
-              (subOpt) => subOpt.trim() !== "",
+              (subOpt) => subOpt.option_name.trim() !== "",
             ),
           })),
       }));

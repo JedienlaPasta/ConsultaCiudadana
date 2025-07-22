@@ -1,4 +1,4 @@
-import { Question } from "./SurveyLayout";
+import { Question } from "@/app/lib/definitions/encuesta";
 
 type VoteConfirmationOverviewProps = {
   selectedSectorId: string;
@@ -16,19 +16,19 @@ export default function VoteConfirmationOverview({
   // Get sector information
   const sectorQuestion = questions[0];
   const selectedSector = sectorQuestion.options.find(
-    (option) => option.id === selectedSectorId,
+    (option) => option?.sectorId === selectedSectorId,
   );
 
   // Get selected urban components
   const urbanComponentsQuestion = questions[1];
   const selectedComponents = urbanComponentsQuestion.options.filter((option) =>
-    selectedOptions.includes(option.id),
+    selectedOptions.includes(option?.sectorId || ""),
   );
 
   // Get selected sub-option (Tramo conector) - Fixed type checking
   const tramoConectorOption = urbanComponentsQuestion.options
-    .find((option) => option.options && option.options.length > 0)
-    ?.options?.find((subOption) => subOption.id === selectedSubOption);
+    .find((option) => option.subOptions && option.subOptions.length > 0)
+    ?.subOptions?.find((subOption) => subOption.id === selectedSubOption);
 
   return (
     <div className="space-y-6">
@@ -66,7 +66,7 @@ export default function VoteConfirmationOverview({
             </span>
             <div className="ml-12">
               <h4 className="font-medium text-gray-900">
-                {selectedSector?.name}
+                {selectedSector?.option_name}
               </h4>
               <div className="flex gap-4 text-xs text-gray-500">
                 <div className="flex items-center gap-1">
@@ -84,7 +84,7 @@ export default function VoteConfirmationOverview({
                   <p>Población:</p>
 
                   <span className="font-medium">
-                    {selectedSector.population}
+                    {selectedSector.sector_population}
                   </span>
                 </div>
                 <div className="flex items-center gap-1">
@@ -102,7 +102,9 @@ export default function VoteConfirmationOverview({
                       d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"
                     />
                   </svg>
-                  <span className="font-medium">{selectedSector.area}</span>
+                  <span className="font-medium">
+                    {selectedSector.sector_area}
+                  </span>
                 </div>
               </div>
             </div>
@@ -143,14 +145,14 @@ export default function VoteConfirmationOverview({
                   </span>
                   <div className="ml-12">
                     <h4 className="font-medium text-gray-900">
-                      {component.name === "Tramo conector"
+                      {component.option_name === "Tramo conector"
                         ? tramoConectorOption?.name
-                        : component.name}
+                        : component.option_name}
                     </h4>
                     <p className="text-sm text-gray-600">
-                      {component.name === "Tramo conector"
+                      {component.option_name === "Tramo conector"
                         ? tramoConectorOption?.description
-                        : component.description}
+                        : component?.option_description || "No hay descripcion"}
                     </p>
                   </div>
                 </div>
