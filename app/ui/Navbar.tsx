@@ -32,7 +32,7 @@ export default function Navbar({ isLoggedIn }: { isLoggedIn: boolean }) {
       <div className="container mx-auto max-w-[80rem]">
         <nav className="flex items-center justify-between px-4 py-3 md:px-8">
           <Link
-            className="text-xl font-bold text-white transition-colors hover:text-white"
+            className="text-xl font-bold text-white outline-4 outline-[#0f69c4] transition-colors outline-none focus:outline-solid"
             href="/"
           >
             Participa
@@ -70,12 +70,12 @@ export default function Navbar({ isLoggedIn }: { isLoggedIn: boolean }) {
           </button>
 
           {/* Desktop menu */}
-          <ul className="hidden items-center space-x-0 md:flex lg:space-x-5">
+          <ul className="hidden items-center space-x-2 md:flex lg:space-x-5">
             <li className="max-[850px]:hidden">
               <Link
                 href="/dashboard"
                 id="gestion-link"
-                className="flex min-h-11 items-center rounded-sm px-4 text-white transition-colors hover:bg-[#0B4E91]"
+                className="flex min-h-11 items-center rounded-sm px-4 text-white outline-4 outline-[#0f69c4] transition-colors outline-none hover:bg-[#0B4E91] focus:outline-solid"
               >
                 Dashboard
               </Link>
@@ -83,7 +83,7 @@ export default function Navbar({ isLoggedIn }: { isLoggedIn: boolean }) {
             <li>
               <Link
                 href="/consultas"
-                className="flex min-h-11 items-center rounded-sm px-4 text-white transition-colors hover:bg-[#0B4E91]"
+                className="flex min-h-11 items-center rounded-sm px-4 text-white outline-4 outline-[#0f69c4] transition-colors outline-none hover:bg-[#0B4E91] focus:outline-solid"
               >
                 Consultas
               </Link>
@@ -91,7 +91,7 @@ export default function Navbar({ isLoggedIn }: { isLoggedIn: boolean }) {
             <li>
               <Link
                 href="#"
-                className="flex min-h-11 items-center rounded-sm px-4 text-white transition-colors hover:bg-[#0B4E91]"
+                className="flex min-h-11 items-center rounded-sm px-4 text-white outline-4 outline-[#0f69c4] transition-colors outline-none hover:bg-[#0B4E91] focus:outline-solid"
               >
                 Contacto
               </Link>
@@ -99,7 +99,7 @@ export default function Navbar({ isLoggedIn }: { isLoggedIn: boolean }) {
             <li>
               <Link
                 href="#"
-                className="flex min-h-11 items-center rounded-sm px-4 text-white transition-colors hover:bg-[#0B4E91]"
+                className="flex min-h-11 items-center rounded-sm px-4 text-white outline-4 outline-[#0f69c4] transition-colors outline-none hover:bg-[#0B4E91] focus:outline-solid"
               >
                 Preguntas frecuentes
               </Link>

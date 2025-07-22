@@ -20,14 +20,14 @@ export type SubOption = {
   id: string;
   option_name: string;
   option_description: string;
-  sector_id?: string;
+  sector_id: string | null;
 };
 
 export type QuestionOption = {
   id: number;
   option_name: string;
   option_description: string;
-  sector_id?: string;
+  sector_id: string | null;
   sector_population?: string;
   sector_area?: string;
   hasSubQuestion: boolean;

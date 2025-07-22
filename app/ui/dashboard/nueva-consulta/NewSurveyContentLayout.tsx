@@ -65,13 +65,14 @@ const INITIAL_FORM_DATA: SurveyFormData = {
           option_name: "",
           option_description: "",
           hasSubQuestion: false,
+          sector_id: null,
           subQuestion: "",
           subOptions: [
             {
               id: "",
               option_name: "",
               option_description: "",
-              sector_id: "",
+              sector_id: null,
             },
           ],
         },
@@ -80,13 +81,14 @@ const INITIAL_FORM_DATA: SurveyFormData = {
           option_name: "",
           option_description: "",
           hasSubQuestion: false,
+          sector_id: null,
           subQuestion: "",
           subOptions: [
             {
               id: "",
               option_name: "",
               option_description: "",
-              sector_id: "",
+              sector_id: null,
             },
           ],
         },
@@ -107,13 +109,14 @@ const INITIAL_FORM_DATA: SurveyFormData = {
           option_name: "",
           option_description: "",
           hasSubQuestion: false,
+          sector_id: null,
           subQuestion: "",
           subOptions: [
             {
               id: "",
               option_name: "",
               option_description: "",
-              sector_id: "",
+              sector_id: null,
             },
           ],
         },
@@ -122,13 +125,14 @@ const INITIAL_FORM_DATA: SurveyFormData = {
           option_name: "",
           option_description: "",
           hasSubQuestion: false,
+          sector_id: null,
           subQuestion: "",
           subOptions: [
             {
               id: "",
               option_name: "",
               option_description: "",
-              sector_id: "",
+              sector_id: null,
             },
           ],
         },
@@ -139,7 +143,11 @@ const INITIAL_FORM_DATA: SurveyFormData = {
 
 const STORAGE_KEY = "survey_form_data";
 
-export default function NewSurveyContentLayout() {
+export default function NewSurveyContentLayout({
+  sectors,
+}: {
+  sectors: { sector_name: string }[];
+}) {
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState<SurveyFormData>(INITIAL_FORM_DATA);
 
@@ -260,13 +268,14 @@ export default function NewSurveyContentLayout() {
           option_name: "",
           option_description: "",
           hasSubQuestion: false,
+          sector_id: null,
           subQuestion: "",
           subOptions: [
             {
               id: "",
               option_name: "",
               option_description: "",
-              sector_id: "",
+              sector_id: null,
             },
           ],
         },
@@ -275,13 +284,14 @@ export default function NewSurveyContentLayout() {
           option_name: "",
           option_description: "",
           hasSubQuestion: false,
+          sector_id: null,
           subQuestion: "",
           subOptions: [
             {
               id: "",
               option_name: "",
               option_description: "",
-              sector_id: "",
+              sector_id: null,
             },
           ],
         },
@@ -299,13 +309,14 @@ export default function NewSurveyContentLayout() {
       option_name: "",
       option_description: "",
       hasSubQuestion: false,
+      sector_id: null,
       subQuestion: "",
       subOptions: [
         {
           id: "",
           option_name: "",
           option_description: "",
-          sector_id: "",
+          sector_id: null,
         },
       ],
     };
@@ -487,6 +498,7 @@ export default function NewSurveyContentLayout() {
               updateQuestionOption={updateQuestionOption}
               addQuestionOption={addQuestionOption}
               addQuestion={addQuestion}
+              sectors={sectors}
             />
           ) : (
             <SurveyPreview formData={formData} handleSubmit={handleSubmit} />

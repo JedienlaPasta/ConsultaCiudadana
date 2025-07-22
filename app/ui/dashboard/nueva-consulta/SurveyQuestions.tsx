@@ -6,6 +6,7 @@ import {
   SubOption,
   SurveyFormData,
 } from "@/app/lib/definitions/encuesta";
+import NewSurveyDropdown from "./Dropdown";
 
 type SurveyQuestionsProps = {
   formData: SurveyFormData;
@@ -23,6 +24,7 @@ type SurveyQuestionsProps = {
   ) => void;
   addQuestionOption: (questionIndex: number) => void;
   addQuestion: () => void;
+  sectors: { sector_name: string }[];
 };
 
 export default function SurveyQuestions({
@@ -32,6 +34,7 @@ export default function SurveyQuestions({
   updateQuestionOption,
   addQuestionOption,
   addQuestion,
+  sectors,
 }: SurveyQuestionsProps) {
   const removeOption = (questionIndex: number, optionIndex: number) => {
     setFormData((prev) => ({
@@ -119,12 +122,13 @@ export default function SurveyQuestions({
   const updateOptionWithAutoAdd = (
     questionIndex: number,
     optionIndex: number,
+    field: keyof QuestionOption,
     value: string,
   ) => {
     const question = formData.questions[questionIndex];
 
     // Update the current option
-    updateQuestionOption(questionIndex, optionIndex, "option_name", value);
+    updateQuestionOption(questionIndex, optionIndex, field, value);
 
     // Check if this is the last option and it's not empty
     const isLastOption = optionIndex === question.options.length - 1;
@@ -264,7 +268,7 @@ export default function SurveyQuestions({
                         }
                       />
                     </div>
-                    <div className="mb-6 flex gap-4">
+                    <div className="mb-4 flex gap-4">
                       <div className="flex-1">
                         <label className="mb-2 flex items-center text-sm font-semibold text-gray-700">
                           Nombre del Paso
@@ -405,7 +409,7 @@ export default function SurveyQuestions({
                           className="relative rounded-xl border border-gray-200 bg-gray-50 p-5 transition-all duration-200 hover:shadow-sm"
                         >
                           {/* Option Header */}
-                          <div className="mb-2 flex items-center justify-between">
+                          <div className="mb-3 flex items-center justify-between">
                             <div className="flex items-center gap-2">
                               <div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-500 text-sm font-bold text-white">
                                 {optionIndex + 1}
@@ -456,47 +460,71 @@ export default function SurveyQuestions({
                               )}
                           </div>
 
-                          {/* Option Text */}
-                          <div className="mb-4">
+                          <div className="flex items-end gap-3">
+                            {/* Option Text */}
+                            <div className="mb-4s flex-1">
+                              <label className="mb-2 flex items-center text-sm font-semibold text-gray-700">
+                                Texto de la Opción
+                                <span className="ml-1 text-red-500">*</span>
+                              </label>
+                              <input
+                                type="text"
+                                className="h-10 w-full rounded-lg border border-slate-300 bg-white px-4 text-sm text-slate-700 shadow-sm transition-all outline-none placeholder:text-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:ring-offset-1"
+                                placeholder={`Ej: Opción ${optionIndex + 1}`}
+                                value={option.option_name}
+                                onChange={(e) =>
+                                  updateOptionWithAutoAdd(
+                                    questionIndex,
+                                    optionIndex,
+                                    "option_name",
+                                    e.target.value,
+                                  )
+                                }
+                              />
+                            </div>
+
+                            {/* Sub-question Toggle */}
+                            <div className="">
+                              <label className="flex h-10 cursor-pointer items-center space-x-3 rounded-lg border border-slate-300 bg-white p-4 shadow-sm transition-all duration-200 select-none hover:bg-gray-50">
+                                <input
+                                  type="checkbox"
+                                  className="h-4 w-4 rounded text-emerald-600 focus:ring-emerald-500"
+                                  checked={option.hasSubQuestion}
+                                  onChange={(e) =>
+                                    updateQuestionOption(
+                                      questionIndex,
+                                      optionIndex,
+                                      "hasSubQuestion",
+                                      e.target.checked,
+                                    )
+                                  }
+                                />
+                                <span className="text-sm font-medium text-gray-700">
+                                  Sub-pregunta
+                                </span>
+                              </label>
+                            </div>
+                          </div>
+                          {/* Option Description */}
+                          <div className="mt-4">
                             <label className="mb-2 flex items-center text-sm font-semibold text-gray-700">
-                              Texto de la Opción
+                              Descripción de la Opción
                               <span className="ml-1 text-red-500">*</span>
                             </label>
                             <input
                               type="text"
                               className="h-10 w-full rounded-lg border border-slate-300 bg-white px-4 text-sm text-slate-700 shadow-sm transition-all outline-none placeholder:text-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:ring-offset-1"
-                              placeholder={`Ej: Opción ${optionIndex + 1}`}
-                              value={option.option_name}
+                              placeholder={`Ej: Descripción de la Opción ${optionIndex + 1}`}
+                              value={option.option_description}
                               onChange={(e) =>
                                 updateOptionWithAutoAdd(
                                   questionIndex,
                                   optionIndex,
+                                  "option_description",
                                   e.target.value,
                                 )
                               }
                             />
-                          </div>
-
-                          {/* Sub-question Toggle */}
-                          <div className="">
-                            <label className="flex h-10 cursor-pointer items-center space-x-3 rounded-lg border border-slate-300 bg-white p-4 shadow-sm transition-all duration-200 select-none hover:bg-gray-50">
-                              <input
-                                type="checkbox"
-                                className="h-4 w-4 rounded text-emerald-600 focus:ring-emerald-500"
-                                checked={option.hasSubQuestion}
-                                onChange={(e) =>
-                                  updateQuestionOption(
-                                    questionIndex,
-                                    optionIndex,
-                                    "hasSubQuestion",
-                                    e.target.checked,
-                                  )
-                                }
-                              />
-                              <span className="text-sm font-medium text-gray-700">
-                                Esta opción tiene sub-pregunta
-                              </span>
-                            </label>
                           </div>
 
                           {/* Sub-question Section */}
@@ -572,6 +600,15 @@ export default function SurveyQuestions({
                                             )
                                           }
                                         />
+                                        <NewSurveyDropdown
+                                          name="sector_id"
+                                          value={subOption.sector_id}
+                                          questionIndex={questionIndex}
+                                          optionIndex={optionIndex}
+                                          subIndex={subIndex}
+                                          setValue={updateSubOption}
+                                          options={sectors}
+                                        />
                                         {option.subOptions.length > 2 &&
                                           option.subOptions.length - 1 >
                                             subIndex && (
@@ -615,32 +652,12 @@ export default function SurveyQuestions({
                                       </div>
                                     ),
                                   )}
-                                  {/* <button
-                                      className="group flex h-10 w-full cursor-pointer items-center justify-center rounded-lg bg-blue-500 transition-all duration-200 hover:border-gray-400 hover:bg-blue-600"
-                                      onClick={() =>
-                                        addSubOption(questionIndex, optionIndex)
-                                      }
-                                    >
-                                      <span className="text-sm font-medium text-white">
-                                        Agregar Sub-opción
-                                      </span>
-                                    </button> */}
                                 </div>
                               </div>
                             </div>
                           )}
                         </div>
                       ))}
-
-                      {/* Add Option Button */}
-                      {/* <button
-                        className="group flex h-10 w-full cursor-pointer items-center justify-center rounded-lg bg-blue-500 transition-all duration-200 hover:border-gray-400 hover:bg-blue-600"
-                        onClick={() => addQuestionOption(questionIndex)}
-                      >
-                        <span className="font-medium text-white">
-                          Agregar Opción
-                        </span>
-                      </button> */}
                     </div>
                   </div>
                 )}

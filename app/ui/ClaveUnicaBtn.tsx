@@ -60,7 +60,8 @@ export default function ClaveUnicaBtn({ isLoggedIn }: { isLoggedIn: boolean }) {
       <form action={logout} className="flex w-full">
         <button
           type="submit"
-          className={`${roboto.className} flex min-h-11 grow cursor-pointer items-center justify-center gap-0.5 rounded-sm bg-[#0F69C4] py-[8px] pr-5 pl-4 text-center text-[#fff] transition-all select-none hover:bg-[#2275C9] hover:underline`}
+          aria-label="Iniciar sesión con ClaveÚnica"
+          className={`${roboto.className} flex min-h-[48px] grow cursor-pointer items-center justify-center gap-1 rounded-sm border-transparent bg-[#0f69c4] py-[8px] pr-5 pl-5 text-center font-bold text-white outline-4 outline-transparent transition-all outline-solid select-none hover:bg-[#07305a] hover:underline focus:outline-[#ffbe5c]`}
         >
           <Image
             src="/cu-blanco.svg"
@@ -79,7 +80,8 @@ export default function ClaveUnicaBtn({ isLoggedIn }: { isLoggedIn: boolean }) {
     <form action={() => signInWithClaveUnica(pathname)} className="flex w-full">
       <button
         type="submit"
-        className={`${roboto.className} flex min-h-11 grow cursor-pointer items-center justify-center gap-0.5 rounded-sm bg-[#0F69C4] py-[8px] pr-5 pl-4 text-center text-[#fff] transition-all select-none hover:bg-[#2275C9] hover:underline`}
+        aria-label="Iniciar sesión con ClaveÚnica"
+        className={`${roboto.className} flex min-h-[48px] grow cursor-pointer items-center justify-center gap-1 rounded-sm border-transparent bg-[#0f69c4] py-[8px] pr-5 pl-5 text-center font-bold text-white outline-4 outline-transparent transition-all outline-solid select-none hover:bg-[#07305a] hover:underline focus:outline-[#ffbe5c]`}
       >
         <Image
           src="/cu-blanco.svg"
