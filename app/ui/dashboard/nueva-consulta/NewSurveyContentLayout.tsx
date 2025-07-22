@@ -63,13 +63,14 @@ const INITIAL_FORM_DATA: SurveyFormData = {
         {
           id: 1,
           option_name: "",
+          option_description: "",
           hasSubQuestion: false,
           subQuestion: "",
           subOptions: [
             {
               id: "",
               option_name: "",
-              description: "",
+              option_description: "",
               sector_id: "",
             },
           ],
@@ -77,13 +78,14 @@ const INITIAL_FORM_DATA: SurveyFormData = {
         {
           id: 2,
           option_name: "",
+          option_description: "",
           hasSubQuestion: false,
           subQuestion: "",
           subOptions: [
             {
               id: "",
               option_name: "",
-              description: "",
+              option_description: "",
               sector_id: "",
             },
           ],
@@ -103,13 +105,14 @@ const INITIAL_FORM_DATA: SurveyFormData = {
         {
           id: 1,
           option_name: "",
+          option_description: "",
           hasSubQuestion: false,
           subQuestion: "",
           subOptions: [
             {
               id: "",
               option_name: "",
-              description: "",
+              option_description: "",
               sector_id: "",
             },
           ],
@@ -117,13 +120,14 @@ const INITIAL_FORM_DATA: SurveyFormData = {
         {
           id: 2,
           option_name: "",
+          option_description: "",
           hasSubQuestion: false,
           subQuestion: "",
           subOptions: [
             {
               id: "",
               option_name: "",
-              description: "",
+              option_description: "",
               sector_id: "",
             },
           ],
@@ -254,13 +258,14 @@ export default function NewSurveyContentLayout() {
         {
           id: 1,
           option_name: "",
+          option_description: "",
           hasSubQuestion: false,
           subQuestion: "",
           subOptions: [
             {
               id: "",
               option_name: "",
-              description: "",
+              option_description: "",
               sector_id: "",
             },
           ],
@@ -268,13 +273,14 @@ export default function NewSurveyContentLayout() {
         {
           id: 2,
           option_name: "",
+          option_description: "",
           hasSubQuestion: false,
           subQuestion: "",
           subOptions: [
             {
               id: "",
               option_name: "",
-              description: "",
+              option_description: "",
               sector_id: "",
             },
           ],
@@ -291,13 +297,14 @@ export default function NewSurveyContentLayout() {
     const newOption = {
       id: formData.questions[questionIndex].options.length + 1,
       option_name: "",
+      option_description: "",
       hasSubQuestion: false,
       subQuestion: "",
       subOptions: [
         {
           id: "",
           option_name: "",
-          description: "",
+          option_description: "",
           sector_id: "",
         },
       ],

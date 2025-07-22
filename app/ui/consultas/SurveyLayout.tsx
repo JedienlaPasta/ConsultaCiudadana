@@ -3,47 +3,18 @@ import { useRef, useState } from "react";
 import OptionSelectionList from "./OptionSelectionList";
 import VoteConfirmationOverview from "./VoteConfirmationOverview";
 import { useRouter } from "next/navigation";
-// import { QUESTIONS_LIST } from "../../lib/data";
 import { toast } from "sonner";
 import RexLoader from "../RexAnimation";
 import MapSection from "./MapSection";
 import { registerVote } from "../../lib/actions/encuesta";
 import SurveyProgress from "./SurveyProgress";
-import { Question, SurveySector } from "@/app/lib/definitions/encuesta";
-
-// export type Question = {
-//   index: number;
-//   step: string;
-//   step_description: string;
-//   question: string;
-//   description: string;
-//   answers: number;
-//   options: {
-//     id: string;
-//     name: string;
-//     question?: string;
-//     description?: string;
-//     answers?: number;
-//     population?: string;
-//     area?: string;
-//     options?: {
-//       id: string;
-//       name: string;
-//       description: string;
-//       sector?: string;
-//     }[];
-//   }[];
-// };
+import { Question } from "@/app/lib/definitions/encuesta";
 
 type SurveyLayoutProps = {
   surveyQuestions: Question[];
-  surveySectors: SurveySector[];
 };
 
-export default function SurveyLayout({
-  surveyQuestions,
-  surveySectors,
-}: SurveyLayoutProps) {
+export default function SurveyLayout({ surveyQuestions }: SurveyLayoutProps) {
   const [selectedSectorId, setSelectedSectorId] = useState("");
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
   const [selectedSubOption, setSelectedSubOption] = useState<string>("");
@@ -228,7 +199,6 @@ function QuestionSection({
       </div>
     );
 
-  // Check if this is the confirmation step
   if (question.step === "Confirmar voto") {
     return (
       <VoteConfirmationOverview

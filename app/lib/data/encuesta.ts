@@ -263,7 +263,6 @@ export async function getSurveyQuestions(id: string): Promise<Question[]> {
           SELECT 
             o.id,
             o.option_name,
-            o.option_description,
             o.sub_question_id,
             o.option_order,
             o.sector_id,
@@ -293,7 +292,6 @@ export async function getSurveyQuestions(id: string): Promise<Question[]> {
               SELECT 
                 id,
                 option_name,
-                option_description,
                 option_order,
                 sector_id
               FROM opciones
@@ -304,20 +302,20 @@ export async function getSurveyQuestions(id: string): Promise<Question[]> {
           subOptions = subOptionsResult.recordset.map((row) => ({
             id: row.id,
             option_name: row.option_name,
-            description: row.option_description || "",
+            option_description: row.option_description,
             sector_id: row.sector_id,
             sector: row.sector,
           }));
-          console.log("subOptions:", subOptions);
         }
 
         options.push({
           id: optionRow.id,
           option_name: optionRow.option_name,
+          option_description: optionRow.option_description,
           hasSubQuestion: !!optionRow.sub_question_id,
           subQuestion: optionRow.sub_question || "",
           subOptions: subOptions,
-          sector_id: optionRow.sector,
+          sector_id: optionRow.sector, // No estoy seguro si este valor esta correcto
           sector_population: optionRow.sector_population,
           sector_area: optionRow.sector_area,
         });
@@ -336,6 +334,19 @@ export async function getSurveyQuestions(id: string): Promise<Question[]> {
       });
     }
 
+    // Paso para confirmar voto
+    questions.push({
+      id: questions.length + 1,
+      questionId: questions.length + 1,
+      question: "Resumen",
+      step: "Confirmar voto",
+      step_description: "Confirma que los datos son correctos",
+      isMapQuestion: false,
+      maxOptions: 1,
+      minOptions: 1,
+      options: [],
+    });
+
     return questions;
   } catch (error) {
     console.error("Error al obtener detalles de la encuesta:", error);
@@ -344,33 +355,33 @@ export async function getSurveyQuestions(id: string): Promise<Question[]> {
 }
 
 // Survey sectors
-export async function getSurveySectors(): Promise<SurveySector[]> {
-  const defaultSurveySectors: SurveySector[] = [];
+// export async function getSurveySectors(): Promise<SurveySector[]> {
+//   const defaultSurveySectors: SurveySector[] = [];
 
-  try {
-    const pool = await connectToDB();
-    if (!pool) {
-      console.warn("No se pudo establecer conexión con la base de datos");
-      return defaultSurveySectors;
-    }
+//   try {
+//     const pool = await connectToDB();
+//     if (!pool) {
+//       console.warn("No se pudo establecer conexión con la base de datos");
+//       return defaultSurveySectors;
+//     }
 
-    const sectorRequest = pool.request();
-    const sectorResult = await sectorRequest.query("SELECT * FROM sectores");
+//     const sectorRequest = pool.request();
+//     const sectorResult = await sectorRequest.query("SELECT * FROM sectores");
 
-    if (sectorResult.recordset.length === 0) {
-      console.warn("No se encontraron sectores");
-      return defaultSurveySectors;
-    }
+//     if (sectorResult.recordset.length === 0) {
+//       console.warn("No se encontraron sectores");
+//       return defaultSurveySectors;
+//     }
 
-    const surveySectors = sectorResult.recordset.map((row) => ({
-      sector: row.sector,
-      sector_population: row.sector_population,
-      sector_area: row.sector_area,
-    }));
+//     const surveySectors = sectorResult.recordset.map((row) => ({
+//       sector: row.sector,
+//       sector_population: row.sector_population,
+//       sector_area: row.sector_area,
+//     }));
 
-    return surveySectors;
-  } catch (error) {
-    console.error("Error al obtener detalles de la encuesta:", error);
-    return defaultSurveySectors;
-  }
-}
+//     return surveySectors;
+//   } catch (error) {
+//     console.error("Error al obtener detalles de la encuesta:", error);
+//     return defaultSurveySectors;
+//   }
+// }

@@ -94,7 +94,7 @@ export default function OptionSelectionList({
       </div>
 
       {/* Conditionaly rendered for Tramo conector */}
-      {isTramoConectorSelected && question.step === "Componentes urbanos" && (
+      {question.options[0].subQuestion && (
         <div className="space-y-4">
           <div className="flex items-center justify-between">
             <h3 className="text-lg font-semibold text-slate-700">
@@ -116,12 +116,6 @@ export default function OptionSelectionList({
     </div>
   );
 }
-
-// type Option = {
-//   id: string;
-//   option_name: string;
-//   description?: string;
-// };
 
 type OptionItemProps = {
   option: QuestionOption | SubOption;
@@ -152,7 +146,7 @@ function OptionItem({ option, isSelected, onSelect }: OptionItemProps) {
         </div>
       )}
 
-      <div className="mb-1 flex items-center gap-2">
+      <div className="flex items-center gap-2">
         <input
           type="radio"
           name={`option-${option.id}`}
@@ -167,9 +161,11 @@ function OptionItem({ option, isSelected, onSelect }: OptionItemProps) {
         </h5>
       </div>
 
-      <p className="line-clamp-2 text-xs text-gray-500">
-        {option.description || ""}
-      </p>
+      {option.option_description ? (
+        <p className="mt-1 line-clamp-2 text-xs text-gray-500">
+          {option.option_description || ""}
+        </p>
+      ) : null}
     </div>
   );
 }

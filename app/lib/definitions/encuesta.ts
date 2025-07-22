@@ -19,13 +19,14 @@ export type OptionDefinition = {
 export type SubOption = {
   id: string;
   option_name: string;
-  description: string;
+  option_description: string;
   sector_id?: string;
 };
 
 export type QuestionOption = {
   id: number;
   option_name: string;
+  option_description: string;
   sector_id?: string;
   sector_population?: string;
   sector_area?: string;

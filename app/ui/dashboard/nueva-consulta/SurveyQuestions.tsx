@@ -103,7 +103,7 @@ export default function SurveyQuestions({
       newSubOptions.push({
         id: "",
         option_name: "",
-        description: "",
+        option_description: "",
         sector_id: "",
       });
     }
@@ -540,7 +540,7 @@ export default function SurveyQuestions({
                                       option.subOptions.filter(
                                         (subOption) =>
                                           subOption &&
-                                          subOption.option_name.trim().length >
+                                          subOption.option_name?.trim().length >
                                             0,
                                       ).length
                                     }{" "}

@@ -16,14 +16,18 @@ export default function VoteConfirmationOverview({
   // Get sector information
   const sectorQuestion = questions[0];
   const selectedSector = sectorQuestion.options.find(
-    (option) => option?.sectorId === selectedSectorId,
+    (option) => option?.sector_id === selectedSectorId,
   );
 
+  // Aqui debo colocar todas las respuestas seleccionadas y sus preguntas correspondientes
   // Get selected urban components
   const urbanComponentsQuestion = questions[1];
+  console.log(urbanComponentsQuestion);
   const selectedComponents = urbanComponentsQuestion.options.filter((option) =>
-    selectedOptions.includes(option?.sectorId || ""),
+    selectedOptions.includes(option?.sector_id || ""),
   );
+
+  console.log(selectedComponents);
 
   // Get selected sub-option (Tramo conector) - Fixed type checking
   const tramoConectorOption = urbanComponentsQuestion.options
@@ -146,12 +150,12 @@ export default function VoteConfirmationOverview({
                   <div className="ml-12">
                     <h4 className="font-medium text-gray-900">
                       {component.option_name === "Tramo conector"
-                        ? tramoConectorOption?.name
+                        ? tramoConectorOption?.option_name
                         : component.option_name}
                     </h4>
                     <p className="text-sm text-gray-600">
                       {component.option_name === "Tramo conector"
-                        ? tramoConectorOption?.description
+                        ? tramoConectorOption?.option_description
                         : component?.option_description || "No hay descripcion"}
                     </p>
                   </div>
