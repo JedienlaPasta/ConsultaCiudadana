@@ -23,9 +23,9 @@ export default function OptionSelectionList({
   question,
   selectedSectorId,
 }: OptionSelectionListProps) {
-  const isTramoConectorSelected = selectedOptions.some(
-    (option) => option === "1",
-  );
+  // const isTramoConectorSelected = selectedOptions.some(
+  //   (option) => option === "1",
+  // );
 
   const handleOptionSelect = (optionId: string) => {
     // Check if the option is already selected

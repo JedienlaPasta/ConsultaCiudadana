@@ -1,9 +1,4 @@
-import {
-  Question,
-  SubOption,
-  SurveyData,
-  SurveySector,
-} from "../definitions/encuesta";
+import { Question, SubOption, SurveyData } from "../definitions/encuesta";
 import { connectToDB } from "../utils/db-connection";
 import sql from "mssql";
 
