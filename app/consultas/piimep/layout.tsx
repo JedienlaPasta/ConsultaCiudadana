@@ -1,5 +1,5 @@
 import Navbar from "@/app/ui/Navbar";
-import SurveyHeader from "@/app/ui/consultas/SurveyHeader";
+// import SurveyHeader from "@/app/ui/consultas/SurveyHeader";
 import React from "react";
 import { getSession } from "@/app/lib/actions/auth";
 
@@ -14,7 +14,7 @@ export default async function Layout({
   return (
     <div>
       <Navbar isLoggedIn={session !== null} />
-      <SurveyHeader />
+      {/* <SurveyHeader /> */}
       {children}
     </div>
   );
