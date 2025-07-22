@@ -1,8 +1,8 @@
 "use client";
-import { SurveyFormData } from "@/app/lib/definitions/encuesta";
+import { SurveyData } from "@/app/lib/definitions/encuesta";
 import { formatDate } from "@/app/lib/utils/format";
 
-export default function SurveyHeader({ survey }: { survey?: SurveyFormData }) {
+export default function SurveyHeader({ survey }: { survey: SurveyData }) {
   const endDate = survey?.survey_end_date
     ? String(survey?.survey_end_date)
     : "";
