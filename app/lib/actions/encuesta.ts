@@ -3,6 +3,7 @@
 import z from "zod";
 import { connectToDB } from "../utils/db-connection";
 import sql from "mssql";
+import { SubOption } from "../definitions/encuesta";
 
 export async function registerVote(formdata: FormData) {
   console.log(formdata);
@@ -110,12 +111,23 @@ const SurveySchema = z.object({
               options: z.array(
                 z.object({
                   id: z.number(),
-                  option: z
+                  option_name: z
                     .string()
                     .min(1, { message: "El texto de la opción es requerido" }),
                   hasSubQuestion: z.boolean(),
                   subQuestion: z.string().optional(),
-                  subOptions: z.array(z.string()).optional(),
+                  subOptions: z
+                    .array(
+                      z.object({
+                        id: z.string(),
+                        option_name: z.string().min(1, {
+                          message: "El texto de la opción es requerido",
+                        }),
+                        option_description: z.string().optional(),
+                        sector_id: z.string().optional(),
+                      }),
+                    )
+                    .optional(),
                 }),
               ),
             })
@@ -365,7 +377,8 @@ export async function createSurvey(formData: FormData) {
                 option.hasSubQuestion &&
                 option.subQuestion?.trim() &&
                 option.subOptions.some(
-                  (option: string) => option.trim().length > 0,
+                  (subOption: SubOption) =>
+                    subOption?.option_name?.trim().length > 0,
                 )
               ) {
                 const subPreguntaRequest = new sql.Request(transaction);
@@ -394,14 +407,21 @@ export async function createSurvey(formData: FormData) {
                 if (option.subOptions && option.subOptions.length > 0) {
                   for (let k = 0; k < option.subOptions.length; k++) {
                     const subOption = option.subOptions[k];
-                    if (subOption.trim()) {
+                    if (subOption.option_name?.trim()) {
                       const subOpcionRequest = new sql.Request(transaction);
                       await subOpcionRequest
                         .input("question_id", sql.Int, subQuestionId)
                         .input("option_order", sql.Int, k + 1)
-                        .input("option_name", sql.NVarChar, subOption)
-                        .input("option_description", sql.NVarChar, subOption)
-                        .query(`
+                        .input(
+                          "option_name",
+                          sql.NVarChar,
+                          subOption.option_name,
+                        )
+                        .input(
+                          "option_description",
+                          sql.NVarChar,
+                          subOption.option_name,
+                        ).query(`
                         INSERT INTO opciones (question_id, option_order, option_name, option_description) 
                         VALUES (@question_id, @option_order, @option_name, @option_description)
                       `);
@@ -411,13 +431,17 @@ export async function createSurvey(formData: FormData) {
               }
 
               // Insertar opcion principal
-              if (option.option.trim()) {
+              if (option.option_name?.trim()) {
                 const opcionRequest = new sql.Request(transaction);
                 await opcionRequest
                   .input("question_id", sql.Int, questionId)
                   .input("option_order", sql.Int, j + 1)
-                  .input("option_name", sql.NVarChar, option.option)
-                  .input("option_description", sql.NVarChar, option.option)
+                  .input("option_name", sql.NVarChar, option.option_name)
+                  .input(
+                    "option_description",
+                    sql.NVarChar,
+                    option.option_description,
+                  )
                   .input("sub_question_id", sql.Int, subQuestionId ?? null)
                   .query(`
                   INSERT INTO opciones (question_id, option_order, option_name, option_description, sub_question_id) 

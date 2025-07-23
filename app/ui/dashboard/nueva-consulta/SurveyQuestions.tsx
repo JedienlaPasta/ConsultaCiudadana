@@ -603,6 +603,7 @@ export default function SurveyQuestions({
                                         <NewSurveyDropdown
                                           name="sector_id"
                                           value={subOption.sector_id}
+                                          readOnly
                                           questionIndex={questionIndex}
                                           optionIndex={optionIndex}
                                           subIndex={subIndex}
