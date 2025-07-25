@@ -75,7 +75,7 @@ export default function SurveyContent({
                     </div>
                     {formData.objectives.length > 3 && (
                       <button
-                        className="group mb-2 flex size-10 cursor-pointer items-center justify-center rounded-lg border border-gray-300 text-gray-500 shadow-sm transition-all duration-200 hover:border-rose-300 hover:bg-rose-50 hover:text-rose-500"
+                        className="group mb-1 flex size-10 cursor-pointer items-center justify-center rounded-lg border border-gray-300 text-gray-500 shadow-sm transition-all duration-200 hover:border-rose-300 hover:bg-rose-50 hover:text-rose-500"
                         onClick={() => removeArrayItem("objectives", index)}
                         title="Eliminar objetivo"
                       >

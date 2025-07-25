@@ -9,6 +9,7 @@ import Definitions from "@/app/ui/consultas/Definitions";
 import Schedule from "@/app/ui/consultas/Schedule";
 import { getSurveyDetails } from "@/app/lib/data/encuesta";
 import { formatDate } from "@/app/lib/utils/format";
+import { redirect } from "next/navigation";
 
 type SurveyDetailsProps = {
   params: Promise<{ id: string }>;
@@ -21,6 +22,10 @@ export default async function SurveyDetail(props: SurveyDetailsProps) {
   const params = await props.params;
   const id = params.id;
   const survey = await getSurveyDetails(id);
+  console.log(survey);
+  if (!survey.survey_name) {
+    redirect("/consultas");
+  }
 
   const isSurveyActive =
     new Date(survey.survey_end_date) > new Date() ? "Activa" : "Cerrada";

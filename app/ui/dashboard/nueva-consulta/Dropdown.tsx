@@ -97,15 +97,16 @@ export default function NewSurveyDropdown({
             options.map((option, index) => (
               <li
                 key={index}
-                onClick={() =>
+                onClick={() => {
                   setValue(
                     questionIndex,
                     optionIndex,
                     subIndex,
                     name,
                     option.sector_name,
-                  )
-                }
+                  );
+                  setIsOpen(false); // Cerrar el dropdown después de seleccionar
+                }}
                 className="flex h-12 w-full cursor-pointer flex-col justify-center px-4 text-sm hover:bg-[#0A4581] hover:text-white"
               >
                 <span>{option.sector_name}</span>

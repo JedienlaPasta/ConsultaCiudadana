@@ -66,6 +66,7 @@ const INITIAL_FORM_DATA: SurveyFormData = {
           option_description: "",
           hasSubQuestion: false,
           sector_id: null,
+          sector: null,
           subQuestion: "",
           subOptions: [
             {
@@ -73,12 +74,14 @@ const INITIAL_FORM_DATA: SurveyFormData = {
               option_name: "",
               option_description: "",
               sector_id: null,
+              sector: null,
             },
             {
               id: "",
               option_name: "",
               option_description: "",
               sector_id: null,
+              sector: null,
             },
           ],
         },
@@ -88,6 +91,7 @@ const INITIAL_FORM_DATA: SurveyFormData = {
           option_description: "",
           hasSubQuestion: false,
           sector_id: null,
+          sector: null,
           subQuestion: "",
           subOptions: [
             {
@@ -95,12 +99,14 @@ const INITIAL_FORM_DATA: SurveyFormData = {
               option_name: "",
               option_description: "",
               sector_id: null,
+              sector: null,
             },
             {
               id: "",
               option_name: "",
               option_description: "",
               sector_id: null,
+              sector: null,
             },
           ],
         },
@@ -122,6 +128,7 @@ const INITIAL_FORM_DATA: SurveyFormData = {
           option_description: "",
           hasSubQuestion: false,
           sector_id: null,
+          sector: null,
           subQuestion: "",
           subOptions: [
             {
@@ -129,12 +136,14 @@ const INITIAL_FORM_DATA: SurveyFormData = {
               option_name: "",
               option_description: "",
               sector_id: null,
+              sector: null,
             },
             {
               id: "",
               option_name: "",
               option_description: "",
               sector_id: null,
+              sector: null,
             },
           ],
         },
@@ -144,6 +153,7 @@ const INITIAL_FORM_DATA: SurveyFormData = {
           option_description: "",
           hasSubQuestion: false,
           sector_id: null,
+          sector: null,
           subQuestion: "",
           subOptions: [
             {
@@ -151,12 +161,14 @@ const INITIAL_FORM_DATA: SurveyFormData = {
               option_name: "",
               option_description: "",
               sector_id: null,
+              sector: null,
             },
             {
               id: "",
               option_name: "",
               option_description: "",
               sector_id: null,
+              sector: null,
             },
           ],
         },
@@ -174,6 +186,7 @@ export default function NewSurveyContentLayout({
 }) {
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState<SurveyFormData>(INITIAL_FORM_DATA);
+  console.log(formData);
 
   // Load data from localStorage on component mount
   useEffect(() => {
@@ -293,6 +306,7 @@ export default function NewSurveyContentLayout({
           option_description: "",
           hasSubQuestion: false,
           sector_id: null,
+          sector: null,
           subQuestion: "",
           subOptions: [
             {
@@ -300,12 +314,14 @@ export default function NewSurveyContentLayout({
               option_name: "",
               option_description: "",
               sector_id: null,
+              sector: null,
             },
             {
               id: "",
               option_name: "",
               option_description: "",
               sector_id: null,
+              sector: null,
             },
           ],
         },
@@ -315,6 +331,7 @@ export default function NewSurveyContentLayout({
           option_description: "",
           hasSubQuestion: false,
           sector_id: null,
+          sector: null,
           subQuestion: "",
           subOptions: [
             {
@@ -322,12 +339,14 @@ export default function NewSurveyContentLayout({
               option_name: "",
               option_description: "",
               sector_id: null,
+              sector: null,
             },
             {
               id: "",
               option_name: "",
               option_description: "",
               sector_id: null,
+              sector: null,
             },
           ],
         },
@@ -346,6 +365,7 @@ export default function NewSurveyContentLayout({
       option_description: "",
       hasSubQuestion: false,
       sector_id: null,
+      sector: null,
       subQuestion: "",
       subOptions: [
         {
@@ -353,12 +373,14 @@ export default function NewSurveyContentLayout({
           option_name: "",
           option_description: "",
           sector_id: null,
+          sector: null,
         },
         {
           id: "",
           option_name: "",
           option_description: "",
           sector_id: null,
+          sector: null,
         },
       ],
     };
@@ -383,10 +405,10 @@ export default function NewSurveyContentLayout({
         const hasQuestionText = question.question.trim() !== "";
         const isMapQuestion = question.isMapQuestion;
         const hasValidOptions = question.options.some((option) => {
-          const hasOptionText = option.option_name.trim() !== "";
-          const hasSubQuestion = option.subQuestion.trim() !== "";
-          const hasValidSubOptions = option.subOptions.some(
-            (subOpt) => subOpt.option_name.trim() !== "",
+          const hasOptionText = option?.option_name?.trim() !== "";
+          const hasSubQuestion = option?.subQuestion?.trim() !== "";
+          const hasValidSubOptions = option?.subOptions?.some(
+            (subOpt) => subOpt?.option_name?.trim() !== "",
           );
           return hasOptionText || hasSubQuestion || hasValidSubOptions;
         });
@@ -398,10 +420,10 @@ export default function NewSurveyContentLayout({
         // Also clean up empty options within each question
         options: question.options
           .filter((option) => {
-            const hasOptionText = option.option_name.trim() !== "";
-            const hasSubQuestion = option.subQuestion.trim() !== "";
-            const hasValidSubOptions = option.subOptions.some(
-              (subOpt) => subOpt.option_name.trim() !== "",
+            const hasOptionText = option?.option_name?.trim() !== "";
+            const hasSubQuestion = option?.subQuestion?.trim() !== "";
+            const hasValidSubOptions = option?.subOptions?.some(
+              (subOpt) => subOpt?.option_name?.trim() !== "",
             );
             return hasOptionText || hasSubQuestion || hasValidSubOptions;
           })
@@ -409,7 +431,7 @@ export default function NewSurveyContentLayout({
             ...option,
             // Clean up empty sub-options
             subOptions: option.subOptions.filter(
-              (subOpt) => subOpt.option_name.trim() !== "",
+              (subOpt) => subOpt?.option_name?.trim() !== "",
             ),
           })),
       }));

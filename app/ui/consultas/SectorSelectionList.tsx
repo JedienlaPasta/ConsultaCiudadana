@@ -18,8 +18,6 @@ export default function SectorSelectionList({
     setSelectedSector(sectorId);
   };
 
-  console.log(sectoresSurveyList);
-
   return (
     <div className="mt-4 space-y-4 md:mt-8">
       <div className="flex items-center justify-between">
@@ -37,7 +35,7 @@ export default function SectorSelectionList({
           <SectorItem
             sector={sector}
             key={sector.option_name}
-            isSelected={String(sector.sector_id) === selectedSector}
+            isSelected={String(sector.sector) === selectedSector}
             onSelect={handleSectorSelect}
           />
         ))}
@@ -47,9 +45,8 @@ export default function SectorSelectionList({
 }
 
 type Sector = {
-  // id: number;
   option_name: string;
-  sector_id?: string;
+  sector: string | null;
   sector_population?: string;
   sector_area?: string;
 };
@@ -63,7 +60,7 @@ type SectorItemProps = {
 function SectorItem({ sector, isSelected, onSelect }: SectorItemProps) {
   return (
     <div
-      onClick={() => onSelect(sector?.sector_id || "")}
+      onClick={() => onSelect(sector?.sector || "")}
       className={`group relative flex cursor-pointer flex-col rounded-lg border-2 px-4 py-3 transition-all duration-200 hover:border-blue-200 hover:shadow-md md:p-4 ${isSelected ? "!border-[#0F69C4] !bg-blue-50 shadow-md" : "border-gray-200"}`}
     >
       {isSelected && (
@@ -89,7 +86,7 @@ function SectorItem({ sector, isSelected, onSelect }: SectorItemProps) {
           name="sectorSelection"
           className="size-4 cursor-pointer accent-[#0F69C4]"
           checked={isSelected}
-          onChange={() => onSelect(sector?.sector_id || "")}
+          onChange={() => onSelect(sector?.sector || "")}
         />
         <h5
           className={`font-medium group-hover:text-[#0F69C4] ${isSelected ? "text-[#0F69C4]" : "text-slate-700"}`}

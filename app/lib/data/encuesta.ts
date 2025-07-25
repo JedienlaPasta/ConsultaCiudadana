@@ -1,6 +1,39 @@
-import { Question, SubOption, SurveyData } from "../definitions/encuesta";
+import {
+  Question,
+  SubOption,
+  SurveyData,
+  SurveyGeneralData,
+} from "../definitions/encuesta";
 import { connectToDB } from "../utils/db-connection";
 import sql from "mssql";
+
+export async function getSurveysList(): Promise<SurveyGeneralData[]> {
+  try {
+    const pool = await connectToDB();
+    if (!pool) {
+      console.warn("No se pudo establecer conexión con la base de datos");
+      return [];
+    }
+    const request = pool.request();
+    const result = await request.query(
+      "SELECT id, survey_name, survey_short_description, survey_start_date, survey_end_date, department FROM encuestas",
+    );
+    return result.recordset.map(
+      (item) =>
+        ({
+          id: item.id,
+          survey_name: item.survey_name,
+          survey_short_description: item.survey_short_description,
+          survey_start_date: item.survey_start_date,
+          survey_end_date: item.survey_end_date,
+          department: item.department,
+        }) as SurveyGeneralData,
+    );
+  } catch (error) {
+    console.error("Error al obtener la lista de encuestas:", error);
+    return [];
+  }
+}
 
 export async function getSurveyDetails(id: string): Promise<SurveyData> {
   const defaultSurvey: SurveyData = {
@@ -258,6 +291,7 @@ export async function getSurveyQuestions(id: string): Promise<Question[]> {
           SELECT 
             o.id,
             o.option_name,
+            o.option_description,
             o.sub_question_id,
             o.option_order,
             o.sector_id,
@@ -285,13 +319,16 @@ export async function getSurveyQuestions(id: string): Promise<Question[]> {
             optionRow.sub_question_id,
           ).query(`
               SELECT 
-                id,
-                option_name,
-                option_order,
-                sector_id
-              FROM opciones
-              WHERE question_id = @sub_question_id AND is_active = 1
-              ORDER BY option_order
+                o.id,
+                o.option_name,
+                o.option_description,
+                o.option_order,
+                o.sector_id,
+                s.sector
+              FROM opciones o
+              LEFT JOIN sectores s ON o.sector_id = s.id
+              WHERE o.question_id = @sub_question_id AND o.is_active = 1
+              ORDER BY o.option_order
             `);
 
           subOptions = subOptionsResult.recordset.map((row) => ({
@@ -310,7 +347,8 @@ export async function getSurveyQuestions(id: string): Promise<Question[]> {
           hasSubQuestion: !!optionRow.sub_question_id,
           subQuestion: optionRow.sub_question || "",
           subOptions: subOptions,
-          sector_id: optionRow.sector, // No estoy seguro si este valor esta correcto
+          sector_id: optionRow.sector_id,
+          sector: optionRow.sector || "",
           sector_population: optionRow.sector_population,
           sector_area: optionRow.sector_area,
         });

@@ -4,9 +4,12 @@ import Footer from "./ui/Footer";
 import Hero from "./ui/Hero";
 import SurveysList from "./ui/SurveysList";
 import Navbar from "./ui/Navbar";
+import { getSurveysList } from "./lib/data/encuesta";
 
 export default async function Home() {
   const session = await getSession();
+  const surveys = await getSurveysList();
+
   return (
     <>
       <Navbar isLoggedIn={session !== null} />
@@ -26,7 +29,7 @@ export default async function Home() {
                 nuestra comuna.
               </p>
             </div>
-            <SurveysList />
+            <SurveysList surveys={surveys} />
             <Link
               href="/consultas"
               className="font-semibolds mx-auto mt-3 w-full cursor-pointer rounded-xl bg-[#0A4C8A] px-8 py-3 text-center text-white transition-colors hover:bg-[#1065b4] md:mt-5 md:w-fit"

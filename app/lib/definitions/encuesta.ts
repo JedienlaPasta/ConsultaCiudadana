@@ -21,6 +21,7 @@ export type SubOption = {
   option_name: string;
   option_description: string;
   sector_id: string | null;
+  sector: string | null;
 };
 
 export type QuestionOption = {
@@ -28,6 +29,7 @@ export type QuestionOption = {
   option_name: string;
   option_description: string;
   sector_id: string | null;
+  sector: string | null;
   sector_population?: string;
   sector_area?: string;
   hasSubQuestion: boolean;
@@ -93,4 +95,13 @@ export type SurveySector = {
   sector: string;
   sector_population: number;
   sector_area: string;
+};
+
+export type SurveyGeneralData = {
+  id: number;
+  survey_name: string;
+  survey_short_description: string;
+  survey_start_date: string;
+  survey_end_date: string;
+  department: string;
 };

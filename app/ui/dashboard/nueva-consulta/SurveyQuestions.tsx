@@ -107,7 +107,8 @@ export default function SurveyQuestions({
         id: "",
         option_name: "",
         option_description: "",
-        sector_id: "",
+        sector_id: null,
+        sector: null,
       });
     }
 

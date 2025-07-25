@@ -114,6 +114,7 @@ const SurveySchema = z.object({
                   option_name: z
                     .string()
                     .min(1, { message: "El texto de la opción es requerido" }),
+                  option_description: z.string().optional(),
                   hasSubQuestion: z.boolean(),
                   subQuestion: z.string().optional(),
                   subOptions: z
@@ -307,6 +308,12 @@ export async function createSurvey(formData: FormData) {
         }
       }
 
+      const sectorsRequest = new sql.Request(transaction);
+      const sectoresResult = await sectorsRequest.query(
+        "SELECT id, sector FROM sectores",
+      );
+      console.log("sectoresResult:", sectoresResult.recordset);
+
       // 6. Insertar preguntas y opciones
       for (let i = 0; i < validatedData.data.questions.length; i++) {
         const question = validatedData.data.questions[i];
@@ -336,6 +343,8 @@ export async function createSurvey(formData: FormData) {
             );
           }
         } else {
+          // const questionDescription = question?.question_description || null;
+          const questionDescription = null;
           const questionType = question.isMapQuestion ? "mapa" : "normal";
           // Si questionId === 0, insertar nueva pregunta
           const preguntaRequest = new sql.Request(transaction);
@@ -343,7 +352,7 @@ export async function createSurvey(formData: FormData) {
             .input("step", sql.NVarChar, question.step)
             .input("step_description", sql.NVarChar, question.step_description)
             .input("question", sql.NVarChar, question.question)
-            .input("question_description", sql.NVarChar, question.question) // Falta este valor <=======================
+            .input("question_description", sql.NVarChar, questionDescription) // Falta este valor <=======================
             .input("question_type", sql.NVarChar, questionType)
             .input("multiple_answers", sql.Bit, question.maxOptions > 1)
             .input("min_answers", sql.Int, question.minOptions)
@@ -384,21 +393,12 @@ export async function createSurvey(formData: FormData) {
                 const subPreguntaRequest = new sql.Request(transaction);
                 const subPreguntaResult = await subPreguntaRequest
                   .input("step", sql.NVarChar, `SubPaso de ${question.step}`) // Nombre del paso, ej: Selecciona tu sector
-                  .input(
-                    "step_description",
-                    sql.NVarChar,
-                    `SubPregunta ligada a opción ${option.option}`,
-                  )
                   .input("question", sql.NVarChar, option.subQuestion)
-                  .input(
-                    "question_description",
-                    sql.NVarChar,
-                    option.subQuestion,
-                  )
+                  .input("question_description", sql.NVarChar, null)
                   .input("question_type", sql.NVarChar, "normal").query(`
-                  INSERT INTO preguntas (step, step_description, question, question_description, question_type) 
+                  INSERT INTO preguntas (step, question, question_description, question_type) 
                   OUTPUT INSERTED.id
-                  VALUES (@step, @step_description, @question, @question_description, @question_type)
+                  VALUES (@step, @question, @question_description, @question_type)
                 `);
 
                 subQuestionId = subPreguntaResult.recordset[0].id;
@@ -408,6 +408,10 @@ export async function createSurvey(formData: FormData) {
                   for (let k = 0; k < option.subOptions.length; k++) {
                     const subOption = option.subOptions[k];
                     if (subOption.option_name?.trim()) {
+                      const sectorId =
+                        sectoresResult.recordset.find(
+                          (sector) => sector.sector === subOption.sector_id,
+                        )?.id ?? null;
                       const subOpcionRequest = new sql.Request(transaction);
                       await subOpcionRequest
                         .input("question_id", sql.Int, subQuestionId)
@@ -420,10 +424,11 @@ export async function createSurvey(formData: FormData) {
                         .input(
                           "option_description",
                           sql.NVarChar,
-                          subOption.option_name,
-                        ).query(`
-                        INSERT INTO opciones (question_id, option_order, option_name, option_description) 
-                        VALUES (@question_id, @option_order, @option_name, @option_description)
+                          subOption.option_description,
+                        )
+                        .input("sector_id", sql.Int, sectorId).query(`
+                        INSERT INTO opciones (question_id, option_order, option_name, option_description, sector_id) 
+                        VALUES (@question_id, @option_order, @option_name, @option_description, @sector_id)
                       `);
                     }
                   }

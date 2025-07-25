@@ -21,6 +21,7 @@ export default function SurveyLayout({ surveyQuestions }: SurveyLayoutProps) {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const topRef = useRef<HTMLDivElement>(null);
+  console.log("surveyQuestions:", surveyQuestions);
 
   console.log(selectedSectorId);
 

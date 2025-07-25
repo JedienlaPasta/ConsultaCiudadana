@@ -23,9 +23,7 @@ export default function OptionSelectionList({
   question,
   selectedSectorId,
 }: OptionSelectionListProps) {
-  // const isTramoConectorSelected = selectedOptions.some(
-  //   (option) => option === "1",
-  // );
+  console.log(question);
 
   const handleOptionSelect = (optionId: string) => {
     // Check if the option is already selected
@@ -36,7 +34,7 @@ export default function OptionSelectionList({
         setSelectedSubOption("");
       }
     } else {
-      if (selectedOptions.length < 3) {
+      if (selectedOptions.length < question.maxOptions) {
         setSelectedOptions([...selectedOptions, optionId]);
       }
     }
@@ -44,10 +42,11 @@ export default function OptionSelectionList({
 
   const getSubOptions = () => {
     const allSubOptions =
-      question.options.find((option) => option.subOptions)?.subOptions || [];
+      question.options.find((subOption) => subOption.subOptions)?.subOptions ||
+      [];
 
     const filteredOptions = allSubOptions.filter(
-      (option) => option.sector_id === selectedSectorId,
+      (subOption) => subOption.sector === selectedSectorId,
     );
 
     // Si hay opciones para el sector seleccionado, mostrar solo esas
@@ -55,12 +54,12 @@ export default function OptionSelectionList({
     const optionsToShow =
       filteredOptions.length > 0 ? filteredOptions : allSubOptions;
 
-    return optionsToShow.map((option) => (
+    return optionsToShow.map((subOption) => (
       <OptionItem
-        option={option}
-        key={option.option_name}
-        isSelected={selectedSubOption === option.id}
-        onSelect={() => setSelectedSubOption(option.id)}
+        option={subOption}
+        key={subOption.option_name}
+        isSelected={selectedSubOption === subOption.id}
+        onSelect={() => setSelectedSubOption(subOption.id)}
       />
     ));
   };
@@ -94,24 +93,28 @@ export default function OptionSelectionList({
       </div>
 
       {/* Conditionaly rendered for Tramo conector */}
-      {question.options[0].subQuestion && (
-        <div className="space-y-4">
-          <div className="flex items-center justify-between">
-            <h3 className="text-lg font-semibold text-slate-700">
-              {question.options[0].subQuestion}
-            </h3>
-            <div className="flex items-center gap-2 text-sm text-gray-500">
-              <span className="inline-block h-3 w-3 rounded-full bg-blue-500"></span>
-              <span>
-                {selectedSubOption ? "1" : "0"}/{question.maxOptions}{" "}
-                seleccionados
-              </span>
+      {question.options.map(
+        (option, index) =>
+          option.subQuestion &&
+          selectedOptions.some((id) => String(option.id) === id) && (
+            <div key={index} className="space-y-4">
+              <div className="flex items-center justify-between">
+                <h3 className="text-lg font-semibold text-slate-700">
+                  {question.options[0].subQuestion}
+                </h3>
+                <div className="flex items-center gap-2 text-sm text-gray-500">
+                  <span className="inline-block h-3 w-3 rounded-full bg-blue-500"></span>
+                  <span>
+                    {selectedSubOption ? "1" : "0"}/{question.maxOptions}{" "}
+                    seleccionados
+                  </span>
+                </div>
+              </div>
+              <div className="grid gap-3 sm:grid-cols-2 md:gap-4 lg:grid-cols-3">
+                {subOptions}
+              </div>
             </div>
-          </div>
-          <div className="grid gap-3 sm:grid-cols-2 md:gap-4 lg:grid-cols-3">
-            {subOptions}
-          </div>
-        </div>
+          ),
       )}
     </div>
   );
