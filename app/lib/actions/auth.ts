@@ -54,7 +54,6 @@ export async function signOutClaveUnica() {
     "redirect",
     process.env.CLAVEUNICA_LOGOUT_REDIRECT_URI!,
   );
-  console.log(logoutUrl.toString());
 
   redirect(logoutUrl.toString());
 }

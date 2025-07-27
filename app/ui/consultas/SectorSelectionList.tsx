@@ -14,7 +14,6 @@ export default function SectorSelectionList({
   sectoresSurveyList,
 }: SectorSelectionListProps) {
   const handleSectorSelect = (sectorId: string) => {
-    console.log(sectorId);
     setSelectedSector(sectorId);
   };
 

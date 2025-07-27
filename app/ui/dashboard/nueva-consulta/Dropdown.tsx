@@ -36,6 +36,7 @@ export default function NewSurveyDropdown({
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleDropdown = () => {
+    if (isOpen) return;
     setIsOpen((prev) => !prev);
   };
 

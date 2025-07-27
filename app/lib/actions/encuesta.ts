@@ -312,7 +312,6 @@ export async function createSurvey(formData: FormData) {
       const sectoresResult = await sectorsRequest.query(
         "SELECT id, sector FROM sectores",
       );
-      console.log("sectoresResult:", sectoresResult.recordset);
 
       // 6. Insertar preguntas y opciones
       for (let i = 0; i < validatedData.data.questions.length; i++) {
@@ -322,7 +321,6 @@ export async function createSurvey(formData: FormData) {
         if (question.questionId > 0) {
           // Si questionId !== 0, la pregunta ya existe, por lo que solo se asocia (le estaria pasando el id de la pregunta)
           questionId = question.questionId;
-          console.log("ID pregunta:", questionId);
 
           const checkPreguntaRequest = new sql.Request(transaction);
           const checkPreguntaResult = await checkPreguntaRequest.input(

@@ -92,7 +92,7 @@ export default function OptionSelectionList({
         ))}
       </div>
 
-      {/* Conditionaly rendered for Tramo conector */}
+      {/* Conditionaly rendered subquestion if option is selected && hasSubQuestion */}
       {question.options.map(
         (option, index) =>
           option.subQuestion &&
@@ -100,13 +100,13 @@ export default function OptionSelectionList({
             <div key={index} className="space-y-4">
               <div className="flex items-center justify-between">
                 <h3 className="text-lg font-semibold text-slate-700">
-                  {question.options[0].subQuestion}
+                  {option.subQuestion}
                 </h3>
                 <div className="flex items-center gap-2 text-sm text-gray-500">
                   <span className="inline-block h-3 w-3 rounded-full bg-blue-500"></span>
                   <span>
-                    {selectedSubOption ? "1" : "0"}/{question.maxOptions}{" "}
-                    seleccionados
+                    {/* De momento solo 1 opcion por subpregunta */}
+                    {selectedSubOption ? "1" : "0"}/{1} seleccionados
                   </span>
                 </div>
               </div>

@@ -12,9 +12,13 @@ import { SurveyQuestion } from "@/app/lib/definitions/encuesta";
 
 type SurveyLayoutProps = {
   questions: SurveyQuestion[];
+  surveyId: string;
 };
 
-export default function SurveyLayout({ questions }: SurveyLayoutProps) {
+export default function SurveyLayout({
+  questions,
+  surveyId,
+}: SurveyLayoutProps) {
   const [selectedSectorId, setSelectedSectorId] = useState("");
   const [surveyQuestions, setSurveyQuestions] =
     useState<SurveyQuestion[]>(questions);
@@ -24,8 +28,6 @@ export default function SurveyLayout({ questions }: SurveyLayoutProps) {
   const [isLoading, setIsLoading] = useState(false);
   const topRef = useRef<HTMLDivElement>(null);
   console.log("surveyQuestions:", surveyQuestions);
-
-  console.log(selectedSectorId);
 
   const router = useRouter();
 
@@ -56,19 +58,8 @@ export default function SurveyLayout({ questions }: SurveyLayoutProps) {
 
   const handleQuestionChange = async (nextQuestionIndex: number) => {
     // Check if its within the limits of the questions array
-    if (nextQuestionIndex < 0) {
-      return;
-    }
-    if (nextQuestionIndex > surveyQuestions.length - 1) {
-      // const toastId = toast.loading("Guardando tu voto");
-      // await setTimeout(() => {
-      //   toast.success("Voto guardado, gracias por participar!", {
-      //     id: toastId,
-      //   });
-      //   router.push("/");
-      // }, 1000);
-      return;
-    }
+    if (nextQuestionIndex < 0) return;
+    if (nextQuestionIndex > surveyQuestions.length - 1) return;
     // Check if questions were checked before continuing
     if (nextQuestionIndex > currentQuestionIndex) {
       if (!checkSelectedOptions()) return;
@@ -95,6 +86,7 @@ export default function SurveyLayout({ questions }: SurveyLayoutProps) {
     e.preventDefault();
 
     const myFormData = new FormData();
+    myFormData.append("surveyId", surveyId);
     myFormData.append("sectorId", selectedSectorId);
     myFormData.append("options", selectedOptions.join(","));
     myFormData.append("subOption", selectedSubOption);
