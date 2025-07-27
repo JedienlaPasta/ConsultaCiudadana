@@ -15,7 +15,7 @@ export default async function SurveyPage(props: SurveyDetailsProps) {
   return (
     <div className="flex min-h-dvh flex-col">
       <div className="container mx-auto max-w-[80rem] flex-grow px-4 md:px-8">
-        <SurveyLayout surveyQuestions={surveyQuestions} />
+        <SurveyLayout questions={surveyQuestions} />
       </div>
       <Footer />
     </div>

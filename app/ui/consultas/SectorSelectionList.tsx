@@ -1,11 +1,11 @@
 "use client";
 
-import { Question } from "@/app/lib/definitions/encuesta";
+import { SurveyQuestion } from "@/app/lib/definitions/encuesta";
 
 type SectorSelectionListProps = {
   selectedSector: string | null;
   setSelectedSector: (sector: string) => void;
-  sectoresSurveyList: Question;
+  sectoresSurveyList: SurveyQuestion;
 };
 
 export default function SectorSelectionList({

@@ -31,8 +31,8 @@ export default function SurveyFilter() {
   };
 
   return (
-    <div className="mb-6 flex items-center justify-start">
-      <div className="p-1s flex items-center overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm">
+    <div className="flex items-center justify-start">
+      <div className="flex items-center overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm">
         {filterTabs.map((tab) => (
           <Tab
             key={tab.key}

@@ -8,14 +8,16 @@ import RexLoader from "../RexAnimation";
 import MapSection from "./MapSection";
 import { registerVote } from "../../lib/actions/encuesta";
 import SurveyProgress from "./SurveyProgress";
-import { Question } from "@/app/lib/definitions/encuesta";
+import { SurveyQuestion } from "@/app/lib/definitions/encuesta";
 
 type SurveyLayoutProps = {
-  surveyQuestions: Question[];
+  questions: SurveyQuestion[];
 };
 
-export default function SurveyLayout({ surveyQuestions }: SurveyLayoutProps) {
+export default function SurveyLayout({ questions }: SurveyLayoutProps) {
   const [selectedSectorId, setSelectedSectorId] = useState("");
+  const [surveyQuestions, setSurveyQuestions] =
+    useState<SurveyQuestion[]>(questions);
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
   const [selectedSubOption, setSelectedSubOption] = useState<string>("");
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -161,8 +163,8 @@ export default function SurveyLayout({ surveyQuestions }: SurveyLayoutProps) {
 
 type QuestionSectionProps = {
   isLoading: boolean;
-  question: Question;
-  surveyQuestions: Question[];
+  question: SurveyQuestion;
+  surveyQuestions: SurveyQuestion[];
   selectedOptions: string[];
   selectedSubOption: string;
   selectedSectorId: string;

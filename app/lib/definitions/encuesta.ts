@@ -105,3 +105,20 @@ export type SurveyGeneralData = {
   survey_end_date: string;
   department: string;
 };
+
+export type SurveyAnswer = {
+  selected_option_id: number;
+};
+
+export type SurveyQuestion = {
+  id: number;
+  questionId: number;
+  question: string;
+  step: string;
+  step_description: string;
+  isMapQuestion: boolean;
+  maxOptions: number;
+  minOptions: number;
+  options: QuestionOption[];
+  selected_options: SurveyAnswer[];
+};

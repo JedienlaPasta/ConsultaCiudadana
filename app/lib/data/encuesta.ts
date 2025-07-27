@@ -3,6 +3,7 @@ import {
   SubOption,
   SurveyData,
   SurveyGeneralData,
+  SurveyQuestion,
 } from "../definitions/encuesta";
 import { connectToDB } from "../utils/db-connection";
 import sql from "mssql";
@@ -234,8 +235,10 @@ export async function getSurveyDetails(id: string): Promise<SurveyData> {
 }
 
 // Survey questions
-export async function getSurveyQuestions(id: string): Promise<Question[]> {
-  const defaultSurveyQuestions: Question[] = [];
+export async function getSurveyQuestions(
+  id: string,
+): Promise<SurveyQuestion[]> {
+  const defaultSurveyQuestions: SurveyQuestion[] = [];
 
   try {
     const pool = await connectToDB();
@@ -364,6 +367,7 @@ export async function getSurveyQuestions(id: string): Promise<Question[]> {
         maxOptions: questionRow.max_answers || 1,
         minOptions: questionRow.min_answers || 1,
         options: options,
+        selected_options: [],
       });
     }
 
@@ -378,6 +382,7 @@ export async function getSurveyQuestions(id: string): Promise<Question[]> {
       maxOptions: 1,
       minOptions: 1,
       options: [],
+      selected_options: [],
     });
 
     return questions;

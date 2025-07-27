@@ -61,7 +61,7 @@ export default function ClaveUnicaBtn({ isLoggedIn }: { isLoggedIn: boolean }) {
         <button
           type="submit"
           aria-label="Iniciar sesión con ClaveÚnica"
-          className={`${roboto.className} flex min-h-[48px] grow cursor-pointer items-center justify-center gap-1 rounded-sm border-transparent bg-[#0f69c4] py-[8px] pr-5 pl-5 text-center font-bold text-white outline-4 outline-transparent transition-all outline-solid select-none hover:bg-[#07305a] hover:underline focus:outline-[#ffbe5c]`}
+          className={`${roboto.className} flex min-h-[48px] grow cursor-pointer items-center justify-center gap-1 rounded-sm border-transparent bg-[#0f69c4] py-[8px] pr-5 pl-5 text-center font-bold text-white outline-4 outline-transparent transition-all outline-solid select-none hover:bg-[#07305a] focus:outline-[#ffbe5c]`}
         >
           <Image
             src="/cu-blanco.svg"
@@ -81,7 +81,7 @@ export default function ClaveUnicaBtn({ isLoggedIn }: { isLoggedIn: boolean }) {
       <button
         type="submit"
         aria-label="Iniciar sesión con ClaveÚnica"
-        className={`${roboto.className} flex min-h-[48px] grow cursor-pointer items-center justify-center gap-1 rounded-sm border-transparent bg-[#0f69c4] py-[8px] pr-5 pl-5 text-center font-bold text-white outline-4 outline-transparent transition-all outline-solid select-none hover:bg-[#07305a] hover:underline focus:outline-[#ffbe5c]`}
+        className={`${roboto.className} flex min-h-[48px] grow cursor-pointer items-center justify-center gap-1 rounded-sm border-transparent bg-[#0f69c4] py-[8px] pr-5 pl-5 text-center font-bold text-white outline-4 outline-transparent transition-all outline-solid select-none hover:bg-[#07305a] focus:outline-[#ffbe5c]`}
       >
         <Image
           src="/cu-blanco.svg"
