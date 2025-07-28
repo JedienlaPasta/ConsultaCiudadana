@@ -12,7 +12,7 @@ import { formatDate } from "@/app/lib/utils/format";
 import { redirect } from "next/navigation";
 
 type SurveyDetailsProps = {
-  params: Promise<{ id: string }>;
+  params: Promise<{ id: number }>;
 };
 
 export default async function SurveyDetail(props: SurveyDetailsProps) {
@@ -22,7 +22,6 @@ export default async function SurveyDetail(props: SurveyDetailsProps) {
   const params = await props.params;
   const id = params.id;
   const survey = await getSurveyDetails(id);
-  // console.log(survey);
   if (!survey.survey_name) {
     redirect("/consultas");
   }
