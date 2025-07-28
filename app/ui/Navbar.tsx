@@ -32,7 +32,7 @@ export default function Navbar({ isLoggedIn }: { isLoggedIn: boolean }) {
       <div className="container mx-auto max-w-[80rem]">
         <nav className="flex items-center justify-between px-4 py-3 md:px-8">
           <Link
-            className="text-xl font-bold text-white outline-4 outline-[#0f69c4] transition-colors outline-none focus:outline-solid"
+            className="text-xl font-bold text-white outline-4 outline-[#0f69c4] transition-colors outline-none focus-visible:outline-solid"
             href="/"
           >
             Participa

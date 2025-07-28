@@ -112,7 +112,11 @@ function Survey({ survey }: { survey: SurveyGeneralData }) {
             <span
               className={`transition-colors ${daysLeft() > 0 ? "text-slate-600" : "text-rose-400"} [#0A4C8A] group-hover:text-[#002F4C]" : "text-rose-500"}`}
             >
-              {daysLeft() > 0 ? "Participar →" : "Consulta cerrada"}
+              {startDate > new Date()
+                ? "Ver detalle →"
+                : endDate > new Date()
+                  ? "Participar →"
+                  : "Consulta cerrada"}
             </span>
           </div>
         </div>

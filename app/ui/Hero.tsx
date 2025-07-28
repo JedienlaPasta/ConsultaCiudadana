@@ -3,6 +3,22 @@ import Link from "next/link";
 import Image from "next/image";
 
 export default function Hero() {
+  const handleCTABtn = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    const element = document.getElementById("surveys");
+    if (element) {
+      const isMobile = window.innerWidth <= 768;
+      const headerOffset = isMobile ? 30 : 90;
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition =
+        elementPosition + window.pageYOffset - headerOffset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth",
+      });
+    }
+  };
   return (
     <div className="relative h-[70vh] w-full">
       <div className="pointer-events-none absolute z-10 h-full w-full" />
@@ -11,7 +27,7 @@ export default function Hero() {
         src="/Blob19.svg"
         width={1920}
         height={1080}
-        alt="Footer Banner"
+        alt="Banner"
         className="absolute -top-[180%] left-0 -z-10 h-[285%] w-full object-cover md:h-[280%]"
         priority
       />
@@ -28,31 +44,16 @@ export default function Hero() {
 
           <div className="grid w-full max-w-[34rem] grid-cols-1 gap-4 sm:grid-cols-2">
             <button
-              onClick={(e) => {
-                e.preventDefault();
-                const element = document.getElementById("surveys");
-                if (element) {
-                  const isMobile = window.innerWidth <= 768;
-                  const headerOffset = isMobile ? 30 : 90;
-                  const elementPosition = element.getBoundingClientRect().top;
-                  const offsetPosition =
-                    elementPosition + window.pageYOffset - headerOffset;
-
-                  window.scrollTo({
-                    top: offsetPosition,
-                    behavior: "smooth",
-                  });
-                }
-              }}
+              onClick={handleCTABtn}
               className="cursor-pointer rounded-lg bg-[#0F69C4] px-8 py-3 text-center font-semibold text-white transition-all hover:bg-[#2275C9] hover:shadow-lg"
             >
               Quiero Participar
             </button>
             <Link
-              href="/resultados"
+              href="#"
               className="rounded-lg bg-white px-8 py-3 text-center font-semibold text-[#153D6E] transition-all hover:bg-[#e0f0fa] hover:shadow-lg"
             >
-              Todas las Consultas
+              Ver Resultados
             </Link>
           </div>
 
@@ -61,7 +62,7 @@ export default function Hero() {
             width={300}
             height={600}
             alt="Footer Banner"
-            className="-top-[30%]s absolute right-20 hidden lg:-top-[10%] lg:right-[30] lg:block lg:w-40 xl:-top-[30%] xl:w-75"
+            className="absolute -top-[30%] right-20 hidden lg:top-[7%] lg:right-[30] lg:block lg:w-40 xl:-top-[10%] xl:w-75"
           />
         </div>
       </div>

@@ -8,7 +8,7 @@ type SurveyStateProps = {
 export default function SurveyState({ startDate, endDate }: SurveyStateProps) {
   const bgColor = () => {
     if (startDate > new Date()) {
-      return "bg-[#7cb3fa]";
+      return "bg-[#277ff2]";
     }
     if (endDate > new Date()) {
       return "bg-emerald-400";
