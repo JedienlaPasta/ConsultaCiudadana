@@ -186,7 +186,7 @@ const SurveySchema = z.object({
                   subOptions: z
                     .array(
                       z.object({
-                        id: z.string(),
+                        id: z.number(),
                         option_name: z.string().min(1, {
                           message: "El texto de la opción es requerido",
                         }),
@@ -209,7 +209,7 @@ const SurveySchema = z.object({
 });
 
 export async function createSurvey(formData: FormData) {
-  console.log(formData);
+  // console.log(formData);
   const surveyName = formData.get("survey_name") as string;
   const surveyShortDescription = formData.get(
     "survey_short_description",
@@ -286,6 +286,12 @@ export async function createSurvey(formData: FormData) {
     const transaction = new sql.Transaction(pool);
     await transaction.begin();
 
+    const startDate = new Date(
+      new Date(validatedData.data.start_date).toISOString(),
+    );
+    console.log("start_date:", startDate);
+    console.log("end_date:", validatedData.data.end_date);
+
     try {
       const encuestaRequest = new sql.Request(transaction);
       // 1. Insertar encuesta
@@ -301,12 +307,8 @@ export async function createSurvey(formData: FormData) {
           sql.NVarChar,
           validatedData.data.survey_large_description,
         )
-        .input(
-          "survey_start_date",
-          sql.DateTime2,
-          validatedData.data.start_date,
-        )
-        .input("survey_end_date", sql.DateTime2, validatedData.data.end_date)
+        .input("survey_start_date", sql.Date, startDate)
+        .input("survey_end_date", sql.Date, validatedData.data.end_date)
         .input("department", sql.NVarChar, validatedData.data.department)
         .input("created_by", sql.Int, 55555555).query(`
           INSERT INTO encuestas (survey_name, survey_short_description, survey_large_description, survey_start_date, survey_end_date, department, created_by) 

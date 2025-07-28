@@ -1,11 +1,12 @@
 "use client";
 
-import { formatDate } from "@/app/lib/utils/format";
 import { getDaysLeft } from "@/app/lib/utils/getValues";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import RexLoader from "./RexAnimation";
 import { SurveyGeneralData } from "../lib/definitions/encuesta";
+import { formatDateToSpanish } from "@/app/lib/utils/format";
+import SurveyState from "./SurveyState";
 
 export default function SurveysList({
   surveys,
@@ -46,11 +47,24 @@ export default function SurveysList({
 }
 
 function Survey({ survey }: { survey: SurveyGeneralData }) {
-  const daysLeft = getDaysLeft(new Date(survey.survey_end_date));
-  const endDate = formatDate(new Date(survey.survey_end_date));
+  const startDate = new Date(survey.survey_start_date);
+  const endDate = new Date(survey.survey_end_date);
+  const daysLeft = () => {
+    if (startDate > new Date()) {
+      return getDaysLeft(startDate);
+    }
+    return getDaysLeft(endDate);
+  };
+
+  const calendarDate = () => {
+    if (startDate > new Date()) {
+      return formatDateToSpanish(survey.survey_start_date);
+    }
+    return formatDateToSpanish(survey.survey_end_date);
+  };
+
   return (
     <Link
-      // href={`/consultas/piimep`}
       href={`/consultas/${survey.id}`}
       className="group flex transform transition-all duration-300 hover:translate-y-[-4px]"
     >
@@ -62,13 +76,9 @@ function Survey({ survey }: { survey: SurveyGeneralData }) {
                 {survey.survey_name}
               </h3>
               <div className="mb-2 flex flex-wrap gap-2">
-                <span
-                  className={`rounded-full font-medium ${daysLeft > 0 ? "bg-emerald-400" : "bg-rose-500"} px-3 py-1 text-xs text-white`}
-                >
-                  {daysLeft > 0 ? "Activa" : "Cerrada"}
-                </span>
+                <SurveyState startDate={startDate} endDate={endDate} />
                 <span className="rounded-full bg-gray-200 px-3 py-1 text-xs font-medium text-slate-700">
-                  SECPLA
+                  {survey.department}
                 </span>
               </div>
             </div>
@@ -92,17 +102,17 @@ function Survey({ survey }: { survey: SurveyGeneralData }) {
                   d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
                 />
               </svg>
-              <span>Término:</span>
+              <span>{startDate > new Date() ? "Inicio:" : "Término:"}</span>
               <span
-                className={daysLeft > 0 ? "text-slate-600" : "text-rose-400"}
+                className={daysLeft() > 0 ? "text-slate-600" : "text-rose-400"}
               >
-                {daysLeft + " días"}
+                {daysLeft() + (daysLeft() === 1 ? " día" : " días")}
               </span>
             </p>
             <span
-              className={`transition-colors ${daysLeft > 0 ? "text-[#0A4C8A] group-hover:text-[#002F4C]" : "text-rose-500"}`}
+              className={`transition-colors ${daysLeft() > 0 ? "text-slate-600" : "text-rose-400"} [#0A4C8A] group-hover:text-[#002F4C]" : "text-rose-500"}`}
             >
-              {daysLeft > 0 ? "Participar →" : "Consulta cerrada"}
+              {daysLeft() > 0 ? "Participar →" : "Consulta cerrada"}
             </span>
           </div>
         </div>
@@ -111,12 +121,18 @@ function Survey({ survey }: { survey: SurveyGeneralData }) {
           className="rounded-l-lgs col-span-2 hidden min-w-[10rem] items-center justify-center rounded-r-3xl bg-gradient-to-br from-[#093F75] to-[#0A4C8A] text-slate-100 shadow-md transition-all group-hover:from-[#002F4C] group-hover:to-[#0A4C8A] sm:flex"
         >
           <span className="relative -top-[5%] flex flex-col items-center text-nowrap">
-            <p className="text-3xl font-bold">{endDate.split(" ")[0]}</p>
+            <p className="text-3xl font-bold">{calendarDate().split(" ")[0]}</p>
             <p className="text-sm text-slate-100/90">
-              {endDate.toString().slice(2, endDate.length)}
+              {calendarDate()
+                .toString()
+                .slice(2, calendarDate().toString().length)}
             </p>
             <p className="absolute top-[110%] border-t border-slate-400 px-2 py-0.5 text-xs text-slate-300">
-              Finaliza
+              {startDate > new Date()
+                ? "Inicia"
+                : endDate > new Date()
+                  ? "Finaliza"
+                  : "Finalizó"}
             </p>
           </span>
         </div>

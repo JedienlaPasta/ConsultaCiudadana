@@ -18,14 +18,15 @@ export async function getSurveysList(): Promise<SurveyGeneralData[]> {
     const result = await request.query(
       "SELECT id, survey_name, survey_short_description, survey_start_date, survey_end_date, department FROM encuestas",
     );
+    console.log(result.recordset);
     return result.recordset.map(
       (item) =>
         ({
           id: item.id,
           survey_name: item.survey_name,
           survey_short_description: item.survey_short_description,
-          survey_start_date: item.survey_start_date,
-          survey_end_date: item.survey_end_date,
+          survey_start_date: item.survey_start_date.toISOString().split("T")[0],
+          survey_end_date: item.survey_end_date.toISOString().split("T")[0],
           department: item.department,
         }) as SurveyGeneralData,
     );
@@ -68,6 +69,9 @@ export async function getSurveyDetails(id: number): Promise<SurveyData> {
     }
 
     const survey = surveyResult.recordset[0];
+
+    console.log(survey.survey_start_date.toISOString().split("T")[0]);
+    console.log(survey.survey_end_date.toISOString().split("T")[0]);
 
     // 2. Obtener objetivos
     const objectivesRequest = pool.request();
@@ -246,7 +250,7 @@ export async function getSurveyQuestions(
       return defaultSurveyQuestions;
     }
 
-    // 1. Obtener datos básicos de la encuesta
+    // Obtener datos básicos de la encuesta
     const surveyRequest = pool.request();
     const surveyResult = await surveyRequest
       .input("id", sql.Int, id)
@@ -257,7 +261,7 @@ export async function getSurveyQuestions(
       return defaultSurveyQuestions;
     }
 
-    // 1. Obtener preguntas con sus opciones
+    // Obtener preguntas con sus opciones
     const questionsRequest = pool.request();
     const questionsResult = await questionsRequest.input(
       "survey_id",
@@ -281,7 +285,7 @@ export async function getSurveyQuestions(
         ORDER BY ep.question_order
       `);
 
-    // 7. Para cada pregunta, obtener sus opciones
+    // Para cada pregunta, obtener sus opciones
     const questions = [];
     for (const questionRow of questionsResult.recordset) {
       const optionsRequest = pool.request();

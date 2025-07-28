@@ -8,7 +8,7 @@ import FAQComponent from "@/app/ui/consultas/FAQ";
 import Definitions from "@/app/ui/consultas/Definitions";
 import Schedule from "@/app/ui/consultas/Schedule";
 import { getSurveyDetails } from "@/app/lib/data/encuesta";
-import { formatDate } from "@/app/lib/utils/format";
+import { formatDateToSpanish } from "@/app/lib/utils/format";
 import { redirect } from "next/navigation";
 
 type SurveyDetailsProps = {
@@ -22,13 +22,32 @@ export default async function SurveyDetail(props: SurveyDetailsProps) {
   const params = await props.params;
   const id = params.id;
   const survey = await getSurveyDetails(id);
+  // console.log(survey);
   if (!survey.survey_name) {
     redirect("/consultas");
   }
 
-  const isSurveyActive =
-    new Date(survey.survey_end_date) > new Date() ? "Activa" : "Cerrada";
+  const stateColor = () => {
+    if (new Date(survey.survey_start_date) > new Date()) {
+      return "text-yellow-500";
+    }
+    if (new Date(survey.survey_end_date) > new Date()) {
+      return "text-emerald-500";
+    } else {
+      return "text-rose-500";
+    }
+  };
 
+  const surveyState = () => {
+    if (new Date(survey.survey_start_date) > new Date()) {
+      return "Proximamente";
+    }
+    if (new Date(survey.survey_end_date) > new Date()) {
+      return "Abierta";
+    } else {
+      return "Cerrada";
+    }
+  };
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Main Content */}
@@ -92,8 +111,8 @@ export default async function SurveyDetail(props: SurveyDetailsProps) {
               <div className="mb-6 space-y-2">
                 <div className="flex justify-between">
                   <span className="text-sm text-gray-600">Estado</span>
-                  <span className="text-sm font-medium text-emerald-500">
-                    {isSurveyActive}
+                  <span className={`text-sm font-medium ${stateColor()}`}>
+                    {surveyState()}
                   </span>
                 </div>
 
@@ -105,14 +124,14 @@ export default async function SurveyDetail(props: SurveyDetailsProps) {
                 <div className="flex justify-between">
                   <span className="text-sm text-gray-600">Fecha de inicio</span>
                   <span className="text-sm">
-                    {formatDate(survey.survey_start_date)}
+                    {formatDateToSpanish(survey.survey_start_date)}
                   </span>
                 </div>
 
                 <div className="flex justify-between">
-                  <span className="text-sm text-gray-600">Fecha límite</span>
+                  <span className="text-sm text-gray-600">Fecha término</span>
                   <span className="text-sm">
-                    {formatDate(survey.survey_end_date)}
+                    {formatDateToSpanish(survey.survey_end_date)}
                   </span>
                 </div>
               </div>
@@ -149,10 +168,19 @@ export default async function SurveyDetail(props: SurveyDetailsProps) {
               {isLoggedIn ? (
                 <Link
                   className="mt-5 flex min-h-11 w-full grow items-center justify-center gap-0.5 rounded-lg bg-[#0F69C4] py-[8px] pr-5 pl-4 text-center text-[#fff] transition-all select-none hover:bg-[#2275C9] hover:underline"
-                  href={`/consultas/${id}/voto`}
-                  aria-label="Iniciar sesión con ClaveÚnica"
+                  href={
+                    surveyState() === "Abierta"
+                      ? `/consultas/${id}/voto`
+                      : surveyState() === "Cerrada"
+                        ? `/consultas/${id}/resultados`
+                        : "#"
+                  }
                 >
-                  Ir a votar
+                  {surveyState() === "Abierta"
+                    ? "Ir a votar"
+                    : surveyState() === "Cerrada"
+                      ? "Consultar resultados"
+                      : "Aun no empieza la consulta"}
                 </Link>
               ) : (
                 <div className="mt-6 rounded-lg border border-blue-200 bg-blue-50 p-4">

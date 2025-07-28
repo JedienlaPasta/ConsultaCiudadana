@@ -186,7 +186,8 @@ export default function NewSurveyContentLayout({
 }) {
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState<SurveyFormData>(INITIAL_FORM_DATA);
-  console.log(formData);
+  const [isInitialized, setIsInitialized] = useState(false);
+  // console.log(formData);
 
   // Load data from localStorage on component mount
   useEffect(() => {
@@ -199,12 +200,15 @@ export default function NewSurveyContentLayout({
         console.error("Error parsing saved form data:", error);
       }
     }
+    setIsInitialized(true);
   }, []);
 
-  // Save data to localStorage whenever formData changes
+  // Save data to localStorage whenever formData changes (but not on initial mount)
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
-  }, [formData]);
+    if (isInitialized) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
+    }
+  }, [formData, isInitialized]);
 
   const updateFormData = (field: string, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
