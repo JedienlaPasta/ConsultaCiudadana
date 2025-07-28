@@ -1,5 +1,4 @@
 import {
-  Question,
   SubOption,
   SurveyData,
   SurveyGeneralData,
@@ -36,7 +35,7 @@ export async function getSurveysList(): Promise<SurveyGeneralData[]> {
   }
 }
 
-export async function getSurveyDetails(id: string): Promise<SurveyData> {
+export async function getSurveyDetails(id: number): Promise<SurveyData> {
   const defaultSurvey: SurveyData = {
     survey_name: "",
     survey_short_description: "",
@@ -236,7 +235,7 @@ export async function getSurveyDetails(id: string): Promise<SurveyData> {
 
 // Survey questions
 export async function getSurveyQuestions(
-  id: string,
+  id: number,
 ): Promise<SurveyQuestion[]> {
   const defaultSurveyQuestions: SurveyQuestion[] = [];
 
@@ -314,6 +313,7 @@ export async function getSurveyQuestions(
         let subOptions: SubOption[] = [];
 
         // Si hay una subpregunta, obtener sus opciones
+        console.log("sub_question_id:", optionRow.sub_question_id);
         if (optionRow.sub_question_id) {
           const subOptionsRequest = pool.request();
           const subOptionsResult = await subOptionsRequest.input(
@@ -348,6 +348,7 @@ export async function getSurveyQuestions(
           option_name: optionRow.option_name,
           option_description: optionRow.option_description,
           hasSubQuestion: !!optionRow.sub_question_id,
+          subQuestionId: optionRow.sub_question_id,
           subQuestion: optionRow.sub_question || "",
           subOptions: subOptions,
           sector_id: optionRow.sector_id,
@@ -367,7 +368,6 @@ export async function getSurveyQuestions(
         maxOptions: questionRow.max_answers || 1,
         minOptions: questionRow.min_answers || 1,
         options: options,
-        selected_options: [],
       });
     }
 
@@ -379,10 +379,9 @@ export async function getSurveyQuestions(
       step: "Confirmar voto",
       step_description: "Confirma que los datos son correctos",
       isMapQuestion: false,
-      maxOptions: 1,
-      minOptions: 1,
+      maxOptions: 0,
+      minOptions: 0,
       options: [],
-      selected_options: [],
     });
 
     return questions;
@@ -391,38 +390,6 @@ export async function getSurveyQuestions(
     return defaultSurveyQuestions;
   }
 }
-
-// Survey sectors
-// export async function getSurveySectors(): Promise<SurveySector[]> {
-//   const defaultSurveySectors: SurveySector[] = [];
-
-//   try {
-//     const pool = await connectToDB();
-//     if (!pool) {
-//       console.warn("No se pudo establecer conexión con la base de datos");
-//       return defaultSurveySectors;
-//     }
-
-//     const sectorRequest = pool.request();
-//     const sectorResult = await sectorRequest.query("SELECT * FROM sectores");
-
-//     if (sectorResult.recordset.length === 0) {
-//       console.warn("No se encontraron sectores");
-//       return defaultSurveySectors;
-//     }
-
-//     const surveySectors = sectorResult.recordset.map((row) => ({
-//       sector: row.sector,
-//       sector_population: row.sector_population,
-//       sector_area: row.sector_area,
-//     }));
-
-//     return surveySectors;
-//   } catch (error) {
-//     console.error("Error al obtener detalles de la encuesta:", error);
-//     return defaultSurveySectors;
-//   }
-// }
 
 type Sector = {
   sector_name: string;

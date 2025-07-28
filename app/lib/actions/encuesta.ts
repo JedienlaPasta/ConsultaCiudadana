@@ -3,26 +3,92 @@
 import z from "zod";
 import { connectToDB } from "../utils/db-connection";
 import sql from "mssql";
-import { SubOption } from "../definitions/encuesta";
+import { SubOption, SurveyAnswers } from "../definitions/encuesta";
 
-export async function registerVote(formdata: FormData) {
-  console.log(formdata);
+export async function registerVote(
+  surveyAnswers: SurveyAnswers,
+  userRut: number,
+) {
   try {
-    const pool = connectToDB();
+    const pool = await connectToDB();
     if (!pool) {
-      console.warn("No se pudo establecer conexión con la base de datos.");
       return {
         success: false,
         message: "No se pudo establecer conexión con la base de datos.",
       };
     }
 
-    return {
-      success: true,
-      message: "Voto guardado, gracias por participar!",
-    };
+    const transaction = new sql.Transaction(pool);
+    await transaction.begin();
+
+    try {
+      // Verificar si ya participo
+      const checkParticipationRequest = new sql.Request(transaction);
+      const checkResult = await checkParticipationRequest
+        .input("survey_id", sql.Int, surveyAnswers.survey_id)
+        .input("user_rut", sql.Int, userRut).query(`
+          SELECT TOP 1 id FROM encuestas_participadas WHERE survey_id = @survey_id AND user_rut = @user_rut
+        `);
+      if (checkResult.recordset.length > 0) {
+        console.log("Ya ha participado de esta encuesta anteriormente");
+        return {
+          success: false,
+          message:
+            "Ya has participado en esta encuesta, no puedes votar dos veces.",
+        };
+      }
+
+      // Registrar participación
+      const participationRequest = new sql.Request(transaction);
+      await participationRequest
+        .input("survey_id", sql.Int, surveyAnswers.survey_id)
+        .input("user_rut", sql.Int, userRut).query(`
+          INSERT INTO encuestas_participadas (survey_id, user_rut) 
+          VALUES (@survey_id, @user_rut)
+        `);
+
+      // Registrar votos
+      for (const answer of surveyAnswers.answers) {
+        for (const selectedOption of answer.selected_options) {
+          const voteRequest = new sql.Request(transaction);
+          await voteRequest
+            .input("survey_id", sql.Int, surveyAnswers.survey_id)
+            .input("question_id", sql.Int, answer.question_id)
+            .input("option_id", sql.Int, selectedOption.option_id).query(`
+              INSERT INTO votos (survey_id, question_id, option_id) 
+              VALUES (@survey_id, @question_id, @option_id)
+            `);
+
+          // Si hay subopción, registrarla también
+          if (selectedOption.sub_option_id && selectedOption.sub_question_id) {
+            console.log(
+              "Insertando subopción:",
+              selectedOption.sub_question_id,
+              selectedOption.sub_option_id,
+            );
+            const subVoteRequest = new sql.Request(transaction);
+            await subVoteRequest
+              .input("survey_id", sql.Int, surveyAnswers.survey_id)
+              .input("question_id", sql.Int, selectedOption.sub_question_id)
+              .input("option_id", sql.Int, selectedOption.sub_option_id).query(`
+                INSERT INTO votos (survey_id, question_id, option_id) 
+                VALUES (@survey_id, @question_id, @option_id)
+              `);
+          }
+        }
+      }
+
+      await transaction.commit();
+      return {
+        success: true,
+        message: "Voto guardado, gracias por participar!",
+      };
+    } catch (error) {
+      await transaction.rollback();
+      throw error;
+    }
   } catch (error) {
-    console.error("Error al ingresar el voto:", error);
+    console.error("Error al registrar el voto:", error);
     return {
       success: false,
       message: "No se pudo registrar el voto, intente nuevamente",

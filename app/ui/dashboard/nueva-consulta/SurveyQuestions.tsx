@@ -104,7 +104,7 @@ export default function SurveyQuestions({
     // If we're adding a new sub-option, include it in the same state update
     if (shouldAddNew) {
       newSubOptions.push({
-        id: "",
+        id: option.subOptions.length + 1,
         option_name: "",
         option_description: "",
         sector_id: null,

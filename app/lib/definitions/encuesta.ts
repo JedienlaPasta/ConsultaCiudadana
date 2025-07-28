@@ -17,7 +17,7 @@ export type OptionDefinition = {
 };
 
 export type SubOption = {
-  id: string;
+  id: number;
   option_name: string;
   option_description: string;
   sector_id: string | null;
@@ -33,6 +33,7 @@ export type QuestionOption = {
   sector_population?: string;
   sector_area?: string;
   hasSubQuestion: boolean;
+  subQuestionId?: number;
   subQuestion: string;
   subOptions: SubOption[];
 };
@@ -106,8 +107,17 @@ export type SurveyGeneralData = {
   department: string;
 };
 
-export type SurveyAnswer = {
-  selected_option_id: number;
+// Respuesta individual para una opción
+export type OptionAnswer = {
+  option_id: number;
+  sub_question_id?: number;
+  sub_option_id?: number;
+};
+
+export type QuestionAnswer = {
+  question_id: number;
+  selected_options: OptionAnswer[];
+  sector_id?: string; // Para preguntas de mapa
 };
 
 export type SurveyQuestion = {
@@ -120,5 +130,11 @@ export type SurveyQuestion = {
   maxOptions: number;
   minOptions: number;
   options: QuestionOption[];
-  selected_options: SurveyAnswer[];
+  answer?: QuestionAnswer;
+};
+
+// Estado global de respuestas de la encuesta
+export type SurveyAnswers = {
+  survey_id: number;
+  answers: QuestionAnswer[];
 };

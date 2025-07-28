@@ -1,35 +1,60 @@
-import { Question } from "@/app/lib/definitions/encuesta";
+import { SurveyQuestion } from "@/app/lib/definitions/encuesta";
 
 type VoteConfirmationOverviewProps = {
-  selectedSectorId: string;
-  selectedOptions: string[];
-  selectedSubOption: string;
-  questions: Question[];
+  surveyQuestions: SurveyQuestion[];
 };
 
 export default function VoteConfirmationOverview({
-  selectedSectorId,
-  selectedOptions,
-  selectedSubOption,
-  questions,
+  surveyQuestions,
 }: VoteConfirmationOverviewProps) {
-  // Get sector information
-  const sectorQuestion = questions[0];
-  const selectedSector = sectorQuestion.options.find(
-    (option) => option?.sector === selectedSectorId,
+  // Helper function to get selected options for a question
+  const getSelectedOptionsForQuestion = (question: SurveyQuestion) => {
+    if (!question.answer?.selected_options) return [];
+
+    return question.answer.selected_options
+      .map((selectedOption) => {
+        const option = question.options.find(
+          (option) => option.id === selectedOption.option_id,
+        );
+        if (!option) return null;
+
+        // If there's a sub-option selected, find it
+        let subOption = null;
+        if (selectedOption.sub_option_id) {
+          subOption = option.subOptions?.find(
+            (subOption) => subOption.id === selectedOption.sub_option_id,
+          );
+        }
+
+        return {
+          option,
+          subOption,
+        };
+      })
+      .filter(Boolean);
+  };
+
+  // Get sector information (map question)
+  const mapQuestion = surveyQuestions?.find(
+    (question) => question.isMapQuestion,
+  );
+  const selectedSector = mapQuestion?.answer?.sector_id
+    ? mapQuestion.options.find(
+        (option) => option.sector === mapQuestion.answer?.sector_id,
+      )
+    : null;
+
+  // Get all questions with answers (excluding map questions)
+  const questionsWithAnswers = surveyQuestions?.filter(
+    (question) =>
+      !question.isMapQuestion &&
+      question.answer?.selected_options &&
+      question.answer.selected_options.length > 0,
   );
 
-  // Aqui debo colocar todas las respuestas seleccionadas y sus preguntas correspondientes
-  // Get selected urban components
-  const urbanComponentsQuestion = questions[1];
-  const selectedComponents = urbanComponentsQuestion.options.filter((option) =>
-    selectedOptions.includes(String(option?.id) || ""),
-  );
-
-  // Get selected sub-option (Tramo conector) - Fixed type checking
-  const tramoConectorOption = urbanComponentsQuestion.options
-    .find((option) => option.subOptions && option.subOptions.length > 0)
-    ?.subOptions?.find((subOption) => subOption.id === selectedSubOption);
+  // Check if all required selections are made
+  const hasValidSelections =
+    mapQuestion?.answer?.sector_id && questionsWithAnswers.length > 0;
 
   return (
     <div className="space-y-6">
@@ -44,23 +69,24 @@ export default function VoteConfirmationOverview({
       </div>
 
       {/* Sector Selection Summary */}
-      <div className="rounded-lg border border-slate-300 bg-slate-200/60 p-4">
-        <h3 className="mb-3 flex items-center gap-2 text-lg font-semibold text-[#23396f]">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-5 w-5 text-blue-600"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-          >
-            <path
-              fillRule="evenodd"
-              d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
-              clipRule="evenodd"
-            />
-          </svg>
-          Sector de Votación
-        </h3>
-        {selectedSector ? (
+      {selectedSector && (
+        <div className="rounded-lg border border-slate-300 bg-slate-200/60 p-4">
+          <h3 className="mb-3 flex items-center gap-2 text-lg font-semibold text-[#23396f]">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-5 w-5 text-blue-600"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fillRule="evenodd"
+                d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
+                clipRule="evenodd"
+              />
+            </svg>
+            Sector de Votación
+          </h3>
+
           <div className="relative overflow-hidden rounded-lg border border-gray-300/70 bg-white p-3">
             <span className="absolute top-0 left-0 flex h-full w-12 flex-shrink-0 items-center justify-center bg-blue-500 text-sm font-medium text-white">
               1
@@ -83,7 +109,6 @@ export default function VoteConfirmationOverview({
                     <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
                   </svg>
                   <p>Población:</p>
-
                   <span className="font-medium">
                     {selectedSector.sector_population}
                   </span>
@@ -110,80 +135,102 @@ export default function VoteConfirmationOverview({
               </div>
             </div>
           </div>
-        ) : (
-          <div className="rounded-md border border-red-200 bg-red-50 p-3">
-            <p className="text-sm text-red-600">
-              ⚠️ No has seleccionado un sector
-            </p>
-          </div>
-        )}
-      </div>
+        </div>
+      )}
 
-      {/* Urban Components Summary */}
-      <div className="rounded-lg border border-slate-300 bg-slate-200/60 p-4">
-        <h3 className="mb-3 flex items-center gap-2 text-lg font-semibold text-[#23396f]">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-5 w-5 text-emerald-500"
-            viewBox="0 0 20 20"
-            fill="currentColor"
+      {/* Dynamic Questions Summary */}
+      {questionsWithAnswers?.map((question, questionIndex) => {
+        const selectedOptions = getSelectedOptionsForQuestion(question);
+        const colors = [
+          {
+            bg: "bg-emerald-500",
+            border: "border-slate-300",
+            bgSection: "bg-slate-200/60",
+          },
+          {
+            bg: "bg-purple-500",
+            border: "border-purple-300",
+            bgSection: "bg-purple-200/60",
+          },
+          {
+            bg: "bg-orange-500",
+            border: "border-orange-300",
+            bgSection: "bg-orange-200/60",
+          },
+          {
+            bg: "bg-teal-500",
+            border: "border-teal-300",
+            bgSection: "bg-teal-200/60",
+          },
+        ];
+        const colorScheme = colors[questionIndex % colors.length];
+
+        return (
+          <div
+            key={question.id}
+            className={`rounded-lg border ${colorScheme.border} ${colorScheme.bgSection} p-4`}
           >
-            <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z" />
-          </svg>
-          Componentes Urbanos Seleccionados
-          <span className="text-sm font-normal text-gray-600">
-            ({selectedComponents.length}/3)
-          </span>
-        </h3>
+            <h3 className="mb-3 flex items-center gap-2 text-lg font-semibold text-[#23396f]">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5 text-emerald-500"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z" />
+              </svg>
+              {question.question}
+              <span className="text-sm font-normal text-gray-600">
+                ({selectedOptions.length}/{question.maxOptions})
+              </span>
+            </h3>
 
-        {selectedComponents.length > 0 ? (
-          <div className="space-y-2">
-            {selectedComponents.map((component, index) => (
-              <div key={component.id}>
-                <div className="relative overflow-hidden rounded-lg border border-gray-300/70 bg-white p-3">
-                  <span className="absolute top-0 left-0 flex h-full w-12 flex-shrink-0 items-center justify-center bg-emerald-500 text-sm font-medium text-white">
-                    {index + 1}
-                  </span>
-                  <div className="ml-12">
-                    <h4 className="font-medium text-gray-900">
-                      {component.option_name === "Tramo conector"
-                        ? tramoConectorOption?.option_name
-                        : component.option_name}
-                    </h4>
-                    <p className="text-sm text-gray-600">
-                      {component?.option_description || "No hay descripcion"}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            ))}
+            {selectedOptions.length > 0 ? (
+              <div className="space-y-2">
+                {selectedOptions.map((item, index) => {
+                  if (!item) return null;
 
-            {/* Tramo Conector Sub-option */}
-            {/* {tramoConectorOption && (
-              <div className="ml-4 rounded-lg border border-blue-200 bg-blue-50 p-3">
-                <h5 className="mb-2 text-sm font-medium text-blue-900">
-                  Tramo conector seleccionado:
-                </h5>
-                <p className="font-medium text-blue-800">
-                  {tramoConectorOption.name}
-                </p>
-                <p className="text-sm text-blue-600">
-                  {tramoConectorOption.description}
+                  return (
+                    <div key={`${item.option.id}-${index}`}>
+                      <div className="relative overflow-hidden rounded-lg border border-gray-300/70 bg-white p-3">
+                        <span
+                          className={`absolute top-0 left-0 flex h-full w-12 flex-shrink-0 items-center justify-center ${colorScheme.bg} text-sm font-medium text-white`}
+                        >
+                          {index + 1}
+                        </span>
+                        <div className="ml-12">
+                          <h4 className="font-medium text-gray-900">
+                            {/* Show sub-option name if available, otherwise show main option */}
+                            {item.subOption
+                              ? item.subOption.option_name
+                              : item.option.option_name}
+                          </h4>
+                          <p className="text-sm text-gray-600">
+                            {item.subOption
+                              ? item.subOption.option_description ||
+                                "No hay descripción"
+                              : item.option.option_description ||
+                                "No hay descripción"}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            ) : (
+              <div className="rounded-md border border-red-200 bg-red-50 p-3">
+                <p className="text-sm text-red-600">
+                  ⚠️ No has seleccionado opciones para esta pregunta
                 </p>
               </div>
-            )} */}
+            )}
           </div>
-        ) : (
-          <div className="rounded-md border border-red-200 bg-red-50 p-3">
-            <p className="text-sm text-red-600">
-              ⚠️ No has seleccionado componentes urbanos
-            </p>
-          </div>
-        )}
-      </div>
+        );
+      })}
 
       {/* Validation Message */}
-      {(!selectedSectorId || selectedComponents.length === 0) && (
+      {!hasValidSelections && (
         <div className="rounded-lg border border-yellow-200 bg-yellow-50 p-4">
           <div className="flex items-center gap-2">
             <svg

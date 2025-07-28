@@ -1,49 +1,101 @@
 "use client";
 
 import {
-  Question,
+  OptionAnswer,
+  QuestionAnswer,
   QuestionOption,
   SubOption,
+  SurveyQuestion,
 } from "@/app/lib/definitions/encuesta";
 
 type OptionSelectionListProps = {
-  selectedOptions: string[];
-  setSelectedOptions: (options: string[]) => void;
-  selectedSubOption: string;
-  setSelectedSubOption: (subOption: string) => void;
-  question: Question;
+  question: SurveyQuestion;
   selectedSectorId: string;
+  onAnswerChange: (questionId: number, answer: QuestionAnswer) => void;
 };
 
 export default function OptionSelectionList({
-  selectedOptions,
-  setSelectedOptions,
-  selectedSubOption,
-  setSelectedSubOption,
   question,
   selectedSectorId,
+  onAnswerChange,
 }: OptionSelectionListProps) {
-  console.log(question);
+  const currentAnswer = question.answer;
 
-  const handleOptionSelect = (optionId: string) => {
-    // Check if the option is already selected
-    if (selectedOptions.includes(optionId)) {
-      // If selected, remove it
-      setSelectedOptions(selectedOptions.filter((id) => id !== optionId));
-      if (optionId === "1") {
-        setSelectedSubOption("");
-      }
+  const handleOptionSelect = (optionId: number) => {
+    const existingOptions = currentAnswer?.selected_options || [];
+    const isSelected = existingOptions.some(
+      (option) => option.option_id === optionId,
+    );
+
+    let newSelectedOptions: OptionAnswer[];
+
+    if (isSelected) {
+      // Remover opción
+      newSelectedOptions = existingOptions.filter(
+        (option) => option.option_id !== optionId,
+      );
     } else {
-      if (selectedOptions.length < question.maxOptions) {
-        setSelectedOptions([...selectedOptions, optionId]);
+      // Agregar opción (respetando maxOptions)
+      if (existingOptions.length < question.maxOptions) {
+        newSelectedOptions = [...existingOptions, { option_id: optionId }];
+      } else {
+        return; // No se puede agregar más opciones
       }
     }
+
+    const newAnswer: QuestionAnswer = {
+      question_id: question.id,
+      selected_options: newSelectedOptions,
+      sector_id: question.isMapQuestion ? currentAnswer?.sector_id : undefined,
+    };
+
+    onAnswerChange(question.id, newAnswer);
   };
 
-  const getSubOptions = () => {
-    const allSubOptions =
-      question.options.find((subOption) => subOption.subOptions)?.subOptions ||
-      [];
+  const handleSubOptionSelect = (
+    optionId: number,
+    subOptionId: number,
+    subQuestionId?: number,
+  ) => {
+    console.log(subQuestionId);
+    if (!subQuestionId) return;
+    const currentOptions = currentAnswer?.selected_options || [];
+    const updatedOptions = currentOptions.map((option) =>
+      option.option_id === optionId
+        ? {
+            ...option,
+            sub_question_id: subQuestionId,
+            sub_option_id: subOptionId,
+          }
+        : option,
+    );
+
+    const newAnswer: QuestionAnswer = {
+      question_id: question.id,
+      selected_options: updatedOptions,
+      sector_id: currentAnswer?.sector_id,
+    };
+
+    onAnswerChange(question.id, newAnswer);
+  };
+
+  const getSelectedOptions = (): number[] => {
+    return (
+      currentAnswer?.selected_options?.map((opttion) => opttion.option_id) || []
+    );
+  };
+
+  const getSelectedSubOption = (optionId: number): number | undefined => {
+    const option = currentAnswer?.selected_options?.find(
+      (option) => option.option_id === optionId,
+    );
+    return option?.sub_option_id;
+  };
+
+  const selectedOptions = getSelectedOptions();
+
+  const getFilteredSubOptions = (parentOption: QuestionOption) => {
+    const allSubOptions = parentOption.subOptions || [];
 
     const filteredOptions = allSubOptions.filter(
       (subOption) => subOption.sector === selectedSectorId,
@@ -58,13 +110,17 @@ export default function OptionSelectionList({
       <OptionItem
         option={subOption}
         key={subOption.option_name}
-        isSelected={selectedSubOption === subOption.id}
-        onSelect={() => setSelectedSubOption(subOption.id)}
+        isSelected={getSelectedSubOption(parentOption.id) === subOption.id}
+        onSelect={() =>
+          handleSubOptionSelect(
+            parentOption.id,
+            subOption.id,
+            parentOption.subQuestionId,
+          )
+        }
       />
     ));
   };
-
-  const subOptions = getSubOptions();
 
   return (
     <div className="mt-4 space-y-4 md:mt-8">
@@ -86,8 +142,8 @@ export default function OptionSelectionList({
           <OptionItem
             option={option}
             key={option.option_name}
-            isSelected={selectedOptions.includes(String(option.id))}
-            onSelect={handleOptionSelect}
+            isSelected={selectedOptions.includes(option.id)}
+            onSelect={() => handleOptionSelect(option.id)}
           />
         ))}
       </div>
@@ -96,7 +152,7 @@ export default function OptionSelectionList({
       {question.options.map(
         (option, index) =>
           option.subQuestion &&
-          selectedOptions.some((id) => String(option.id) === id) && (
+          selectedOptions.includes(option.id) && (
             <div key={index} className="space-y-4">
               <div className="flex items-center justify-between">
                 <h3 className="text-lg font-semibold text-slate-700">
@@ -106,12 +162,13 @@ export default function OptionSelectionList({
                   <span className="inline-block h-3 w-3 rounded-full bg-blue-500"></span>
                   <span>
                     {/* De momento solo 1 opcion por subpregunta */}
-                    {selectedSubOption ? "1" : "0"}/{1} seleccionados
+                    {getSelectedSubOption(option.id) ? "1" : "0"}/{1}{" "}
+                    seleccionados
                   </span>
                 </div>
               </div>
               <div className="grid gap-3 sm:grid-cols-2 md:gap-4 lg:grid-cols-3">
-                {subOptions}
+                {getFilteredSubOptions(option)}
               </div>
             </div>
           ),
@@ -123,13 +180,13 @@ export default function OptionSelectionList({
 type OptionItemProps = {
   option: QuestionOption | SubOption;
   isSelected: boolean;
-  onSelect: (optionId: string) => void;
+  onSelect: () => void;
 };
 
 function OptionItem({ option, isSelected, onSelect }: OptionItemProps) {
   return (
     <div
-      onClick={() => onSelect(String(option.id))}
+      onClick={onSelect}
       className={`group relative flex cursor-pointer flex-col rounded-lg border-2 px-4 py-3 transition-all duration-200 hover:border-blue-200 hover:shadow-md md:p-4 ${isSelected ? "!border-[#0F69C4] !bg-blue-50 shadow-md" : "border-gray-200"}`}
     >
       {isSelected && (
@@ -155,7 +212,7 @@ function OptionItem({ option, isSelected, onSelect }: OptionItemProps) {
           name={`option-${option.id}`}
           className="size-4 cursor-pointer accent-[#0F69C4]"
           checked={isSelected}
-          onChange={() => onSelect(String(option.id))}
+          onChange={onSelect}
         />
         <h5
           className={`font-medium group-hover:text-[#0F69C4] ${isSelected ? "text-[#0F69C4]" : "text-slate-700"}`}

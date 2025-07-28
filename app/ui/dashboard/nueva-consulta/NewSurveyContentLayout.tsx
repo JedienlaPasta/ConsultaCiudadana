@@ -70,14 +70,14 @@ const INITIAL_FORM_DATA: SurveyFormData = {
           subQuestion: "",
           subOptions: [
             {
-              id: "",
+              id: 1,
               option_name: "",
               option_description: "",
               sector_id: null,
               sector: null,
             },
             {
-              id: "",
+              id: 2,
               option_name: "",
               option_description: "",
               sector_id: null,
@@ -95,14 +95,14 @@ const INITIAL_FORM_DATA: SurveyFormData = {
           subQuestion: "",
           subOptions: [
             {
-              id: "",
+              id: 1,
               option_name: "",
               option_description: "",
               sector_id: null,
               sector: null,
             },
             {
-              id: "",
+              id: 2,
               option_name: "",
               option_description: "",
               sector_id: null,
@@ -132,14 +132,14 @@ const INITIAL_FORM_DATA: SurveyFormData = {
           subQuestion: "",
           subOptions: [
             {
-              id: "",
+              id: 1,
               option_name: "",
               option_description: "",
               sector_id: null,
               sector: null,
             },
             {
-              id: "",
+              id: 2,
               option_name: "",
               option_description: "",
               sector_id: null,
@@ -157,14 +157,14 @@ const INITIAL_FORM_DATA: SurveyFormData = {
           subQuestion: "",
           subOptions: [
             {
-              id: "",
+              id: 1,
               option_name: "",
               option_description: "",
               sector_id: null,
               sector: null,
             },
             {
-              id: "",
+              id: 2,
               option_name: "",
               option_description: "",
               sector_id: null,
@@ -309,14 +309,14 @@ export default function NewSurveyContentLayout({
           subQuestion: "",
           subOptions: [
             {
-              id: "",
+              id: 1,
               option_name: "",
               option_description: "",
               sector_id: null,
               sector: null,
             },
             {
-              id: "",
+              id: 2,
               option_name: "",
               option_description: "",
               sector_id: null,
@@ -334,14 +334,14 @@ export default function NewSurveyContentLayout({
           subQuestion: "",
           subOptions: [
             {
-              id: "",
+              id: 1,
               option_name: "",
               option_description: "",
               sector_id: null,
               sector: null,
             },
             {
-              id: "",
+              id: 2,
               option_name: "",
               option_description: "",
               sector_id: null,
@@ -368,14 +368,14 @@ export default function NewSurveyContentLayout({
       subQuestion: "",
       subOptions: [
         {
-          id: "",
+          id: 1,
           option_name: "",
           option_description: "",
           sector_id: null,
           sector: null,
         },
         {
-          id: "",
+          id: 2,
           option_name: "",
           option_description: "",
           sector_id: null,
