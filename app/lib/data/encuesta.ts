@@ -15,9 +15,48 @@ export async function getSurveysList(): Promise<SurveyGeneralData[]> {
       return [];
     }
     const request = pool.request();
-    const result = await request.query(
-      "SELECT id, survey_name, survey_short_description, survey_start_date, survey_end_date, department FROM encuestas",
+    const result = await request.query(`
+        SELECT id, survey_name, survey_short_description, survey_start_date, survey_end_date, department FROM encuestas
+      `);
+    return result.recordset.map(
+      (item) =>
+        ({
+          id: item.id,
+          survey_name: item.survey_name,
+          survey_short_description: item.survey_short_description,
+          survey_start_date: item.survey_start_date.toISOString().split("T")[0],
+          survey_end_date: item.survey_end_date.toISOString().split("T")[0],
+          department: item.department,
+        }) as SurveyGeneralData,
     );
+  } catch (error) {
+    console.error("Error al obtener la lista de encuestas:", error);
+    return [];
+  }
+}
+
+export async function getSearchedSurveysList(
+  query: string,
+  filter: string,
+): Promise<SurveyGeneralData[]> {
+  try {
+    const pool = await connectToDB();
+    if (!pool) {
+      console.warn("No se pudo establecer conexión con la base de datos");
+      return [];
+    }
+    const request = pool.request();
+    const result = await request
+      .input("query", sql.NVarChar, `%${query}%`)
+      .input("filter", sql.NVarChar, filter).query(`
+        SELECT id, survey_name, survey_short_description, survey_start_date, survey_end_date, department FROM encuestas
+        WHERE (survey_name LIKE @query OR survey_short_description LIKE @query)
+        AND (
+          @filter = 'todas'
+          OR (@filter = 'abierta' AND survey_end_date >= GETDATE() AND survey_start_date <= GETDATE())
+          OR (@filter = 'cerrada' AND survey_end_date < GETDATE())
+        )
+      `);
     return result.recordset.map(
       (item) =>
         ({

@@ -73,7 +73,7 @@ export default async function SurveyDetail(props: SurveyDetailsProps) {
                 <h3 className="mb-1 text-lg font-semibold text-[#23396f]">
                   Descripción General
                 </h3>
-                <p className="text-gray-600">
+                <p className="whitespace-pre-line text-gray-600">
                   {survey.survey_large_description}
                 </p>
               </span>
@@ -103,7 +103,7 @@ export default async function SurveyDetail(props: SurveyDetailsProps) {
 
           {/* Right Column - Participation */}
           <div className="lg:col-span-1">
-            <div className="border-t border-gray-200 p-6 py-10 md:mb-6 md:rounded-lg md:border md:py-6 md:shadow-md md:shadow-gray-200/80">
+            <div className="sticky top-24 border-t border-gray-200 p-6 py-10 md:mb-6 md:rounded-lg md:border md:py-6 md:shadow-md md:shadow-gray-200/80">
               <h2 className="mb-2 text-xl font-bold text-[#23396f]">
                 Detalles de la consulta
               </h2>
@@ -211,7 +211,7 @@ export default async function SurveyDetail(props: SurveyDetailsProps) {
               )}
             </div>
 
-            <div className="mb-6 hidden rounded-lg border border-gray-200 bg-white p-6 shadow-md shadow-gray-200/80 md:block">
+            {/* <div className="mb-6 hidden rounded-lg border border-gray-200 bg-white p-6 shadow-md shadow-gray-200/80 md:block">
               <h3 className="mb-3 font-semibold text-[#23396f]">
                 Consultas Relacionadas
               </h3>
@@ -249,7 +249,7 @@ export default async function SurveyDetail(props: SurveyDetailsProps) {
                   Ver Todas las Consultas
                 </Link>
               </div>
-            </div>
+            </div> */}
           </div>
 
           {/* Preguntas frecuentes Mobile */}

@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 
 const filterTabs = [
   { key: "todas", label: "Todas" },
-  { key: "activa", label: "Activa" },
+  { key: "abierta", label: "Abierta" },
   { key: "cerrada", label: "Cerrada" },
 ];
 

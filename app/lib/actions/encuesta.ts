@@ -4,6 +4,7 @@ import z from "zod";
 import { connectToDB } from "../utils/db-connection";
 import sql from "mssql";
 import { SubOption, SurveyAnswers } from "../definitions/encuesta";
+import sanitizeHtml from "sanitize-html";
 
 export async function registerVote(
   surveyAnswers: SurveyAnswers,
@@ -351,11 +352,20 @@ export async function createSurvey(formData: FormData) {
       // 4. Insertar términos (survey_options_definitions)
       for (const termino of validatedData.data.survey_options_definitions) {
         if (termino.name.trim() && termino.description.trim()) {
+          const cleanDescription = sanitizeHtml(termino.description, {
+            allowedTags: ["b", "i", "u", "ol", "ul", "li", "p", "br"],
+            allowedAttributes: {},
+          });
+
           const terminoRequest = new sql.Request(transaction);
           await terminoRequest
             .input("survey_id", sql.Int, surveyId)
             .input("concept_name", sql.NVarChar, termino.name)
-            .input("concept_description", sql.NVarChar, termino.description)
+            .input(
+              "concept_description",
+              sql.NVarChar(sql.MAX),
+              cleanDescription,
+            )
             .query(
               `INSERT INTO terminos (survey_id, concept_name, concept_description) VALUES (@survey_id, @concept_name, @concept_description)`,
             );
@@ -365,11 +375,16 @@ export async function createSurvey(formData: FormData) {
       // 5. Insertar FAQ
       for (const faq of validatedData.data.frequently_asked_questions) {
         if (faq.question.trim() && faq.answer.trim()) {
+          const cleanDescription = sanitizeHtml(faq.answer, {
+            allowedTags: ["b", "i", "u", "ol", "ul", "li", "p", "br"],
+            allowedAttributes: {},
+          });
+
           const faqRequest = new sql.Request(transaction);
           await faqRequest
             .input("survey_id", sql.Int, surveyId)
             .input("faq_question", sql.NVarChar, faq.question)
-            .input("faq_answer", sql.NVarChar, faq.answer)
+            .input("faq_answer", sql.NVarChar(sql.MAX), cleanDescription)
             .query(
               `INSERT INTO faq (survey_id, faq_question, faq_answer) VALUES (@survey_id, @faq_question, @faq_answer)`,
             );
