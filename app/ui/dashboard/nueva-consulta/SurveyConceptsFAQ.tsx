@@ -58,9 +58,9 @@ export default function SurveyConceptsFAQ({
                 key={index}
                 className="relative overflow-hidden rounded-lg border border-gray-200 bg-gray-50 transition-all duration-200 hover:shadow-md"
               >
-                <div className="flex items-center justify-between bg-emerald-500 px-8 py-4">
+                <div className="flex items-center justify-between bg-[#06539b] px-8 py-4">
                   <div className="flex-1">
-                    <h4 className="text-lg font-semibold text-gray-800">
+                    <h4 className="text-lg font-semibold text-gray-100">
                       Concepto {index + 1}
                       {definition.name && (
                         <span className="ml-2 text-base font-normal text-white">
@@ -72,7 +72,7 @@ export default function SurveyConceptsFAQ({
                   </div>
                   {formData.survey_options_definitions.length > 5 && (
                     <button
-                      className="group ml-4 cursor-pointer rounded-lg bg-emerald-700 p-2 text-gray-100 transition-all duration-200 hover:bg-emerald-600"
+                      className="group ml-4 cursor-pointer rounded-lg bg-[#02427e] p-2 text-gray-100 transition-all duration-200 hover:bg-[#003261]"
                       onClick={() =>
                         removeArrayItem("survey_options_definitions", index)
                       }

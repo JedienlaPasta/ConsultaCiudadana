@@ -17,6 +17,7 @@ import {
   SubOption,
   SurveyFormData,
 } from "@/app/lib/definitions/encuesta";
+import { useRouter } from "next/navigation";
 
 // Define initial form data as a constant
 const INITIAL_FORM_DATA: SurveyFormData = {
@@ -187,6 +188,7 @@ export default function NewSurveyContentLayout({
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState<SurveyFormData>(INITIAL_FORM_DATA);
   const [isInitialized, setIsInitialized] = useState(false);
+  const router = useRouter();
   // console.log(formData);
 
   // Load data from localStorage on component mount
@@ -279,15 +281,15 @@ export default function NewSurveyContentLayout({
   ) => {
     setFormData((prev) => ({
       ...prev,
-      questions: prev.questions.map((q, i) =>
-        i === questionIndex
+      questions: prev.questions.map((question, index) =>
+        index === questionIndex
           ? {
-              ...q,
-              options: q.options.map((opt, j) =>
-                j === optionIndex ? { ...opt, [field]: value } : opt,
+              ...question,
+              options: question.options.map((option, j) =>
+                j === optionIndex ? { ...option, [field]: value } : option,
               ),
             }
-          : q,
+          : question,
       ),
     }));
   };
@@ -476,8 +478,9 @@ export default function NewSurveyContentLayout({
       }
 
       toast.success(response.message, { id: toastId });
-      // router.push("/");
-      // console.log("Survey creation result:", response);
+      setTimeout(() => {
+        router.push("/dashboard");
+      }, 1000);
     } catch (error) {
       // console.error("Error creating survey:", error);
       const message =

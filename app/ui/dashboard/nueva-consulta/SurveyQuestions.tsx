@@ -39,13 +39,13 @@ export default function SurveyQuestions({
   const removeOption = (questionIndex: number, optionIndex: number) => {
     setFormData((prev) => ({
       ...prev,
-      questions: prev.questions.map((q, i) =>
-        i === questionIndex
+      questions: prev.questions.map((question, index) =>
+        index === questionIndex
           ? {
-              ...q,
-              options: q.options.filter((_, j) => j !== optionIndex),
+              ...question,
+              options: question.options.filter((_, j) => j !== optionIndex),
             }
-          : q,
+          : question,
       ),
     }));
   };
@@ -57,7 +57,9 @@ export default function SurveyQuestions({
   ) => {
     const question = formData.questions[questionIndex];
     const option = question.options[optionIndex];
-    const newSubOptions = option.subOptions.filter((_, i) => i !== subIndex);
+    const newSubOptions = option.subOptions.filter(
+      (_, index) => index !== subIndex,
+    );
     updateQuestionOption(
       questionIndex,
       optionIndex,
@@ -102,6 +104,7 @@ export default function SurveyQuestions({
       value.trim() !== "";
 
     // If we're adding a new sub-option, include it in the same state update
+    // console.log(option.subOptions.length);
     if (shouldAddNew) {
       newSubOptions.push({
         id: option.subOptions.length + 1,
@@ -111,6 +114,7 @@ export default function SurveyQuestions({
         sector: null,
       });
     }
+    console.log(newSubOptions);
 
     updateQuestionOption(
       questionIndex,

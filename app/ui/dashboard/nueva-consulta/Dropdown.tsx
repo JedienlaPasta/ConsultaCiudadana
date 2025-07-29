@@ -35,6 +35,17 @@ export default function NewSurveyDropdown({
 }: DropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
 
+  const formatedOptions = options?.map((option) => ({
+    sector_name: option.sector_name,
+    sector_value: option.sector_name
+      .split(" ")
+      .map((word) => {
+        if (word.toLowerCase() === "de") return "de";
+        return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+      })
+      .join(" "),
+  }));
+
   const toggleDropdown = () => {
     if (isOpen) return;
     setIsOpen((prev) => !prev);
@@ -93,9 +104,9 @@ export default function NewSurveyDropdown({
       />
       {/* Dropdown List */}
       {isOpen && (
-        <ul className="absolute top-11 right-0 z-10 max-h-[242px] w-[200%] divide-y divide-gray-200 overflow-y-auto rounded-lg border border-gray-200 bg-white text-slate-700 shadow-lg">
-          {options && options.length > 0 ? (
-            options.map((option, index) => (
+        <ul className="absolute top-12 right-0 z-10 max-h-[222px] w-[200%] divide-y divide-gray-200 overflow-y-auto rounded-lg border border-gray-200 bg-white text-slate-700 shadow-lg">
+          {formatedOptions && formatedOptions.length > 0 ? (
+            formatedOptions.map((option, index) => (
               <li
                 key={index}
                 onClick={() => {
@@ -108,9 +119,13 @@ export default function NewSurveyDropdown({
                   );
                   setIsOpen(false); // Cerrar el dropdown después de seleccionar
                 }}
-                className="flex h-12 w-full cursor-pointer flex-col justify-center px-4 text-sm hover:bg-[#0A4581] hover:text-white"
+                className={`hovers:text-white flex h-11 w-full cursor-pointer flex-col justify-center px-4 text-sm ${
+                  value === option.sector_name
+                    ? "bg-[#3c8ddd] text-white"
+                    : "hover:bg-gray-200/80"
+                }`}
               >
-                <span>{option.sector_name}</span>
+                <span>{option.sector_value}</span>
                 {/* <span className="text-xs text-slate-500">{option.type}</span> */}
               </li>
             ))

@@ -36,6 +36,7 @@ export default function Navbar({ isLoggedIn }: { isLoggedIn: boolean }) {
             href="/"
           >
             Participa
+            <p className="-mt-0.5 text-xs font-light">El Quisco</p>
           </Link>
 
           {/* Mobile menu button */}

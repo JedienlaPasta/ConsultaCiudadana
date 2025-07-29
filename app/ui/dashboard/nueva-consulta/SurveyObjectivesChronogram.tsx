@@ -148,9 +148,9 @@ export default function SurveyContent({
                   </span>
                 </div>
 
-                <div className="flex items-center justify-between bg-emerald-500 px-8 py-4">
+                <div className="flex items-center justify-between bg-[#06539b] px-8 py-4">
                   <div className="flex-1">
-                    <h4 className="text-lg font-semibold text-gray-900">
+                    <h4 className="text-lg font-semibold text-gray-100">
                       Etapa {index + 1}
                       {phase.phase && (
                         <span className="ml-2 text-base font-normal text-white">
@@ -161,7 +161,7 @@ export default function SurveyContent({
                   </div>
                   {formData.chronogram.length > 3 && (
                     <button
-                      className="group ml-4 cursor-pointer rounded-lg bg-emerald-700 p-2 text-gray-100 transition-all duration-200 hover:bg-emerald-600"
+                      className="group ml-4 cursor-pointer rounded-lg bg-[#02427e] p-2 text-gray-100 transition-all duration-200 hover:bg-[#003261]"
                       onClick={() => removeArrayItem("chronogram", index)}
                       title="Eliminar fase"
                     >

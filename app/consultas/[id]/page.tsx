@@ -29,7 +29,7 @@ export default async function SurveyDetail(props: SurveyDetailsProps) {
 
   const stateColor = () => {
     if (new Date(survey.survey_start_date) > new Date()) {
-      return "text-yellow-500";
+      return "text-[#277ff2]";
     }
     if (new Date(survey.survey_end_date) > new Date()) {
       return "text-emerald-500";

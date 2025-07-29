@@ -1,6 +1,7 @@
 "use client";
 
 import { SurveyFormData } from "@/app/lib/definitions/encuesta";
+import { formatDateToSpanish } from "@/app/lib/utils/format";
 
 type SurveyPreviewProps = {
   formData: SurveyFormData;
@@ -103,7 +104,7 @@ export default function SurveyPreview({
                 <div className="flex h-10 w-full items-center rounded-lg border border-slate-300 bg-white px-4 text-sm text-slate-700 shadow-sm">
                   <p className="text-slate-600">
                     {formData.survey_start_date && formData.survey_end_date
-                      ? `${formData.survey_start_date} - ${formData.survey_end_date}`
+                      ? `${formatDateToSpanish(formData.survey_start_date)} - ${formatDateToSpanish(formData.survey_end_date)}`
                       : "Sin definir"}
                   </p>
                 </div>
