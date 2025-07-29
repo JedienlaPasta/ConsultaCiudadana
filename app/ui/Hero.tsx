@@ -34,7 +34,7 @@ export default function Hero() {
 
       {/* Hero Content */}
       <div className="containers inset-0 z-10 mx-auto flex h-full items-center justify-center text-white">
-        <div className="relative container mx-auto -mt-10 flex max-w-[80rem] grow flex-col items-start px-4 py-12 text-center md:px-8 md:text-left">
+        <div className="relative container mx-auto -mt-10 flex max-w-[80rem] grow flex-col items-center px-4 py-12 text-center md:px-8 md:text-left lg:items-start">
           <h1 className="mb-4 text-left text-4xl font-bold drop-shadow-lg md:mb-6 md:text-5xl lg:text-6xl">
             Transformando El Quisco <br /> con tu voto
           </h1>

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
 import ClaveUnicaBtn from "./ClaveUnicaBtn";
+import Image from "next/image";
 
 export default function Navbar({ isLoggedIn }: { isLoggedIn: boolean }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -32,11 +33,20 @@ export default function Navbar({ isLoggedIn }: { isLoggedIn: boolean }) {
       <div className="container mx-auto max-w-[80rem]">
         <nav className="flex items-center justify-between px-4 py-3 md:px-8">
           <Link
-            className="text-xl font-bold text-white outline-4 outline-[#0f69c4] transition-colors outline-none focus-visible:outline-solid"
+            className="flex items-center gap-2.5 text-xl font-bold text-white outline-4 outline-[#0f69c4] transition-colors outline-none focus-visible:outline-solid"
             href="/"
           >
-            Participa
-            <p className="-mt-0.5 text-xs font-light">El Quisco</p>
+            <Image
+              src="/logos/7.png"
+              alt="logo"
+              width={50}
+              height={50}
+              className="size-10"
+            />
+            <span>
+              Participa
+              <p className="-mt-0.5 text-xs font-light">El Quisco</p>
+            </span>
           </Link>
 
           {/* Mobile menu button */}
@@ -94,7 +104,7 @@ export default function Navbar({ isLoggedIn }: { isLoggedIn: boolean }) {
                 href="#"
                 className="flex min-h-11 items-center rounded-sm px-4 text-white outline-4 outline-[#0f69c4] transition-colors outline-none hover:bg-[#0B4E91] focus:outline-solid"
               >
-                Contacto
+                Resultados
               </Link>
             </li>
             <li>
@@ -102,7 +112,7 @@ export default function Navbar({ isLoggedIn }: { isLoggedIn: boolean }) {
                 href="#"
                 className="flex min-h-11 items-center rounded-sm px-4 text-white outline-4 outline-[#0f69c4] transition-colors outline-none hover:bg-[#0B4E91] focus:outline-solid"
               >
-                Preguntas frecuentes
+                Contacto
               </Link>
             </li>
             <li>
@@ -141,25 +151,23 @@ export default function Navbar({ isLoggedIn }: { isLoggedIn: boolean }) {
           </li>
           <li>
             <Link
-              href="/contacto"
+              href="/#"
               className="block w-full text-white transition-colors hover:bg-[#0A4581]"
               onClick={() => setIsMenuOpen(false)}
             >
               <div className="flex items-center px-6 py-4">
-                <span className="text-sm font-medium">Contacto</span>
+                <span className="text-sm font-medium">Resultados</span>
               </div>
             </Link>
           </li>
           <li>
             <Link
-              href="/preguntas"
+              href="/#"
               className="block w-full text-white transition-colors hover:bg-[#0A4581]"
               onClick={() => setIsMenuOpen(false)}
             >
               <div className="flex items-center px-6 py-4">
-                <span className="text-sm font-medium">
-                  Preguntas frecuentes
-                </span>
+                <span className="text-sm font-medium">Contacto</span>
               </div>
             </Link>
           </li>

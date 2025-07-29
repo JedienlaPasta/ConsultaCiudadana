@@ -18,7 +18,6 @@ export async function getSurveysList(): Promise<SurveyGeneralData[]> {
     const result = await request.query(
       "SELECT id, survey_name, survey_short_description, survey_start_date, survey_end_date, department FROM encuestas",
     );
-    console.log(result.recordset);
     return result.recordset.map(
       (item) =>
         ({
@@ -70,8 +69,8 @@ export async function getSurveyDetails(id: number): Promise<SurveyData> {
 
     const survey = surveyResult.recordset[0];
 
-    console.log(survey.survey_start_date.toISOString().split("T")[0]);
-    console.log(survey.survey_end_date.toISOString().split("T")[0]);
+    // console.log(survey.survey_start_date.toISOString().split("T")[0]);
+    // console.log(survey.survey_end_date.toISOString().split("T")[0]);
 
     // 2. Obtener objetivos
     const objectivesRequest = pool.request();
@@ -317,7 +316,6 @@ export async function getSurveyQuestions(
         let subOptions: SubOption[] = [];
 
         // Si hay una subpregunta, obtener sus opciones
-        console.log("sub_question_id:", optionRow.sub_question_id);
         if (optionRow.sub_question_id) {
           const subOptionsRequest = pool.request();
           const subOptionsResult = await subOptionsRequest.input(

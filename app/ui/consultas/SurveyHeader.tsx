@@ -15,7 +15,7 @@ export default function SurveyHeader({ survey }: { survey: SurveyData }) {
   return (
     <div className="bg-[#0A4C8A] text-white">
       {/* Navbar placeholder */}
-      <div className="h-[68px] bg-[#0A4581]"></div>
+      <div className="h-[72px] bg-[#0A4581]"></div>
       <div className="container mx-auto max-w-[80rem] px-4 py-6 md:px-8 md:py-8">
         <div className="mb-2 flex flex-wrap gap-2">
           <SurveyState

@@ -1,3 +1,4 @@
+import { getSession } from "@/app/lib/actions/auth";
 import { getSurveyQuestions } from "@/app/lib/data/encuesta";
 import { verifyParticipation } from "@/app/lib/data/participacion";
 import Footer from "@/app/ui/Footer";
@@ -10,6 +11,8 @@ type SurveyDetailsProps = {
 export default async function SurveyPage(props: SurveyDetailsProps) {
   const params = await props.params;
   const id = params.id;
+  const session = getSession();
+  console.log(session);
   const hasParticipated = await verifyParticipation(55555555, id);
   const surveyQuestions = await getSurveyQuestions(id);
 
