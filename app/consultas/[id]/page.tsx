@@ -167,7 +167,7 @@ export default async function SurveyDetail(props: SurveyDetailsProps) {
 
               {isLoggedIn ? (
                 <Link
-                  className="mt-5 flex min-h-11 w-full grow items-center justify-center gap-0.5 rounded-lg bg-[#0F69C4] py-[8px] pr-5 pl-4 text-center text-[#fff] transition-all select-none hover:bg-[#2275C9] hover:underline"
+                  className="mt-5 flex min-h-11 w-full grow items-center justify-center gap-0.5 rounded-lg bg-[#0F69C4] py-[8px] pr-5 pl-4 text-center text-[#fff] transition-all select-none hover:bg-[#2275C9]"
                   href={
                     surveyState() === "Abierta"
                       ? `/consultas/${id}/voto`
