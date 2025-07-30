@@ -57,6 +57,7 @@ export type SurveyFormData = {
   survey_start_date: string;
   survey_end_date: string;
   department: string;
+  survey_links: string[];
   objectives: string[];
   chronogram: ChronogramItem[];
   survey_options_definitions: OptionDefinition[];
@@ -66,6 +67,7 @@ export type SurveyFormData = {
 
 // Create a mapped type to get the correct array type for each FormData key
 export type FormDataArrays = {
+  survey_links: string[];
   objectives: string[];
   chronogram: ChronogramItem[];
   survey_options_definitions: OptionDefinition[];

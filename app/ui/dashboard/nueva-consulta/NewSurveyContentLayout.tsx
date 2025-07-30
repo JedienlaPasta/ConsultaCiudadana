@@ -30,6 +30,7 @@ const INITIAL_FORM_DATA: SurveyFormData = {
   department: "",
 
   // Dynamic Arrays
+  survey_links: [""],
   objectives: ["", "", ""],
   chronogram: [
     { phase: "", description: "", date: "" },

@@ -141,6 +141,50 @@ export default function SurveyGeneralInfo({
               </div>
             </div>
 
+            {/* Survey Links */}
+            <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+              <div className="space-y-2">
+                <label className="flex items-center text-sm font-semibold text-gray-700">
+                  Enlaces de la Consulta
+                  <span className="ml-1 text-red-500">*</span>
+                </label>
+                <div className="relative">
+                  <input
+                    type="text"
+                    maxLength={60}
+                    className={`h-10 w-full rounded-lg border bg-white px-4 text-sm text-slate-700 shadow-sm transition-all outline-none placeholder:text-gray-400 focus:ring-2 focus:ring-offset-1 ${
+                      validationErrors.survey_name
+                        ? "border-red-300 focus:border-rose-400 focus:ring-red-200"
+                        : "border-slate-300 focus:border-blue-500 focus:ring-blue-200"
+                    }`}
+                    placeholder="Ej: Plan PIIMEP - Mejora de Espacios Públicos"
+                    value={formData.survey_name}
+                    onChange={(e) =>
+                      handleFieldChange("survey_name", e.target.value)
+                    }
+                  />
+                </div>
+                {validationErrors.survey_name && (
+                  <p className="flex items-center text-sm text-red-600">
+                    {validationErrors.survey_name}
+                  </p>
+                )}
+                <div className="text-xs text-gray-500">
+                  {formData.survey_name.length}/100 caracteres
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <Dropdown
+                  label="Departamento"
+                  name="department"
+                  value={formData.department}
+                  setValue={handleFieldChange}
+                  options={departmentsList}
+                />
+              </div>
+            </div>
+
             <div className="space-y-2">
               <label className="flex items-center text-sm font-semibold text-gray-700">
                 Descripción Corta
