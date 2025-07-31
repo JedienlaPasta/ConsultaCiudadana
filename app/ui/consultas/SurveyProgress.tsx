@@ -14,26 +14,8 @@ export default function SurveyProgress({
   questions,
   setCurrentQuestionIndex,
 }: SurveyProgressProps) {
-  // const confirmationStep: Question = {
-  //   id: 0,
-  //   questionId: 0,
-  //   isMapQuestion: false,
-  //   maxOptions: 0,
-  //   minOptions: 0,
-  //   step: "Confirmar voto",
-  //   step_description: "Confirma que los datos son correctos",
-  //   question: "Resumen",
-  //   options: [],
-  // };
-
-  // useEffect(() => {
-  //   questions.push(confirmationStep);
-  // }, []);
   return (
     <div className="md:borders md:bg-[#f8fafc]s md:shadow-mds rounded-lg border-gray-200 py-4 shadow-gray-200/80 md:p-6">
-      {/* <h3 className="mb-6 text-center text-xl font-bold text-[#0a4c8a]">
-        Progreso de Cuestionario
-      </h3> */}
       <div className={`flex flex-nowrap justify-center gap-4`}>
         {questions.map((question, index) => (
           <ProgressStep
