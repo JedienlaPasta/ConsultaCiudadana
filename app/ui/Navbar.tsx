@@ -81,7 +81,7 @@ export default function Navbar({ isLoggedIn }: { isLoggedIn: boolean }) {
           </button>
 
           {/* Desktop menu */}
-          <ul className="hidden items-center space-x-2 md:flex lg:space-x-5">
+          <ul className="!ml-0 hidden !list-none items-center space-x-2 md:flex lg:space-x-5">
             <li className="max-[850px]:hidden">
               <Link
                 href="/dashboard"
@@ -126,7 +126,7 @@ export default function Navbar({ isLoggedIn }: { isLoggedIn: boolean }) {
       <div
         className={`absolute top-full left-0 w-full overflow-hidden bg-[#06315c] shadow-lg transition-all duration-500 ease-in-out md:hidden ${isMenuOpen ? "max-h-[300px]" : "max-h-0"}`}
       >
-        <ul className="flex flex-col divide-y divide-[#0A4581]/30">
+        <ul className="!ml-0 flex !list-none flex-col divide-y divide-[#0A4581]/30">
           <li>
             <Link
               href="/dashboard"

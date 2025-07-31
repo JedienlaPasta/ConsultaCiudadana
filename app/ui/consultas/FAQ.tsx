@@ -26,10 +26,10 @@ export default function FAQComponent({ faq }: { faq: FAQ[] }) {
           className={`border-gray-200 ${index === faq.length - 1 ? "pt-4 md:border-b-0" : "py-4 md:border-b"}`}
         >
           <h5 className="mb-1 font-semibold">{item.question}</h5>
-          <p
+          <div
             className="whitespace-pre-line text-gray-600"
             dangerouslySetInnerHTML={{ __html: sanitizeHTML(item.answer) }}
-          ></p>
+          ></div>
         </div>
       ))}
     </div>

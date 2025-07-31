@@ -36,7 +36,7 @@ export default function Definitions({
           }`}
         >
           <h5 className="font-semibold md:mb-1">{item.name}</h5>
-          <p
+          <div
             className="whitespace-pre-line text-gray-600"
             dangerouslySetInnerHTML={{
               __html: sanitizeHTML(item.description),

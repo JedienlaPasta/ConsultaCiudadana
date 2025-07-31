@@ -10,6 +10,7 @@ import Schedule from "@/app/ui/consultas/Schedule";
 import { getSurveyDetails } from "@/app/lib/data/encuesta";
 import { formatDateToSpanish } from "@/app/lib/utils/format";
 import { redirect } from "next/navigation";
+import DOMPurify from "dompurify";
 
 type SurveyDetailsProps = {
   params: Promise<{ id: number }>;
@@ -26,6 +27,13 @@ export default async function SurveyDetail(props: SurveyDetailsProps) {
   if (!survey.survey_name) {
     redirect("/consultas");
   }
+
+  const sanitizeHTML = (html: string) => {
+    if (typeof window !== "undefined") {
+      return DOMPurify.sanitize(html);
+    }
+    return html; // Fallback for SSR
+  };
 
   const stateColor = () => {
     if (new Date(survey.survey_start_date) > new Date()) {
@@ -63,26 +71,47 @@ export default async function SurveyDetail(props: SurveyDetailsProps) {
                 <h2 className="mb-1 text-xl font-bold text-[#23396f] md:text-2xl">
                   Acerca de esta Consulta
                 </h2>
-                <p className="text-sm text-gray-500">
-                  Conoce más sobre esta iniciativa y cómo tu participación puede
-                  marcar una diferencia en los espacios públicos de El Quisco.
-                </p>
+                <span className="text-sm text-gray-500">
+                  <p>
+                    Conoce más sobre esta iniciativa y cómo tu participación
+                    puede marcar una diferencia en los espacios públicos de la
+                    comuna de El Quisco.
+                    {true && (
+                      <span>
+                        {" "}
+                        Antes de responder la consulta, es fundamental leer las
+                        siguientes definiciones y revisar el documento completo
+                        en el siguiente enlace:{" "}
+                        <Link
+                          className="text-[#23396f] underline"
+                          href={survey.survey_links[0]}
+                          target="_blank"
+                        >
+                          {survey.survey_links[0]}
+                        </Link>
+                      </span>
+                    )}
+                  </p>
+                </span>
               </span>
 
               <span>
                 <h3 className="mb-1 text-lg font-semibold text-[#23396f]">
                   Descripción General
                 </h3>
-                <p className="whitespace-pre-line text-gray-600">
-                  {survey.survey_large_description}
-                </p>
+                <div
+                  className="whitespace-pre-line text-gray-600"
+                  dangerouslySetInnerHTML={{
+                    __html: sanitizeHTML(survey.survey_large_description),
+                  }}
+                ></div>
               </span>
 
               <span>
                 <h3 className="mb-1 text-lg font-semibold text-[#23396f]">
                   Objetivos
                 </h3>
-                <ul className="list-disc space-y-1 pl-5 text-gray-600 md:space-y-2">
+                <ul className="!ml-0 list-disc space-y-1 pl-5 text-gray-600 md:space-y-2">
                   {survey.objectives.map((objective) => (
                     <li key={objective}>{objective}</li>
                   ))}

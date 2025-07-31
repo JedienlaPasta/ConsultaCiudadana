@@ -83,7 +83,26 @@ export default function SurveyLayout({
     }
 
     const selectedOptionsCount = currentAnswer?.selected_options?.length || 0;
-    return selectedOptionsCount >= currentQuestion.minOptions;
+
+    // Check if minimum options requirement is met
+    if (selectedOptionsCount < currentQuestion.minOptions) {
+      return false;
+    }
+
+    // Check if options with sub-questions have sub-options selected
+    const selectedOptions = currentAnswer?.selected_options || [];
+    for (const selectedOption of selectedOptions) {
+      // Find the option definition to check if it has a sub-question
+      const optionDefinition = currentQuestion.options.find(
+        (option) => option.id === selectedOption.option_id,
+      );
+      // If the option has a sub-question but no sub-option is selected, validation fails
+      if (optionDefinition?.hasSubQuestion && !selectedOption.sub_option_id) {
+        return false;
+      }
+    }
+
+    return true;
   };
 
   const handleQuestionChange = async (nextQuestionIndex: number) => {

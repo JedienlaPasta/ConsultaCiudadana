@@ -236,7 +236,7 @@ export default function SurveyContent({
                         <span className="ml-1 text-red-500">*</span>
                       </label>
                       <textarea
-                        maxLength={70}
+                        maxLength={150}
                         className="w-full resize-none rounded-lg border border-slate-300 bg-white px-4 py-3 text-sm text-slate-700 shadow-sm transition-all outline-none placeholder:text-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:ring-offset-1"
                         placeholder="Describe las actividades y objetivos de esta fase..."
                         rows={3}

@@ -65,36 +65,21 @@ export default function SurveyPreview({
         </div>
 
         <div className="px-8 pt-2 pb-6">
-          <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-            <div className="space-y-6">
-              <div className="group">
-                <div className="mb-2 flex items-center">
-                  <h4 className="text-sm font-semibold text-gray-700">
-                    Nombre de la Consulta
-                  </h4>
-                </div>
-                <div className="flex h-10 w-full items-center rounded-lg border border-slate-300 bg-white px-4 text-sm text-slate-700 shadow-sm">
-                  <p className="text-slate-600">
-                    {formData.survey_name || "Sin definir"}
-                  </p>
-                </div>
+          <div className="grid grid-cols-1 gap-6">
+            <div className="group">
+              <div className="mb-2 flex items-center">
+                <h4 className="text-sm font-semibold text-gray-700">
+                  Nombre de la Consulta
+                </h4>
               </div>
-
-              <div className="group">
-                <div className="mb-2 flex items-center">
-                  <h4 className="text-sm font-semibold text-gray-700">
-                    Departamento
-                  </h4>
-                </div>
-                <div className="flex h-10 w-full items-center rounded-lg border border-slate-300 bg-white px-4 text-sm text-slate-700 shadow-sm">
-                  <p className="text-slate-600">
-                    {formData.department || "Sin definir"}
-                  </p>
-                </div>
+              <div className="flex h-10 w-full items-center rounded-lg border border-slate-300 bg-white px-4 text-sm text-slate-700 shadow-sm">
+                <p className="text-slate-600">
+                  {formData.survey_name || "Sin definir"}
+                </p>
               </div>
             </div>
 
-            <div className="space-y-6">
+            <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
               <div className="group">
                 <div className="mb-2 flex items-center">
                   <h4 className="text-sm font-semibold text-gray-700">
@@ -109,18 +94,30 @@ export default function SurveyPreview({
                   </p>
                 </div>
               </div>
-
               <div className="group">
                 <div className="mb-2 flex items-center">
-                  <h4 className="text-sm font-semibold text-slate-600">
-                    Descripción
+                  <h4 className="text-sm font-semibold text-gray-700">
+                    Departamento
                   </h4>
                 </div>
-                <div className="max-h-24 w-full overflow-y-auto rounded-lg border border-slate-300 bg-white px-4 py-2 text-slate-700 shadow-sm">
-                  <p className="text-sm leading-relaxed text-slate-600">
-                    {formData.survey_short_description || "Sin definir"}
+                <div className="flex h-10 w-full items-center rounded-lg border border-slate-300 bg-white px-4 text-sm text-slate-700 shadow-sm">
+                  <p className="text-slate-600">
+                    {formData.department || "Sin definir"}
                   </p>
                 </div>
+              </div>
+            </div>
+
+            <div className="group">
+              <div className="mb-2 flex items-center">
+                <h4 className="text-sm font-semibold text-slate-600">
+                  Descripción
+                </h4>
+              </div>
+              <div className="min-h-20 w-full overflow-y-auto rounded-lg border border-slate-300 bg-white px-4 py-2 text-slate-700 shadow-sm">
+                <p className="text-sm leading-relaxed text-slate-600">
+                  {formData.survey_short_description || "Sin definir"}
+                </p>
               </div>
             </div>
           </div>

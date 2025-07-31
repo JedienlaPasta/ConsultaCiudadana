@@ -179,7 +179,7 @@ export default function VoteConfirmationOverview({
               >
                 <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z" />
               </svg>
-              {question.question}
+              {question.step}
               <span className="text-sm font-normal text-gray-600">
                 ({selectedOptions.length}/{question.maxOptions})
               </span>
@@ -192,7 +192,7 @@ export default function VoteConfirmationOverview({
 
                   return (
                     <div key={`${item.option.id}-${index}`}>
-                      <div className="relative overflow-hidden rounded-lg border border-gray-300/70 bg-white p-3">
+                      <div className="relative flex min-h-16 items-center overflow-hidden rounded-lg border border-gray-300/70 bg-white p-3">
                         <span
                           className={`absolute top-0 left-0 flex h-full w-12 flex-shrink-0 items-center justify-center ${colorScheme.bg} text-sm font-medium text-white`}
                         >
@@ -205,13 +205,14 @@ export default function VoteConfirmationOverview({
                               ? item.subOption.option_name
                               : item.option.option_name}
                           </h4>
-                          <p className="text-sm text-gray-600">
-                            {item.subOption
-                              ? item.subOption.option_description ||
-                                "No hay descripción"
-                              : item.option.option_description ||
-                                "No hay descripción"}
-                          </p>
+                          {item.subOption?.option_description ||
+                            (item.option?.option_description && (
+                              <p className="text-sm text-gray-600">
+                                {item.subOption
+                                  ? item.subOption.option_description
+                                  : item.option.option_description}
+                              </p>
+                            ))}
                         </div>
                       </div>
                     </div>

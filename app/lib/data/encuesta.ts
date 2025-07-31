@@ -82,6 +82,7 @@ export async function getSurveyDetails(id: number): Promise<SurveyData> {
     survey_start_date: "",
     survey_end_date: "",
     department: "",
+    survey_links: [],
     objectives: [],
     chronogram: [],
     survey_options_definitions: [],
@@ -111,12 +112,18 @@ export async function getSurveyDetails(id: number): Promise<SurveyData> {
     // console.log(survey.survey_start_date.toISOString().split("T")[0]);
     // console.log(survey.survey_end_date.toISOString().split("T")[0]);
 
+    const linksRequest = pool.request();
+    const linksResult = await linksRequest
+      .input("survey_id", sql.Int, id)
+      .query(
+        "SELECT id, survey_link FROM links WHERE survey_id = @survey_id ORDER BY id",
+      );
     // 2. Obtener objetivos
     const objectivesRequest = pool.request();
     const objectivesResult = await objectivesRequest
       .input("survey_id", sql.Int, id)
       .query(
-        "SELECT objective FROM objetivos WHERE survey_id = @survey_id ORDER BY id",
+        "SELECT id, objective FROM objetivos WHERE survey_id = @survey_id ORDER BY id",
       );
 
     // 3. Obtener cronograma
@@ -252,6 +259,7 @@ export async function getSurveyDetails(id: number): Promise<SurveyData> {
         ? survey.survey_end_date.toISOString().split("T")[0]
         : "",
       department: survey.department,
+      survey_links: linksResult.recordset?.map((row) => row.survey_link) || [],
       objectives: objectivesResult.recordset.map((row) => row.objective),
       chronogram: chronogramResult.recordset.map((row) => ({
         phase: row.phase,

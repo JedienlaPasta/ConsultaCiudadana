@@ -53,7 +53,7 @@ export default function Footer() {
             <h3 className="mb-2 text-lg font-semibold text-white">
               Enlaces Rápidos
             </h3>
-            <ul className="space-y-1.5 text-sm text-gray-400">
+            <ul className="!ml-0 !list-none space-y-1.5 text-sm text-gray-400">
               <li>
                 <Link
                   href="/"

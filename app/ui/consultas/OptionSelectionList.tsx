@@ -57,18 +57,45 @@ export default function OptionSelectionList({
     subOptionId: number,
     subQuestionId?: number,
   ) => {
-    console.log(subQuestionId);
     if (!subQuestionId) return;
+
     const currentOptions = currentAnswer?.selected_options || [];
-    const updatedOptions = currentOptions.map((option) =>
-      option.option_id === optionId
-        ? {
-            ...option,
-            sub_question_id: subQuestionId,
-            sub_option_id: subOptionId,
-          }
-        : option,
+    const targetOption = currentOptions.find(
+      (option) => option.option_id === optionId,
     );
+
+    // Check if this sub-option is already selected
+    const isSubOptionSelected = targetOption?.sub_option_id === subOptionId;
+
+    let updatedOptions: OptionAnswer[];
+
+    if (isSubOptionSelected) {
+      // Remove sub-option (clear sub_option_id and sub_question_id)
+      updatedOptions = currentOptions.map((option) =>
+        option.option_id === optionId
+          ? {
+              ...option,
+              sub_question_id: undefined,
+              sub_option_id: undefined,
+            }
+          : option,
+      );
+    } else {
+      // Add/update sub-option
+      if (!targetOption?.sub_option_id) {
+        updatedOptions = currentOptions.map((option) =>
+          option.option_id === optionId
+            ? {
+                ...option,
+                sub_question_id: subQuestionId,
+                sub_option_id: subOptionId,
+              }
+            : option,
+        );
+      } else {
+        return;
+      }
+    }
 
     const newAnswer: QuestionAnswer = {
       question_id: question.id,

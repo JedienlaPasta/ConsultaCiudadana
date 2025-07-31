@@ -112,11 +112,11 @@ const SurveySchema = z.object({
     message: "Fecha de término inválida",
   }),
   department: z.string().min(3, { message: "El departamento es requerido" }),
-
+  survey_links: z.array(z.string()).optional(),
   objectives: z.array(z.string()),
   chronogram: z.array(
     z.object({
-      phase: z.string().min(5, { message: "La fase es requerida" }),
+      phase: z.string().min(5, { message: "Las etapas son requeridas" }),
       description: z
         .string()
         .min(10, { message: "La descripción es requerida" }),
@@ -125,7 +125,9 @@ const SurveySchema = z.object({
   ),
   survey_options_definitions: z.array(
     z.object({
-      name: z.string().min(5, { message: "El nombre es requerido" }),
+      name: z
+        .string()
+        .min(5, { message: "El nombre de los términos es requerido" }),
       description: z
         .string()
         .min(10, { message: "La descripción es requerida" }),
@@ -210,7 +212,7 @@ const SurveySchema = z.object({
 });
 
 export async function createSurvey(formData: FormData) {
-  console.log(formData);
+  // console.log(formData);
   const surveyName = formData.get("survey_name") as string;
   const surveyShortDescription = formData.get(
     "survey_short_description",
@@ -221,6 +223,9 @@ export async function createSurvey(formData: FormData) {
   const startDate = formData.get("start_date") as string;
   const endDate = formData.get("end_date") as string;
   const department = formData.get("department") as string;
+  const surveyLinks = JSON.parse(
+    (formData.get("survey_links") as string) || "[]",
+  );
   const objectives = JSON.parse((formData.get("objectives") as string) || "[]");
   const chronogram = JSON.parse((formData.get("chronogram") as string) || "[]");
   const surveyOptionDefinitions = JSON.parse(
@@ -238,6 +243,7 @@ export async function createSurvey(formData: FormData) {
     start_date: startDate,
     end_date: endDate,
     department: department,
+    survey_links: surveyLinks,
     objectives: objectives,
     chronogram: chronogram,
     survey_options_definitions: surveyOptionDefinitions,
@@ -287,13 +293,15 @@ export async function createSurvey(formData: FormData) {
     const transaction = new sql.Transaction(pool);
     await transaction.begin();
 
-    const startDate = new Date(
-      new Date(validatedData.data.start_date).toISOString(),
-    );
-    console.log("start_date:", startDate);
-    console.log("end_date:", validatedData.data.end_date);
-
     try {
+      const cleanDescription = sanitizeHtml(
+        validatedData.data.survey_large_description,
+        {
+          allowedTags: ["b", "i", "u", "ol", "ul", "li", "p", "br"],
+          allowedAttributes: {},
+        },
+      );
+
       const encuestaRequest = new sql.Request(transaction);
       // 1. Insertar encuesta
       const encuestaResult = await encuestaRequest
@@ -303,12 +311,8 @@ export async function createSurvey(formData: FormData) {
           sql.NVarChar,
           validatedData.data.survey_short_description,
         )
-        .input(
-          "survey_large_description",
-          sql.NVarChar,
-          validatedData.data.survey_large_description,
-        )
-        .input("survey_start_date", sql.Date, startDate)
+        .input("survey_large_description", sql.NVarChar, cleanDescription)
+        .input("survey_start_date", sql.Date, validatedData.data.start_date)
         .input("survey_end_date", sql.Date, validatedData.data.end_date)
         .input("department", sql.NVarChar, validatedData.data.department)
         .input("created_by", sql.Int, 55555555).query(`
@@ -319,7 +323,23 @@ export async function createSurvey(formData: FormData) {
 
       const surveyId = encuestaResult.recordset[0].id;
 
-      // 2. Insertar objetivos
+      // 2. Insertar links
+      const surveyLinks = validatedData.data.survey_links;
+      if (surveyLinks && surveyLinks.length > 0) {
+        for (const link of surveyLinks) {
+          if (link.trim()) {
+            const linkRequest = new sql.Request(transaction);
+            await linkRequest
+              .input("survey_id", sql.Int, surveyId)
+              .input("survey_link", sql.NVarChar, link)
+              .query(
+                `INSERT INTO links (survey_id, survey_link) VALUES (@survey_id, @survey_link)`,
+              );
+          }
+        }
+      }
+
+      // 3. Insertar objetivos
       for (const objetivo of validatedData.data.objectives) {
         if (objetivo.trim()) {
           const objetivoRequest = new sql.Request(transaction);
@@ -332,7 +352,7 @@ export async function createSurvey(formData: FormData) {
         }
       }
 
-      // 3. Insertar cronograma
+      // 4. Insertar cronograma
       for (let i = 0; i < validatedData.data.chronogram.length; i++) {
         const item = validatedData.data.chronogram[i];
         if (item.phase.trim() && item.description.trim()) {
@@ -349,7 +369,7 @@ export async function createSurvey(formData: FormData) {
         }
       }
 
-      // 4. Insertar términos (survey_options_definitions)
+      // 5. Insertar términos (survey_options_definitions)
       for (const termino of validatedData.data.survey_options_definitions) {
         if (termino.name.trim() && termino.description.trim()) {
           const cleanDescription = sanitizeHtml(termino.description, {
@@ -372,7 +392,7 @@ export async function createSurvey(formData: FormData) {
         }
       }
 
-      // 5. Insertar FAQ
+      // 6. Insertar FAQ
       for (const faq of validatedData.data.frequently_asked_questions) {
         if (faq.question.trim() && faq.answer.trim()) {
           const cleanDescription = sanitizeHtml(faq.answer, {
@@ -396,7 +416,7 @@ export async function createSurvey(formData: FormData) {
         "SELECT id, sector FROM sectores",
       );
 
-      // 6. Insertar preguntas y opciones
+      // 7. Insertar preguntas y opciones
       for (let i = 0; i < validatedData.data.questions.length; i++) {
         const question = validatedData.data.questions[i];
         let questionId: number;

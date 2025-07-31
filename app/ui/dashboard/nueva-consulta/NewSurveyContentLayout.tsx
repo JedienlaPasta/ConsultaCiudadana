@@ -442,6 +442,11 @@ export default function NewSurveyContentLayout({
           })),
       }));
 
+    // Filter out empty links values before submitting
+    const validLinks = formData.survey_links.filter(
+      (link) => link.trim() !== "",
+    );
+
     const myFormData = new FormData();
     // General Info
     myFormData.append("survey_name", formData.survey_name);
@@ -458,6 +463,7 @@ export default function NewSurveyContentLayout({
     myFormData.append("department", formData.department);
 
     // Content - Serialize objects as JSON strings
+    myFormData.append("survey_links", JSON.stringify(validLinks));
     myFormData.append("objectives", JSON.stringify(formData.objectives));
     myFormData.append("chronogram", JSON.stringify(formData.chronogram));
     myFormData.append(
@@ -546,6 +552,9 @@ export default function NewSurveyContentLayout({
             <SurveyGeneralInfo
               formData={formData}
               updateFormData={updateFormData}
+              updateArrayItem={updateArrayItem}
+              removeArrayItem={removeArrayItem}
+              addArrayItem={addArrayItem}
             />
           ) : currentStep === 2 ? (
             <SurveyObjectivesChronogram

@@ -124,9 +124,9 @@ export default function SurveyConceptsFAQ({
                       <span className="ml-1 text-red-500">*</span>
                     </label>
                     <textarea
-                      className="w-full resize-none rounded-lg border border-slate-300 bg-white px-4 py-3 text-sm text-slate-700 shadow-sm transition-all outline-none placeholder:text-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:ring-offset-1"
-                      placeholder="Descripción del concepto..."
-                      rows={3}
+                      className="max-h-60 min-h-10 w-full resize-y rounded-lg border border-slate-300 bg-white px-4 py-3 text-sm text-slate-700 shadow-sm transition-all outline-none placeholder:text-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:ring-offset-1"
+                      placeholder="Descripción del concepto... (HTML permitido: <ol>, <ul>, <li>, <b>, <strong>)"
+                      rows={6}
                       value={definition.description}
                       onChange={(e) =>
                         updateArrayItem("survey_options_definitions", index, {
@@ -255,9 +255,9 @@ export default function SurveyConceptsFAQ({
                         <span className="ml-1 text-red-500">*</span>
                       </label>
                       <textarea
-                        className="w-full resize-none rounded-lg border border-slate-300 bg-white px-4 py-3 text-sm text-slate-700 shadow-sm transition-all outline-none placeholder:text-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:ring-offset-1"
-                        placeholder="Proporciona una respuesta clara y detallada..."
-                        rows={4}
+                        className="max-h-60 min-h-10 w-full resize-y rounded-lg border border-slate-300 bg-white px-4 py-3 text-sm text-slate-700 shadow-sm transition-all outline-none placeholder:text-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:ring-offset-1"
+                        placeholder="Descripción del concepto... (HTML permitido: <ol>, <ul>, <li>, <b>, <strong>)"
+                        rows={6}
                         value={faq.answer}
                         onChange={(e) =>
                           updateArrayItem("frequently_asked_questions", index, {

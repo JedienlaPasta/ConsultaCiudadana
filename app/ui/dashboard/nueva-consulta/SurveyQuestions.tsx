@@ -114,7 +114,6 @@ export default function SurveyQuestions({
         sector: null,
       });
     }
-    console.log(newSubOptions);
 
     updateQuestionOption(
       questionIndex,

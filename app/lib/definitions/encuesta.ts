@@ -88,6 +88,7 @@ export type SurveyData = {
   survey_start_date: string;
   survey_end_date: string;
   department: string;
+  survey_links: string[];
   objectives: string[];
   chronogram: ChronogramItem[];
   survey_options_definitions: OptionDefinition[];
