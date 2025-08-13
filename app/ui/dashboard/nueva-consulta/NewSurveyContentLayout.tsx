@@ -190,7 +190,6 @@ export default function NewSurveyContentLayout({
   const [formData, setFormData] = useState<SurveyFormData>(INITIAL_FORM_DATA);
   const [isInitialized, setIsInitialized] = useState(false);
   const router = useRouter();
-  // console.log(formData);
 
   // Load data from localStorage on component mount
   useEffect(() => {

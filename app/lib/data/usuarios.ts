@@ -2,7 +2,6 @@ import { connectToDB } from "../utils/db-connection";
 import sql from "mssql";
 
 export async function getUserRole(rut: number) {
-  console.log("Passed RUT:", rut);
   const pool = await connectToDB();
   try {
     if (!pool) {

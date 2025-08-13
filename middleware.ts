@@ -38,7 +38,6 @@ export async function middleware(request: NextRequest) {
     // Verificar JWT y extraer payload
     const secret = new TextEncoder().encode(jwtSecret);
     const { payload } = await jose.jwtVerify(session, secret);
-    console.log("payload:", payload);
 
     // Para rutas de dashboard, verificar roles específicos
     if (isDashboardRoute) {

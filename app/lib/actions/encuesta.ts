@@ -62,11 +62,11 @@ export async function registerVote(
 
           // Si hay subopción, registrarla también
           if (selectedOption.sub_option_id && selectedOption.sub_question_id) {
-            console.log(
-              "Insertando subopción:",
-              selectedOption.sub_question_id,
-              selectedOption.sub_option_id,
-            );
+            // console.log(
+            //   "Insertando subopción:",
+            //   selectedOption.sub_question_id,
+            //   selectedOption.sub_option_id,
+            // );
             const subVoteRequest = new sql.Request(transaction);
             await subVoteRequest
               .input("survey_id", sql.Int, surveyAnswers.survey_id)
