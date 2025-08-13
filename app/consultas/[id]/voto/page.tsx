@@ -12,7 +12,7 @@ export default async function SurveyPage(props: SurveyDetailsProps) {
   const params = await props.params;
   const id = params.id;
   const session = await getSession();
-  const rut = Number(session?.user.rut);
+  const rut = Number(session?.rut);
   console.log(rut);
   const hasParticipated = await verifyParticipation(rut, id);
   const surveyQuestions = await getSurveyQuestions(id);
