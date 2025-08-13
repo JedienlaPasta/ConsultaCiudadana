@@ -128,12 +128,13 @@ export async function exchangeCodeForTokens(code: string) {
 
     // Datos de usuario para verificar en la DB
     const userData = {
+      sub: userInfo.sub,
       rut: userInfo.RolUnico.numero,
       dv: userInfo.RolUnico.DV,
       name: `${userInfo.name.nombres.join(" ")} ${userInfo.name.apellidos.join(" ")}`,
     };
 
-    const userRoleResult = await getUserRole(userData.rut);
+    const userRoleResult = await getUserRole(userData.sub);
     // Extraer solo el rol del resultado
     let userRole = "usuario"; // Rol por defecto si no se encuentra en BD
     if (userRoleResult.success && userRoleResult.role) {
