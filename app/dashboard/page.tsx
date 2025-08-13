@@ -1,7 +1,6 @@
 import React from "react";
 import { getSession } from "../lib/actions/auth";
 import Navbar from "../ui/Navbar";
-import SurveyFilter from "../ui/consultas/SurveyFilter";
 import Footer from "../ui/Footer";
 import Header from "../ui/dashboard/Header";
 import { getSurveysList } from "../lib/data/encuesta";
