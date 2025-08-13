@@ -6,15 +6,17 @@ export async function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
   const jwtSecret = process.env.NEXTAUTH_SECRET;
 
-  // Definir rutas protegidas
-  const protectedRoutes = ["/consultas/piimep/votacion"];
+  // Validar que existe la variable de entorno
+  if (!jwtSecret) {
+    console.error("NEXTAUTH_SECRET no está configurado");
+    return NextResponse.redirect(new URL("/", request.url));
+  }
 
   // Verificar si la ruta actual necesita protección
-  const isProtected = protectedRoutes.some(
-    (route) =>
-      pathname.startsWith(route) || pathname === route.replace(/\/$/, ""), // Maneja rutas con/sin slash final
-  );
+  const isVoteRoute = /^\/consultas\/[^/]+\/voto/.test(pathname);
+  const isDashboardRoute = pathname.startsWith("/dashboard");
 
+  const isProtected = isVoteRoute || isDashboardRoute;
   if (!isProtected) {
     return NextResponse.next();
   }
@@ -23,7 +25,7 @@ export async function middleware(request: NextRequest) {
   const session = request.cookies.get("app_session")?.value;
 
   if (!session) {
-    const redirectUrl = new URL("/consultas/piimep", request.url);
+    const redirectUrl = new URL("/", request.url);
     redirectUrl.searchParams.set("authError", "no_session");
     redirectUrl.searchParams.set(
       "message",
@@ -33,28 +35,42 @@ export async function middleware(request: NextRequest) {
   }
 
   try {
-    // Verificar JWT
+    // Verificar JWT y extraer payload
     const secret = new TextEncoder().encode(jwtSecret);
-    await jose.jwtVerify(session, secret);
+    const { payload } = await jose.jwtVerify(session, secret);
+
+    // Para rutas de dashboard, verificar roles específicos
+    if (isDashboardRoute) {
+      const userRole = payload.role as string;
+      const allowedRoles = ["admin", "super_admin"];
+
+      if (!userRole || !allowedRoles.includes(userRole.toLowerCase())) {
+        console.log(
+          `Acceso denegado para rol: ${userRole} en ruta: ${pathname}`,
+        );
+        const redirectUrl = new URL("/", request.url);
+        redirectUrl.searchParams.set("authError", "access_denied");
+        redirectUrl.searchParams.set(
+          "message",
+          "No tienes permisos suficientes para acceder a esta página",
+        );
+        return NextResponse.redirect(redirectUrl);
+      }
+    }
+
     return NextResponse.next();
   } catch (error) {
     console.error("Sesión inválida:", error);
-    const redirectUrl = new URL("/consultas/piimep", request.url);
-    redirectUrl.searchParams.set("error", "session_expired");
+    const redirectUrl = new URL("/", request.url);
+    redirectUrl.searchParams.set("authError", "session_expired");
+    redirectUrl.searchParams.set(
+      "message",
+      "Tu sesión ha expirado. Por favor, vuelve a iniciar sesión.",
+    );
     return NextResponse.redirect(redirectUrl);
   }
 }
 
 export const config = {
-  matcher: [
-    /*
-     * Match all request paths except for the ones starting with:
-     * - api (API routes)
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico (favicon file)
-     * - auth/ (rutas de autenticación)
-     */
-    // "/consultas/piimep/votacion/:path*",
-  ],
+  matcher: ["/consultas/:id/voto/:path*", "/dashboard/:path*"],
 };

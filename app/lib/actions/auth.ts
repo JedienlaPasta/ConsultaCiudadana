@@ -4,6 +4,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import crypto from "crypto";
 import jwt, { JwtPayload } from "jsonwebtoken";
+import { getUserRole } from "../data/usuarios";
 
 // Login ============================================================
 export async function signInWithClaveUnica(returnTo: string) {
@@ -132,12 +133,20 @@ export async function exchangeCodeForTokens(code: string) {
       name: `${userInfo.name.nombres.join(" ")} ${userInfo.name.apellidos.join(" ")}`,
     };
 
+    const userRoleResult = await getUserRole(userData.rut);
+    // Extraer solo el rol del resultado
+    let userRole = "usuario"; // Rol por defecto si no se encuentra en BD
+    if (userRoleResult.success && userRoleResult.role) {
+      userRole = userRoleResult.role;
+    }
+
     // Crear sesión JWT
     const sessionPayload = {
       sub: userInfo.sub,
       rut: `${userInfo.RolUnico.numero}-${userInfo.RolUnico.DV}`,
       name: `${userInfo.name.nombres.join(" ")} ${userInfo.name.apellidos.join(" ")}`,
-      exp: Math.floor(Date.now() / 1000) + 60 * 30, // Expira en 30 min
+      role: userRole,
+      exp: Math.floor(Date.now() / 1000) + 60 * 30,
     };
 
     const sessionToken = jwt.sign(sessionPayload, jwtSecret, {

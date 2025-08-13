@@ -1,5 +1,5 @@
 import { exchangeCodeForTokens } from "@/app/lib/actions/auth";
-import { checkVotanteRecord } from "@/app/lib/actions/votante";
+import { checkUserRecord } from "@/app/lib/actions/votante";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
@@ -37,7 +37,7 @@ export async function GET(request: Request) {
 
     // Verificar si esta registrado en la DB y sino se registra
     if (response.success && response.userData) {
-      await checkVotanteRecord(
+      await checkUserRecord(
         response.userData.rut,
         response.userData.dv,
         response.userData.name,

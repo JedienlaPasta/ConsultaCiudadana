@@ -5,7 +5,7 @@ import { connectToDB } from "../utils/db-connection";
 import { getDV } from "../utils/getValues";
 
 // CU => ClaveUnica
-export async function checkVotanteRecord(
+export async function checkUserRecord(
   rutCU: string,
   dvCU: string,
   nombreCU: string,

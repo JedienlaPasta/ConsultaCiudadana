@@ -43,6 +43,12 @@ export default function SurveyLayout({
   const router = useRouter();
 
   useEffect(() => {
+    if (!rut) {
+      toast.error("No se ha encontrado el RUT del usuario");
+      router.push("/");
+      return;
+    }
+
     if (hasParticipated) {
       toast.error("Ya has participado de esta encuesta");
       router.push("/");
