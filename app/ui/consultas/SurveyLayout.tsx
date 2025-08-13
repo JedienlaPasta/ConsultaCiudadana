@@ -17,12 +17,14 @@ import {
 type SurveyLayoutProps = {
   questions: SurveyQuestion[];
   surveyId: number;
+  rut: number;
   hasParticipated: boolean;
 };
 
 export default function SurveyLayout({
   questions,
   surveyId,
+  rut,
   hasParticipated,
 }: SurveyLayoutProps) {
   const [surveyAnswers, setSurveyAnswers] = useState<SurveyAnswers>({
@@ -136,7 +138,7 @@ export default function SurveyLayout({
 
     const toastId = toast.loading("Guardando tu voto...");
     try {
-      const response = await registerVote(surveyAnswers, 55555555); // TODO: Obtener RUT real del usuario
+      const response = await registerVote(surveyAnswers, rut); // TODO: Obtener RUT real del usuario
       if (!response.success) {
         throw new Error(response.message);
       }
