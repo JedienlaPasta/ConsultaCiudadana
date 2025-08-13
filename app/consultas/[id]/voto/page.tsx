@@ -11,9 +11,9 @@ type SurveyDetailsProps = {
 export default async function SurveyPage(props: SurveyDetailsProps) {
   const params = await props.params;
   const id = params.id;
-  const session = getSession();
-  console.log(session);
-  const hasParticipated = await verifyParticipation(55555555, id);
+  const session = await getSession();
+  const rut = Number(session?.user.rut);
+  const hasParticipated = await verifyParticipation(rut, id);
   const surveyQuestions = await getSurveyQuestions(id);
 
   return (
