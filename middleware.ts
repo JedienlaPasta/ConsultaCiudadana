@@ -51,10 +51,6 @@ export async function middleware(request: NextRequest) {
         );
         const redirectUrl = new URL("/", request.url);
         redirectUrl.searchParams.set("authError", "access_denied");
-        redirectUrl.searchParams.set(
-          "message",
-          "No tienes permisos suficientes para acceder a esta página",
-        );
         return NextResponse.redirect(redirectUrl);
       }
     }
@@ -64,10 +60,6 @@ export async function middleware(request: NextRequest) {
     console.error("Sesión inválida:", error);
     const redirectUrl = new URL("/", request.url);
     redirectUrl.searchParams.set("authError", "session_expired");
-    redirectUrl.searchParams.set(
-      "message",
-      "Tu sesión ha expirado. Por favor, vuelve a iniciar sesión.",
-    );
     return NextResponse.redirect(redirectUrl);
   }
 }

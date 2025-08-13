@@ -125,7 +125,6 @@ export async function exchangeCodeForTokens(code: string) {
     }
 
     const userInfo = await userInfoResponse.json();
-    console.log("UserInfo:", userInfo);
 
     // Datos de usuario para verificar en la DB
     const userData = {
