@@ -250,7 +250,7 @@ export async function createSurvey(formData: FormData) {
     frequently_asked_questions: frequentlyAskedQuestions,
     questions: questions,
   });
-  console.log("validatedData: ", validatedData);
+  // console.log("validatedData: ", validatedData);
 
   if (!validatedData.success) {
     console.error("Error al validar los datos:", validatedData.error);

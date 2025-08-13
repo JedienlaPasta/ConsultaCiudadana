@@ -45,7 +45,6 @@ export default function SurveyGeneralInfo({
   const [validationErrors, setValidationErrors] = useState<
     Record<string, string>
   >({});
-  console.log(formData);
 
   // Validation function
   const validateField = (field: string, value: string) => {
