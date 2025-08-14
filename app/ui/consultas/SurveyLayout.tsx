@@ -45,7 +45,7 @@ export default function SurveyLayout({
   useEffect(() => {
     if (!rut) {
       toast.error("No se ha encontrado el RUT del usuario");
-      router.push("/");
+      // router.push("/");
       return;
     }
 

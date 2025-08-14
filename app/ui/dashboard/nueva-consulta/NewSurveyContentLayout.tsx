@@ -263,7 +263,7 @@ export default function NewSurveyContentLayout({
         const updatedQuestion = { ...question, [field]: value };
 
         if (field === "isMapQuestion" && value === true) {
-          updatedQuestion.questionId = 1;
+          updatedQuestion.questionId = 1; // Global question ID (map)
         } else {
           updatedQuestion.questionId = 0;
         }

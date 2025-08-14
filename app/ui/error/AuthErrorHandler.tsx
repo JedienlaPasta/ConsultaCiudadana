@@ -12,13 +12,36 @@ export default function AuthErrorHandler() {
   const currentToastId = useRef<string | number | null>(null);
 
   useEffect(() => {
-    if (authError === "no_session" && message) {
+    if (authError && message) {
       if (currentToastId.current) {
         toast.dismiss(currentToastId.current);
       }
 
-      currentToastId.current = toast.error(message);
+      // Diferentes tipos de toast según el error
+      switch (authError) {
+        case "no_session":
+          currentToastId.current = toast.error(message, {
+            description: "Haz clic en 'Iniciar Sesión' para continuar",
+            duration: 5000,
+          });
+          break;
+        case "access_denied":
+          currentToastId.current = toast.error(message, {
+            description: "Contacta al administrador si necesitas acceso",
+            duration: 5000,
+          });
+          break;
+        case "session_expired":
+          currentToastId.current = toast.warning(message, {
+            description: "Por favor, inicia sesión nuevamente",
+            duration: 5000,
+          });
+          break;
+        default:
+          currentToastId.current = toast.error(message);
+      }
 
+      // Limpiar URL
       const newUrl = new URL(window.location.href);
       newUrl.searchParams.delete("authError");
       newUrl.searchParams.delete("message");

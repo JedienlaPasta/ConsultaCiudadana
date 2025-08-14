@@ -1,3 +1,5 @@
+import { Suspense } from "react";
+import AuthErrorHandler from "@/app/ui/error/AuthErrorHandler";
 import Link from "next/link";
 import { getSession } from "./lib/actions/auth";
 import Footer from "./ui/Footer";
@@ -12,6 +14,9 @@ export default async function Home() {
 
   return (
     <>
+      <Suspense fallback={null}>
+        <AuthErrorHandler />
+      </Suspense>
       <Navbar isLoggedIn={session !== null} />
       {/* Navbar placeholder */}
       <div className="h-[50px] bg-transparent"></div>

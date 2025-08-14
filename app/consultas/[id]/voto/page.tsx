@@ -3,6 +3,7 @@ import { getSurveyQuestions } from "@/app/lib/data/encuesta";
 import { verifyParticipation } from "@/app/lib/data/participacion";
 import Footer from "@/app/ui/Footer";
 import SurveyLayout from "@/app/ui/consultas/SurveyLayout";
+import { redirect } from "next/navigation";
 
 type SurveyDetailsProps = {
   params: Promise<{ id: number }>;
@@ -11,10 +12,14 @@ type SurveyDetailsProps = {
 export default async function SurveyPage(props: SurveyDetailsProps) {
   const params = await props.params;
   const id = params.id;
+
   const session = await getSession();
   const rut = Number(session?.sub);
   const hasParticipated = await verifyParticipation(rut, id);
   const surveyQuestions = await getSurveyQuestions(id);
+  if (surveyQuestions.length === 0) {
+    redirect("/consultas");
+  }
 
   return (
     <div className="flex min-h-dvh flex-col">

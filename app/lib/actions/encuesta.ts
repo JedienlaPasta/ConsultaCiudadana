@@ -422,6 +422,8 @@ export async function createSurvey(formData: FormData) {
         let questionId: number;
 
         if (question.questionId > 0) {
+          console.log(`questionId 0${i}:`, question.questionId);
+
           // Si questionId !== 0, la pregunta ya existe, por lo que solo se asocia (le estaria pasando el id de la pregunta)
           questionId = question.questionId;
 
