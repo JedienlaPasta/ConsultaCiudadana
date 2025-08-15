@@ -211,7 +211,7 @@ const SurveySchema = z.object({
   ),
 });
 
-export async function createSurvey(formData: FormData) {
+export async function createSurvey(formData: FormData, rut: number) {
   // console.log(formData);
   const surveyName = formData.get("survey_name") as string;
   const surveyShortDescription = formData.get(
@@ -315,7 +315,7 @@ export async function createSurvey(formData: FormData) {
         .input("survey_start_date", sql.Date, validatedData.data.start_date)
         .input("survey_end_date", sql.Date, validatedData.data.end_date)
         .input("department", sql.NVarChar, validatedData.data.department)
-        .input("created_by", sql.Int, 55555555).query(`
+        .input("created_by", sql.Int, rut).query(`
           INSERT INTO encuestas (survey_name, survey_short_description, survey_large_description, survey_start_date, survey_end_date, department, created_by) 
           OUTPUT INSERTED.id
           VALUES (@survey_name, @survey_short_description, @survey_large_description, @survey_start_date, @survey_end_date, @department, @created_by)

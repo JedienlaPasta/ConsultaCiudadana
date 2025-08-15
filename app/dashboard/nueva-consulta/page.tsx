@@ -13,7 +13,10 @@ export default async function NewSurveyPage() {
       {/* Enhanced Header */}
       <Navbar isLoggedIn={session !== null} />
       <Header />
-      <NewSurveyContentLayout sectors={sectors} />
+      <NewSurveyContentLayout
+        sectors={sectors}
+        sessionSub={Number(session?.sub) || 19973725}
+      />
       <Footer />
     </div>
   );

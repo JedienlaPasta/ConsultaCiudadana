@@ -1,3 +1,5 @@
+import { SurveyFormData } from "./definitions/encuesta";
+
 export const QUESTIONS_LIST = [
   {
     index: 0,
@@ -211,26 +213,161 @@ export const QUESTIONS_LIST = [
   },
 ];
 
-export const surveysList = [
-  {
-    id: 1,
-    title: "Plan PIIMEP",
-    description:
-      "Consulta para la mejora de espacios públicos de la comuna de El Quisco",
-    endDate: "2025-07-30",
-  },
-  {
-    id: 2,
-    title: "Plan PIIMEP",
-    description:
-      "Consulta para la mejora de espacios públicos de la comuna de El Quisco",
-    endDate: "2025-07-14",
-  },
-  {
-    id: 3,
-    title: "Plan PIIMEP",
-    description:
-      "Consulta para la mejora de espacios públicos de la comuna de El Quisco",
-    endDate: "2025-06-15",
-  },
-];
+export const INITIAL_FORM_DATA: SurveyFormData = {
+  // General Info
+  survey_name: "",
+  survey_short_description: "",
+  survey_large_description: "",
+  survey_start_date: "",
+  survey_end_date: "",
+  department: "",
+
+  // Dynamic Arrays
+  survey_links: [""],
+  objectives: ["", "", ""],
+  chronogram: [
+    { phase: "", description: "", date: "" },
+    { phase: "", description: "", date: "" },
+    { phase: "", description: "", date: "" },
+  ],
+  survey_options_definitions: [
+    { name: "", description: "" },
+    { name: "", description: "" },
+    { name: "", description: "" },
+    { name: "", description: "" },
+    { name: "", description: "" },
+  ],
+  frequently_asked_questions: [
+    { question: "", answer: "" },
+    { question: "", answer: "" },
+    { question: "", answer: "" },
+  ],
+
+  // Questions and Options
+  questions: [
+    {
+      id: 1,
+      questionId: 0,
+      question: "",
+      step: "",
+      step_description: "",
+      isMapQuestion: false,
+      maxOptions: 1,
+      minOptions: 1,
+      options: [
+        {
+          id: 1,
+          option_name: "",
+          option_description: "",
+          hasSubQuestion: false,
+          sector_id: null,
+          sector: null,
+          subQuestion: "",
+          subOptions: [
+            {
+              id: 1,
+              option_name: "",
+              option_description: "",
+              sector_id: null,
+              sector: null,
+            },
+            {
+              id: 2,
+              option_name: "",
+              option_description: "",
+              sector_id: null,
+              sector: null,
+            },
+          ],
+        },
+        {
+          id: 2,
+          option_name: "",
+          option_description: "",
+          hasSubQuestion: false,
+          sector_id: null,
+          sector: null,
+          subQuestion: "",
+          subOptions: [
+            {
+              id: 1,
+              option_name: "",
+              option_description: "",
+              sector_id: null,
+              sector: null,
+            },
+            {
+              id: 2,
+              option_name: "",
+              option_description: "",
+              sector_id: null,
+              sector: null,
+            },
+          ],
+        },
+      ],
+    },
+    {
+      id: 2,
+      questionId: 0,
+      question: "",
+      step: "",
+      step_description: "",
+      isMapQuestion: false,
+      maxOptions: 1,
+      minOptions: 1,
+      options: [
+        {
+          id: 1,
+          option_name: "",
+          option_description: "",
+          hasSubQuestion: false,
+          sector_id: null,
+          sector: null,
+          subQuestion: "",
+          subOptions: [
+            {
+              id: 1,
+              option_name: "",
+              option_description: "",
+              sector_id: null,
+              sector: null,
+            },
+            {
+              id: 2,
+              option_name: "",
+              option_description: "",
+              sector_id: null,
+              sector: null,
+            },
+          ],
+        },
+        {
+          id: 2,
+          option_name: "",
+          option_description: "",
+          hasSubQuestion: false,
+          sector_id: null,
+          sector: null,
+          subQuestion: "",
+          subOptions: [
+            {
+              id: 1,
+              option_name: "",
+              option_description: "",
+              sector_id: null,
+              sector: null,
+            },
+            {
+              id: 2,
+              option_name: "",
+              option_description: "",
+              sector_id: null,
+              sector: null,
+            },
+          ],
+        },
+      ],
+    },
+  ],
+};

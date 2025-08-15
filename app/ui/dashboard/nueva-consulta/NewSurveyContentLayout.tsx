@@ -18,173 +18,16 @@ import {
   SurveyFormData,
 } from "@/app/lib/definitions/encuesta";
 import { useRouter } from "next/navigation";
-
-// Define initial form data as a constant
-const INITIAL_FORM_DATA: SurveyFormData = {
-  // General Info
-  survey_name: "",
-  survey_short_description: "",
-  survey_large_description: "",
-  survey_start_date: "",
-  survey_end_date: "",
-  department: "",
-
-  // Dynamic Arrays
-  survey_links: [""],
-  objectives: ["", "", ""],
-  chronogram: [
-    { phase: "", description: "", date: "" },
-    { phase: "", description: "", date: "" },
-    { phase: "", description: "", date: "" },
-  ],
-  survey_options_definitions: [
-    { name: "", description: "" },
-    { name: "", description: "" },
-    { name: "", description: "" },
-    { name: "", description: "" },
-    { name: "", description: "" },
-  ],
-  frequently_asked_questions: [
-    { question: "", answer: "" },
-    { question: "", answer: "" },
-    { question: "", answer: "" },
-  ],
-
-  // Questions and Options
-  questions: [
-    {
-      id: 1,
-      questionId: 0,
-      question: "",
-      step: "",
-      step_description: "",
-      isMapQuestion: false,
-      maxOptions: 1,
-      minOptions: 1,
-      options: [
-        {
-          id: 1,
-          option_name: "",
-          option_description: "",
-          hasSubQuestion: false,
-          sector_id: null,
-          sector: null,
-          subQuestion: "",
-          subOptions: [
-            {
-              id: 1,
-              option_name: "",
-              option_description: "",
-              sector_id: null,
-              sector: null,
-            },
-            {
-              id: 2,
-              option_name: "",
-              option_description: "",
-              sector_id: null,
-              sector: null,
-            },
-          ],
-        },
-        {
-          id: 2,
-          option_name: "",
-          option_description: "",
-          hasSubQuestion: false,
-          sector_id: null,
-          sector: null,
-          subQuestion: "",
-          subOptions: [
-            {
-              id: 1,
-              option_name: "",
-              option_description: "",
-              sector_id: null,
-              sector: null,
-            },
-            {
-              id: 2,
-              option_name: "",
-              option_description: "",
-              sector_id: null,
-              sector: null,
-            },
-          ],
-        },
-      ],
-    },
-    {
-      id: 2,
-      questionId: 0,
-      question: "",
-      step: "",
-      step_description: "",
-      isMapQuestion: false,
-      maxOptions: 1,
-      minOptions: 1,
-      options: [
-        {
-          id: 1,
-          option_name: "",
-          option_description: "",
-          hasSubQuestion: false,
-          sector_id: null,
-          sector: null,
-          subQuestion: "",
-          subOptions: [
-            {
-              id: 1,
-              option_name: "",
-              option_description: "",
-              sector_id: null,
-              sector: null,
-            },
-            {
-              id: 2,
-              option_name: "",
-              option_description: "",
-              sector_id: null,
-              sector: null,
-            },
-          ],
-        },
-        {
-          id: 2,
-          option_name: "",
-          option_description: "",
-          hasSubQuestion: false,
-          sector_id: null,
-          sector: null,
-          subQuestion: "",
-          subOptions: [
-            {
-              id: 1,
-              option_name: "",
-              option_description: "",
-              sector_id: null,
-              sector: null,
-            },
-            {
-              id: 2,
-              option_name: "",
-              option_description: "",
-              sector_id: null,
-              sector: null,
-            },
-          ],
-        },
-      ],
-    },
-  ],
-};
+import { INITIAL_FORM_DATA } from "@/app/lib/data";
 
 const STORAGE_KEY = "survey_form_data";
 
 export default function NewSurveyContentLayout({
   sectors,
+  sessionSub,
 }: {
   sectors: { sector_name: string }[];
+  sessionSub: number;
 }) {
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState<SurveyFormData>(INITIAL_FORM_DATA);
@@ -478,7 +321,8 @@ export default function NewSurveyContentLayout({
 
     const toastId = toast.loading("Guardando consulta...");
     try {
-      const response = await createSurvey(myFormData);
+      const response = await createSurvey(myFormData, sessionSub);
+
       if (!response.success) {
         throw new Error(response.message);
       }
