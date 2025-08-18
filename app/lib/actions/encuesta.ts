@@ -323,7 +323,17 @@ export async function createSurvey(formData: FormData, rut: number) {
 
       const surveyId = encuestaResult.recordset[0].id;
 
-      // 2. Insertar links
+      // 2. Asignar permiso
+      const permisoRequest = new sql.Request(transaction);
+      await permisoRequest
+        .input("survey_id", sql.Int, surveyId)
+        .input("user_rut", sql.Int, rut)
+        .input("survey_access", sql.Int, "editar")
+        .query(
+          `INSERT INTO permisos (survey_id, user_rut, survey_access) VALUES (@survey_id, @user_rut, @survey_access)`,
+        );
+
+      // 3. Insertar links
       const surveyLinks = validatedData.data.survey_links;
       if (surveyLinks && surveyLinks.length > 0) {
         for (const link of surveyLinks) {
@@ -339,7 +349,7 @@ export async function createSurvey(formData: FormData, rut: number) {
         }
       }
 
-      // 3. Insertar objetivos
+      // 4. Insertar objetivos
       for (const objetivo of validatedData.data.objectives) {
         if (objetivo.trim()) {
           const objetivoRequest = new sql.Request(transaction);
@@ -352,7 +362,7 @@ export async function createSurvey(formData: FormData, rut: number) {
         }
       }
 
-      // 4. Insertar cronograma
+      // 5. Insertar cronograma
       for (let i = 0; i < validatedData.data.chronogram.length; i++) {
         const item = validatedData.data.chronogram[i];
         if (item.phase.trim() && item.description.trim()) {
@@ -369,7 +379,7 @@ export async function createSurvey(formData: FormData, rut: number) {
         }
       }
 
-      // 5. Insertar términos (survey_options_definitions)
+      // 6. Insertar términos (survey_options_definitions)
       for (const termino of validatedData.data.survey_options_definitions) {
         if (termino.name.trim() && termino.description.trim()) {
           const cleanDescription = sanitizeHtml(termino.description, {
@@ -392,7 +402,7 @@ export async function createSurvey(formData: FormData, rut: number) {
         }
       }
 
-      // 6. Insertar FAQ
+      // 7. Insertar FAQ
       for (const faq of validatedData.data.frequently_asked_questions) {
         if (faq.question.trim() && faq.answer.trim()) {
           const cleanDescription = sanitizeHtml(faq.answer, {
@@ -416,7 +426,7 @@ export async function createSurvey(formData: FormData, rut: number) {
         "SELECT id, sector FROM sectores",
       );
 
-      // 7. Insertar preguntas y opciones
+      // 8. Insertar preguntas y opciones
       for (let i = 0; i < validatedData.data.questions.length; i++) {
         const question = validatedData.data.questions[i];
         let questionId: number;

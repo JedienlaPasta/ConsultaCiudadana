@@ -52,73 +52,83 @@ function Survey({ survey }: { survey: SurveyGeneralData }) {
   return (
     <Link
       href={`/dashboard/consultas/${survey.id}`}
-      className="group flex transform transition-all duration-300"
+      className="group block overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm transition-all hover:border-gray-300 hover:shadow-md"
     >
-      <div className="min-h-[185px]s flex grow">
-        <div className="col-span-10 flex grow flex-col rounded-xl bg-gray-50/40 p-1.5 shadow-sm ring-1 shadow-gray-200/80 ring-gray-200/70 transition-all ring-inset group-hover:shadow-md hover:shadow-gray-200">
-          <div className="col-span-10 flex grow flex-col overflow-hidden rounded-lg bg-white ring-1 ring-gray-900/5 transition-all">
-            <div className="flex h-full grow flex-col bg-slate-300/80 px-6 pt-3 pb-2">
-              <div className="flex flex-col items-center justify-between gap-1.5 md:flex-row">
-                <h3 className="text-[#0A4C8A]s font-semibold text-slate-800 transition-colors group-hover:text-[#002F4C] md:text-lg">
-                  {survey.survey_name}
-                </h3>
-                <div className="flex flex-wrap gap-2">
-                  <SurveyState startDate={startDate} endDate={endDate} />
-                </div>
-              </div>
-            </div>
+      {/* Header */}
+      <div className="flex items-start justify-between gap-4 bg-gradient-to-r from-[#3674fa] to-[#235acf] p-6">
+        <h3 className="line-clamp-2 text-lg font-semibold text-gray-200 transition-colors group-hover:text-gray-50">
+          {survey.survey_name}
+        </h3>
+        <div className="flex-shrink-0">
+          <SurveyState startDate={startDate} endDate={endDate} />
+        </div>
+      </div>
+      <div className="p-6">
+        {/* Survey Description */}
+        <p className="mb-4 line-clamp-2 text-sm text-gray-600">
+          {survey.survey_short_description}
+        </p>
 
-            <div className="relative flex w-full flex-col gap-1 border-t border-gray-200/70 px-5 py-2 text-sm font-medium text-slate-600">
-              {/* Inicio */}
-              <p
-                title="Período de la encuesta"
-                className="flex items-center gap-1.5"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-4 w-4 text-slate-500"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                  />
-                </svg>
-                <span className={"text-slate-600"}>
-                  {formatDateToSpanish(survey.survey_start_date)}
-                </span>
-                -
-                <span className={"text-slate-600"}>
-                  {formatDateToSpanish(survey.survey_end_date)}
-                </span>
-              </p>
-            </div>
+        {/* Survey Details */}
+        <div className="space-y-3">
+          {/* Date Range */}
+          <div className="flex items-center gap-2 text-sm text-gray-500">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-4 w-4 text-gray-400"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+              />
+            </svg>
+            <span>
+              {formatDateToSpanish(survey.survey_start_date)} -{" "}
+              {formatDateToSpanish(survey.survey_end_date)}
+            </span>
+          </div>
 
-            <div className="relative flex w-full justify-between border-t border-gray-200/70 px-5 py-2 text-sm font-medium text-slate-600">
-              {/* Participantes */}
-              <p className="flex items-center gap-1.5">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-4 w-4 text-slate-500"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                  />
-                </svg>
-                <span>Participantes:</span>
-                <span className={"text-slate-600"}>768</span>
-              </p>
-            </div>
+          {/* Participants */}
+          <div className="flex items-center gap-2 text-sm text-gray-500">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-4 w-4 text-gray-400"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"
+              />
+            </svg>
+            <span>Participantes: 768</span>
+          </div>
+
+          {/* Department */}
+          <div className="flex items-center gap-2 text-sm text-gray-500">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-4 w-4 text-gray-400"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
+              />
+            </svg>
+            <span>{survey.department}</span>
           </div>
         </div>
       </div>

@@ -3,24 +3,24 @@ import { getSession } from "../lib/actions/auth";
 import Navbar from "../ui/Navbar";
 import Footer from "../ui/Footer";
 import Header from "../ui/dashboard/Header";
-import { getSurveysList } from "../lib/data/encuesta";
+import { getSurveysListByAccess } from "../lib/data/encuesta";
 import Link from "next/link";
 import AnalyticsCard from "../ui/dashboard/AnalyticsCard";
 import DashboardSurveysList from "../ui/dashboard/SurveysList";
 
 export default async function Dashboard() {
   const session = await getSession();
-  const surveys = await getSurveysList();
+  const surveys = await getSurveysListByAccess(session?.sub || "19973725");
 
   // Calculate analytics
-  const totalSurveys = surveys.length;
-  const activeSurveys = surveys.filter(
+  const totalSurveys = surveys?.length;
+  const activeSurveys = surveys?.filter(
     (survey) => new Date(survey.survey_end_date) >= new Date(),
   ).length;
-  const completedSurveys = surveys.filter(
+  const completedSurveys = surveys?.filter(
     (survey) => new Date(survey.survey_end_date) < new Date(),
   ).length;
-  const pendingSurveys = surveys.filter(
+  const pendingSurveys = surveys?.filter(
     // Filtrar consultas pendientes (consultas que no han sido revisadas y autorizadas)
     (survey) => new Date(survey.survey_start_date) > new Date(),
   ).length;

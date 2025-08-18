@@ -74,6 +74,51 @@ export async function getSearchedSurveysList(
   }
 }
 
+export async function getSurveysListByAccess(
+  rut: string | undefined,
+): Promise<SurveyGeneralData[]> {
+  try {
+    const pool = await connectToDB();
+    if (!pool) {
+      console.warn("No se pudo establecer conexión con la base de datos");
+      return [];
+    }
+    const request = pool.request();
+
+    if (rut) {
+      const result = await request.input("rut", sql.Int, parseInt(rut)).query(`
+          SELECT DISTINCT 
+          e.id,
+          e.survey_name,
+          e.survey_short_description,
+          e.survey_start_date,
+          e.survey_end_date,
+          e.department,
+          e.created_at,
+          p.survey_access
+        FROM encuestas e
+        INNER JOIN permisos p ON e.id = p.survey_id
+        WHERE (p.user_rut = @rut)
+        ORDER BY e.created_at DESC
+        `);
+
+      return result.recordset.map((row: SurveyGeneralData) => ({
+        id: row.id,
+        survey_name: row.survey_name,
+        survey_short_description: row.survey_short_description,
+        survey_start_date: row.survey_start_date,
+        survey_end_date: row.survey_end_date,
+        department: row.department,
+      }));
+    }
+
+    return [];
+  } catch (error) {
+    console.error("Error al obtener la lista de encuestas:", error);
+    return [];
+  }
+}
+
 export async function getSurveyDetails(id: number): Promise<SurveyData> {
   const defaultSurvey: SurveyData = {
     survey_name: "",
