@@ -7,6 +7,18 @@ import {
   SubOption,
   SurveyQuestion,
 } from "@/app/lib/definitions/encuesta";
+import dynamic from "next/dynamic";
+import { useEffect, useState } from "react";
+import RexLoader from "../RexAnimation";
+
+const DynamicMapComponent = dynamic(() => import("./MapComponent"), {
+  ssr: false, // Desactiva el Server-Side Rendering para este componente
+});
+
+const sectoresPath = "/output-buffer.geojson";
+const comunaPath = "/output-limite.geojson";
+const linesPath = "/lines.geojson";
+const areaPath = "/areas.geojson";
 
 type OptionSelectionListProps = {
   question: SurveyQuestion;
@@ -19,6 +31,48 @@ export default function OptionSelectionList({
   selectedSectorId,
   onAnswerChange,
 }: OptionSelectionListProps) {
+  const [sectores, setSectores] = useState(null);
+  const [comuna, setComuna] = useState(null);
+  const [lines, setLines] = useState(null);
+  const [area, setArea] = useState(null);
+
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<Error | null>(null);
+
+  const [selectedComponent, setSelectedComponent] = useState<string[]>([]);
+  const [selectedSubComponent, setSelectedSubComponent] = useState<string[]>(
+    [],
+  );
+  // Nuevo state para mantener el orden
+  const [orderedSelectedComponents, setOrderedSelectedComponents] = useState<
+    string[]
+  >([]);
+
+  useEffect(() => {
+    Promise.all([
+      fetch(sectoresPath).then((response) => response.json()),
+      fetch(comunaPath).then((response) => response.json()),
+      fetch(linesPath).then((response) => response.json()),
+      fetch(areaPath).then((response) => response.json()),
+    ])
+      .then(([sectoresData, comunaData, linesData, areaData]) => {
+        setSectores(sectoresData);
+        setComuna(comunaData);
+        setLines(linesData);
+        setArea(areaData);
+      })
+      .catch((err) => {
+        setError(err);
+        setLoading(false);
+        console.error("Error al cargar los GeoJSON:", err);
+      })
+      .finally(() => {
+        setTimeout(() => {
+          setLoading(false);
+        }, 500);
+      });
+  }, []);
+
   const currentAnswer = question.answer;
 
   const handleOptionSelect = (optionId: number) => {
@@ -50,6 +104,31 @@ export default function OptionSelectionList({
     };
 
     onAnswerChange(question.id, newAnswer);
+
+    const selectedComponentNames = newSelectedOptions
+      .filter((selectedOption) => !selectedOption.sub_option_id) // Solo opciones principales
+      .map((selectedOption) => {
+        const option = question.options.find(
+          (option) => option.id === selectedOption.option_id,
+        );
+        return option?.option_name || "";
+      })
+      .filter((name) => name !== "");
+
+    // Obtener subopciones seleccionadas
+    const selectedSubComponents = newSelectedOptions
+      .filter((selectedOption) => selectedOption.sub_option_id)
+      .map((selectedOption) => {
+        const option = question.options
+          .flatMap((option) => option.subOptions || [])
+          .find((subOption) => subOption.id === selectedOption.sub_option_id);
+        return option?.option_name || "";
+      })
+      .filter((name) => name !== "");
+
+    // Combinar ambos tipos de componentes
+    const allComponents = [...selectedComponentNames, ...selectedSubComponents];
+    setSelectedComponent(allComponents);
   };
 
   const handleSubOptionSelect = (
@@ -104,11 +183,40 @@ export default function OptionSelectionList({
     };
 
     onAnswerChange(question.id, newAnswer);
+
+    const selectedSubComponentName = updatedOptions
+      .filter((selectedOption) => selectedOption.sub_option_id) // Solo opciones con subopciones
+      .map((selectedOption) => {
+        const option = question.options
+          .flatMap((option) => option.subOptions || [])
+          .find((subOption) => subOption.id === selectedOption.sub_option_id);
+        return option?.option_name || "";
+      })
+      .filter((name) => name !== "");
+
+    // Obtener componentes principales seleccionados
+    const selectedMainComponents = updatedOptions
+      .filter((selectedOption) => !selectedOption.sub_option_id) // Solo opciones principales
+      .map((selectedOption) => {
+        const option = question.options.find(
+          (option) => option.id === selectedOption.option_id,
+        );
+        return option?.option_name || "";
+      })
+      .filter((name) => name !== "");
+
+    // Combinar componentes principales y subopciones
+    const allSelectedComponents = [
+      ...selectedMainComponents,
+      ...selectedSubComponentName,
+    ];
+    setSelectedComponent(allSelectedComponents);
+    selectedComponent.push(...selectedSubComponentName);
   };
 
   const getSelectedOptions = (): number[] => {
     return (
-      currentAnswer?.selected_options?.map((opttion) => opttion.option_id) || []
+      currentAnswer?.selected_options?.map((option) => option.option_id) || []
     );
   };
 
@@ -150,7 +258,66 @@ export default function OptionSelectionList({
   };
 
   return (
-    <div className="mt-4 space-y-4 md:mt-8">
+    <div className="space-y-4">
+      {loading && (
+        <div className="shadow-mds flex aspect-[4/3] items-center justify-center rounded-lg bg-gray-100 p-4 md:aspect-[16/8]">
+          <div className="flex h-full w-full flex-col items-center justify-center rounded-lg bg-gray-200">
+            <div className="flex flex-col items-center gap-1 rounded-lg bg-white px-4 py-5 md:gap-2 md:px-10 md:py-8">
+              <RexLoader />
+              <p className="animate-pulse text-sm text-slate-500">
+                Cargando mapa y sectores...
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {error && (
+        <div className="rounded-lg bg-red-50 p-6 shadow-md">
+          <div className="flex items-center">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="mr-3 h-6 w-6 text-red-500"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+            <p className="text-red-700">
+              Error al cargar el mapa o los sectores:{" "}
+              {error instanceof Error ? error.message : String(error)}
+            </p>
+          </div>
+        </div>
+      )}
+      {!loading && !error && sectores && comuna && lines && area && (
+        <div className="relative aspect-[4/3] h-fit overflow-hidden rounded-lg bg-gray-100 shadow-md shadow-gray-200/80 md:aspect-[16/8]">
+          <div className="absolute top-2 right-2 z-[1000] flex flex-col rounded-md bg-white px-2 py-1.5 shadow-lg md:top-5 md:right-5 md:space-y-1">
+            {/* <h5 className="text-xs md:text-sm">Leyenda</h5> */}
+            <div className="flex items-center gap-1">
+              <span className="size-3.5 rounded bg-[#357bf0]"></span>
+              <p className="text-[10px] text-gray-500 md:text-xs">
+                Sector seleccionado
+              </p>
+            </div>
+          </div>
+          <DynamicMapComponent
+            geojsonData={sectores}
+            boundaryData={comuna}
+            linesData={lines}
+            areasData={area}
+            selectedSector={selectedSectorId}
+            selectedComponent={selectedComponent}
+          />
+        </div>
+      )}
+
       {/* Normal components */}
       <div className="flex items-center justify-between">
         <h3 className="text-lg font-semibold text-slate-700">
@@ -214,7 +381,7 @@ function OptionItem({ option, isSelected, onSelect }: OptionItemProps) {
   return (
     <div
       onClick={onSelect}
-      className={`group relative flex cursor-pointer flex-col rounded-lg border-2 px-4 py-3 transition-all duration-200 hover:border-blue-200 hover:shadow-md md:p-4 ${isSelected ? "!border-[#0F69C4] !bg-blue-50 shadow-md" : "border-gray-200"}`}
+      className={`group relative flex cursor-pointer flex-col rounded-lg border px-4 py-3 transition-all duration-200 hover:border-blue-200 hover:shadow-md md:p-4 ${isSelected ? "!border-[#0F69C4] !bg-blue-50 shadow-md" : "border-gray-200"}`}
     >
       {isSelected && (
         <div className="bg-blue-500s absolute top-2 right-2 flex size-6 items-center justify-center rounded-full border-2 border-[#0F69C4] text-[#0F69C4]">

@@ -29,6 +29,7 @@ export default function MapSection({
 }: MapSectionProps) {
   const [sectores, setSectores] = useState(null);
   const [comuna, setComuna] = useState(null);
+  const [lines, setLines] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
 
@@ -148,13 +149,21 @@ export default function MapSection({
             )}
 
             {!loading && !error && sectores && comuna && (
-              <div className="relative aspect-[4/3] overflow-hidden rounded-lg bg-gray-100 shadow-md shadow-gray-200/80 md:aspect-[16/9]">
+              <div className="relative aspect-[4/3] overflow-hidden rounded-lg bg-gray-100 shadow-md shadow-gray-200/80 md:aspect-[16/8]">
                 <div className="absolute top-2 right-2 z-[1000] flex flex-col rounded-md bg-white px-2 py-1.5 shadow-lg md:top-5 md:right-5 md:space-y-1">
-                  <h5 className="text-xs md:text-sm">Leyenda</h5>
+                  {/* <h5 className="text-xs font-medium text-slate-800 md:text-sm">
+                    Información
+                  </h5> */}
                   <div className="flex items-center gap-1">
                     <span className="size-3.5 rounded bg-[#357bf0]"></span>
-                    <p className="text-[10px] text-gray-500 md:text-xs">
+                    <p className="text-[10px] text-gray-600 md:text-xs">
                       Sector seleccionado
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <span className="size-3.5 rounded bg-[#ffdf69]"></span>
+                    <p className="text-[10px] text-gray-600 md:text-xs">
+                      Sector señalado
                     </p>
                   </div>
                 </div>
