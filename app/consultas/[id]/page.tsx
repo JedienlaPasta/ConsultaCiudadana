@@ -11,6 +11,7 @@ import { getSurveyDetails } from "@/app/lib/data/encuesta";
 import { formatDateToSpanish } from "@/app/lib/utils/format";
 import { redirect } from "next/navigation";
 import DOMPurify from "dompurify";
+import VoteBtn from "@/app/ui/consultas/[id]/VoteBtn";
 
 type SurveyDetailsProps = {
   params: Promise<{ id: number }>;
@@ -187,30 +188,15 @@ export default async function SurveyDetail(props: SurveyDetailsProps) {
                   <li className="flex">
                     <span className="mr-2">4.</span>
                     <span>
-                      Revisa los resultados el día siguiente al término de la
+                      Revisa los resultados una vez terminado el proceso de
                       votación.
                     </span>
                   </li>
                 </ol>
               </div>
 
-              {isLoggedIn ? (
-                <Link
-                  className="mt-5 flex min-h-11 w-full grow items-center justify-center gap-0.5 rounded-lg bg-[#0F69C4] py-[8px] pr-5 pl-4 text-center text-[#fff] transition-all select-none hover:bg-[#2275C9]"
-                  href={
-                    surveyState() === "Abierta"
-                      ? `/consultas/${id}/voto`
-                      : surveyState() === "Cerrada"
-                        ? `/consultas/${id}/resultados`
-                        : "#"
-                  }
-                >
-                  {surveyState() === "Abierta"
-                    ? "Ir a votar"
-                    : surveyState() === "Cerrada"
-                      ? "Consultar resultados"
-                      : "Aun no empieza la consulta"}
-                </Link>
+              {!isLoggedIn ? (
+                <VoteBtn id={id} surveyState={surveyState()} />
               ) : (
                 <div className="mt-6 rounded-lg border border-blue-200 bg-blue-50 p-4">
                   <div className="mb-3 flex items-center">
