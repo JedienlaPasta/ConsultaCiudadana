@@ -10,6 +10,7 @@ import {
 import "leaflet/dist/leaflet.css";
 import * as GeoJSONType from "geojson";
 import L from "leaflet";
+import ScrollWheelZoomController from "./ScrollWheelZoomController";
 
 export type MapComponentProps = {
   geojsonData: GeoJSONType.FeatureCollection;
@@ -70,7 +71,6 @@ export default function MapComponent({
     feature?: GeoJSONType.Feature;
   }
 
-  console.log(selectedComponent);
   // Then use it without type casting:
   const updateLayerSelection = () => {
     if (!sectRef.current) return;
@@ -311,6 +311,9 @@ export default function MapComponent({
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
+
+      <ScrollWheelZoomController />
+
       {false && (
         <div className="absolute top-3 left-14 z-[1000] rounded-lg border border-blue-300 bg-blue-100 px-3 py-2 shadow-md">
           <div className="flex items-center gap-2">

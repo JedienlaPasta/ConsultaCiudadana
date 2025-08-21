@@ -10,6 +10,7 @@ import {
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import RexLoader from "../RexAnimation";
+import InfoModal from "./InfoModal";
 
 const DynamicMapComponent = dynamic(() => import("./MapComponent"), {
   ssr: false, // Desactiva el Server-Side Rendering para este componente
@@ -40,6 +41,41 @@ export default function OptionSelectionList({
   const [error, setError] = useState<Error | null>(null);
 
   const [selectedComponent, setSelectedComponent] = useState<string[]>([]);
+  const [showInfoModal, setShowInfoModal] = useState<boolean>(false);
+  const [lastSelectedOptionWithSuboption, setLastSelectedOptionWithSuboption] =
+    useState<string>("");
+
+  // Nuevo useEffect para restaurar selectedComponent desde question.answer
+  useEffect(() => {
+    if (currentAnswer?.selected_options) {
+      const selectedComponentNames = currentAnswer.selected_options
+        .filter((selectedOption) => !selectedOption.sub_option_id) // Solo opciones principales
+        .map((selectedOption) => {
+          const option = question.options.find(
+            (option) => option.id === selectedOption.option_id,
+          );
+          return option?.option_name || "";
+        })
+        .filter((name) => name !== "");
+
+      // Obtener subopciones seleccionadas
+      const selectedSubComponents = currentAnswer.selected_options
+        .filter((selectedOption) => selectedOption.sub_option_id)
+        .map((selectedOption) => {
+          const option = question.options
+            .flatMap((option) => option.subOptions || [])
+            .find((subOption) => subOption.id === selectedOption.sub_option_id);
+          return option?.option_name || "";
+        })
+        .filter((name) => name !== "");
+
+      // Combinar ambos tipos de componentes
+      const allComponents = [...selectedComponentNames, ...selectedSubComponents];
+      setSelectedComponent(allComponents);
+    } else {
+      setSelectedComponent([]);
+    }
+  }, [question.answer, question.options]); // Dependencias: cuando cambie la respuesta o las opciones
 
   useEffect(() => {
     Promise.all([
@@ -85,6 +121,14 @@ export default function OptionSelectionList({
       // Agregar opción (respetando maxOptions)
       if (existingOptions.length < question.maxOptions) {
         newSelectedOptions = [...existingOptions, { option_id: optionId }];
+
+        const selectedOption = question.options.find(
+          (option) => option.id === optionId,
+        );
+        if (selectedOption?.hasSubQuestion) {
+          setLastSelectedOptionWithSuboption(selectedOption.option_name);
+          setShowInfoModal(true);
+        }
       } else {
         return; // No se puede agregar más opciones
       }
@@ -153,20 +197,16 @@ export default function OptionSelectionList({
           : option,
       );
     } else {
-      // Add/update sub-option
-      if (!targetOption?.sub_option_id) {
-        updatedOptions = currentOptions.map((option) =>
-          option.option_id === optionId
-            ? {
-                ...option,
-                sub_question_id: subQuestionId,
-                sub_option_id: subOptionId,
-              }
-            : option,
-        );
-      } else {
-        return;
-      }
+      // Add/update sub-option - SIEMPRE permitir la actualización
+      updatedOptions = currentOptions.map((option) =>
+        option.option_id === optionId
+          ? {
+              ...option,
+              sub_question_id: subQuestionId,
+              sub_option_id: subOptionId,
+            }
+          : option,
+      );
     }
 
     const newAnswer: QuestionAnswer = {
@@ -252,6 +292,13 @@ export default function OptionSelectionList({
 
   return (
     <div className="space-y-4">
+      {showInfoModal && (
+        <InfoModal
+          option={lastSelectedOptionWithSuboption}
+          onClose={() => setShowInfoModal(false)}
+        />
+      )}
+
       {loading && (
         <div className="shadow-mds flex aspect-[4/3] items-center justify-center rounded-lg bg-gray-100 p-4 md:aspect-[16/8]">
           <div className="flex h-full w-full flex-col items-center justify-center rounded-lg bg-gray-200">
@@ -374,10 +421,10 @@ function OptionItem({ option, isSelected, onSelect }: OptionItemProps) {
   return (
     <div
       onClick={onSelect}
-      className={`group relative flex cursor-pointer flex-col rounded-lg border px-4 py-3 transition-all duration-200 hover:border-blue-200 hover:shadow-md md:p-4 ${isSelected ? "!border-[#0F69C4] !bg-blue-50 shadow-md" : "border-gray-200"}`}
+      className={`group relative flex cursor-pointer flex-col rounded-lg border px-4 py-3 transition-all duration-200 select-none hover:border-blue-200 hover:shadow-md md:p-4 ${isSelected ? "!border-[#0F69C4] !bg-blue-50 shadow-md" : "border-gray-200"}`}
     >
       {isSelected && (
-        <div className="bg-blue-500s absolute top-2 right-2 flex size-6 items-center justify-center rounded-full border-2 border-[#0F69C4] text-[#0F69C4]">
+        <div className="bg-blue-500s absolute top-[50%] right-4 flex size-6 translate-y-[-50%] items-center justify-center rounded-full border-2 border-[#0F69C4] text-[#0F69C4]">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="size-4"
