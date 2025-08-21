@@ -29,7 +29,6 @@ export default function MapSection({
 }: MapSectionProps) {
   const [sectores, setSectores] = useState(null);
   const [comuna, setComuna] = useState(null);
-  const [lines, setLines] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
 
