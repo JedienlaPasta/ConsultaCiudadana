@@ -199,7 +199,7 @@ export default async function SurveyDetail(props: SurveyDetailsProps) {
                 </ol>
               </div>
 
-              {!isLoggedIn ? (
+              {isLoggedIn ? (
                 <VoteBtn id={id} surveyState={surveyState()} />
               ) : (
                 <div className="mt-6 rounded-lg border border-blue-200 bg-blue-50 p-4">

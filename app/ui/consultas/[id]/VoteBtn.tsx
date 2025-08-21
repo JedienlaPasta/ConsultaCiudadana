@@ -9,7 +9,6 @@ type VoteBtnProps = {
 
 export default function VoteBtn({ id, surveyState }: VoteBtnProps) {
   const [isChecked, setIsChecked] = useState(false);
-  console.log(isChecked);
 
   return (
     <div>
