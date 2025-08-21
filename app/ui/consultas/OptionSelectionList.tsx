@@ -40,13 +40,6 @@ export default function OptionSelectionList({
   const [error, setError] = useState<Error | null>(null);
 
   const [selectedComponent, setSelectedComponent] = useState<string[]>([]);
-  const [selectedSubComponent, setSelectedSubComponent] = useState<string[]>(
-    [],
-  );
-  // Nuevo state para mantener el orden
-  const [orderedSelectedComponents, setOrderedSelectedComponents] = useState<
-    string[]
-  >([]);
 
   useEffect(() => {
     Promise.all([
