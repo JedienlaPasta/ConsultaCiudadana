@@ -57,6 +57,10 @@ export type SurveyFormData = {
   survey_start_date: string;
   survey_end_date: string;
   department: string;
+  // Concepts Info
+  survey_concepts_link: string;
+  survey_concepts_description: string;
+  // Dynamic Arrays
   survey_links: string[];
   objectives: string[];
   chronogram: ChronogramItem[];
@@ -88,6 +92,8 @@ export type SurveyData = {
   survey_start_date: string;
   survey_end_date: string;
   department: string;
+  survey_concepts_link: string;
+  survey_concepts_description: string;
   survey_links: string[];
   objectives: string[];
   chronogram: ChronogramItem[];

@@ -8,6 +8,7 @@ import {
 
 type SurveyChronogramProps = {
   formData: SurveyFormData;
+  updateFormData: (field: string, value: string) => void;
   updateArrayItem: <K extends keyof FormDataArrays>(
     array: K,
     index: number,
@@ -25,6 +26,7 @@ type SurveyChronogramProps = {
 
 export default function SurveyConceptsFAQ({
   formData,
+  updateFormData,
   removeArrayItem,
   updateArrayItem,
   addArrayItem,
@@ -41,6 +43,60 @@ export default function SurveyConceptsFAQ({
             {formData.survey_options_definitions.length} conceptos
           </span>
         </div>
+
+        <div className="p-8 pt-6 pb-0">
+          <p className="text-sm font-semibold text-slate-700">
+            Descripcion y enlace para acceder a recursos relacionados.
+          </p>
+          <p className="text-sm text-slate-600">
+            Puedes indicar un enlace a un recurso relacionado con los conceptos
+            y redactar un breve texto para indicar su contenido.
+          </p>
+        </div>
+
+        {/* Descripcion */}
+        <div className="p-8 pt-4 pb-0">
+          <label className="flex items-center text-sm font-semibold text-gray-700">
+            Descripción
+            <span className="ml-1.5 text-sm font-light text-gray-500">
+              (opcional)
+            </span>
+          </label>
+          <div className="relative py-2">
+            <textarea
+              className="max-h-60 min-h-10 w-full resize-none rounded-lg border border-slate-300 bg-white px-4 py-3 text-sm text-slate-700 shadow-sm transition-all outline-none placeholder:text-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:ring-offset-1"
+              placeholder="Descripción breve que aparecerá en las listas de consultas"
+              rows={3}
+              value={formData.survey_concepts_description}
+              minLength={50}
+              maxLength={250}
+              onChange={(e) =>
+                updateFormData("survey_concepts_description", e.target.value)
+              }
+            />
+          </div>
+          {/* Enlace de interes */}
+          <label className="flex items-center text-sm font-semibold text-gray-700">
+            Enlace de Interés
+            <span className="ml-1.5 text-sm font-light text-gray-500">
+              (opcional)
+            </span>
+          </label>
+          <div className="relative py-2">
+            <input
+              type="text"
+              maxLength={90}
+              className="h-10 w-full rounded-lg border border-slate-300 bg-white p-4 text-sm text-slate-700 shadow-sm transition-all outline-none placeholder:text-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:ring-offset-1"
+              placeholder={`Ej: https://test-participacion.munielquisco.gob.cl/...`}
+              value={formData.survey_concepts_link}
+              onChange={(e) =>
+                updateFormData("survey_concepts_link", e.target.value)
+              }
+            />
+          </div>
+        </div>
+
+        {/* Listado conceptos */}
         <div className="p-8 pt-6 pb-0">
           <p className="text-sm font-semibold text-slate-700">
             Lista todos los términos técnicos utilizados en la consulta.

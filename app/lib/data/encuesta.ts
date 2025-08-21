@@ -127,6 +127,8 @@ export async function getSurveyDetails(id: number): Promise<SurveyData> {
     survey_start_date: "",
     survey_end_date: "",
     department: "",
+    survey_concepts_link: "",
+    survey_concepts_description: "",
     survey_links: [],
     objectives: [],
     chronogram: [],
@@ -304,6 +306,8 @@ export async function getSurveyDetails(id: number): Promise<SurveyData> {
         ? survey.survey_end_date.toISOString().split("T")[0]
         : "",
       department: survey.department,
+      survey_concepts_link: survey.survey_concepts_link,
+      survey_concepts_description: survey.survey_concepts_description,
       survey_links: linksResult.recordset?.map((row) => row.survey_link) || [],
       objectives: objectivesResult.recordset.map((row) => row.objective),
       chronogram: chronogramResult.recordset.map((row) => ({

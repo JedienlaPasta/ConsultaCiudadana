@@ -123,7 +123,11 @@ export default async function SurveyDetail(props: SurveyDetailsProps) {
             </div>
 
             {/* Guía de participación */}
-            <Definitions definitions={survey.survey_options_definitions} />
+            <Definitions
+              definitions={survey.survey_options_definitions}
+              description={survey.survey_concepts_description}
+              link={survey.survey_concepts_link}
+            />
 
             {/* Preguntas frecuentes Desktop */}
             <div className="hidden md:block">

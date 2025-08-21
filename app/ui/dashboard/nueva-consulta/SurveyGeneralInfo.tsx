@@ -108,7 +108,7 @@ export default function SurveyGeneralInfo({
 
   return (
     <div className="space-y-5">
-      {/* Enhanced Main Card */}
+      {/* Información General */}
       <div className="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
         <div className="px-8">
           <h2 className="border-b border-gray-200/80 pt-7 pb-5 text-xl font-bold text-slate-700">
@@ -173,7 +173,7 @@ export default function SurveyGeneralInfo({
             {/* Survey Links */}
             <div className="">
               <label className="flex items-center text-sm font-semibold text-gray-700">
-                Enlaces de Interes
+                Enlaces de Interés
                 <span className="ml-1.5 text-sm font-light text-gray-500">
                   (opcional)
                 </span>

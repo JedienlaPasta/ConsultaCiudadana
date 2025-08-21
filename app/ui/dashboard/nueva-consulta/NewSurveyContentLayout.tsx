@@ -304,6 +304,13 @@ export default function NewSurveyContentLayout({
     myFormData.append("end_date", formData.survey_end_date);
     myFormData.append("department", formData.department);
 
+    // Concepts General Info
+    myFormData.append(
+      "survey_concepts_description",
+      formData.survey_concepts_description,
+    );
+    myFormData.append("survey_concepts_link", formData.survey_concepts_link);
+
     // Content - Serialize objects as JSON strings
     myFormData.append("survey_links", JSON.stringify(validLinks));
     myFormData.append("objectives", JSON.stringify(formData.objectives));
@@ -321,7 +328,7 @@ export default function NewSurveyContentLayout({
 
     const toastId = toast.loading("Guardando consulta...");
     try {
-      const response = await createSurvey(myFormData, sessionSub);
+      const response = await createSurvey(myFormData, sessionSub || 19973725);
 
       if (!response.success) {
         throw new Error(response.message);
@@ -409,6 +416,7 @@ export default function NewSurveyContentLayout({
           ) : currentStep === 3 ? (
             <SurveyConceptsFAQ
               formData={formData}
+              updateFormData={updateFormData}
               updateArrayItem={updateArrayItem}
               removeArrayItem={removeArrayItem}
               addArrayItem={addArrayItem}

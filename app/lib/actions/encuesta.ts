@@ -112,6 +112,8 @@ const SurveySchema = z.object({
     message: "Fecha de término inválida",
   }),
   department: z.string().min(3, { message: "El departamento es requerido" }),
+  survey_concepts_description: z.string().optional(),
+  survey_concepts_link: z.string().optional(),
   survey_links: z.array(z.string()).optional(),
   objectives: z.array(z.string()),
   chronogram: z.array(
@@ -212,7 +214,7 @@ const SurveySchema = z.object({
 });
 
 export async function createSurvey(formData: FormData, rut: number) {
-  // console.log(formData);
+  console.log(formData);
   const surveyName = formData.get("survey_name") as string;
   const surveyShortDescription = formData.get(
     "survey_short_description",
@@ -223,6 +225,12 @@ export async function createSurvey(formData: FormData, rut: number) {
   const startDate = formData.get("start_date") as string;
   const endDate = formData.get("end_date") as string;
   const department = formData.get("department") as string;
+  const surveyConceptsDescription = formData.get(
+    "survey_concepts_description",
+  ) as string;
+  const surveyConceptsLink = formData.get("survey_concepts_link") as string;
+  console.log(surveyConceptsLink);
+
   const surveyLinks = JSON.parse(
     (formData.get("survey_links") as string) || "[]",
   );
@@ -243,6 +251,8 @@ export async function createSurvey(formData: FormData, rut: number) {
     start_date: startDate,
     end_date: endDate,
     department: department,
+    survey_concepts_description: surveyConceptsDescription,
+    survey_concepts_link: surveyConceptsLink,
     survey_links: surveyLinks,
     objectives: objectives,
     chronogram: chronogram,
@@ -315,10 +325,20 @@ export async function createSurvey(formData: FormData, rut: number) {
         .input("survey_start_date", sql.Date, validatedData.data.start_date)
         .input("survey_end_date", sql.Date, validatedData.data.end_date)
         .input("department", sql.NVarChar, validatedData.data.department)
+        .input(
+          "survey_concepts_description",
+          sql.NVarChar,
+          validatedData.data.survey_concepts_description,
+        )
+        .input(
+          "survey_concepts_link",
+          sql.NVarChar,
+          validatedData.data.survey_concepts_link,
+        )
         .input("created_by", sql.Int, rut).query(`
-          INSERT INTO encuestas (survey_name, survey_short_description, survey_large_description, survey_start_date, survey_end_date, department, created_by) 
+          INSERT INTO encuestas (survey_name, survey_short_description, survey_large_description, survey_start_date, survey_end_date, department, survey_concepts_description, survey_concepts_link, created_by) 
           OUTPUT INSERTED.id
-          VALUES (@survey_name, @survey_short_description, @survey_large_description, @survey_start_date, @survey_end_date, @department, @created_by)
+          VALUES (@survey_name, @survey_short_description, @survey_large_description, @survey_start_date, @survey_end_date, @department, @survey_concepts_description, @survey_concepts_link, @created_by)
         `);
 
       const surveyId = encuestaResult.recordset[0].id;
@@ -328,7 +348,7 @@ export async function createSurvey(formData: FormData, rut: number) {
       await permisoRequest
         .input("survey_id", sql.Int, surveyId)
         .input("user_rut", sql.Int, rut)
-        .input("survey_access", sql.Int, "editar")
+        .input("survey_access", sql.NVarChar, "editar")
         .query(
           `INSERT INTO permisos (survey_id, user_rut, survey_access) VALUES (@survey_id, @user_rut, @survey_access)`,
         );

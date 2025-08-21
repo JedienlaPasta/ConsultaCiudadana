@@ -222,6 +222,10 @@ export const INITIAL_FORM_DATA: SurveyFormData = {
   survey_end_date: "",
   department: "",
 
+  // Concepts Info
+  survey_concepts_link: "",
+  survey_concepts_description: "",
+
   // Dynamic Arrays
   survey_links: [""],
   objectives: ["", "", ""],
