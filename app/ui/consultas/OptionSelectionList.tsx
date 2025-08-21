@@ -45,7 +45,7 @@ export default function OptionSelectionList({
   const [lastSelectedOptionWithSuboption, setLastSelectedOptionWithSuboption] =
     useState<string>("");
 
-  // Nuevo useEffect para restaurar selectedComponent desde question.answer
+  // useEffect para restaurar selectedComponent desde question.answer
   useEffect(() => {
     if (currentAnswer?.selected_options) {
       const selectedComponentNames = currentAnswer.selected_options
@@ -70,7 +70,10 @@ export default function OptionSelectionList({
         .filter((name) => name !== "");
 
       // Combinar ambos tipos de componentes
-      const allComponents = [...selectedComponentNames, ...selectedSubComponents];
+      const allComponents = [
+        ...selectedComponentNames,
+        ...selectedSubComponents,
+      ];
       setSelectedComponent(allComponents);
     } else {
       setSelectedComponent([]);
