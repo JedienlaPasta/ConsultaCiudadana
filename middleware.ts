@@ -14,9 +14,10 @@ export async function middleware(request: NextRequest) {
 
   // Verificar si la ruta actual necesita protección
   const isVoteRoute = /^\/consultas\/[^/]+\/voto/.test(pathname);
-  const isDashboardRoute = pathname.startsWith("/dashboard");
+  // const isDashboardRoute = pathname.startsWith("/dashboard");
 
-  const isProtected = isVoteRoute || isDashboardRoute;
+  // const isProtected = isVoteRoute || isDashboardRoute;
+  const isProtected = isVoteRoute;
   if (!isProtected) {
     return NextResponse.next();
   }
@@ -40,19 +41,19 @@ export async function middleware(request: NextRequest) {
     const { payload } = await jose.jwtVerify(session, secret);
 
     // Para rutas de dashboard, verificar roles específicos
-    if (isDashboardRoute) {
-      const userRole = payload.role as string;
-      const allowedRoles = ["admin", "super_admin"];
+    // if (isDashboardRoute) {
+    //   const userRole = payload.role as string;
+    //   const allowedRoles = ["admin", "super_admin"];
 
-      if (!userRole || !allowedRoles.includes(userRole.toLowerCase())) {
-        console.log(
-          `Acceso denegado para rol: ${userRole} en ruta: ${pathname}`,
-        );
-        const redirectUrl = new URL("/", request.url);
-        redirectUrl.searchParams.set("authError", "access_denied");
-        return NextResponse.redirect(redirectUrl);
-      }
-    }
+    //   if (!userRole || !allowedRoles.includes(userRole.toLowerCase())) {
+    //     console.log(
+    //       `Acceso denegado para rol: ${userRole} en ruta: ${pathname}`,
+    //     );
+    //     const redirectUrl = new URL("/", request.url);
+    //     redirectUrl.searchParams.set("authError", "access_denied");
+    //     return NextResponse.redirect(redirectUrl);
+    //   }
+    // }
 
     return NextResponse.next();
   } catch (error) {
@@ -64,5 +65,6 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/consultas/:id/voto/:path*", "/dashboard/:path*"],
+  matcher: ["/consultas/:id/voto/:path*"],
+  // matcher: ["/consultas/:id/voto/:path*", "/dashboard/:path*"],
 };
