@@ -22,6 +22,8 @@ export async function registerVote(
     const transaction = new sql.Transaction(pool);
     await transaction.begin();
 
+    console.log(surveyAnswers.answers);
+
     try {
       // Verificar si ya participo
       const checkParticipationRequest = new sql.Request(transaction);
@@ -47,6 +49,32 @@ export async function registerVote(
           INSERT INTO encuestas_participadas (survey_id, user_rut) 
           VALUES (@survey_id, @user_rut)
         `);
+
+      // Registrar voto (mapa)
+      if (surveyAnswers.answers[0].sector_id) {
+        const surveyId = surveyAnswers.survey_id;
+        const sector = surveyAnswers.answers[0].sector_id;
+        const questionId = surveyAnswers.answers[0].question_id;
+
+        const sectorIdRequest = new sql.Request(transaction);
+        const sectorIdResult = await sectorIdRequest.input(
+          "sector",
+          sql.NVarChar,
+          sector,
+        ).query(`
+            SELECT id FROM sectores WHERE sector = @sector
+          `);
+        const sectorOptionId = sectorIdResult.recordset[0].id;
+
+        const sectorVoteRequest = new sql.Request(transaction);
+        await sectorVoteRequest
+          .input("survey_id", sql.Int, surveyId)
+          .input("question_id", sql.Int, questionId)
+          .input("option_id", sql.Int, sectorOptionId).query(`
+            INSERT INTO votos (survey_id, question_id, option_id) 
+            VALUES (@survey_id, @question_id, @option_id)
+          `);
+      }
 
       // Registrar votos
       for (const answer of surveyAnswers.answers) {
@@ -122,7 +150,7 @@ const SurveySchema = z.object({
       description: z
         .string()
         .min(10, { message: "La descripción es requerida" }),
-      date: z.string().min(1, { message: "La fecha es requerida" }),
+      date: z.string().optional(),
     }),
   ),
   survey_options_definitions: z.array(
@@ -146,6 +174,7 @@ const SurveySchema = z.object({
       .object({
         id: z.number(),
         questionId: z.number(),
+        question_description: z.string().optional(),
         step: z.string(),
         step_description: z.string(),
         isMapQuestion: z.boolean(),
@@ -188,6 +217,7 @@ const SurveySchema = z.object({
                   option_description: z.string().optional(),
                   hasSubQuestion: z.boolean(),
                   subQuestion: z.string().optional(),
+                  subQuestionDescription: z.string().optional(),
                   subOptions: z
                     .array(
                       z.object({
@@ -386,12 +416,14 @@ export async function createSurvey(formData: FormData, rut: number) {
       for (let i = 0; i < validatedData.data.chronogram.length; i++) {
         const item = validatedData.data.chronogram[i];
         if (item.phase.trim() && item.description.trim()) {
+          // En caso de no especificar un periodo
+          const estimatedPeriod = item.date || null;
           const cronogramaRequest = new sql.Request(transaction);
           await cronogramaRequest
             .input("survey_id", sql.Int, surveyId)
             .input("chronogram_name", sql.NVarChar, item.phase)
             .input("chronogram_description", sql.NVarChar, item.description)
-            .input("estimated_period", sql.NVarChar, item.date)
+            .input("estimated_period", sql.NVarChar, estimatedPeriod)
             .input("chronogram_order", sql.Int, i + 1).query(`
               INSERT INTO cronogramas (survey_id, chronogram_name, chronogram_description, estimated_period, chronogram_order) 
               VALUES (@survey_id, @chronogram_name, @chronogram_description, @estimated_period, @chronogram_order)
@@ -477,7 +509,7 @@ export async function createSurvey(formData: FormData, rut: number) {
           }
         } else {
           // const questionDescription = question?.question_description || null;
-          const questionDescription = null;
+          const questionDescription = question.question_description || null;
           const questionType = question.isMapQuestion ? "mapa" : "normal";
           // Si questionId === 0, insertar nueva pregunta
           const preguntaRequest = new sql.Request(transaction);
@@ -523,11 +555,17 @@ export async function createSurvey(formData: FormData, rut: number) {
                     subOption?.option_name?.trim().length > 0,
                 )
               ) {
+                const subQuestionDescription =
+                  option.subQuestionDescription || null;
                 const subPreguntaRequest = new sql.Request(transaction);
                 const subPreguntaResult = await subPreguntaRequest
                   .input("step", sql.NVarChar, `SubPaso de ${question.step}`) // Nombre del paso, ej: Selecciona tu sector
                   .input("question", sql.NVarChar, option.subQuestion)
-                  .input("question_description", sql.NVarChar, null)
+                  .input(
+                    "question_description",
+                    sql.NVarChar,
+                    subQuestionDescription,
+                  )
                   .input("question_type", sql.NVarChar, "normal").query(`
                   INSERT INTO preguntas (step, question, question_description, question_type) 
                   OUTPUT INSERTED.id

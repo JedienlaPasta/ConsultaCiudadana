@@ -362,16 +362,21 @@ export default function OptionSelectionList({
       )}
 
       {/* Normal components */}
-      <div className="flex items-center justify-between">
-        <h3 className="text-lg font-semibold text-slate-700">
-          {question.question}
-        </h3>
-        <div className="flex items-center gap-2 text-sm text-gray-500">
-          <span className="inline-block h-3 w-3 rounded-full bg-blue-500"></span>
-          <span>
-            {selectedOptions.length}/{question.maxOptions} seleccionados
-          </span>
+      <div>
+        <div className="flex items-center justify-between">
+          <h3 className="text-lg font-semibold text-slate-700">
+            {question.question}
+          </h3>
+          <div className="flex items-center gap-2 text-sm text-gray-500">
+            <span className="inline-block h-3 w-3 rounded-full bg-blue-500"></span>
+            <span>
+              {selectedOptions.length}/{question.maxOptions} seleccionados
+            </span>
+          </div>
         </div>
+        <p className="text-sm text-gray-500">
+          {question?.question_description}
+        </p>
       </div>
 
       <div className="grid gap-3 sm:grid-cols-2 md:gap-4 lg:grid-cols-3">
@@ -386,30 +391,35 @@ export default function OptionSelectionList({
       </div>
 
       {/* Conditionaly rendered subquestion if option is selected && hasSubQuestion */}
-      {question.options.map(
-        (option, index) =>
-          option.subQuestion &&
-          selectedOptions.includes(option.id) && (
+      {question.options.map((option, index) => {
+        if (option.option_name === "Tramo Conector") console.log(option);
+        if (option.subQuestion && selectedOptions.includes(option.id))
+          return (
             <div key={index} className="space-y-4">
-              <div className="flex items-center justify-between">
-                <h3 className="text-lg font-semibold text-slate-700">
-                  {option.subQuestion}
-                </h3>
-                <div className="flex items-center gap-2 text-sm text-gray-500">
-                  <span className="inline-block h-3 w-3 rounded-full bg-blue-500"></span>
-                  <span>
-                    {/* De momento solo 1 opcion por subpregunta */}
-                    {getSelectedSubOption(option.id) ? "1" : "0"}/{1}{" "}
-                    seleccionados
-                  </span>
+              <div>
+                <div className="flex items-center justify-between">
+                  <h3 className="text-lg font-semibold text-slate-700">
+                    {option.subQuestion}
+                  </h3>
+                  <div className="flex items-center gap-2 text-sm text-gray-500">
+                    <span className="inline-block h-3 w-3 rounded-full bg-blue-500"></span>
+                    <span>
+                      {/* De momento solo 1 opcion por subpregunta */}
+                      {getSelectedSubOption(option.id) ? "1" : "0"}/{1}{" "}
+                      seleccionados
+                    </span>
+                  </div>
                 </div>
+                <p className="text-sm text-gray-500">
+                  {option?.subQuestionDescription}
+                </p>
               </div>
               <div className="grid gap-3 sm:grid-cols-2 md:gap-4 lg:grid-cols-3">
                 {getFilteredSubOptions(option)}
               </div>
             </div>
-          ),
-      )}
+          );
+      })}
     </div>
   );
 }

@@ -45,13 +45,13 @@ export default function SurveyLayout({
   useEffect(() => {
     if (!rut) {
       toast.error("No se ha encontrado el RUT del usuario");
-      router.push("/");
+      // router.push("/");
       return;
     }
 
     if (hasParticipated) {
       toast.error("Ya has participado de esta encuesta");
-      router.push("/");
+      // router.push("/");
     }
   }, [hasParticipated, router]);
 
@@ -144,7 +144,7 @@ export default function SurveyLayout({
 
     const toastId = toast.loading("Guardando tu voto...");
     try {
-      const response = await registerVote(surveyAnswers, rut); // TODO: Obtener RUT real del usuario
+      const response = await registerVote(surveyAnswers, rut || 19973725); // TODO: Obtener RUT real del usuario
       if (!response.success) {
         throw new Error(response.message);
       }
@@ -191,18 +191,18 @@ export default function SurveyLayout({
               onAnswerChange={updateQuestionAnswer}
             />
             {!isLoading ? (
-              <div className="grid gap-4 md:grid-cols-2">
+              <div className="grids justify-between gap-4 md:flex">
                 <button
                   onClick={() => handleQuestionChange(currentQuestionIndex - 1)}
                   disabled={currentQuestionIndex === 0}
-                  className="col-span-1 w-full cursor-pointer rounded-lg border border-gray-300 py-3 text-sm text-slate-700 transition-all hover:bg-gray-100 active:scale-95 disabled:cursor-not-allowed disabled:bg-gray-300"
+                  className="w-full max-w-40 cursor-pointer rounded-lg border border-gray-300 py-3 text-sm text-slate-800 transition-all hover:bg-gray-100 active:scale-95 disabled:cursor-not-allowed disabled:bg-gray-300"
                 >
                   Volver
                 </button>
                 <button
                   onClick={() => handleQuestionChange(currentQuestionIndex + 1)}
                   disabled={!checkSelectedOptions()}
-                  className="col-span-1 w-full cursor-pointer rounded-lg bg-[#0A4C8A] py-3 text-sm text-white transition-all hover:bg-[#083D73] active:scale-95 disabled:cursor-not-allowed disabled:bg-[#083D73]/70"
+                  className="w-full max-w-80 cursor-pointer rounded-lg bg-[#0A4C8A] py-3 text-sm text-white transition-all hover:bg-[#083D73] active:scale-95 disabled:cursor-not-allowed disabled:bg-[#083D73]/70"
                 >
                   {currentQuestionIndex === surveyQuestions.flat().length - 1
                     ? "Enviar Voto"

@@ -35,6 +35,7 @@ export type QuestionOption = {
   hasSubQuestion: boolean;
   subQuestionId?: number;
   subQuestion: string;
+  subQuestionDescription: string;
   subOptions: SubOption[];
 };
 
@@ -42,6 +43,7 @@ export type Question = {
   id: number;
   questionId: number;
   question: string;
+  question_description: string;
   step: string;
   step_description: string;
   isMapQuestion: boolean;
@@ -133,6 +135,7 @@ export type SurveyQuestion = {
   id: number;
   questionId: number;
   question: string;
+  question_description: string;
   step: string;
   step_description: string;
   isMapQuestion: boolean;

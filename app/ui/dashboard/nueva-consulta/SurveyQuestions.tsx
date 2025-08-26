@@ -273,6 +273,27 @@ export default function SurveyQuestions({
                         }
                       />
                     </div>
+                    <div>
+                      <label className="mb-2 flex items-center text-sm font-semibold text-gray-700">
+                        Descripción de la pregunta
+                        <span className="ml-1 text-xs font-normal text-gray-400">
+                          (opcional)
+                        </span>
+                      </label>
+                      <input
+                        type="text"
+                        className="h-10 w-full rounded-lg border border-slate-300 bg-white px-4 text-sm text-slate-700 shadow-sm transition-all outline-none placeholder:text-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:ring-offset-1"
+                        placeholder="Ej: Esta pregunta es para saber..."
+                        value={question.question_description}
+                        onChange={(e) =>
+                          updateQuestion(
+                            questionIndex,
+                            "question_description",
+                            e.target.value,
+                          )
+                        }
+                      />
+                    </div>
                     <div className="mb-4 flex gap-4">
                       <div className="flex-1">
                         <label className="mb-2 flex items-center text-sm font-semibold text-gray-700">
@@ -543,7 +564,7 @@ export default function SurveyQuestions({
 
                               <div>
                                 <label className="mb-2 flex items-center text-sm font-semibold text-gray-700">
-                                  Texto de la Sub-pregunta
+                                  Texto de la Sub-Pregunta
                                   <span className="ml-1 text-red-500">*</span>
                                 </label>
                                 <input
@@ -556,6 +577,29 @@ export default function SurveyQuestions({
                                       questionIndex,
                                       optionIndex,
                                       "subQuestion",
+                                      e.target.value,
+                                    )
+                                  }
+                                />
+                              </div>
+
+                              <div>
+                                <label className="mb-2 flex items-center text-sm font-semibold text-gray-700">
+                                  Descripción de la Sub-Pregunta
+                                  <span className="ml-1 text-xs font-normal text-gray-400">
+                                    (opcional)
+                                  </span>
+                                </label>
+                                <input
+                                  type="text"
+                                  className="h-10 w-full rounded-lg border border-slate-300 bg-white px-4 text-sm text-slate-700 shadow-sm transition-all outline-none placeholder:text-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:ring-offset-1"
+                                  placeholder="Ej: Esta pregunta es para saber..."
+                                  value={option.subQuestionDescription}
+                                  onChange={(e) =>
+                                    updateQuestionOption(
+                                      questionIndex,
+                                      optionIndex,
+                                      "subQuestionDescription",
                                       e.target.value,
                                     )
                                   }

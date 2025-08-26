@@ -1,12 +1,19 @@
 import { getSession } from "@/app/lib/actions/auth";
+import { getSurveyAnalytics } from "@/app/lib/data/analytics";
 import Header from "@/app/ui/dashboard/Header";
 import Footer from "@/app/ui/Footer";
 import Navbar from "@/app/ui/Navbar";
 import Link from "next/link";
-import React from "react";
 
-export default async function SurveyDetailsOverview() {
+type PageProps = {
+  params: Promise<{ id: string }>;
+};
+
+export default async function SurveyDetailsOverview({ params }: PageProps) {
   const session = await getSession();
+  const surveyId = Number((await params).id);
+  const response = await getSurveyAnalytics(surveyId);
+  console.log(response);
 
   return (
     <div className="flex min-h-dvh flex-col bg-gray-200/70">
