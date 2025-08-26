@@ -51,7 +51,7 @@ export default function SurveyLayout({
 
     if (hasParticipated) {
       toast.error("Ya has participado de esta encuesta");
-      // router.push("/");
+      router.push("/");
     }
   }, [hasParticipated, router]);
 

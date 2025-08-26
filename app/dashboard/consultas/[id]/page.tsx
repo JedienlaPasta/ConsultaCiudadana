@@ -1,5 +1,7 @@
 import { getSession } from "@/app/lib/actions/auth";
 import { getSurveyAnalytics } from "@/app/lib/data/analytics";
+import { getSurveyGeneralDetails } from "@/app/lib/data/encuesta";
+import ParticipationMetricCard from "@/app/ui/dashboard/consultas/ParticipationMetricCard";
 import Header from "@/app/ui/dashboard/Header";
 import Footer from "@/app/ui/Footer";
 import Navbar from "@/app/ui/Navbar";
@@ -13,6 +15,8 @@ export default async function SurveyDetailsOverview({ params }: PageProps) {
   const session = await getSession();
   const surveyId = Number((await params).id);
   const analytics = await getSurveyAnalytics(surveyId);
+  const generalData = await getSurveyGeneralDetails(surveyId);
+  console.log(generalData);
 
   return (
     <div className="flex min-h-dvh flex-col bg-gray-200/70">
@@ -49,19 +53,10 @@ export default async function SurveyDetailsOverview({ params }: PageProps) {
         <div className="items-between to-[#007BFF]s mb-8 flex flex-col rounded-xl bg-gradient-to-br from-[#0A4581] to-purple-600 px-6 py-8 text-white">
           <div className="flex items-start justify-between">
             <div>
-              <h1 className="text-3xl font-bold">
-                Consulta sobre Mejoras Urbanas
-              </h1>
-              <p className="mt-2 text-blue-100">
-                Evaluación de propuestas para el desarrollo urbano sostenible en
-                la comuna
+              <h1 className="text-2xl font-bold">{generalData?.survey_name}</h1>
+              <p className="mt-1 text-sm text-blue-100">
+                {generalData?.survey_short_description}
               </p>
-            </div>
-            <div className="text-right">
-              <div className="text-3xl font-bold">
-                {analytics.totalParticipants.toLocaleString()}
-              </div>
-              <div className="text-blue-100">Total Participantes</div>
             </div>
           </div>
 
@@ -97,7 +92,7 @@ export default async function SurveyDetailsOverview({ params }: PageProps) {
                     d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
                   />
                 </svg>
-                Inicio: 15 Nov, 2025
+                Inicio: {generalData?.survey_start_date}
               </div>
               <div className="flex items-center">
                 <svg
@@ -113,7 +108,7 @@ export default async function SurveyDetailsOverview({ params }: PageProps) {
                     d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
                   />
                 </svg>
-                Término: 15 Dic, 2025
+                Término: {generalData?.survey_end_date}
               </div>
             </div>
             <span
@@ -124,119 +119,74 @@ export default async function SurveyDetailsOverview({ params }: PageProps) {
           </div>
         </div>
 
-        {/* Key Metrics */}
-        <div className="mb-8 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
-          <div className="rounded-lg bg-white p-6 shadow-sm">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600">
-                  Tasa de Respuesta
-                </p>
-                <p className="text-2xl font-bold text-green-600">94.2%</p>
-                <p className="text-xs text-green-600">+2.1%</p>
-              </div>
-              <div className="rounded-full bg-green-100 p-3">
-                <svg
-                  className="h-6 w-6 text-green-600"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
-                  />
-                </svg>
-              </div>
-            </div>
-          </div>
+        {/* Participation Metrics */}
+        <div className="mb-6 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <ParticipationMetricCard
+            title="Participación Promedio"
+            value="94.2%"
+            color="emerald"
+            icon={
+              <svg
+                className="size-5 text-emerald-600"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+                />
+              </svg>
+            }
+          />
 
-          <div className="rounded-lg bg-white p-6 shadow-sm">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600">
-                  Tiempo Promedio
-                </p>
-                <p className="text-2xl font-bold text-blue-600">4m 32s</p>
-                <p className="text-xs text-red-600">-0.8%</p>
-              </div>
-              <div className="rounded-full bg-blue-100 p-3">
-                <svg
-                  className="h-6 w-6 text-blue-600"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                  />
-                </svg>
-              </div>
-            </div>
-          </div>
+          <ParticipationMetricCard
+            title="Participación Hoy"
+            value="89.7%"
+            color="blue"
+            icon={
+              <svg
+                className="size-5 text-blue-600"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                />
+              </svg>
+            }
+          />
 
-          <div className="rounded-lg bg-white p-6 shadow-sm">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600">
-                  Participación Diaria
-                </p>
-                <p className="text-2xl font-bold text-purple-600">1,247</p>
-                <p className="text-xs text-green-600">+15.3%</p>
-              </div>
-              <div className="rounded-full bg-purple-100 p-3">
-                <svg
-                  className="h-6 w-6 text-purple-600"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
-                  />
-                </svg>
-              </div>
-            </div>
-          </div>
-
-          <div className="rounded-lg bg-white p-6 shadow-sm">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600">
-                  Tasa de Finalización
-                </p>
-                <p className="text-2xl font-bold text-orange-600">89.7%</p>
-                <p className="text-xs text-green-600">+3.2%</p>
-              </div>
-              <div className="rounded-full bg-orange-100 p-3">
-                <svg
-                  className="h-6 w-6 text-orange-600"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                  />
-                </svg>
-              </div>
-            </div>
-          </div>
+          <ParticipationMetricCard
+            title="Participación Total"
+            value={String(analytics?.totalParticipants)}
+            color="purple"
+            icon={
+              <svg
+                className="size-5 text-purple-600"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+                />
+              </svg>
+            }
+          />
         </div>
 
         {/* Main Content Grid */}
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
           {/* Questions Results */}
           <div className="lg:col-span-2">
             <div className="rounded-lg bg-white p-6 shadow-sm">
@@ -264,37 +214,36 @@ export default async function SurveyDetailsOverview({ params }: PageProps) {
                     </h3>
                     <div className="space-y-3">
                       {question.options.map((option) => {
-                        const widthPercentage = Math.max(option.percentage, 5); // Mínimo 5% para visibilidad
+                        const widthPercentage = Math.max(option.percentage, 1); // Mínimo 5% para visibilidad
                         const colors = [
-                          "bg-blue-500",
-                          "bg-green-500",
-                          "bg-purple-500",
-                          "bg-orange-500",
-                          "bg-red-500",
-                          "bg-yellow-500",
+                          "bg-gradient-to-r from-emerald-500/85 to-emerald-600/80",
                         ];
                         const colorIndex = option.optionId % colors.length;
 
                         return (
                           <div
                             key={option.optionId}
-                            className="flex items-center justify-between"
+                            className="group transition-all duration-200 hover:scale-[1.02]"
                           >
-                            <span className="text-sm text-gray-600">
-                              {option.optionName}
-                            </span>
-                            <div className="flex items-center space-x-3">
-                              <div className="h-2 w-32 rounded-full bg-gray-200">
-                                <div
-                                  className={`h-2 rounded-full ${colors[colorIndex]}`}
-                                  style={{
-                                    width: `${(widthPercentage / 100) * 128}px`,
-                                  }}
-                                ></div>
-                              </div>
-                              <span className="text-sm font-medium text-gray-900">
-                                {option.percentage.toFixed(1)}%
+                            <div className="relative flex h-12 w-full items-center justify-between rounded-lg bg-gradient-to-r from-gray-50 to-gray-100 px-4 shadow-sm transition-all duration-200 hover:shadow-md">
+                              <div
+                                className={`absolute top-0 right-0 h-full rounded-lg ${colors[colorIndex]} transition-all duration-700 ease-out`}
+                                style={{
+                                  width: `${widthPercentage}%`,
+                                  background: `linear-gradient(135deg, ${colors[colorIndex].replace("/70", "")}, ${colors[colorIndex].replace("/70", "/50")})`,
+                                }}
+                              ></div>
+                              <span className="relative z-10 text-sm font-medium text-gray-800 group-hover:text-gray-900">
+                                {option.optionName}
                               </span>
+                              <div className="relative z-10 flex items-center space-x-2">
+                                <span className="text-xs text-gray-600">
+                                  {option.voteCount} votos
+                                </span>
+                                <span className="rounded-full bg-white/80 px-2 py-1 text-sm font-bold text-gray-900">
+                                  {option.percentage.toFixed(1)}%
+                                </span>
+                              </div>
                             </div>
                           </div>
                         );
