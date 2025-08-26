@@ -317,39 +317,37 @@ export default async function SurveyDetailsOverview({ params }: PageProps) {
                 Participación por Fecha
               </h3>
               <div className="space-y-2">
-                {analytics.participationByDate
-                  .slice(-7)
-                  .map((dateData, index) => {
-                    const maxCount = Math.max(
-                      ...analytics.participationByDate.map((d) => d.count),
-                    );
-                    const widthPercentage = (dateData.count / maxCount) * 100;
+                {analytics.participationByDate.slice(-7).map((dateData) => {
+                  const maxCount = Math.max(
+                    ...analytics.participationByDate.map((d) => d.count),
+                  );
+                  const widthPercentage = (dateData.count / maxCount) * 100;
 
-                    return (
-                      <div
-                        key={dateData.date}
-                        className="flex items-center justify-between"
-                      >
-                        <span className="text-xs text-gray-600">
-                          {new Date(dateData.date).toLocaleDateString("es-ES", {
-                            month: "short",
-                            day: "numeric",
-                          })}
-                        </span>
-                        <div className="flex items-center space-x-2">
-                          <div className="h-2 w-20 rounded-full bg-gray-200">
-                            <div
-                              className="h-2 rounded-full bg-blue-500"
-                              style={{ width: `${widthPercentage}%` }}
-                            ></div>
-                          </div>
-                          <span className="w-8 text-right text-xs font-medium text-gray-900">
-                            {dateData.count}
-                          </span>
+                  return (
+                    <div
+                      key={dateData.date}
+                      className="flex items-center justify-between"
+                    >
+                      <span className="text-xs text-gray-600">
+                        {new Date(dateData.date).toLocaleDateString("es-ES", {
+                          month: "short",
+                          day: "numeric",
+                        })}
+                      </span>
+                      <div className="flex items-center space-x-2">
+                        <div className="h-2 w-20 rounded-full bg-gray-200">
+                          <div
+                            className="h-2 rounded-full bg-blue-500"
+                            style={{ width: `${widthPercentage}%` }}
+                          ></div>
                         </div>
+                        <span className="w-8 text-right text-xs font-medium text-gray-900">
+                          {dateData.count}
+                        </span>
                       </div>
-                    );
-                  })}
+                    </div>
+                  );
+                })}
               </div>
             </div>
 
