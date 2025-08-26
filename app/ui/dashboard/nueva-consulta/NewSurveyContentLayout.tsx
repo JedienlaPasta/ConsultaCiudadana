@@ -142,6 +142,7 @@ export default function NewSurveyContentLayout({
       id: formData.questions.length + 1,
       questionId: 0,
       question: "",
+      question_description: "",
       step: "",
       step_description: "",
       isMapQuestion: false,
@@ -156,6 +157,7 @@ export default function NewSurveyContentLayout({
           sector_id: null,
           sector: null,
           subQuestion: "",
+          subQuestionDescription: "",
           subOptions: [
             {
               id: 1,
@@ -181,6 +183,7 @@ export default function NewSurveyContentLayout({
           sector_id: null,
           sector: null,
           subQuestion: "",
+          subQuestionDescription: "",
           subOptions: [
             {
               id: 1,
@@ -215,6 +218,7 @@ export default function NewSurveyContentLayout({
       sector_id: null,
       sector: null,
       subQuestion: "",
+      subQuestionDescription: "",
       subOptions: [
         {
           id: 1,
