@@ -253,6 +253,7 @@ export const INITIAL_FORM_DATA: SurveyFormData = {
       id: 1,
       questionId: 0,
       question: "",
+      question_description: "",
       step: "",
       step_description: "",
       isMapQuestion: false,
@@ -267,6 +268,7 @@ export const INITIAL_FORM_DATA: SurveyFormData = {
           sector_id: null,
           sector: null,
           subQuestion: "",
+          subQuestionDescription: "",
           subOptions: [
             {
               id: 1,
@@ -292,6 +294,7 @@ export const INITIAL_FORM_DATA: SurveyFormData = {
           sector_id: null,
           sector: null,
           subQuestion: "",
+          subQuestionDescription: "",
           subOptions: [
             {
               id: 1,
@@ -315,6 +318,7 @@ export const INITIAL_FORM_DATA: SurveyFormData = {
       id: 2,
       questionId: 0,
       question: "",
+      question_description: "",
       step: "",
       step_description: "",
       isMapQuestion: false,
@@ -329,6 +333,7 @@ export const INITIAL_FORM_DATA: SurveyFormData = {
           sector_id: null,
           sector: null,
           subQuestion: "",
+          subQuestionDescription: "",
           subOptions: [
             {
               id: 1,
@@ -354,6 +359,7 @@ export const INITIAL_FORM_DATA: SurveyFormData = {
           sector_id: null,
           sector: null,
           subQuestion: "",
+          subQuestionDescription: "",
           subOptions: [
             {
               id: 1,

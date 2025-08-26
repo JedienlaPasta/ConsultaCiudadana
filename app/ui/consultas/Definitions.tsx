@@ -55,7 +55,7 @@ export default function Definitions({
               : "py-4 md:border-b"
           }`}
         >
-          <h5 className="font-semibold md:mb-1">{item.name}</h5>
+          <h5 className="font-semibold md:mb-0.5">{item.name}</h5>
           <div
             className="whitespace-pre-line text-gray-600"
             dangerouslySetInnerHTML={{

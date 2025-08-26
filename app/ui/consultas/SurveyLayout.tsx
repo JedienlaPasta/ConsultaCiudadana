@@ -202,7 +202,7 @@ export default function SurveyLayout({
                 <button
                   onClick={() => handleQuestionChange(currentQuestionIndex + 1)}
                   disabled={!checkSelectedOptions()}
-                  className="w-full max-w-80 cursor-pointer rounded-lg bg-[#0A4C8A] py-3 text-sm text-white transition-all hover:bg-[#083D73] active:scale-95 disabled:cursor-not-allowed disabled:bg-[#083D73]/70"
+                  className="w-full max-w-80 cursor-pointer rounded-lg bg-[#0F69C4] py-3 text-sm text-white transition-all hover:bg-[#0A4C8A] active:scale-95 disabled:cursor-not-allowed disabled:bg-[#0F69C4]/70"
                 >
                   {currentQuestionIndex === surveyQuestions.flat().length - 1
                     ? "Enviar Voto"

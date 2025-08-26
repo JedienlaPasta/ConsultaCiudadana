@@ -12,8 +12,7 @@ type PageProps = {
 export default async function SurveyDetailsOverview({ params }: PageProps) {
   const session = await getSession();
   const surveyId = Number((await params).id);
-  const response = await getSurveyAnalytics(surveyId);
-  console.log(response);
+  const analytics = await getSurveyAnalytics(surveyId);
 
   return (
     <div className="flex min-h-dvh flex-col bg-gray-200/70">
@@ -59,7 +58,9 @@ export default async function SurveyDetailsOverview({ params }: PageProps) {
               </p>
             </div>
             <div className="text-right">
-              <div className="text-3xl font-bold">87,342</div>
+              <div className="text-3xl font-bold">
+                {analytics.totalParticipants.toLocaleString()}
+              </div>
               <div className="text-blue-100">Total Participantes</div>
             </div>
           </div>
@@ -249,264 +250,106 @@ export default async function SurveyDetailsOverview({ params }: PageProps) {
               </div>
 
               <div className="space-y-6">
-                {/* Question 1 */}
-                <div className="border-b border-gray-200 pb-6">
-                  <h3 className="mb-4 font-medium text-gray-900">
-                    ¿Cuál considera la prioridad más importante para el
-                    desarrollo urbano?
-                  </h3>
-                  <div className="space-y-3">
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm text-gray-600">
-                        Transporte público
-                      </span>
-                      <div className="flex items-center space-x-3">
-                        <div className="h-2 w-32 rounded-full bg-gray-200">
-                          <div className="h-2 w-20 rounded-full bg-blue-500"></div>
-                        </div>
-                        <span className="text-sm font-medium text-gray-900">
-                          42.3%
-                        </span>
-                      </div>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm text-gray-600">
-                        Espacios verdes
-                      </span>
-                      <div className="flex items-center space-x-3">
-                        <div className="h-2 w-32 rounded-full bg-gray-200">
-                          <div className="h-2 w-16 rounded-full bg-green-500"></div>
-                        </div>
-                        <span className="text-sm font-medium text-gray-900">
-                          31.7%
-                        </span>
-                      </div>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm text-gray-600">
-                        Vivienda social
-                      </span>
-                      <div className="flex items-center space-x-3">
-                        <div className="h-2 w-32 rounded-full bg-gray-200">
-                          <div className="h-2 w-8 rounded-full bg-purple-500"></div>
-                        </div>
-                        <span className="text-sm font-medium text-gray-900">
-                          26.0%
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="mt-3 text-right text-sm text-gray-500">
-                    Total: 78,432 votos
-                  </div>
-                </div>
+                {analytics.questionResults.map((question, index) => (
+                  <div
+                    key={question.questionId}
+                    className={
+                      index < analytics.questionResults.length - 1
+                        ? "border-b border-gray-200 pb-6"
+                        : ""
+                    }
+                  >
+                    <h3 className="mb-4 font-medium text-gray-900">
+                      {question.question}
+                    </h3>
+                    <div className="space-y-3">
+                      {question.options.map((option) => {
+                        const widthPercentage = Math.max(option.percentage, 5); // Mínimo 5% para visibilidad
+                        const colors = [
+                          "bg-blue-500",
+                          "bg-green-500",
+                          "bg-purple-500",
+                          "bg-orange-500",
+                          "bg-red-500",
+                          "bg-yellow-500",
+                        ];
+                        const colorIndex = option.optionId % colors.length;
 
-                {/* Question 2 */}
-                <div className="border-b border-gray-200 pb-6">
-                  <h3 className="mb-4 font-medium text-gray-900">
-                    ¿Está de acuerdo con la implementación de ciclovías en las
-                    principales avenidas?
-                  </h3>
-                  <div className="space-y-3">
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm text-gray-600">
-                        Totalmente de acuerdo
-                      </span>
-                      <div className="flex items-center space-x-3">
-                        <div className="h-2 w-32 rounded-full bg-gray-200">
-                          <div className="h-2 w-24 rounded-full bg-green-500"></div>
-                        </div>
-                        <span className="text-sm font-medium text-gray-900">
-                          58.9%
-                        </span>
-                      </div>
+                        return (
+                          <div
+                            key={option.optionId}
+                            className="flex items-center justify-between"
+                          >
+                            <span className="text-sm text-gray-600">
+                              {option.optionName}
+                            </span>
+                            <div className="flex items-center space-x-3">
+                              <div className="h-2 w-32 rounded-full bg-gray-200">
+                                <div
+                                  className={`h-2 rounded-full ${colors[colorIndex]}`}
+                                  style={{
+                                    width: `${(widthPercentage / 100) * 128}px`,
+                                  }}
+                                ></div>
+                              </div>
+                              <span className="text-sm font-medium text-gray-900">
+                                {option.percentage.toFixed(1)}%
+                              </span>
+                            </div>
+                          </div>
+                        );
+                      })}
                     </div>
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm text-gray-600">
-                        Parcialmente de acuerdo
-                      </span>
-                      <div className="flex items-center space-x-3">
-                        <div className="h-2 w-32 rounded-full bg-gray-200">
-                          <div className="h-2 w-8 rounded-full bg-yellow-500"></div>
-                        </div>
-                        <span className="text-sm font-medium text-gray-900">
-                          23.4%
-                        </span>
-                      </div>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm text-gray-600">
-                        En desacuerdo
-                      </span>
-                      <div className="flex items-center space-x-3">
-                        <div className="h-2 w-32 rounded-full bg-gray-200">
-                          <div className="h-2 w-6 rounded-full bg-red-500"></div>
-                        </div>
-                        <span className="text-sm font-medium text-gray-900">
-                          17.7%
-                        </span>
-                      </div>
+                    <div className="mt-3 text-right text-sm text-gray-500">
+                      Total: {question.totalVotes.toLocaleString()} votos
                     </div>
                   </div>
-                  <div className="mt-3 text-right text-sm text-gray-500">
-                    Total: 81,205 votos
-                  </div>
-                </div>
-
-                {/* Question 3 */}
-                <div>
-                  <h3 className="mb-4 font-medium text-gray-900">
-                    ¿Qué tipo de comercio prefiere en su sector?
-                  </h3>
-                  <div className="space-y-3">
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm text-gray-600">
-                        Comercio local
-                      </span>
-                      <div className="flex items-center space-x-3">
-                        <div className="h-2 w-32 rounded-full bg-gray-200">
-                          <div className="h-2 w-28 rounded-full bg-blue-500"></div>
-                        </div>
-                        <span className="text-sm font-medium text-gray-900">
-                          67.2%
-                        </span>
-                      </div>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm text-gray-600">
-                        Centros comerciales
-                      </span>
-                      <div className="flex items-center space-x-3">
-                        <div className="h-2 w-32 rounded-full bg-gray-200">
-                          <div className="h-2 w-10 rounded-full bg-orange-500"></div>
-                        </div>
-                        <span className="text-sm font-medium text-gray-900">
-                          32.8%
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="mt-3 text-right text-sm text-gray-500">
-                    Total: 76,891 votos
-                  </div>
-                </div>
+                ))}
               </div>
             </div>
           </div>
 
           {/* Sidebar */}
           <div className="space-y-6">
-            {/* Participation by Sector */}
+            {/* Participation by Date Chart */}
             <div className="rounded-lg bg-white p-6 shadow-sm">
               <h3 className="mb-4 text-lg font-semibold text-gray-900">
-                Participación por Sector
+                Participación por Fecha
               </h3>
-              <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-3">
-                    <div className="h-3 w-3 rounded-full bg-blue-500"></div>
-                    <span className="text-sm text-gray-600">Centro</span>
-                  </div>
-                  <div className="text-right">
-                    <div className="text-sm font-medium text-gray-900">
-                      24,567
-                    </div>
-                    <div className="text-xs text-gray-500">28.1%</div>
-                  </div>
-                </div>
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-3">
-                    <div className="h-3 w-3 rounded-full bg-green-500"></div>
-                    <span className="text-sm text-gray-600">Norte</span>
-                  </div>
-                  <div className="text-right">
-                    <div className="text-sm font-medium text-gray-900">
-                      19,234
-                    </div>
-                    <div className="text-xs text-gray-500">22.0%</div>
-                  </div>
-                </div>
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-3">
-                    <div className="h-3 w-3 rounded-full bg-purple-500"></div>
-                    <span className="text-sm text-gray-600">Sur</span>
-                  </div>
-                  <div className="text-right">
-                    <div className="text-sm font-medium text-gray-900">
-                      18,901
-                    </div>
-                    <div className="text-xs text-gray-500">21.6%</div>
-                  </div>
-                </div>
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-3">
-                    <div className="h-3 w-3 rounded-full bg-orange-500"></div>
-                    <span className="text-sm text-gray-600">Este</span>
-                  </div>
-                  <div className="text-right">
-                    <div className="text-sm font-medium text-gray-900">
-                      15,432
-                    </div>
-                    <div className="text-xs text-gray-500">17.7%</div>
-                  </div>
-                </div>
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-3">
-                    <div className="h-3 w-3 rounded-full bg-red-500"></div>
-                    <span className="text-sm text-gray-600">Oeste</span>
-                  </div>
-                  <div className="text-right">
-                    <div className="text-sm font-medium text-gray-900">
-                      9,208
-                    </div>
-                    <div className="text-xs text-gray-500">10.5%</div>
-                  </div>
-                </div>
-              </div>
-            </div>
+              <div className="space-y-2">
+                {analytics.participationByDate
+                  .slice(-7)
+                  .map((dateData, index) => {
+                    const maxCount = Math.max(
+                      ...analytics.participationByDate.map((d) => d.count),
+                    );
+                    const widthPercentage = (dateData.count / maxCount) * 100;
 
-            {/* Demographics */}
-            <div className="rounded-lg bg-white p-6 shadow-sm">
-              <h3 className="mb-4 text-lg font-semibold text-gray-900">
-                Demografía
-              </h3>
-              <div className="space-y-4">
-                <div>
-                  <div className="mb-2 flex justify-between text-sm">
-                    <span className="text-gray-600">18-25 años</span>
-                    <span className="font-medium text-gray-900">15.2%</span>
-                  </div>
-                  <div className="h-2 rounded-full bg-gray-200">
-                    <div className="h-2 w-3 rounded-full bg-blue-500"></div>
-                  </div>
-                </div>
-                <div>
-                  <div className="mb-2 flex justify-between text-sm">
-                    <span className="text-gray-600">26-35 años</span>
-                    <span className="font-medium text-gray-900">28.7%</span>
-                  </div>
-                  <div className="h-2 rounded-full bg-gray-200">
-                    <div className="h-2 w-6 rounded-full bg-green-500"></div>
-                  </div>
-                </div>
-                <div>
-                  <div className="mb-2 flex justify-between text-sm">
-                    <span className="text-gray-600">36-50 años</span>
-                    <span className="font-medium text-gray-900">34.1%</span>
-                  </div>
-                  <div className="h-2 rounded-full bg-gray-200">
-                    <div className="h-2 w-7 rounded-full bg-purple-500"></div>
-                  </div>
-                </div>
-                <div>
-                  <div className="mb-2 flex justify-between text-sm">
-                    <span className="text-gray-600">51+ años</span>
-                    <span className="font-medium text-gray-900">22.0%</span>
-                  </div>
-                  <div className="h-2 rounded-full bg-gray-200">
-                    <div className="h-2 w-4 rounded-full bg-orange-500"></div>
-                  </div>
-                </div>
+                    return (
+                      <div
+                        key={dateData.date}
+                        className="flex items-center justify-between"
+                      >
+                        <span className="text-xs text-gray-600">
+                          {new Date(dateData.date).toLocaleDateString("es-ES", {
+                            month: "short",
+                            day: "numeric",
+                          })}
+                        </span>
+                        <div className="flex items-center space-x-2">
+                          <div className="h-2 w-20 rounded-full bg-gray-200">
+                            <div
+                              className="h-2 rounded-full bg-blue-500"
+                              style={{ width: `${widthPercentage}%` }}
+                            ></div>
+                          </div>
+                          <span className="w-8 text-right text-xs font-medium text-gray-900">
+                            {dateData.count}
+                          </span>
+                        </div>
+                      </div>
+                    );
+                  })}
               </div>
             </div>
 
@@ -548,6 +391,7 @@ export default async function SurveyDetailsOverview({ params }: PageProps) {
           </div>
         </div>
       </div>
+
       <Footer />
     </div>
   );

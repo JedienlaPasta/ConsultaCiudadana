@@ -2,9 +2,12 @@ import { ChronogramItem } from "@/app/lib/definitions/encuesta";
 import React from "react";
 
 export default function Schedule({ schedule }: { schedule: ChronogramItem[] }) {
+  console.log(schedule[0].date);
   return (
     <div>
-      <h3 className="mb-2 text-lg font-semibold text-[#23396f]">Cronograma</h3>
+      <h3 className="mb-2 text-lg font-semibold text-[#23396f]">
+        {schedule[0].date ? "Cronograma" : "Plan de Acción"}
+      </h3>
       <div className="space-y-6">
         {schedule?.map((item, index) => (
           <div className="relative flex" key={item.phase}>
