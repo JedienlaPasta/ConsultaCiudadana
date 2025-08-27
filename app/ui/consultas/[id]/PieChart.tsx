@@ -7,6 +7,21 @@ import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 // color: "#ffc658" },
 // color: "#ff8042" },
 
+type TooltipPayload = {
+  name: string;
+  value: number;
+  payload: {
+    color: string;
+    total: number;
+  };
+};
+
+type CustomTooltipProps = {
+  active?: boolean;
+  payload?: TooltipPayload[];
+  coordinate?: { x: number; y: number };
+};
+
 export default function AnalyticsDonuts({
   analytics,
 }: {
@@ -25,9 +40,13 @@ export default function AnalyticsDonuts({
   ];
 
   // Componente personalizado para el tooltip
-  const CustomTooltip = ({ active, payload, coordinate }: any) => {
+  const CustomTooltip = ({
+    active,
+    payload,
+    coordinate,
+  }: CustomTooltipProps) => {
     if (active && payload && payload.length) {
-      const { x, y } = coordinate;
+      const { x, y } = coordinate ?? { x: 0, y: 0 };
       const data = payload[0];
       return (
         <div
