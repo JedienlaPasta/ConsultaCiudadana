@@ -186,102 +186,60 @@ export default async function SurveyDetailsOverview({ params }: PageProps) {
           />
         </div>
 
-        {/* Main Content Grid */}
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-          {/* Questions Results */}
-          <div className="lg:col-span-2">
-            <div className="rounded-lg bg-white p-6 shadow-sm">
-              <div className="mb-6 flex items-center justify-between">
-                <h2 className="text-xl font-semibold text-gray-900">
-                  Resultados por Pregunta
-                </h2>
-              </div>
+        {/* Participation by Date Chart */}
+        <div className="mb-6 rounded-lg bg-white p-6 shadow-sm">
+          <h3 className="mb-4 text-lg font-semibold text-gray-900">
+            Participación por Fecha
+          </h3>
+          <div className="space-y-2">
+            {analytics.participationByDate.slice(-7).map((dateData) => {
+              const maxCount = Math.max(
+                ...analytics.participationByDate.map((d) => d.count),
+              );
+              const widthPercentage = (dateData.count / maxCount) * 100;
 
-              <AnalyticsDonuts analytics={analytics} />
-            </div>
+              return (
+                <div
+                  key={dateData.date}
+                  className="flex items-center justify-between"
+                >
+                  <span className="text-xs text-gray-600">
+                    {new Date(dateData.date).toLocaleDateString("es-ES", {
+                      month: "short",
+                      day: "numeric",
+                    })}
+                  </span>
+                  <div className="flex items-center space-x-2">
+                    <div className="h-2 w-20 rounded-full bg-gray-200">
+                      <div
+                        className="h-2 rounded-full bg-blue-500"
+                        style={{ width: `${widthPercentage}%` }}
+                      ></div>
+                    </div>
+                    <span className="w-8 text-right text-xs font-medium text-gray-900">
+                      {dateData.count}
+                    </span>
+                  </div>
+                </div>
+              );
+            })}
           </div>
+        </div>
 
-          {/* Sidebar */}
-          <div className="space-y-6">
-            {/* Participation by Date Chart */}
-            <div className="rounded-lg bg-white p-6 shadow-sm">
-              <h3 className="mb-4 text-lg font-semibold text-gray-900">
-                Participación por Fecha
-              </h3>
-              <div className="space-y-2">
-                {analytics.participationByDate.slice(-7).map((dateData) => {
-                  const maxCount = Math.max(
-                    ...analytics.participationByDate.map((d) => d.count),
-                  );
-                  const widthPercentage = (dateData.count / maxCount) * 100;
-
-                  return (
-                    <div
-                      key={dateData.date}
-                      className="flex items-center justify-between"
-                    >
-                      <span className="text-xs text-gray-600">
-                        {new Date(dateData.date).toLocaleDateString("es-ES", {
-                          month: "short",
-                          day: "numeric",
-                        })}
-                      </span>
-                      <div className="flex items-center space-x-2">
-                        <div className="h-2 w-20 rounded-full bg-gray-200">
-                          <div
-                            className="h-2 rounded-full bg-blue-500"
-                            style={{ width: `${widthPercentage}%` }}
-                          ></div>
-                        </div>
-                        <span className="w-8 text-right text-xs font-medium text-gray-900">
-                          {dateData.count}
-                        </span>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
+        {/* Main Content Grid */}
+        {/* Questions Results */}
+        <div className="lg:col-span-2">
+          <div className="">
+            <div className="mb-6 flex items-center justify-between">
+              <h2 className="text-xl font-semibold text-gray-900">
+                Resultados por Pregunta
+              </h2>
             </div>
 
-            {/* Activity Timeline */}
-            <div className="rounded-lg bg-white p-6 shadow-sm">
-              <h3 className="mb-4 text-lg font-semibold text-gray-900">
-                Actividad Reciente
-              </h3>
-              <div className="space-y-3">
-                <div className="flex items-center space-x-3">
-                  <div className="h-2 w-2 rounded-full bg-green-500"></div>
-                  <div className="flex-1">
-                    <div className="text-sm font-medium text-gray-900">
-                      Pico de participación
-                    </div>
-                    <div className="text-xs text-gray-500">Hace 2 horas</div>
-                  </div>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <div className="h-2 w-2 rounded-full bg-blue-500"></div>
-                  <div className="flex-1">
-                    <div className="text-sm font-medium text-gray-900">
-                      1,000 nuevos votos
-                    </div>
-                    <div className="text-xs text-gray-500">Hace 4 horas</div>
-                  </div>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <div className="h-2 w-2 rounded-full bg-purple-500"></div>
-                  <div className="flex-1">
-                    <div className="text-sm font-medium text-gray-900">
-                      Compartido en redes
-                    </div>
-                    <div className="text-xs text-gray-500">Hace 6 horas</div>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <AnalyticsDonuts analytics={analytics} />
           </div>
         </div>
       </div>
-
       <Footer />
     </div>
   );
