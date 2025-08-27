@@ -73,7 +73,7 @@ export default async function SurveyDetailsOverview({ params }: PageProps) {
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     strokeWidth={2}
-                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
                   />
                 </svg>
                 Creada: 20 Ago, 2025
@@ -194,66 +194,222 @@ export default async function SurveyDetailsOverview({ params }: PageProps) {
                 <h2 className="text-xl font-semibold text-gray-900">
                   Resultados por Pregunta
                 </h2>
-                <button className="text-sm text-blue-600 hover:text-blue-800">
-                  Ver detalles
-                </button>
               </div>
 
-              <div className="space-y-6">
-                {analytics.questionResults.map((question, index) => (
-                  <div
-                    key={question.questionId}
-                    className={
-                      index < analytics.questionResults.length - 1
-                        ? "border-b border-gray-200 pb-6"
-                        : ""
-                    }
-                  >
-                    <h3 className="mb-4 font-medium text-gray-900">
-                      {question.question}
-                    </h3>
-                    <div className="space-y-3">
-                      {question.options.map((option) => {
-                        const widthPercentage = Math.max(option.percentage, 1); // Mínimo 5% para visibilidad
-                        const colors = [
-                          "bg-gradient-to-r from-emerald-500/85 to-emerald-600/80",
-                        ];
-                        const colorIndex = option.optionId % colors.length;
+              <div className="space-y-8">
+                {analytics.questionResults.map((question, questionIndex) => {
+                  // Calcular el total de votos para los ángulos
+                  const totalVotes = question.options.reduce(
+                    (sum, option) => sum + option.voteCount,
+                    0,
+                  );
 
-                        return (
-                          <div
-                            key={option.optionId}
-                            className="group transition-all duration-200 hover:scale-[1.02]"
-                          >
-                            <div className="relative flex h-12 w-full items-center justify-between rounded-lg bg-gradient-to-r from-gray-50 to-gray-100 px-4 shadow-sm transition-all duration-200 hover:shadow-md">
-                              <div
-                                className={`absolute top-0 right-0 h-full rounded-lg ${colors[colorIndex]} transition-all duration-700 ease-out`}
-                                style={{
-                                  width: `${widthPercentage}%`,
-                                  background: `linear-gradient(135deg, ${colors[colorIndex].replace("/70", "")}, ${colors[colorIndex].replace("/70", "/50")})`,
-                                }}
-                              ></div>
-                              <span className="relative z-10 text-sm font-medium text-gray-800 group-hover:text-gray-900">
-                                {option.optionName}
-                              </span>
-                              <div className="relative z-10 flex items-center space-x-2">
-                                <span className="text-xs text-gray-600">
-                                  {option.voteCount} votos
-                                </span>
-                                <span className="rounded-full bg-white/80 px-2 py-1 text-sm font-bold text-gray-900">
-                                  {option.percentage.toFixed(1)}%
-                                </span>
+                  // Filtrar solo las opciones que tienen votos
+                  const optionsWithVotes = question.options.filter(
+                    (option) => option.voteCount > 0,
+                  );
+
+                  // Colores para el gráfico de dona
+                  const colors = [
+                    "#3B82F6", // blue-500
+                    "#8B5CF6", // purple-500
+                    "#10B981", // emerald-500
+                    "#F59E0B", // amber-500
+                    "#EF4444", // red-500
+                    "#EC4899", // pink-500
+                    "#06B6D4", // cyan-500
+                    "#84CC16", // lime-500
+                  ];
+
+                  // Calcular ángulos para cada segmento (solo opciones con votos)
+                  let currentAngle = 0;
+                  const gapAngle = optionsWithVotes.length > 1 ? 4 : 0; // 4 grados de separación entre segmentos
+                  const totalGapAngle = gapAngle * optionsWithVotes.length;
+                  const availableAngle = 360 - totalGapAngle;
+                  
+                  const segments = optionsWithVotes.map((option, index) => {
+                    const percentage = (option.voteCount / totalVotes) * 100;
+                    const angle = (percentage / 100) * availableAngle; // Usar ángulo disponible después de gaps
+                    const startAngle = currentAngle;
+                    const endAngle = currentAngle + angle;
+                    currentAngle = endAngle + gapAngle; // Añadir gap después de cada segmento
+
+                    return {
+                      ...option,
+                      percentage,
+                      startAngle,
+                      endAngle,
+                      color: colors[index % colors.length],
+                    };
+                  });
+
+                  // Función para crear el path del segmento SVG con esquinas redondeadas
+                  const createArcPath = (
+                    centerX: number,
+                    centerY: number,
+                    outerRadius: number,
+                    innerRadius: number,
+                    startAngle: number,
+                    endAngle: number,
+                  ) => {
+                    const startOuter = polarToCartesian(
+                      centerX,
+                      centerY,
+                      outerRadius,
+                      endAngle,
+                    );
+                    const endOuter = polarToCartesian(
+                      centerX,
+                      centerY,
+                      outerRadius,
+                      startAngle,
+                    );
+                    const startInner = polarToCartesian(
+                      centerX,
+                      centerY,
+                      innerRadius,
+                      endAngle,
+                    );
+                    const endInner = polarToCartesian(
+                      centerX,
+                      centerY,
+                      innerRadius,
+                      startAngle,
+                    );
+                    
+                    const largeArcFlag = endAngle - startAngle <= 180 ? "0" : "1";
+
+                    return [
+                      "M", startOuter.x, startOuter.y,
+                      "A", outerRadius, outerRadius, 0, largeArcFlag, 0, endOuter.x, endOuter.y,
+                      "L", endInner.x, endInner.y,
+                      "A", innerRadius, innerRadius, 0, largeArcFlag, 1, startInner.x, startInner.y,
+                      "Z"
+                    ].join(" ");
+                  };
+
+                  const polarToCartesian = (
+                    centerX: number,
+                    centerY: number,
+                    radius: number,
+                    angleInDegrees: number,
+                  ) => {
+                    const angleInRadians =
+                      ((angleInDegrees - 90) * Math.PI) / 180.0;
+                    return {
+                      x: centerX + radius * Math.cos(angleInRadians),
+                      y: centerY + radius * Math.sin(angleInRadians),
+                    };
+                  };
+
+                  return (
+                    <div
+                      key={question.questionId}
+                      className={
+                        questionIndex < analytics.questionResults.length - 1
+                          ? "border-b border-gray-200 pb-8"
+                          : ""
+                      }
+                    >
+                      <h3 className="mb-6 text-lg font-semibold text-gray-900">
+                        {question.question}
+                      </h3>
+
+                      <div className="flex flex-col lg:flex-row lg:items-center lg:space-x-8">
+                        {/* Gráfico de Dona */}
+                        <div className="mb-6 flex-shrink-0 lg:mb-0">
+                          <div className="relative">
+                            <svg
+                              width="200"
+                              height="200"
+                              className="-rotate-90 transform"
+                            >
+                              {segments.length === 1 &&
+                              segments[0].percentage === 100 ? (
+                                // Caso especial: una sola opción con 100%
+                                <>
+                                  <circle
+                                    cx="100"
+                                    cy="100"
+                                    r="80"
+                                    fill={segments[0].color}
+                                    className="transition-opacity duration-200 hover:opacity-80"
+                                  />
+                                  <circle
+                                    cx="100"
+                                    cy="100"
+                                    r="45"
+                                    fill="white"
+                                  />
+                                </>
+                              ) : (
+                                // Caso normal: múltiples segmentos con espaciado y esquinas redondeadas
+                                segments.map((segment, index) => (
+                                  <path
+                                    key={index}
+                                    d={createArcPath(
+                                      100,
+                                      100,
+                                      80,
+                                      45,
+                                      segment.startAngle,
+                                      segment.endAngle,
+                                    )}
+                                    fill={segment.color}
+                                    stroke="white"
+                                    strokeWidth="2"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    className="transition-all duration-200 hover:opacity-80 hover:stroke-width-3"
+                                  />
+                                ))
+                              )}
+                            </svg>
+                            {/* Texto central */}
+                            <div className="absolute inset-0 flex items-center justify-center">
+                              <div className="text-center">
+                                <div className="text-2xl font-bold text-slate-800">
+                                  {totalVotes.toLocaleString()}
+                                </div>
+                                <div className="text-sm text-gray-500">
+                                  Votos
+                                </div>
                               </div>
                             </div>
                           </div>
-                        );
-                      })}
+                        </div>
+
+                        {/* Leyenda */}
+                        <div className="flex-1">
+                          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                            {segments.map((segment, index) => (
+                              <div
+                                key={index}
+                                className="flex items-start space-x-3 rounded-lg p-2 transition-colors duration-200 hover:bg-gray-50"
+                              >
+                                <div
+                                  className="mt-0.5 size-4 flex-shrink-0 rounded-sm"
+                                  style={{ backgroundColor: segment.color }}
+                                ></div>
+                                <div className="min-w-0 flex-1">
+                                  <div className="truncate text-sm font-medium text-gray-900">
+                                    {segment.optionName}
+                                  </div>
+                                  <div className="text-xs text-gray-500">
+                                    {segment.voteCount.toLocaleString()} votos
+                                  </div>
+                                </div>
+                                <div className="text-sm font-semibold text-gray-900">
+                                  {segment.percentage.toFixed(1)}%
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                    <div className="mt-3 text-right text-sm text-gray-500">
-                      Total: {question.totalVotes.toLocaleString()} votos
-                    </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
           </div>

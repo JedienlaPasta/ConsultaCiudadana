@@ -57,7 +57,7 @@ export default function ScrollWheelZoomController() {
     };
 
     const mapContainer = map.getContainer();
-
+    
     // Agregar event listeners
     mapContainer.addEventListener("mouseenter", handleMouseEnter);
     mapContainer.addEventListener("mouseleave", handleMouseLeave);
@@ -72,7 +72,7 @@ export default function ScrollWheelZoomController() {
       mapContainer.removeEventListener("mouseenter", handleMouseEnter);
       mapContainer.removeEventListener("mouseleave", handleMouseLeave);
       mapContainer.removeEventListener("wheel", handleWheel, { capture: true });
-
+      
       if (scrollTimeout) {
         clearTimeout(scrollTimeout);
       }
