@@ -1,22 +1,26 @@
 import { connectToDB } from "../utils/db-connection";
 import sql from "mssql";
 
+export type QuestionResult = {
+  questionId: number;
+  question: string;
+  totalVotes: number;
+  isSubQuestion: boolean;
+  parentOptionId?: number;
+  options: {
+    optionId: number;
+    optionName: string;
+    voteCount: number;
+    percentage: number;
+  }[];
+};
+
 export type SurveyAnalytics = {
   totalParticipants: number;
   participationByDate: { date: string; count: number }[];
-  questionResults: {
-    questionId: number;
-    question: string;
-    totalVotes: number;
-    isSubQuestion: boolean;
-    parentOptionId?: number;
-    options: {
-      optionId: number;
-      optionName: string;
-      voteCount: number;
-      percentage: number;
-    }[];
-  }[];
+  questionResults: QuestionResult[];
+  todayParticipation: number;
+  averageDailyParticipation: number;
 };
 
 export async function getSurveyAnalytics(
@@ -26,6 +30,8 @@ export async function getSurveyAnalytics(
     totalParticipants: 0,
     participationByDate: [],
     questionResults: [],
+    todayParticipation: 0,
+    averageDailyParticipation: 0,
   };
 
   try {
@@ -50,8 +56,20 @@ export async function getSurveyAnalytics(
     const totalParticipants =
       participantsResult.recordset[0]?.total_participants || 0;
 
-    console.log(totalParticipants);
-    // 2. Get participation by date
+    // 2. Get today's participation
+    const todayRequest = pool.request();
+    const todayResult = await todayRequest.input("survey_id", sql.Int, surveyId)
+      .query(`
+        SELECT COUNT(*) as today_participants
+        FROM encuestas_participadas
+        WHERE survey_id = @survey_id
+        AND CAST(voted_at AS DATE) = CAST(GETDATE() AS DATE)
+      `);
+
+    const todayParticipation =
+      todayResult.recordset[0]?.today_participants || 0;
+
+    // 3. Get participation by date
     const participationByDateRequest = pool.request();
     const participationByDateResult = await participationByDateRequest.input(
       "survey_id",
@@ -74,7 +92,14 @@ export async function getSurveyAnalytics(
       }),
     );
 
-    // 3. Get question results with vote counts (including sub-questions)
+    // 4. Calculate average daily participation
+    const totalDays = participationByDate.length;
+    const averageDailyParticipation =
+      totalDays > 0
+        ? Math.round((totalParticipants / totalDays) * 100) / 100
+        : 0;
+
+    // 5. Get question results with vote counts (including sub-questions)
     const questionResultsRequest = pool.request();
     const questionResultsResult = await questionResultsRequest.input(
       "survey_id",
@@ -171,6 +196,8 @@ export async function getSurveyAnalytics(
       totalParticipants,
       participationByDate,
       questionResults,
+      todayParticipation,
+      averageDailyParticipation,
     };
   } catch (error) {
     console.error("Error al obtener analytics de la encuesta:", error);
