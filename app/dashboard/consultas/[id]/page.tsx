@@ -1,6 +1,7 @@
 import { getSession } from "@/app/lib/actions/auth";
 import { getSurveyAnalytics } from "@/app/lib/data/analytics";
 import { getSurveyGeneralDetails } from "@/app/lib/data/encuesta";
+import { formatDateToSpanish } from "@/app/lib/utils/format";
 import AnalyticsDonuts from "@/app/ui/consultas/[id]/PieChart";
 import ParticipationMetricCard from "@/app/ui/dashboard/consultas/ParticipationMetricCard";
 import Header from "@/app/ui/dashboard/Header";
@@ -180,7 +181,7 @@ export default async function SurveyDetailsOverview({ params }: PageProps) {
                         Fecha de Inicio
                       </p>
                       <p className="font-semibold text-white">
-                        {generalData?.survey_start_date}
+                        {formatDateToSpanish(generalData?.survey_start_date)}
                       </p>
                     </div>
                   </div>
@@ -208,7 +209,7 @@ export default async function SurveyDetailsOverview({ params }: PageProps) {
                         Fecha de Término
                       </p>
                       <p className="font-semibold text-white">
-                        {generalData?.survey_end_date}
+                        {formatDateToSpanish(generalData?.survey_end_date)}
                       </p>
                     </div>
                   </div>
