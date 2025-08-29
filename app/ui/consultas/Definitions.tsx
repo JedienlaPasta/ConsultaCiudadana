@@ -23,7 +23,7 @@ export default function Definitions({
 
   return (
     <div
-      className={`border-t border-gray-200 p-6 py-10 md:mb-6 md:rounded-lg md:border md:py-6 md:shadow-md md:shadow-gray-200/80`}
+      className={`border-t border-gray-200 p-6 py-10 md:mb-6 md:rounded-xl md:border md:py-6 md:shadow-md md:shadow-gray-200/80`}
     >
       <h4 className="text-lg font-semibold text-[#0A4C8A]">
         Definición de Términos

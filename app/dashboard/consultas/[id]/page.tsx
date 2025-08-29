@@ -2,7 +2,7 @@ import { getSession } from "@/app/lib/actions/auth";
 import { getSurveyAnalytics } from "@/app/lib/data/analytics";
 import { getSurveyGeneralDetails } from "@/app/lib/data/encuesta";
 import { formatDateToSpanish } from "@/app/lib/utils/format";
-import AnalyticsDonuts from "@/app/ui/consultas/[id]/PieChart";
+import AnalyticsDonuts from "@/app/ui/dashboard/consultas/[id]/PieChart";
 import ParticipationMetricCard from "@/app/ui/dashboard/consultas/ParticipationMetricCard";
 import Header from "@/app/ui/dashboard/Header";
 import Footer from "@/app/ui/Footer";
