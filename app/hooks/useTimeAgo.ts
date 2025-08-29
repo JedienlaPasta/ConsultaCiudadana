@@ -2,12 +2,14 @@ import { useEffect, useState } from "react";
 
 // Hook para calcular tiempo transcurrido
 export default function useTimeAgo(timestamp?: Date) {
-  if (!timestamp) {
-    return "";
-  }
   const [timeAgo, setTimeAgo] = useState("");
 
   useEffect(() => {
+    if (!timestamp) {
+      setTimeAgo("");
+      return;
+    }
+
     const updateTimeAgo = () => {
       const now = new Date();
       const diffInSeconds = Math.floor(

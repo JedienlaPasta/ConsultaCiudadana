@@ -346,54 +346,49 @@ export default async function SurveyDetailsOverview({ params }: PageProps) {
 
           <div className="p-8">
             <div className="space-y-4">
-              {analytics.participationByDate
-                .slice(-7)
-                .map((dateData, index) => {
-                  const maxCount = Math.max(
-                    ...analytics.participationByDate.map((d) => d.count),
-                  );
-                  const widthPercentage = (dateData.count / maxCount) * 100;
+              {analytics.participationByDate.slice(-7).map((dateData) => {
+                const maxCount = Math.max(
+                  ...analytics.participationByDate.map((d) => d.count),
+                );
+                const widthPercentage = (dateData.count / maxCount) * 100;
 
-                  return (
-                    <div
-                      key={dateData.date}
-                      className="group flex items-center justify-between rounded-lg p-3 transition-colors hover:bg-slate-50"
-                    >
-                      <div className="flex items-center space-x-4">
-                        <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-blue-500 to-blue-600 text-sm font-semibold text-white">
-                          {new Date(dateData.date).getDate()}
-                        </div>
-                        <div>
-                          <span className="font-medium text-slate-900">
-                            {new Date(dateData.date).toLocaleDateString(
-                              "es-ES",
-                              {
-                                weekday: "long",
-                                month: "short",
-                                day: "numeric",
-                              },
-                            )}
-                          </span>
-                          <p className="text-sm text-slate-500">
-                            {dateData.count} participaciones
-                          </p>
-                        </div>
+                return (
+                  <div
+                    key={dateData.date}
+                    className="group flex items-center justify-between rounded-lg p-3 transition-colors hover:bg-slate-50"
+                  >
+                    <div className="flex items-center space-x-4">
+                      <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-blue-500 to-blue-600 text-sm font-semibold text-white">
+                        {new Date(dateData.date).getDate()}
                       </div>
-
-                      <div className="flex items-center space-x-4">
-                        <div className="relative h-3 w-32 overflow-hidden rounded-full bg-slate-200">
-                          <div
-                            className="h-full rounded-full bg-gradient-to-r from-blue-500 to-blue-600 transition-all duration-500 ease-out"
-                            style={{ width: `${widthPercentage}%` }}
-                          ></div>
-                        </div>
-                        <span className="w-12 text-right text-lg font-bold text-slate-900">
-                          {dateData.count}
+                      <div>
+                        <span className="font-medium text-slate-900">
+                          {new Date(dateData.date).toLocaleDateString("es-ES", {
+                            weekday: "long",
+                            month: "short",
+                            day: "numeric",
+                          })}
                         </span>
+                        <p className="text-sm text-slate-500">
+                          {dateData.count} participaciones
+                        </p>
                       </div>
                     </div>
-                  );
-                })}
+
+                    <div className="flex items-center space-x-4">
+                      <div className="relative h-3 w-32 overflow-hidden rounded-full bg-slate-200">
+                        <div
+                          className="h-full rounded-full bg-gradient-to-r from-blue-500 to-blue-600 transition-all duration-500 ease-out"
+                          style={{ width: `${widthPercentage}%` }}
+                        ></div>
+                      </div>
+                      <span className="w-12 text-right text-lg font-bold text-slate-900">
+                        {dateData.count}
+                      </span>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>

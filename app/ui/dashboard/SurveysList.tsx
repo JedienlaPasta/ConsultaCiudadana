@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import { formatDateToSpanish } from "@/app/lib/utils/format";
 import { SurveyGeneralData } from "@/app/lib/definitions/encuesta";
 import RexLoader from "../RexAnimation";
-import SurveyState from "../SurveyState";
 
 export default function DashboardSurveysList({
   surveys,

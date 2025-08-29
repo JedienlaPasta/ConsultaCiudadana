@@ -91,12 +91,16 @@ export default function AnalyticsDonuts({
   };
 
   // Handler principal: Pie onMouseMove
-  const handlePieMouseMove = (entry: any, _index: number, e: any) => {
+  const handlePieMouseMove = (
+    entry: { name?: string; value?: number; payload?: { color?: string }; color?: string },
+    _index: number,
+    e: React.MouseEvent<SVGElement> | { clientX?: number; clientY?: number }
+  ) => {
     if (!chartRef.current) return;
 
     // obtener event real (Recharts pasa event como 3er argumento normalmente)
-    const clientX = e?.clientX ?? e?.nativeEvent?.clientX ?? 0;
-    const clientY = e?.clientY ?? e?.nativeEvent?.clientY ?? 0;
+    const clientX = (e as React.MouseEvent)?.clientX ?? (e as React.MouseEvent)?.nativeEvent?.clientX ?? (e as any)?.clientX ?? 0;
+    const clientY = (e as React.MouseEvent)?.clientY ?? (e as React.MouseEvent)?.nativeEvent?.clientY ?? (e as any)?.clientY ?? 0;
 
     const rect = chartRef.current.getBoundingClientRect();
     const relX = clientX - rect.left;
