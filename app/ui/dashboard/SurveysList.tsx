@@ -48,9 +48,9 @@ function Survey({ survey }: { survey: SurveyGeneralData }) {
   return (
     <Link
       href={`/dashboard/consultas/${survey.id}`}
-      className="mb-10 overflow-hidden rounded-2xl bg-gradient-to-br from-blue-800/95 via-blue-600 to-blue-800/95 shadow-xl"
+      className="overflow-hidden rounded-3xl bg-gradient-to-br from-slate-800/95 via-slate-700 to-slate-800/95 shadow transition-all duration-200 hover:shadow-lg"
     >
-      <div className="relative px-8 py-8">
+      <div className="relative px-8 py-7">
         {/* Background Pattern */}
         <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2260%22%20height%3D%2260%22%20viewBox%3D%220%200%2060%2060%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cg%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%3E%3Cg%20fill%3D%22%2523ffffff%22%20fill-opacity%3D%220.05%22%3E%3Ccircle%20cx%3D%2230%22%20cy%3D%2230%22%20r%3D%222%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-30"></div>
 
@@ -74,9 +74,9 @@ function Survey({ survey }: { survey: SurveyGeneralData }) {
               <h1 className="mb-2 text-2xl font-bold text-white">
                 {survey.survey_name}
               </h1>
-              <p className="text text-blue-100">
+              {/* <p className="text text-blue-100">
                 {survey.survey_short_description}
-              </p>
+              </p> */}
             </div>
             <div className="ml-6 hidden lg:block">
               <div className="rounded-xl bg-white/10 p-3 backdrop-blur-sm">
@@ -97,8 +97,8 @@ function Survey({ survey }: { survey: SurveyGeneralData }) {
             </div>
           </div>
 
-          <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-3">
-            <div className="rounded-xl bg-white/10 px-4 py-3">
+          <div className="mt-2 grid grid-cols-1 gap-6 sm:grid-cols-3">
+            <div className="rounded-lg bg-white/10 px-4 py-3">
               <div className="flex items-center">
                 <div className="rounded-lg bg-white/20 p-2">
                   <svg
@@ -116,17 +116,17 @@ function Survey({ survey }: { survey: SurveyGeneralData }) {
                   </svg>
                 </div>
                 <div className="ml-3">
-                  <p className="text-sm font-medium text-blue-100">
+                  <p className="text-xs font-medium text-blue-100">
                     Fecha de Inicio
                   </p>
-                  <p className="font-semibold text-white">
+                  <p className="text-sm font-semibold text-white">
                     {formatDateToSpanish(survey.survey_start_date)}
                   </p>
                 </div>
               </div>
             </div>
 
-            <div className="rounded-xl bg-white/10 px-4 py-3">
+            <div className="rounded-lg bg-white/10 px-4 py-3">
               <div className="flex items-center">
                 <div className="rounded-lg bg-white/20 p-2">
                   <svg
@@ -144,17 +144,17 @@ function Survey({ survey }: { survey: SurveyGeneralData }) {
                   </svg>
                 </div>
                 <div className="ml-3">
-                  <p className="text-sm font-medium text-blue-100">
+                  <p className="text-xs font-medium text-blue-100">
                     Fecha de Término
                   </p>
-                  <p className="font-semibold text-white">
+                  <p className="text-sm font-semibold text-white">
                     {formatDateToSpanish(survey.survey_end_date)}
                   </p>
                 </div>
               </div>
             </div>
 
-            <div className="rounded-xl bg-white/10 px-4 py-3">
+            <div className="rounded-lg bg-white/10 px-4 py-3">
               <div className="flex items-center">
                 <div className="rounded-lg bg-emerald-500 p-2">
                   <svg
@@ -172,8 +172,10 @@ function Survey({ survey }: { survey: SurveyGeneralData }) {
                   </svg>
                 </div>
                 <div className="ml-3">
-                  <p className="text-sm font-medium text-blue-100">Estado</p>
-                  <p className="font-semibold text-emerald-400">Activa</p>
+                  <p className="text-xs font-medium text-blue-100">Estado</p>
+                  <p className="text-sm font-semibold text-emerald-400">
+                    Activa
+                  </p>
                 </div>
               </div>
             </div>
