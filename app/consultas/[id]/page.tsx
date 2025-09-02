@@ -24,7 +24,6 @@ export default async function SurveyDetail(props: SurveyDetailsProps) {
   const params = await props.params;
   const id = params.id;
   const survey = await getSurveyDetails(id);
-  // console.log(survey);
   if (!survey.survey_name) {
     redirect("/consultas");
   }
@@ -121,68 +120,27 @@ export default async function SurveyDetail(props: SurveyDetailsProps) {
         <div className="grid grid-cols-1 md:gap-6 lg:grid-cols-3">
           {/* Left Column - About & Details */}
           <div className="lg:col-span-2">
-            <div className="mb-6 flex flex-col gap-5 rounded-xl shadow-gray-200/80 md:border md:border-gray-200 md:shadow-md">
-              <span className="-mb-2 flex w-full border-gray-200 px-6 pt-4 md:mb-0 md:border-b md:pt-6 md:pb-4">
-                <h2 className="text-xl font-bold text-[#23396f] md:text-2xl">
+            <div className="flex flex-col gap-5 rounded-xl">
+              <div className="space-y-2">
+                <h2 className="px-5 pt-3 text-xl font-bold text-[#23396f] md:p-0 md:text-2xl">
                   Acerca de esta Consulta
                 </h2>
-              </span>
-              {/* <span className="px-6 text-sm text-gray-500">
-                <p>
-                  Conoce más sobre esta iniciativa y cómo tu participación puede
-                  marcar una diferencia en los espacios públicos de la comuna de
-                  El Quisco.
-                  {survey.survey_links[0] && (
-                    <span>
-                      {" "}
-                      Antes de responder la consulta, es fundamental leer las
-                      siguientes definiciones y revisar el documento completo en
-                      el siguiente enlace:{" "}
-                      <Link
-                        className="text-[#23396f] underline"
-                        href={survey.survey_links[0]}
-                        target="_blank"
-                      >
-                        {survey.survey_links[0]}
-                      </Link>
-                    </span>
-                  )}
-                </p>
-              </span> */}
 
-              <div className="space-y-4 px-6">
-                <p className="text-sm leading-relaxed text-slate-600">
+                <p className="mb-3 px-5 pb-2 text-sm leading-relaxed text-slate-600 md:p-0">
                   Conoce más sobre esta iniciativa y cómo tu participación puede
                   marcar una diferencia en los espacios públicos de la comuna de
                   El Quisco.
                 </p>
 
                 {survey.survey_links[0] && (
-                  <div className="relative overflow-hidden rounded-xl border border-blue-100/60 bg-gradient-to-r from-blue-50/80 to-indigo-50/60 p-4 transition-all duration-200 hover:border-blue-200/80 hover:shadow-md">
-                    <div className="absolute top-0 left-0 h-full w-1 rounded-r bg-gradient-to-b from-blue-400 to-blue-500"></div>
-                    <div className="ml-3 flex items-start space-x-3">
-                      <div className="mt-0.5 flex-shrink-0">
-                        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-r from-blue-500 to-blue-500">
-                          <svg
-                            className="h-4 w-4 text-white"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                            />
-                          </svg>
-                        </div>
-                      </div>
-                      <div className="min-w-0 flex-1">
+                  <div className="group relative overflow-hidden rounded-xl border border-blue-200/80 bg-gradient-to-r from-blue-50/80 to-indigo-50/80 px-8 py-5 transition-all duration-200 hover:border-blue-200/80 hover:shadow-md">
+                    <div className="absolute top-1/2 left-0 h-[60%] w-1.5 translate-y-[-50%] rounded-r bg-gradient-to-b from-blue-400 to-blue-500 transition-all duration-300 group-hover:h-[65%]"></div>
+                    <div className="flex items-start space-x-3">
+                      <div className="flex-1">
                         <h4 className="mb-2 text-sm font-semibold text-slate-800">
                           Documentación Complementaria
                         </h4>
-                        <p className="mb-3 text-sm leading-relaxed text-slate-600">
+                        <p className="mb-0 text-sm leading-relaxed text-slate-600">
                           Para una participación informada, te recomendamos
                           revisar el documento completo antes de votar.
                         </p>
@@ -212,30 +170,30 @@ export default async function SurveyDetail(props: SurveyDetailsProps) {
                 )}
               </div>
 
-              <span className="px-6">
-                <h3 className="mb-1 text-lg font-semibold text-[#23396f]">
+              <div className="overflow-hidden rounded-xl border border-slate-200/80 bg-gradient-to-br from-white via-blue-50/30 to-indigo-50/50 p-5 sm:px-8 sm:py-6">
+                <h3 className="mb-2 bg-gradient-to-r from-[#23396f] to-blue-700 bg-clip-text text-xl font-bold text-transparent">
                   Descripción General
                 </h3>
                 <div
-                  className="whitespace-pre-line text-gray-600"
+                  className="leading-relaxed whitespace-pre-line text-slate-600 sm:pl-1"
                   dangerouslySetInnerHTML={{
                     __html: sanitizeHTML(survey.survey_large_description),
                   }}
                 ></div>
-              </span>
+              </div>
 
-              <span className="px-6">
-                <h3 className="mb-1 text-lg font-semibold text-[#23396f]">
+              <div className="overflow-hidden rounded-xl border border-slate-200/80 bg-gradient-to-br from-white via-blue-50/30 to-indigo-50/50 p-5 sm:px-8 sm:py-6">
+                <h3 className="mb-2 bg-gradient-to-r from-[#23396f] to-blue-700 bg-clip-text text-xl font-bold text-transparent">
                   Objetivos
                 </h3>
-                <ul className="!ml-0 list-disc space-y-1 pl-5 text-gray-600 md:space-y-2">
+                <ul className="list-disc space-y-1 text-slate-600 marker:text-indigo-700 sm:pl-1 md:space-y-1.5">
                   {survey.objectives.map((objective) => (
                     <li key={objective}>{objective}</li>
                   ))}
                 </ul>
-              </span>
+              </div>
 
-              <span className="mb-6 px-6">
+              <span className="mb-6">
                 <Schedule schedule={survey.chronogram} />
               </span>
             </div>
@@ -255,14 +213,11 @@ export default async function SurveyDetail(props: SurveyDetailsProps) {
 
           {/* Right Column - Participation */}
           <div className="lg:col-span-1">
-            <div className="sticky top-24 overflow-hidden border-t border-gray-200 md:mb-6 md:rounded-xl md:border md:shadow-md md:shadow-gray-200/80">
-              <span className="bg-gradient-to-rs flex w-full border-b border-gray-200 from-gray-700 to-gray-800 px-6 py-10 md:pt-6 md:pb-3">
-                <h2 className="mb-2 text-xl font-bold text-[#23396f]">
+            <div className="sticky top-24 overflow-hidden border-t border-slate-200/80 bg-gradient-to-br from-white via-blue-50/30 to-indigo-50/50 md:mb-8 md:rounded-xl md:border md:shadow md:shadow-gray-200/80">
+              <div className="space-y-3 px-5 py-6">
+                <h2 className="mb-4 text-xl font-bold text-[#23396f]">
                   Detalles de la Consulta
                 </h2>
-              </span>
-
-              <div className="space-y-3 px-6 py-10 md:py-6">
                 {/* Status */}
                 <div className="flex items-center justify-between rounded-xl border border-slate-200/50 bg-gradient-to-r from-slate-50 to-blue-50/30 px-4 py-3">
                   <div className="flex items-center space-x-2">
@@ -311,7 +266,7 @@ export default async function SurveyDetail(props: SurveyDetailsProps) {
                       Departamento
                     </span>
                   </div>
-                  <span className="text-sm font-medium text-slate-800">
+                  <span className="text-sm font-medium text-[#23396f]">
                     {survey.department}
                   </span>
                 </div>
@@ -336,7 +291,7 @@ export default async function SurveyDetail(props: SurveyDetailsProps) {
                       Fecha de inicio
                     </span>
                   </div>
-                  <span className="text-sm font-medium text-slate-700">
+                  <span className="text-sm font-medium text-[#23396f]">
                     {formatDateToSpanish(survey.survey_start_date)}
                   </span>
                 </div>
@@ -361,18 +316,18 @@ export default async function SurveyDetail(props: SurveyDetailsProps) {
                       Fecha término
                     </span>
                   </div>
-                  <span className="text-sm font-medium text-slate-800">
+                  <span className="text-sm font-medium text-[#23396f]">
                     {formatDateToSpanish(survey.survey_end_date)}
                   </span>
                 </div>
               </div>
 
-              <div className="px-6">
-                <div className="rounded-lg border border-blue-200 bg-blue-50">
-                  <h3 className="border-b border-blue-200 px-4 pt-3 pb-2 font-semibold text-[#0A4C8A]">
+              <div className="px-5">
+                <div className="rounded-xl border border-blue-200/80 bg-gradient-to-r from-blue-50/80 to-indigo-50/80">
+                  <h3 className="border-b border-blue-200/80 px-5 pt-3 pb-2 font-semibold text-[#0A4C8A]">
                     Cómo Participar
                   </h3>
-                  <ol className="space-y-2 p-4 text-sm text-gray-600">
+                  <ol className="space-y-2 px-5 py-4 text-sm text-[#06427b]">
                     <li className="flex">
                       <span className="mr-2">1.</span>
                       <span>
@@ -399,12 +354,12 @@ export default async function SurveyDetail(props: SurveyDetailsProps) {
               </div>
 
               {isLoggedIn ? (
-                <div className="px-6 pb-6">
+                <div className="px-5 pb-5">
                   <VoteBtn id={id} surveyState={surveyState()} />
                 </div>
               ) : (
-                <div className="px-6 pb-6">
-                  <div className="mt-6 rounded-lg border border-blue-200 bg-blue-50 p-4">
+                <div className="px-5 pb-5">
+                  <div className="mt-6 rounded-xl border border-blue-200 bg-gradient-to-r from-blue-50/80 to-indigo-50/80 p-4">
                     <div className="mb-3 flex items-center">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"

@@ -12,7 +12,7 @@ export default function VoteBtn({ id, surveyState }: VoteBtnProps) {
 
   return (
     <div>
-      <div className="group mt-6 rounded-lg border border-gray-200 bg-gray-50 select-none">
+      <div className="group mt-6 rounded-xl border border-gray-200 bg-gray-50 select-none">
         <label className="group flex cursor-pointer items-start gap-3 rounded-lg px-4.5 py-4 focus-within:ring-2 focus-within:ring-blue-300 focus-within:ring-offset-0">
           <input
             type="checkbox"
