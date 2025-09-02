@@ -99,14 +99,14 @@ export default function Navbar({ isLoggedIn }: { isLoggedIn: boolean }) {
                 Consultas
               </Link>
             </li>
-            <li>
+            {/* <li>
               <Link
                 href="#"
                 className="flex min-h-11 items-center rounded-sm px-4 text-white outline-4 outline-[#0f69c4] transition-colors outline-none hover:bg-[#0B4E91] focus:outline-solid"
               >
                 Resultados
               </Link>
-            </li>
+            </li> */}
             <li>
               <Link
                 href="#"

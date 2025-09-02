@@ -68,11 +68,11 @@ function Survey({ survey }: { survey: SurveyGeneralData }) {
       href={`/consultas/${survey.id}`}
       className="group flex transform transition-all duration-300 hover:translate-y-[-4px]"
     >
-      <div className="flex min-h-[185px] grow">
-        <div className="col-span-10 flex grow flex-col rounded-l-2xl border border-r-8 border-gray-200 border-r-gray-300 bg-white shadow-md shadow-gray-200/80 transition-all group-hover:shadow-lg">
-          <div className="flex h-full grow flex-col px-6.5 pt-5 pb-3 md:gap-1 md:p-8 md:pb-3">
+      <div className="min-h-[185px]s flex grow">
+        <div className="col-span-10 flex grow flex-col rounded-l-2xl border border-r-8 border-slate-200/80 border-r-gray-300 bg-gradient-to-br from-white via-blue-50/60 to-indigo-50/70 shadow-md shadow-gray-200/80 transition-all group-hover:shadow-lg">
+          <div className="flex h-full grow flex-col px-6.5 pt-5 pb-3 md:gap-1 md:p-7 md:pb-5">
             <div className="flex flex-col justify-between gap-1.5 md:flex-row">
-              <h3 className="text-lg font-bold text-[#0A4C8A] transition-colors group-hover:text-[#002F4C] md:text-xl">
+              <h3 className="text-lg font-bold text-[#0A4C8A] transition-colors group-hover:text-[#03529c] md:text-xl">
                 {survey.survey_name}
               </h3>
               <div className="mb-2 flex flex-wrap gap-2">
@@ -104,13 +104,13 @@ function Survey({ survey }: { survey: SurveyGeneralData }) {
               </svg>
               <span>{startDate > new Date() ? "Inicio:" : "Término:"}</span>
               <span
-                className={daysLeft() > 0 ? "text-slate-600" : "text-rose-400"}
+                className={daysLeft() > 0 ? "text-slate-600" : "text-rose-500"}
               >
                 {daysLeft() + (daysLeft() === 1 ? " día" : " días")}
               </span>
             </p>
             <span
-              className={`transition-colors ${daysLeft() > 0 ? "text-slate-600" : "text-rose-400"} [#0A4C8A] group-hover:text-[#002F4C]" : "text-rose-500"}`}
+              className={`transition-colors ${daysLeft() > 0 ? "text-slate-600" : "text-rose-500"} [#0A4C8A] group-hover:text-[#002F4C]" : "text-rose-500"}`}
             >
               {startDate > new Date()
                 ? "Ver detalle →"
@@ -122,7 +122,7 @@ function Survey({ survey }: { survey: SurveyGeneralData }) {
         </div>
         <div
           title="Término de la consulta"
-          className="rounded-l-lgs col-span-2 hidden min-w-[10rem] items-center justify-center rounded-r-3xl bg-gradient-to-br from-[#093F75] to-[#0A4C8A] text-slate-100 shadow-md transition-all group-hover:from-[#002F4C] group-hover:to-[#0A4C8A] sm:flex"
+          className="rounded-l-lgs col-span-2 hidden min-w-[10rem] items-center justify-center rounded-r-3xl bg-gradient-to-br from-[#082b4e] to-[#2e7ec8] text-slate-100 shadow-md transition-all duration-500 group-hover:from-[#021f31] group-hover:to-[#1d74c6] sm:flex"
         >
           <span className="relative -top-[5%] flex flex-col items-center text-nowrap">
             <p className="text-3xl font-bold">{calendarDate().split(" ")[0]}</p>

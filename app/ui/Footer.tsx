@@ -6,116 +6,202 @@ import punteroImg from "@/public/puntero.svg";
 
 export default function Footer() {
   return (
-    <footer className="relative w-full overflow-hidden bg-[#1F2937]">
+    <footer className="relative w-full overflow-hidden border-t-36 border-slate-900 bg-gradient-to-br from-slate-900 via-gray-900 to-slate-800">
+      {/* Decorative background elements */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent"></div>
+      <div className="absolute top-0 right-0 left-0 h-px bg-gradient-to-r from-transparent via-blue-500/30 to-transparent"></div>
+
+      {/* Floating orbs for visual interest */}
+      <div className="absolute top-10 left-10 h-32 w-32 rounded-full bg-blue-500/10 blur-xl"></div>
+      <div className="absolute right-20 bottom-20 h-24 w-24 rounded-full bg-indigo-500/10 blur-xl"></div>
+
       {/* Main Footer Content */}
-      <div className="container mx-auto max-w-[80rem] px-4 py-8 md:px-8">
+      <div className="relative z-10 container mx-auto max-w-[80rem] px-4 pt-7 pb-12 md:px-8">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-3 lg:grid-cols-4">
           {/* Column 1: Logo and Info */}
-          <div className="flex flex-col space-y-5">
-            <div className="mt-1.5 flex items-center gap-2">
-              <Image
-                width={20}
-                loading="lazy"
-                alt="El Quisco logo"
-                src={elquiscoImg}
-                className="object-contain"
-              />
-              <div className="flex flex-col text-sm leading-tight font-black text-slate-200">
-                <p className="text-blue-500">MUNICIPALIDAD</p>
-                <p className="-mt-1">EL QUISCO</p>
+          <div className="flex flex-col space-y-6">
+            <div className="group">
+              <div className="mt-1.5 flex items-center justify-center gap-3 rounded-xl border border-slate-700/50 bg-gradient-to-br from-slate-800/50 to-gray-800/30 p-4 backdrop-blur-sm transition-all duration-300 hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-500/10">
+                <div className="hfit flex w-fit flex-shrink-0 items-center justify-center shadow-lg">
+                  <Image
+                    width={24}
+                    loading="lazy"
+                    alt="El Quisco logo"
+                    src={elquiscoImg}
+                    className="brightness-0s inverts object-contain filter"
+                  />
+                </div>
+                <div className="flex flex-col text-sm leading-tight font-black">
+                  <p className="tracking-wide text-blue-400">MUNICIPALIDAD</p>
+                  <p className="-mt-1 text-slate-200">EL QUISCO</p>
+                </div>
               </div>
             </div>
+
             <Link
               href={"https://elquisco.cerofilas.gob.cl/"}
               target="_blank"
-              className="flex w-30 cursor-pointer flex-col items-center text-slate-200 hover:text-slate-50"
+              className="group flex cursor-pointer flex-col items-center rounded-xl border border-slate-700/40 bg-gradient-to-br from-slate-800/40 to-gray-800/20 p-4 pb-5 backdrop-blur-sm transition-all duration-300 hover:border-blue-500/40 hover:shadow-lg hover:shadow-blue-500/20"
             >
-              <p className="text-sm font-medium tracking-wider">CONTÁCTANOS</p>
-              <div className="-mt-1 flex gap-1">
-                <Image
-                  width={26}
-                  height={26}
-                  loading="lazy"
-                  alt="Logo OIRS"
-                  src={punteroImg}
-                  className="object-contain"
-                />
-                <span className="relative flex flex-col text-sm font-black tracking-wide">
-                  <p className="mt-">OIRS</p>
-                  <p className="-mt-2">ONLINE</p>
+              <p className="mb-1.5 text-sm font-bold tracking-wider text-slate-300 transition-colors group-hover:text-blue-400">
+                CONTÁCTANOS
+              </p>
+              <div className="flex items-center gap-2">
+                <div className="flex size-9 items-center justify-center rounded-lg bg-gradient-to-br from-blue-500 to-indigo-700 shadow-sm">
+                  <Image
+                    width={24}
+                    height={24}
+                    loading="lazy"
+                    alt="Logo OIRS"
+                    src={punteroImg}
+                    className="object-contain brightness-0 invert filter"
+                  />
+                </div>
+                <span className="flex flex-col text-sm font-black tracking-wide text-slate-200 transition-colors group-hover:text-slate-50">
+                  <p>OIRS</p>
+                  <p className="-mt-1">ONLINE</p>
                 </span>
               </div>
             </Link>
           </div>
 
           {/* Column 2: Quick Links */}
-          <div>
-            <h3 className="mb-2 text-lg font-semibold text-white">
-              Enlaces Rápidos
-            </h3>
-            <ul className="!ml-0 !list-none space-y-1.5 text-sm text-gray-400">
+          <div className="space-y-4">
+            <div className="mb-4 flex items-center gap-2">
+              <div className="h-6 w-1 rounded-full bg-gradient-to-b from-blue-400 to-blue-500"></div>
+              <h3 className="bg-gradient-to-r from-white to-slate-300 bg-clip-text text-lg font-bold text-transparent">
+                Enlaces Rápidos
+              </h3>
+            </div>
+            <ul className="!ml-0 !list-none space-y-3 text-sm">
               <li>
                 <Link
                   href="/"
-                  className="transition-colors hover:text-blue-400"
+                  className="group flex items-center gap-2 rounded-lg p-2 transition-all duration-200 hover:translate-x-1 hover:bg-slate-800/50"
                 >
-                  Participa
+                  <div className="h-1.5 w-1.5 rounded-full bg-blue-400 opacity-0 transition-opacity group-hover:opacity-100"></div>
+                  <span className="text-gray-400 transition-colors group-hover:text-blue-400">
+                    Participa
+                  </span>
                 </Link>
               </li>
               <li>
                 <Link
-                  href="/piimep"
-                  className="transition-colors hover:text-blue-400"
+                  href="/consultas"
+                  className="group flex items-center gap-2 rounded-lg p-2 transition-all duration-200 hover:translate-x-1 hover:bg-slate-800/50"
                 >
-                  Consultas
+                  <div className="h-1.5 w-1.5 rounded-full bg-blue-400 opacity-0 transition-opacity group-hover:opacity-100"></div>
+                  <span className="text-gray-400 transition-colors group-hover:text-blue-400">
+                    Consultas
+                  </span>
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/resultados"
+                  className="group flex items-center gap-2 rounded-lg p-2 transition-all duration-200 hover:translate-x-1 hover:bg-slate-800/50"
+                >
+                  <div className="h-1.5 w-1.5 rounded-full bg-blue-400 opacity-0 transition-opacity group-hover:opacity-100"></div>
+                  <span className="text-gray-400 transition-colors group-hover:text-blue-400">
+                    Resultados
+                  </span>
                 </Link>
               </li>
               <li>
                 <Link
                   href="/preguntas"
-                  className="transition-colors hover:text-blue-400"
+                  className="group flex items-center gap-2 rounded-lg p-2 transition-all duration-200 hover:translate-x-1 hover:bg-slate-800/50"
                 >
-                  Resultados
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/contacto"
-                  className="transition-colors hover:text-blue-400"
-                >
-                  Preguntas Frecuentes
+                  <div className="h-1.5 w-1.5 rounded-full bg-blue-400 opacity-0 transition-opacity group-hover:opacity-100"></div>
+                  <span className="text-gray-400 transition-colors group-hover:text-blue-400">
+                    Preguntas Frecuentes
+                  </span>
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* Column 3: Consultas */}
-          <div>
-            <h3 className="mb-2 text-lg font-semibold text-white">Contacto</h3>
-            <div className="space-y-1.5 text-sm text-gray-400">
-              <p className="text-sm text-gray-400">
-                Av. Francia 011, El Quisco
-                <br />
-                Región de Valparaíso, Chile
-              </p>
-              <p className="text-sm text-gray-400">
-                Teléfono: +56 35 2 456 100
-              </p>
+          {/* Column 3: Contact */}
+          <div className="space-y-4">
+            <div className="mb-4 flex items-center gap-2">
+              <div className="h-6 w-1 rounded-full bg-gradient-to-b from-blue-400 to-blue-500"></div>
+              <h3 className="bg-gradient-to-r from-white to-slate-300 bg-clip-text text-lg font-bold text-transparent">
+                Contacto
+              </h3>
+            </div>
+            <div className="space-y-4">
+              <div className="flex items-center gap-3 rounded-lg border border-slate-700/30 bg-slate-800/30 p-3">
+                <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-blue-500/20 to-indigo-600/20">
+                  <svg
+                    className="h-4 w-4 text-blue-400"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                    />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                    />
+                  </svg>
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-slate-300">
+                    Av. Francia 011, El Quisco
+                  </p>
+                  <p className="text-xs text-slate-400">
+                    Región de Valparaíso, Chile
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-3 rounded-lg border border-slate-700/30 bg-slate-800/30 p-3">
+                <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-blue-500/20 to-indigo-600/20">
+                  <svg
+                    className="h-4 w-4 text-blue-400"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
+                    />
+                  </svg>
+                </div>
+                <p className="text-sm font-medium text-slate-300">
+                  +56 35 2 456 100
+                </p>
+              </div>
             </div>
           </div>
 
           {/* Column 4: Social Media */}
-          <div>
-            <h3 className="mb-2 text-lg font-semibold text-white">Síguenos</h3>
-            <div className="flex items-center space-x-4">
+          <div className="space-y-4">
+            <div className="mb-4 flex items-center gap-2">
+              <div className="h-6 w-1 rounded-full bg-gradient-to-b from-blue-400 to-blue-500"></div>
+              <h3 className="bg-gradient-to-r from-white to-slate-300 bg-clip-text text-lg font-bold text-transparent">
+                Síguenos
+              </h3>
+            </div>
+            <div className="flex items-center gap-3">
               {/* Facebook */}
               <Link
                 href="https://www.facebook.com/MuniDeElQuisco"
                 target="_blank"
-                className="text-gray-400 transition-colors hover:text-blue-500"
+                className="group flex h-12 w-12 items-center justify-center rounded-xl border border-slate-700/50 bg-gradient-to-br from-slate-800/50 to-gray-800/30 transition-all duration-300 hover:scale-110 hover:border-blue-500/50 hover:shadow-lg hover:shadow-blue-500/20"
               >
                 <svg
-                  className="h-6 w-6"
+                  className="h-5 w-5 text-gray-400 transition-colors group-hover:text-blue-500"
                   fill="currentColor"
                   viewBox="0 0 24 24"
                   aria-hidden="true"
@@ -127,14 +213,15 @@ export default function Footer() {
                   />
                 </svg>
               </Link>
+
               {/* Twitter/X */}
               <Link
                 href="https://x.com/elquiscomuni"
                 target="_blank"
-                className="text-gray-400 transition-colors hover:text-slate-50"
+                className="group flex h-12 w-12 items-center justify-center rounded-xl border border-slate-700/50 bg-gradient-to-br from-slate-800/50 to-gray-800/30 transition-all duration-300 hover:scale-110 hover:border-slate-400/50 hover:shadow-lg hover:shadow-slate-500/20"
               >
                 <svg
-                  className="size-5.5"
+                  className="h-4 w-4 text-gray-400 transition-colors group-hover:text-slate-200"
                   fill="currentColor"
                   viewBox="0 0 24 24"
                   aria-hidden="true"
@@ -142,14 +229,15 @@ export default function Footer() {
                   <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
                 </svg>
               </Link>
+
               {/* Instagram */}
               <Link
                 href="https://www.instagram.com/munielquisco"
                 target="_blank"
-                className="text-gray-400 transition-colors hover:text-pink-500"
+                className="group flex h-12 w-12 items-center justify-center rounded-xl border border-slate-700/50 bg-gradient-to-br from-slate-800/50 to-gray-800/30 transition-all duration-300 hover:scale-110 hover:border-pink-500/50 hover:shadow-lg hover:shadow-pink-500/20"
               >
                 <svg
-                  className="size-6"
+                  className="h-5 w-5 text-gray-400 transition-colors group-hover:text-pink-500"
                   fill="currentColor"
                   viewBox="0 0 24 24"
                   aria-hidden="true"
@@ -167,10 +255,11 @@ export default function Footer() {
       </div>
 
       {/* Copyright Bar */}
-      <div className="border-t border-gray-700 bg-[#1a232e]">
-        <div className="container mx-auto max-w-[80rem] px-4 py-4 md:px-8">
+      <div className="relative border-t border-slate-700/50 bg-gradient-to-r from-slate-900/80 via-gray-900/80 to-slate-900/80 backdrop-blur-sm">
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 via-transparent to-indigo-500/5"></div>
+        <div className="relative z-10 container mx-auto max-w-[80rem] px-4 py-6 md:px-8">
           <div className="flex flex-col items-center justify-center md:flex-row">
-            <p className="text-sm text-gray-400">
+            <p className="text-sm font-medium text-slate-400">
               © 2025 Municipalidad de El Quisco. Todos los derechos reservados.
             </p>
           </div>
