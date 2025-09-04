@@ -59,3 +59,47 @@ ul {
   list-style-type: disc;
   margin-left: 1.2rem;
 }
+
+/* Hero Phone Animation */
+.phone-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  max-width: 288px;
+  margin: 0 auto;
+}
+
+.phone {
+  position: relative;
+  width: 288px;
+  height: 560px;
+  background: #252627;
+  border-radius: 40px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+  padding: 10px;
+}
+
+.screen {
+  width: 100%;
+  height: calc(100% - 64px);
+  background: white;
+  border-radius: 0 0 30px 30px;
+  overflow: hidden;
+  position: relative;
+}
+
+.app-screen {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  color: #333;
+}
+
+.app-screen.active {
+  opacity: 1;
+}
