@@ -40,20 +40,20 @@ export default function Hero() {
         <div
           className="absolute inset-0 bg-gradient-to-br from-blue-900/90 via-blue-600/20 to-slate-900/10"
           style={{
-            clipPath: "ellipse(65% 39.5% at 63% 57%)", // Ajusta según la forma de tu blob
+            clipPath: "ellipse(65% 39.5% at 63% 57%)",
           }}
         />
 
         <div
           className="absolute inset-0 scale-x-300 bg-gradient-to-br from-[#0f69c4] via-[#0e4194] to-[#0b1934] sm:scale-x-200 md:scale-x-150 lg:scale-x-110"
           style={{
-            clipPath: "ellipse(93% 95% at 37% 4.8%)", // Ajusta según la forma de tu blob
+            clipPath: "ellipse(93% 95% at 37% 4.8%)",
           }}
         />
         <div
           className="absolute inset-0 scale-x-300 bg-gradient-to-br from-blue-500/70 via-[#0e4194]/30 to-[#0b1934]/40 sm:scale-x-200 md:scale-x-150 lg:scale-x-110"
           style={{
-            clipPath: "ellipse(73% 71.5% at 40% 28%)", // Ajusta según la forma de tu blob
+            clipPath: "ellipse(73% 71.5% at 40% 28%)",
           }}
         />
       </div>
