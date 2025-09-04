@@ -19,7 +19,7 @@ export default async function Home() {
       </Suspense>
       <Navbar isLoggedIn={session !== null} />
       {/* Navbar placeholder */}
-      <div className="h-[50px] bg-transparent"></div>
+      {/* <div className="h-18 bg-transparent"></div> */}
       <div className="relative">
         <div className="">
           <Hero />

@@ -28,7 +28,7 @@ export default function Navbar({ isLoggedIn }: { isLoggedIn: boolean }) {
 
   return (
     <div
-      className={`fixed top-0 left-[50%] z-1050 mx-auto w-[calc(100%+1px)] -translate-x-[50%] transition-all duration-300 ${hasScrolled ? "bg-[#0A4581] shadow-md" : "bg-transparent"}`}
+      className={`fixed top-0 left-[50%] z-1050 mx-auto w-[calc(100%+1px)] -translate-x-[50%] transition-all duration-300 ${hasScrolled ? "bg-[#0e4194] shadow-md" : "bg-transparent"}`}
     >
       <div className="container mx-auto max-w-[80rem]">
         <nav className="flex items-center justify-between px-4 py-3 md:px-8">

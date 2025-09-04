@@ -19,9 +19,9 @@ export default function Footer() {
       <div className="relative z-10 container mx-auto max-w-[80rem] px-4 pt-7 pb-12 md:px-8">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-3 lg:grid-cols-4">
           {/* Column 1: Logo and Info */}
-          <div className="flex flex-col space-y-6">
+          <div className="flex flex-col space-y-4">
             <div className="group">
-              <div className="mt-1.5 flex items-center justify-center gap-3 rounded-xl border border-slate-700/50 bg-gradient-to-br from-slate-800/50 to-gray-800/30 p-4 backdrop-blur-sm transition-all duration-300 hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-500/10">
+              <div className="flex items-center justify-center gap-3 rounded-xl border border-slate-700/50 bg-gradient-to-br from-slate-800/50 to-gray-800/30 p-4 backdrop-blur-sm transition-all duration-300 hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-500/15">
                 <div className="hfit flex w-fit flex-shrink-0 items-center justify-center shadow-lg">
                   <Image
                     width={24}
@@ -43,18 +43,18 @@ export default function Footer() {
               target="_blank"
               className="group flex cursor-pointer flex-col items-center rounded-xl border border-slate-700/40 bg-gradient-to-br from-slate-800/40 to-gray-800/20 p-4 pb-5 backdrop-blur-sm transition-all duration-300 hover:border-blue-500/40 hover:shadow-lg hover:shadow-blue-500/20"
             >
-              <p className="mb-1.5 text-sm font-bold tracking-wider text-slate-300 transition-colors group-hover:text-blue-400">
+              <p className="mb-1 text-sm font-bold tracking-wider text-slate-300 transition-colors group-hover:text-blue-400">
                 CONTÁCTANOS
               </p>
               <div className="flex items-center gap-2">
-                <div className="flex size-9 items-center justify-center rounded-lg bg-gradient-to-br from-blue-500 to-indigo-700 shadow-sm">
+                <div className="flex size-9 items-center justify-center rounded-lg bg-gradient-to-br from-gray-600 to-slate-800 shadow-sm">
                   <Image
-                    width={24}
-                    height={24}
+                    width={26}
+                    height={26}
                     loading="lazy"
                     alt="Logo OIRS"
                     src={punteroImg}
-                    className="object-contain brightness-0 invert filter"
+                    className="object-contain filter"
                   />
                 </div>
                 <span className="flex flex-col text-sm font-black tracking-wide text-slate-200 transition-colors group-hover:text-slate-50">
