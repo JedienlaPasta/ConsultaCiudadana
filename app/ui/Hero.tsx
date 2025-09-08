@@ -25,13 +25,12 @@ export default function Hero() {
   };
 
   useEffect(() => {
-    // Animación automática
     const interval = setInterval(() => {
       setCurrentScreen((prev) => {
         if (prev < totalScreens) return prev + 1;
         return 1; // Reiniciar
       });
-    }, 3000);
+    }, 2500);
 
     return () => clearInterval(interval);
   }, []);
@@ -250,7 +249,7 @@ export default function Hero() {
                       </div>
                     </div>
 
-                    <div className="screen">
+                    <div className="relative h-[calc(100%-64px)] w-full overflow-hidden rounded-b-4xl bg-white">
                       {/* Pantalla 1: Bienvenida mejorada */}
                       <div
                         className={`app-screen ${currentScreen === 1 ? "active" : ""}`}
@@ -350,7 +349,7 @@ export default function Hero() {
                               <span>🌊</span> Playa las Conchitas
                             </div>
                             <div className="flex cursor-pointer items-center gap-2 rounded-lg border border-gray-200 bg-gray-200 px-3 py-3 text-xs">
-                              <span>🌶️</span> Parque Museo de las Esculturas
+                              <span>🏟️</span> Estadio Municipal
                             </div>
                             <div className="flex cursor-pointer items-center gap-2 rounded-lg border border-gray-200 bg-gray-200 px-3 py-3 text-xs">
                               <span>📝</span> Otro lugar
