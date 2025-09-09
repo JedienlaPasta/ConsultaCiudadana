@@ -3,7 +3,7 @@
 export default function ResultsUnavailable() {
   return (
     <div className="container mx-auto flex max-w-[80rem] flex-grow items-center justify-center px-4 md:px-8">
-      <div className="w-full max-w-md flex-grow rounded-lg border border-slate-200 bg-slate-100 p-8 text-center shadow-md">
+      <div className="w-full max-w-md flex-grow rounded-2xl border border-slate-200 bg-slate-100 p-8 text-center shadow-md">
         {/* Icono */}
         <div className="mb-6">
           <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-blue-100">

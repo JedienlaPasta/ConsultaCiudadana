@@ -5,7 +5,7 @@ import {
   SurveyQuestion,
 } from "../definitions/encuesta";
 import { connectToDB } from "../utils/db-connection";
-import sql from "mssql";
+import sql, { pool } from "mssql";
 
 export async function getSurveysList(): Promise<SurveyGeneralData[]> {
   try {
@@ -611,5 +611,49 @@ export async function getSectors(): Promise<Sector[]> {
   } catch (error) {
     console.error("Error al obtener detalles de la encuesta:", error);
     return defaultSectors;
+  }
+}
+
+export async function getAreSurveyResultsAvailable(
+  surveyId: number,
+): Promise<boolean> {
+  try {
+    const pool = await connectToDB();
+    if (!pool) {
+      console.warn("No se pudo establecer conexión con la base de datos");
+      return false;
+    }
+
+    const surveyRequest = pool.request();
+    const surveyResult = await surveyRequest.input(
+      "survey_id",
+      sql.Int,
+      surveyId,
+    ).query(`
+        SELECT survey_start_date, survey_end_date
+        FROM encuestas
+        WHERE id = @survey_id
+      `);
+
+    if (surveyResult.recordset.length === 0) {
+      console.warn("No se encontró la encuesta");
+      return false;
+    }
+
+    const survey = surveyResult.recordset[0];
+    const now = new Date();
+    // const surveyStartDate = new Date(survey.survey_start_date);
+    const surveyEndDate = new Date(survey.survey_end_date);
+
+    if (now < surveyEndDate) {
+      console.warn("La encuesta aún no ha finalizado");
+      return false;
+    }
+
+    // Si la encuesta ya finalizo, permitir ver los resultados
+    return true;
+  } catch (error) {
+    console.error("Error al verificar disponibilidad de resultados:", error);
+    return false;
   }
 }

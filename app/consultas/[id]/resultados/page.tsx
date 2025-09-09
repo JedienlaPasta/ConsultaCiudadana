@@ -1,19 +1,7 @@
-// import ResultsUnavailable from "@/app/ui/consultas/[id]/resultados/ResultsUnavailable";
-// import Footer from "@/app/ui/Footer";
-
-// export default function SurveyResultsPage() {
-//   return (
-//     <div className="flex min-h-dvh flex-col">
-//       <ResultsUnavailable />
-//       <Footer />
-//     </div>
-//   );
-// }
-
-import { getSession } from "@/app/lib/actions/auth";
 import { getSurveyAnalytics } from "@/app/lib/data/analytics";
-import { getSurveyGeneralDetails } from "@/app/lib/data/encuesta";
+import { getAreSurveyResultsAvailable } from "@/app/lib/data/encuesta";
 import BarsAndPieChart from "@/app/ui/consultas/[id]/resultados/Bars&PieChart";
+import ResultsUnavailable from "@/app/ui/consultas/[id]/resultados/ResultsUnavailable";
 import Footer from "@/app/ui/Footer";
 
 type PageProps = {
@@ -21,13 +9,22 @@ type PageProps = {
 };
 
 export default async function SurveyDetailsOverview({ params }: PageProps) {
-  const session = await getSession();
   const surveyId = Number((await params).id);
+  // PENDIENTE
+  // Quizas separar en distintos componentes para renderizar, en el que primero se verifique si ya se pueden mostrar los resultados y si no, se muestre un mensaje de resultados no disponibles.
+  // Luego, en caso de que si esten disponibles los resultados, se renderiza el otro componente que hace la consulta a la base de datos y muestra los resultados.
   const analytics = await getSurveyAnalytics(surveyId);
-  const generalData = await getSurveyGeneralDetails(surveyId);
-  console.log(analytics);
-
+  const areResultsAvailable = await getAreSurveyResultsAvailable(surveyId);
   let counter = 0;
+
+  if (!areResultsAvailable) {
+    return (
+      <div className="flex min-h-dvh flex-col">
+        <ResultsUnavailable />
+        <Footer />
+      </div>
+    );
+  }
 
   return (
     <div className="flex min-h-dvh flex-col bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/50">
