@@ -322,39 +322,45 @@ export default async function SurveyDetail(props: SurveyDetailsProps) {
                 </div>
               </div>
 
-              <div className="px-5">
-                <div className="rounded-xl border border-blue-200/80 bg-gradient-to-r from-blue-50/80 to-indigo-50/80">
-                  <h3 className="border-b border-blue-200/80 px-5 pt-3 pb-2 font-semibold text-[#0A4C8A]">
-                    Cómo Participar
-                  </h3>
-                  <ol className="space-y-2 px-5 py-4 text-sm text-[#06427b]">
-                    <li className="flex">
-                      <span className="mr-2">1.</span>
-                      <span>
-                        Revisa la información detallada sobre el proyecto.
-                      </span>
-                    </li>
-                    <li className="flex">
-                      <span className="mr-2">2.</span>
-                      <span>Inicia sesión con ClaveÚnica.</span>
-                    </li>
-                    <li className="flex">
-                      <span className="mr-2">3.</span>
-                      <span>Envía tu voto antes de la fecha límite.</span>
-                    </li>
-                    <li className="flex">
-                      <span className="mr-2">4.</span>
-                      <span>
-                        Revisa los resultados una vez terminado el proceso de
-                        votación.
-                      </span>
-                    </li>
-                  </ol>
+              {surveyState() === "Abierta" && (
+                <div className="px-5">
+                  <div className="rounded-xl border border-blue-200/80 bg-gradient-to-r from-blue-50/80 to-indigo-50/80">
+                    <h3 className="border-b border-blue-200/80 px-5 pt-3 pb-2 font-semibold text-[#0A4C8A]">
+                      Cómo Participar
+                    </h3>
+                    <ol className="space-y-2 px-5 py-4 text-sm text-[#06427b]">
+                      <li className="flex">
+                        <span className="mr-2">1.</span>
+                        <span>
+                          Revisa la información detallada sobre el proyecto.
+                        </span>
+                      </li>
+                      <li className="flex">
+                        <span className="mr-2">2.</span>
+                        <span>Inicia sesión con ClaveÚnica.</span>
+                      </li>
+                      <li className="flex">
+                        <span className="mr-2">3.</span>
+                        <span>Envía tu voto antes de la fecha límite.</span>
+                      </li>
+                      <li className="flex">
+                        <span className="mr-2">4.</span>
+                        <span>
+                          Revisa los resultados una vez terminado el proceso de
+                          votación.
+                        </span>
+                      </li>
+                    </ol>
+                  </div>
                 </div>
-              </div>
+              )}
 
-              {isLoggedIn ? (
+              {surveyState() === "Cerrada" ? (
                 <div className="px-5 pb-5">
+                  <VoteBtn id={id} surveyState={surveyState()} />
+                </div>
+              ) : isLoggedIn ? (
+                <div className="mt-6 px-5 pb-5">
                   <VoteBtn id={id} surveyState={surveyState()} />
                 </div>
               ) : (

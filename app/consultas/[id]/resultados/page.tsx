@@ -1,72 +1,103 @@
-"use client";
+// import ResultsUnavailable from "@/app/ui/consultas/[id]/resultados/ResultsUnavailable";
+// import Footer from "@/app/ui/Footer";
 
+// export default function SurveyResultsPage() {
+//   return (
+//     <div className="flex min-h-dvh flex-col">
+//       <ResultsUnavailable />
+//       <Footer />
+//     </div>
+//   );
+// }
+
+import { getSession } from "@/app/lib/actions/auth";
+import { getSurveyAnalytics } from "@/app/lib/data/analytics";
+import { getSurveyGeneralDetails } from "@/app/lib/data/encuesta";
+import BarsAndPieChart from "@/app/ui/consultas/[id]/resultados/Bars&PieChart";
 import Footer from "@/app/ui/Footer";
 
-export default function SurveyResultsPage() {
+type PageProps = {
+  params: Promise<{ id: string }>;
+};
+
+export default async function SurveyDetailsOverview({ params }: PageProps) {
+  const session = await getSession();
+  const surveyId = Number((await params).id);
+  const analytics = await getSurveyAnalytics(surveyId);
+  const generalData = await getSurveyGeneralDetails(surveyId);
+  console.log(analytics);
+
+  let counter = 0;
+
   return (
-    <div className="flex min-h-dvh flex-col">
-      <div className="container mx-auto flex max-w-[80rem] flex-grow items-center justify-center px-4 md:px-8">
-        <div className="-mt-16 w-full max-w-md flex-grow rounded-lg bg-white p-8 text-center shadow-lg">
-          {/* Icono */}
-          <div className="mb-6">
-            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-blue-100">
-              <svg
-                className="h-8 w-8 text-blue-600"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
-                />
-              </svg>
+    <div className="flex min-h-dvh flex-col bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/50">
+      <div className="container mx-auto max-w-[80rem] flex-1 px-4 md:py-10 lg:px-8">
+        {/* Enhanced Results Section */}
+        <div className="rounded-2xl bg-white ring-slate-200 md:shadow-lg md:ring-1">
+          <div className="border-b border-slate-200 bg-slate-50/50 py-6 md:px-8">
+            <div className="flex items-center justify-between">
+              <div>
+                <h2 className="text-2xl font-semibold text-slate-900">
+                  Resultados por Pregunta
+                </h2>
+                <p className="text-sm text-slate-600 md:mt-1">
+                  Conteo oficial de las opciones elegidas en la encuesta.
+                </p>
+              </div>
+              <div className="hidden rounded-lg bg-purple-50 p-2 md:block">
+                <svg
+                  className="h-6 w-6 text-purple-600"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"
+                  />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"
+                  />
+                </svg>
+              </div>
             </div>
           </div>
 
-          {/* Título */}
-          <h1 className="mb-4 text-2xl font-bold text-gray-900">
-            Resultados no disponibles
-          </h1>
+          <div className="space-y-8 pt-5 md:p-8">
+            {analytics.questionResults.map((question) => {
+              if (question.isMapQuestion) return;
 
-          {/* Mensaje */}
-          <p className="mb-6 leading-relaxed text-gray-600">
-            Los resultados aún no se encuentran disponibles. Revísalos una vez
-            que la consulta haya terminado.
-          </p>
-
-          {/* Información adicional */}
-          <div className="mb-6 rounded-lg border border-blue-200 bg-blue-50 p-4">
-            <div className="flex items-start">
-              <svg
-                className="mt-0.5 mr-3 h-5 w-5 flex-shrink-0 text-blue-600"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
-              </svg>
-              <p className="text-sm text-blue-800">
-                Los resultados se generarán automáticamente cuando finalice el
-                período de consulta.
-              </p>
-            </div>
+              counter++;
+              return (
+                <div
+                  key={question.questionId}
+                  className="group border-slate-200 pb-4 not-last:border-b sm:pb-12"
+                >
+                  <div className="mb-3 flex items-center space-x-4 md:mb-4">
+                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 text-sm font-bold text-white">
+                      {counter}
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="text-lg font-semibold text-slate-900 transition-colors group-hover:text-indigo-600">
+                        {question.question || `Pregunta ${counter}`}
+                      </h3>
+                    </div>
+                  </div>
+                  <div className="md:ml-12">
+                    <BarsAndPieChart
+                      key={question.questionId}
+                      question={question}
+                    />
+                  </div>
+                </div>
+              );
+            })}
           </div>
-
-          {/* Botón de regreso */}
-          <button
-            onClick={() => window.history.back()}
-            className="w-full rounded-lg bg-blue-600 px-4 py-3 font-medium text-white transition-colors duration-200 hover:bg-blue-700"
-          >
-            Volver atrás
-          </button>
         </div>
       </div>
       <Footer />

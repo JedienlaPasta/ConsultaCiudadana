@@ -8,7 +8,7 @@ import { useRef, useState } from "react";
 // color: "#ffc658" },
 // color: "#ff8042" },
 
-export default function AnalyticsDonuts({
+export default function BarsAndPieChart({
   question,
 }: {
   question: QuestionResult;
@@ -19,6 +19,10 @@ export default function AnalyticsDonuts({
   const chartSize = 300;
   const innerRadius = 80;
   const outerRadius = 150;
+
+  const MOUSE_OFFSET_X = 12;
+  const MOUSE_OFFSET_Y = -12;
+  const PAD = 8;
 
   const initialHover = {
     show: false,
@@ -78,13 +82,6 @@ export default function AnalyticsDonuts({
   const clamp = (v: number, min: number, max: number) =>
     Math.max(min, Math.min(max, v));
 
-  // Centralizado: inner/outer radius (usa los mismos valores que en <Pie>)
-  const INNER_RADIUS = 80;
-  const OUTER_RADIUS = 150;
-  const MOUSE_OFFSET_X = 12;
-  const MOUSE_OFFSET_Y = -12;
-  const PAD = 8;
-
   const updateHover = (next: Partial<typeof initialHover>) => {
     hoverRef.current = { ...hoverRef.current, ...next };
     setHover({ ...hoverRef.current });
@@ -117,7 +114,7 @@ export default function AnalyticsDonuts({
     const distance = Math.sqrt(dx * dx + dy * dy);
 
     // fuera del anillo -> ocultar inmediatamente
-    if (distance < INNER_RADIUS || distance > OUTER_RADIUS) {
+    if (distance < innerRadius || distance > outerRadius) {
       if (hoverRef.current.show) {
         updateHover({ show: false });
       }
@@ -169,12 +166,29 @@ export default function AnalyticsDonuts({
     <div className="space-y-8">
       <div
         key={question.questionId}
-        className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm"
+        className="borders rounded-xl border-slate-200 bg-white md:pr-6"
       >
-        <div className="flex flex-col rounded-lg px-4 lg:flex-row lg:items-center lg:space-x-8">
-          <div className="flex-1">
-            <div className="grid grid-cols-1 sm:grid-cols-2">
+        <div className="flex flex-col items-center gap-6 rounded-lg lg:flex-row lg:space-x-8">
+          {/* Bars Graph */}
+          <div className="w-full">
+            <div className="grid grid-cols-1 gap-1.5">
+              <span className="flex justify-between text-sm font-medium text-slate-500">
+                <span className="flex gap-1.5">
+                  <p className="ml-3 rounded bg-slate-200/80 px-2">%</p>
+                  <p className="rounded bg-slate-200/80 px-2">Opciones</p>
+                </span>
+                <p className="rounded bg-slate-200/80 px-2">Votos</p>
+              </span>
               {legendData.map((segment, index) => {
+                // Encontrar el valor máximo de votos
+                const maxVotes = Math.max(
+                  ...legendData.map((item) => item.value),
+                );
+
+                // Calcular el porcentaje basado en el valor máximo
+                const barWidth =
+                  maxVotes > 0 ? (segment.value / maxVotes) * 100 : 0;
+
                 const percentage =
                   totalVotes > 0 ? (segment.value / totalVotes) * 100 : 0;
                 const hasVotes = segment.value > 0;
@@ -182,35 +196,44 @@ export default function AnalyticsDonuts({
                   <div
                     key={index}
                     title={segment.name}
-                    className={`flex cursor-context-menu items-start space-x-3 divide-y divide-slate-200 rounded-lg px-3.5 py-2.5 transition-colors duration-200 hover:bg-slate-200/50 ${
-                      hasVotes ? "" : "opacity-60"
-                    }`}
+                    className="relative flex cursor-pointer items-center space-x-2 overflow-hidden rounded-lg bg-slate-200/50 px-3.5 py-2.5 transition-all duration-300 hover:scale-103"
                   >
                     <div
-                      className="mt-0.5 size-4 flex-shrink-0 rounded-sm"
+                      className="absolute top-0 left-0 h-full flex-shrink-0 rounded-sm"
                       style={{
                         backgroundColor: segment.color,
-                        opacity: hasVotes ? 1 : 0.5,
+                        width: `${barWidth}%`,
+                        opacity: hasVotes ? 0.8 : 0.5,
                       }}
                     ></div>
-                    <div className="min-w-0 flex-1">
+                    <div
+                      className={`z-10 text-sm font-semibold ${
+                        hasVotes
+                          ? "text-slate-900/90"
+                          : "text-gray-400 opacity-60"
+                      }`}
+                    >
+                      {percentage.toFixed(0)}%
+                    </div>
+                    <div className="z-10 min-w-0 flex-1">
                       <div
                         className={`truncate text-sm font-medium ${
-                          hasVotes ? "text-slate-700" : "text-gray-500"
+                          hasVotes
+                            ? "text-slate-900/90"
+                            : "text-gray-400 opacity-60"
                         }`}
                       >
                         {segment.name}
                       </div>
-                      <div className="mb-1 text-xs text-gray-500/90">
-                        {segment.value.toLocaleString()} votos
-                      </div>
                     </div>
                     <div
-                      className={`text-sm font-semibold ${
-                        hasVotes ? "text-slate-700" : "text-gray-400"
+                      className={`z-10 text-sm font-medium ${
+                        hasVotes
+                          ? "text-slate-900/90"
+                          : "text-gray-400 opacity-60"
                       }`}
                     >
-                      {percentage.toFixed(0)}%
+                      {segment.value.toLocaleString()}
                     </div>
                   </div>
                 );
@@ -218,18 +241,18 @@ export default function AnalyticsDonuts({
             </div>
           </div>
           {/* Gráfico de Dona */}
-          <div className="mb-6 flex-shrink-0 outline-none lg:mb-0">
+          <div className="outline-none md:mb-6 lg:mb-0">
             <div
               ref={chartRef}
               onMouseLeave={handleChartMouseLeave}
-              className="relative h-[350px] w-[350px] rounded-full outline-none"
+              className={`relative hidden size-[350px] rounded-full outline-none sm:block`}
             >
               <ResponsiveContainer
                 width="100%"
                 height="100%"
                 className="[&_svg]:outline-none [&_svg_*]:outline-none"
               >
-                <PieChart className="borders rounded-full bg-slate-100">
+                <PieChart className="rounded-full bg-slate-200/80">
                   <Pie
                     data={data}
                     dataKey="value"
@@ -302,53 +325,6 @@ export default function AnalyticsDonuts({
               </div>
             </div>
           </div>
-
-          {/* Leyenda */}
-          {/* <div className="flex-1">
-            <div className="grid grid-cols-1 sm:grid-cols-2">
-              {legendData.map((segment, index) => {
-                const percentage =
-                  totalVotes > 0 ? (segment.value / totalVotes) * 100 : 0;
-                const hasVotes = segment.value > 0;
-                return (
-                  <div
-                    key={index}
-                    title={segment.name}
-                    className={`flex cursor-context-menu items-start space-x-3 divide-y divide-slate-200 rounded-lg px-3.5 py-2.5 transition-colors duration-200 hover:bg-slate-200/50 ${
-                      hasVotes ? "" : "opacity-60"
-                    }`}
-                  >
-                    <div
-                      className="mt-0.5 size-4 flex-shrink-0 rounded-sm"
-                      style={{
-                        backgroundColor: segment.color,
-                        opacity: hasVotes ? 1 : 0.5,
-                      }}
-                    ></div>
-                    <div className="min-w-0 flex-1">
-                      <div
-                        className={`truncate text-sm font-medium ${
-                          hasVotes ? "text-slate-700" : "text-gray-500"
-                        }`}
-                      >
-                        {segment.name}
-                      </div>
-                      <div className="mb-1 text-xs text-gray-500/90">
-                        {segment.value.toLocaleString()} votos
-                      </div>
-                    </div>
-                    <div
-                      className={`text-sm font-semibold ${
-                        hasVotes ? "text-slate-700" : "text-gray-400"
-                      }`}
-                    >
-                      {percentage.toFixed(0)}%
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div> */}
         </div>
       </div>
     </div>

@@ -7,6 +7,7 @@ export type QuestionResult = {
   totalVotes: number;
   isSubQuestion: boolean;
   parentOptionId?: number;
+  isMapQuestion: boolean;
   options: {
     optionId: number;
     optionName: string;
@@ -110,6 +111,7 @@ export async function getSurveyAnalytics(
         SELECT
           p.id as question_id,
           p.question,
+          p.question_type as is_map_question,
           o.id as option_id,
           o.option_name,
           COUNT(v.id) as vote_count,
@@ -121,7 +123,7 @@ export async function getSurveyAnalytics(
         INNER JOIN opciones o ON p.id = o.question_id
         LEFT JOIN votos v ON o.id = v.option_id AND v.survey_id = @survey_id
         WHERE ep.survey_id = @survey_id
-        GROUP BY p.id, p.question, o.id, o.option_name, ep.question_order
+        GROUP BY p.id, p.question, p.question_type, o.id, o.option_name, ep.question_order
         
         UNION ALL
         
@@ -129,6 +131,7 @@ export async function getSurveyAnalytics(
         SELECT
           sp.id as question_id,
           sp.question,
+          sp.question_type as is_map_question,
           so.id as option_id,
           so.option_name,
           COUNT(sv.id) as vote_count,
@@ -142,7 +145,7 @@ export async function getSurveyAnalytics(
         INNER JOIN opciones so ON sp.id = so.question_id
         LEFT JOIN votos sv ON so.id = sv.option_id AND sv.survey_id = @survey_id
         WHERE ep.survey_id = @survey_id
-        GROUP BY sp.id, sp.question, so.id, so.option_name, ep.question_order, parent_o.id
+        GROUP BY sp.id, sp.question, sp.question_type, so.id, so.option_name, ep.question_order, parent_o.id
         
         ORDER BY question_order, option_id
       `);
@@ -157,6 +160,7 @@ export async function getSurveyAnalytics(
           totalVotes: 0,
           isSubQuestion: row.is_sub_question,
           parentOptionId: row.parent_option_id,
+          isMapQuestion: row.is_map_question === "mapa",
           options: [],
         });
       }
