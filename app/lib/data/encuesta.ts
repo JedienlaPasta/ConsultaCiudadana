@@ -5,7 +5,7 @@ import {
   SurveyQuestion,
 } from "../definitions/encuesta";
 import { connectToDB } from "../utils/db-connection";
-import sql, { pool } from "mssql";
+import sql from "mssql";
 
 export async function getSurveysList(): Promise<SurveyGeneralData[]> {
   try {

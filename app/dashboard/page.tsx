@@ -6,7 +6,6 @@ import Header from "../ui/dashboard/Header";
 import { getSurveysListByAccess } from "../lib/data/encuesta";
 import Link from "next/link";
 import AnalyticsCard from "../ui/dashboard/AnalyticsCard";
-import DashboardSurveysList from "../ui/dashboard/SurveysList";
 import AlternativeSurveyList from "../ui/dashboard/AlternativeSurveyList";
 
 export default async function Dashboard() {
