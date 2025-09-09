@@ -7,6 +7,7 @@ import { getSurveysListByAccess } from "../lib/data/encuesta";
 import Link from "next/link";
 import AnalyticsCard from "../ui/dashboard/AnalyticsCard";
 import DashboardSurveysList from "../ui/dashboard/SurveysList";
+import AlternativeSurveyList from "../ui/dashboard/AlternativeSurveyList";
 
 export default async function Dashboard() {
   const session = await getSession();
@@ -234,7 +235,8 @@ export default async function Dashboard() {
             </div>
           </div>
 
-          <DashboardSurveysList surveys={surveys} />
+          <AlternativeSurveyList surveys={surveys} />
+          {/* <DashboardSurveysList surveys={surveys} /> */}
         </div>
       </div>
       <Footer />

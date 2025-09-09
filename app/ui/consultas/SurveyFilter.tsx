@@ -31,18 +31,16 @@ export default function SurveyFilter() {
   };
 
   return (
-    <div className="flex items-center justify-start">
-      <div className="flex items-center overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm">
-        {filterTabs.map((tab) => (
-          <Tab
-            key={tab.key}
-            title={tab.label}
-            tabKey={tab.key}
-            isActive={tab.key === currentTab}
-            onClick={() => handleTabChange(tab.key)}
-          />
-        ))}
-      </div>
+    <div className="flex items-center gap-2">
+      {filterTabs.map((tab) => (
+        <Tab
+          key={tab.key}
+          title={tab.label}
+          tabKey={tab.key}
+          isActive={tab.key === currentTab}
+          onClick={() => handleTabChange(tab.key)}
+        />
+      ))}
     </div>
   );
 }
@@ -58,10 +56,10 @@ function Tab({ title, isActive, onClick }: TabProps) {
   return (
     <button
       onClick={onClick}
-      className={`px-6 py-2 text-sm font-medium transition-colors duration-200 ${
+      className={`cursor-pointer rounded-lg border px-6 py-2 text-sm font-medium shadow-sm transition-all duration-200 ${
         isActive
-          ? "bg-[#0A4581] text-white"
-          : "bg-white text-gray-700 hover:cursor-pointer hover:bg-gray-200/90"
+          ? "border-[#0A4581] bg-[#0A4581] text-white shadow-[#0A4581]/60"
+          : "border-gray-200 bg-white text-gray-700 hover:bg-gray-200/90"
       }`}
     >
       {title}

@@ -13,7 +13,7 @@ export default function SurveySearchBar({
   const pathname = usePathname();
   const { replace } = useRouter();
   const [inputValue, setInputValue] = useState(
-    searchParams.get("query")?.toString() || ""
+    searchParams.get("query")?.toString() || "",
   );
 
   // Update input value when URL changes
@@ -70,7 +70,7 @@ export default function SurveySearchBar({
           placeholder={placeholder}
           onChange={handleInputChange}
           value={inputValue}
-          className="w-full rounded-lg border border-gray-300 bg-white py-3 pr-4 pl-10 text-slate-700 placeholder-gray-400 shadow-lg transition-all duration-200 hover:shadow-xl focus:border-blue-500 focus:ring-2 focus:ring-blue-400 focus:outline-none"
+          className="w-full rounded-xl border border-gray-300 bg-white py-3 pr-4 pl-10 text-slate-700 placeholder-gray-400 shadow-lg transition-all duration-200 hover:shadow-xl focus:border-blue-600 focus:ring-2 focus:ring-blue-500 focus:outline-none"
         />
 
         {/* Clear text button - only show when there's text */}

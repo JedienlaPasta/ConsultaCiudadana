@@ -35,7 +35,7 @@ export default function DashboardSurveysList({
   }
   return (
     <div>
-      <div className="grid grid-cols-1 gap-4 md:gap-6">
+      <div className="grid grid-cols-1 gap-4 md:gap-8">
         {surveys?.map((survey, index) => (
           <Survey key={survey.id + "-" + index} survey={survey} />
         ))}
@@ -45,10 +45,43 @@ export default function DashboardSurveysList({
 }
 
 function Survey({ survey }: { survey: SurveyGeneralData }) {
+  const surveyState = () => {
+    if (new Date(survey.survey_start_date) > new Date()) {
+      return "Proximamente";
+    }
+    if (new Date(survey.survey_end_date) > new Date()) {
+      return "Activa";
+    } else {
+      return "Terminada";
+    }
+  };
+
+  const stateTextColor = () => {
+    if (new Date(survey.survey_start_date) > new Date()) {
+      return "text-[#277ff2]";
+    }
+    if (new Date(survey.survey_end_date) > new Date()) {
+      return "text-emerald-500 ";
+    } else {
+      return "text-rose-500";
+    }
+  };
+
+  const stateBgColor = () => {
+    if (new Date(survey.survey_start_date) > new Date()) {
+      return "bg-[#277ff2]";
+    }
+    if (new Date(survey.survey_end_date) > new Date()) {
+      return "bg-emerald-500/85 ";
+    } else {
+      return "bg-rose-500/85";
+    }
+  };
+
   return (
     <Link
       href={`/dashboard/consultas/${survey.id}`}
-      className="overflow-hidden rounded-3xl bg-gradient-to-br from-slate-800/95 via-slate-700 to-slate-800/95 shadow transition-all duration-200 hover:shadow-lg"
+      className="overflow-hidden rounded-3xl bg-gradient-to-br from-[#0b59a8] via-[#093d8f] to-[#0d2962] shadow shadow-[#093d8f]/50 transition-all duration-300 hover:scale-101 hover:shadow-lg"
     >
       <div className="relative px-8 py-7">
         {/* Background Pattern */}
@@ -69,7 +102,7 @@ function Survey({ survey }: { survey: SurveyGeneralData }) {
                     clipRule="evenodd"
                   />
                 </svg>
-                Consulta Activa
+                Consulta {surveyState()}
               </div>
               <h1 className="mb-2 text-2xl font-bold text-white">
                 {survey.survey_name}
@@ -102,16 +135,18 @@ function Survey({ survey }: { survey: SurveyGeneralData }) {
               <div className="flex items-center">
                 <div className="rounded-lg bg-white/20 p-2">
                   <svg
-                    className="h-5 w-5 text-white"
-                    fill="none"
-                    stroke="currentColor"
+                    className="h-6 w-6 text-gray-800 dark:text-white"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    fill="currentColor"
                     viewBox="0 0 24 24"
                   >
                     <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                      fillRule="evenodd"
+                      d="M5 5a1 1 0 0 0 1-1 1 1 0 1 1 2 0 1 1 0 0 0 1 1h1a1 1 0 0 0 1-1 1 1 0 1 1 2 0 1 1 0 0 0 1 1h1a1 1 0 0 0 1-1 1 1 0 1 1 2 0 1 1 0 0 0 1 1 2 2 0 0 1 2 2v1a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7a2 2 0 0 1 2-2ZM3 19v-7a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Zm6.01-6a1 1 0 1 0-2 0 1 1 0 0 0 2 0Zm2 0a1 1 0 1 1 2 0 1 1 0 0 1-2 0Zm6 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0Zm-10 4a1 1 0 1 1 2 0 1 1 0 0 1-2 0Zm6 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0Zm2 0a1 1 0 1 1 2 0 1 1 0 0 1-2 0Z"
+                      clipRule="evenodd"
                     />
                   </svg>
                 </div>
@@ -130,16 +165,18 @@ function Survey({ survey }: { survey: SurveyGeneralData }) {
               <div className="flex items-center">
                 <div className="rounded-lg bg-white/20 p-2">
                   <svg
-                    className="h-5 w-5 text-white"
-                    fill="none"
-                    stroke="currentColor"
+                    className="h-6 w-6 text-gray-800 dark:text-white"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    fill="currentColor"
                     viewBox="0 0 24 24"
                   >
                     <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                      fillRule="evenodd"
+                      d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4a1 1 0 1 0-2 0v4a1 1 0 0 0 .293.707l3 3a1 1 0 0 0 1.414-1.414L13 11.586V8Z"
+                      clipRule="evenodd"
                     />
                   </svg>
                 </div>
@@ -156,25 +193,45 @@ function Survey({ survey }: { survey: SurveyGeneralData }) {
 
             <div className="rounded-lg bg-white/10 px-4 py-3">
               <div className="flex items-center">
-                <div className="rounded-lg bg-emerald-500 p-2">
-                  <svg
-                    className="h-5 w-5 text-white"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M5 13l4 4L19 7"
-                    />
-                  </svg>
+                <div className={`rounded-lg p-2 ${stateBgColor()}`}>
+                  {surveyState() === "Terminada" ? (
+                    <svg
+                      className="h-6 w-6 text-gray-800 dark:text-white"
+                      aria-hidden="true"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      fill="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm7.707-3.707a1 1 0 0 0-1.414 1.414L10.586 12l-2.293 2.293a1 1 0 1 0 1.414 1.414L12 13.414l2.293 2.293a1 1 0 0 0 1.414-1.414L13.414 12l2.293-2.293a1 1 0 0 0-1.414-1.414L12 10.586 9.707 8.293Z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  ) : (
+                    <svg
+                      className="h-6 w-6 text-gray-800 dark:text-white"
+                      aria-hidden="true"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      fill="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm13.707-1.293a1 1 0 0 0-1.414-1.414L11 12.586l-1.793-1.793a1 1 0 0 0-1.414 1.414l2.5 2.5a1 1 0 0 0 1.414 0l4-4Z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  )}
                 </div>
                 <div className="ml-3">
                   <p className="text-xs font-medium text-blue-100">Estado</p>
-                  <p className="text-sm font-semibold text-emerald-400">
-                    Activa
+                  <p className={`text-sm font-semibold ${stateTextColor()}`}>
+                    {surveyState()}
                   </p>
                 </div>
               </div>
@@ -184,90 +241,4 @@ function Survey({ survey }: { survey: SurveyGeneralData }) {
       </div>
     </Link>
   );
-
-  // return (
-  //   <Link
-  //     href={`/dashboard/consultas/${survey.id}`}
-  //     className="group block overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm transition-all hover:border-gray-300 hover:shadow-md"
-  //   >
-  //     {/* Header */}
-  //     <div className="flex items-start justify-between gap-4 bg-gradient-to-r from-[#3674fa] to-[#235acf] p-6">
-  //       <h3 className="line-clamp-2 text-lg font-semibold text-gray-200 transition-colors group-hover:text-gray-50">
-  //         {survey.survey_name}
-  //       </h3>
-  //       <div className="flex-shrink-0">
-  //         <SurveyState startDate={startDate} endDate={endDate} />
-  //       </div>
-  //     </div>
-  //     <div className="p-6">
-  //       {/* Survey Description */}
-  //       <p className="mb-4 line-clamp-2 text-sm text-gray-600">
-  //         {survey.survey_short_description}
-  //       </p>
-
-  //       {/* Survey Details */}
-  //       <div className="space-y-3">
-  //         {/* Date Range */}
-  //         <div className="flex items-center gap-2 text-sm text-gray-500">
-  //           <svg
-  //             xmlns="http://www.w3.org/2000/svg"
-  //             className="h-4 w-4 text-gray-400"
-  //             fill="none"
-  //             viewBox="0 0 24 24"
-  //             stroke="currentColor"
-  //           >
-  //             <path
-  //               strokeLinecap="round"
-  //               strokeLinejoin="round"
-  //               strokeWidth={2}
-  //               d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-  //             />
-  //           </svg>
-  //           <span>
-  //             {formatDateToSpanish(survey.survey_start_date)} -{" "}
-  //             {formatDateToSpanish(survey.survey_end_date)}
-  //           </span>
-  //         </div>
-
-  //         {/* Participants */}
-  //         <div className="flex items-center gap-2 text-sm text-gray-500">
-  //           <svg
-  //             xmlns="http://www.w3.org/2000/svg"
-  //             className="h-4 w-4 text-gray-400"
-  //             fill="none"
-  //             viewBox="0 0 24 24"
-  //             stroke="currentColor"
-  //           >
-  //             <path
-  //               strokeLinecap="round"
-  //               strokeLinejoin="round"
-  //               strokeWidth={2}
-  //               d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"
-  //             />
-  //           </svg>
-  //           <span>Participantes: 768</span>
-  //         </div>
-
-  //         {/* Department */}
-  //         <div className="flex items-center gap-2 text-sm text-gray-500">
-  //           <svg
-  //             xmlns="http://www.w3.org/2000/svg"
-  //             className="h-4 w-4 text-gray-400"
-  //             fill="none"
-  //             viewBox="0 0 24 24"
-  //             stroke="currentColor"
-  //           >
-  //             <path
-  //               strokeLinecap="round"
-  //               strokeLinejoin="round"
-  //               strokeWidth={2}
-  //               d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
-  //             />
-  //           </svg>
-  //           <span>{survey.department}</span>
-  //         </div>
-  //       </div>
-  //     </div>
-  //   </Link>
-  // );
 }

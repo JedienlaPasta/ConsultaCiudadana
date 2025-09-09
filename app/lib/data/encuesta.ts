@@ -95,10 +95,26 @@ export async function getSurveysListByAccess(
           e.survey_end_date,
           e.department,
           e.created_at,
-          p.survey_access
+          e.created_by,
+          u.full_name as created_by_name,
+          p.survey_access,
+          COUNT(DISTINCT ep.user_rut) AS participation
         FROM encuestas e
         INNER JOIN permisos p ON e.id = p.survey_id
+        LEFT JOIN encuestas_participadas ep ON e.id = ep.survey_id
+        LEFT JOIN usuarios u ON e.created_by = u.rut
         WHERE (p.user_rut = @rut)
+        GROUP BY 
+          e.id,
+          e.survey_name,
+          e.survey_short_description,
+          e.survey_start_date,
+          e.survey_end_date,
+          e.department,
+          e.created_at,
+          e.created_by,
+          p.survey_access,
+          u.full_name
         ORDER BY e.created_at DESC
         `);
 
@@ -109,6 +125,10 @@ export async function getSurveysListByAccess(
         survey_start_date: row.survey_start_date,
         survey_end_date: row.survey_end_date,
         department: row.department,
+        created_at: row.created_at,
+        created_by_name: row.created_by_name,
+        // survey_access: row.survey_access, // Mostrar de alguna forma los administradores de la encuesta?
+        participation: row.participation,
       }));
     }
 
@@ -130,6 +150,9 @@ export async function getSurveyGeneralDetails(
     survey_start_date: "",
     survey_end_date: "",
     department: "",
+    created_at: "",
+    created_by_name: "",
+    participation: 0,
   };
 
   try {
@@ -168,6 +191,9 @@ export async function getSurveyGeneralDetails(
         ? survey.survey_end_date.toISOString().split("T")[0]
         : "",
       department: survey.department,
+      created_at: survey.created_at,
+      created_by_name: survey.created_by_name,
+      participation: 0,
     };
 
     return surveyFormData;
