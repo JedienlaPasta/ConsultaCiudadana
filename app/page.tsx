@@ -5,8 +5,8 @@ import { getSession } from "./lib/actions/auth";
 import Footer from "./ui/Footer";
 import Hero from "./ui/Hero";
 import SurveysList from "./ui/SurveysList";
-import Navbar from "./ui/Navbar";
 import { getSurveysList } from "./lib/data/encuesta";
+import Navbar from "./ui/Navbar";
 
 export default async function Home() {
   const session = await getSession();
@@ -37,9 +37,13 @@ export default async function Home() {
             <SurveysList surveys={surveys} />
             <Link
               href="/consultas"
-              className="font-semibolds mx-auto mt-3 w-full cursor-pointer rounded-xl bg-[#0A4C8A] px-8 py-3 text-center text-white transition-colors hover:bg-[#1065b4] md:mt-5 md:w-fit"
+              className="group relative mx-auto mt-3 w-full max-w-100 overflow-hidden rounded-full bg-gradient-to-br from-blue-500 via-blue-600 to-blue-700 px-8 py-4 text-center font-semibold text-white shadow-2xl transition-all duration-300 hover:scale-103 hover:shadow-blue-700/25 active:scale-95"
             >
-              Ver todas las consultas
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-700 via-blue-600 to-blue-500 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+              <span className="relative z-10 flex items-center justify-center gap-2">
+                Ver todas las consultas
+              </span>
+              {/* <div className="absolute inset-0 translate-x-[-100%] bg-gradient-to-r from-transparent via-white/10 to-transparent transition-transform duration-700 ease-in-out group-hover:translate-x-[100%]" /> */}
             </Link>
           </div>
         </div>

@@ -26,6 +26,20 @@ export default function Navbar({ isLoggedIn }: { isLoggedIn: boolean }) {
     };
   }, []);
 
+  const handleContactBtn = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    const element = document.getElementById("contact-info");
+    if (element) {
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth",
+      });
+    }
+  };
+
   return (
     <div
       className={`fixed top-0 left-[50%] z-1050 mx-auto w-[calc(100%+1px)] -translate-x-[50%] transition-all duration-300 ${hasScrolled ? "bg-[#0e4194] shadow-md" : "bg-transparent"}`}
@@ -99,12 +113,12 @@ export default function Navbar({ isLoggedIn }: { isLoggedIn: boolean }) {
               </Link>
             </li>
             <li>
-              <Link
-                href="#"
-                className="flex min-h-11 items-center rounded-sm px-4 text-white transition-colors hover:bg-[#0f69c4]"
+              <button
+                onClick={handleContactBtn}
+                className="flex min-h-11 cursor-pointer items-center rounded-sm px-4 text-white transition-colors hover:bg-[#0f69c4]"
               >
                 Contacto
-              </Link>
+              </button>
             </li>
             <li className="max-[850px]:hidden">
               <Link
@@ -161,15 +175,17 @@ export default function Navbar({ isLoggedIn }: { isLoggedIn: boolean }) {
             </Link>
           </li>
           <li>
-            <Link
-              href="/#"
-              className="block w-full text-white transition-colors hover:bg-[#0540a6]"
-              onClick={() => setIsMenuOpen(false)}
+            <button
+              onClick={(e) => {
+                handleContactBtn(e);
+                setIsMenuOpen(false);
+              }}
+              className="block w-full cursor-pointer text-white transition-colors hover:bg-[#0540a6]"
             >
               <div className="flex items-center px-6 py-4">
                 <span className="text-sm font-medium">Contacto</span>
               </div>
-            </Link>
+            </button>
           </li>
           <li className="p-4">
             <ClaveUnicaBtn isLoggedIn={isLoggedIn} />

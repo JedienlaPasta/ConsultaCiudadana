@@ -1,12 +1,12 @@
 import React from "react";
 import { getSession } from "../lib/actions/auth";
-import Navbar from "../ui/Navbar";
 import Footer from "../ui/Footer";
 import Header from "../ui/dashboard/Header";
 import { getSurveysListByAccess } from "../lib/data/encuesta";
 import Link from "next/link";
 import AnalyticsCard from "../ui/dashboard/AnalyticsCard";
 import AlternativeSurveyList from "../ui/dashboard/AlternativeSurveyList";
+import Navbar from "../ui/Navbar";
 
 export default async function Dashboard() {
   const session = await getSession();

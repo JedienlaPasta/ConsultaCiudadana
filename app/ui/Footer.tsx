@@ -77,10 +77,10 @@ export default function Footer() {
               <li>
                 <Link
                   href="/"
-                  className="group flex items-center gap-2 rounded-lg p-2 transition-all duration-200 hover:translate-x-1 hover:bg-slate-800/50"
+                  className="group flex items-center gap-2 rounded-lg p-2 pl-3 transition-all duration-200 hover:translate-x-1 hover:bg-slate-800/50"
                 >
-                  <div className="h-1.5 w-1.5 rounded-full bg-blue-400 opacity-0 transition-opacity group-hover:opacity-100"></div>
-                  <span className="text-gray-400 transition-colors group-hover:text-blue-400">
+                  <div className="h-1.5 w-1.5 rounded-full bg-sky-500 opacity-0 transition-opacity group-hover:opacity-100"></div>
+                  <span className="text-gray-400 transition-colors group-hover:text-sky-500">
                     Participa
                   </span>
                 </Link>
@@ -88,26 +88,27 @@ export default function Footer() {
               <li>
                 <Link
                   href="/consultas"
-                  className="group flex items-center gap-2 rounded-lg p-2 transition-all duration-200 hover:translate-x-1 hover:bg-slate-800/50"
+                  className="group flex items-center gap-2 rounded-lg p-2 pl-3 transition-all duration-200 hover:translate-x-1 hover:bg-slate-800/50"
                 >
-                  <div className="h-1.5 w-1.5 rounded-full bg-blue-400 opacity-0 transition-opacity group-hover:opacity-100"></div>
-                  <span className="text-gray-400 transition-colors group-hover:text-blue-400">
+                  <div className="h-1.5 w-1.5 rounded-full bg-sky-500 opacity-0 transition-opacity group-hover:opacity-100"></div>
+                  <span className="text-gray-400 transition-colors group-hover:text-sky-500">
                     Consultas
                   </span>
                 </Link>
               </li>
               <li>
                 <Link
-                  href="/resultados"
-                  className="group flex items-center gap-2 rounded-lg p-2 transition-all duration-200 hover:translate-x-1 hover:bg-slate-800/50"
+                  href="https://claveunica.gob.cl/"
+                  target="_blank"
+                  className="group flex items-center gap-2 rounded-lg p-2 pl-3 transition-all duration-200 hover:translate-x-1 hover:bg-slate-800/50"
                 >
-                  <div className="h-1.5 w-1.5 rounded-full bg-blue-400 opacity-0 transition-opacity group-hover:opacity-100"></div>
-                  <span className="text-gray-400 transition-colors group-hover:text-blue-400">
-                    Resultados
+                  <div className="h-1.5 w-1.5 rounded-full bg-sky-500 opacity-0 transition-opacity group-hover:opacity-100"></div>
+                  <span className="text-gray-400 transition-colors group-hover:text-sky-500">
+                    ClaveÚnica
                   </span>
                 </Link>
               </li>
-              <li>
+              {/* <li>
                 <Link
                   href="/preguntas"
                   className="group flex items-center gap-2 rounded-lg p-2 transition-all duration-200 hover:translate-x-1 hover:bg-slate-800/50"
@@ -117,12 +118,12 @@ export default function Footer() {
                     Preguntas Frecuentes
                   </span>
                 </Link>
-              </li>
+              </li> */}
             </ul>
           </div>
 
           {/* Column 3: Contact */}
-          <div className="space-y-4">
+          <div id="contact-info" className="space-y-4">
             <div className="mb-4 flex items-center gap-2">
               <div className="h-6 w-1 rounded-full bg-gradient-to-b from-blue-400 to-blue-500"></div>
               <h3 className="bg-gradient-to-r from-white to-slate-300 bg-clip-text text-lg font-bold text-transparent">
