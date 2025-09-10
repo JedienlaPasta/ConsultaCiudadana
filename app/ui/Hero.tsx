@@ -84,7 +84,7 @@ export default function Hero() {
           {/* Hero Main Text */}
           <div className="flex flex-col items-start">
             <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-medium text-white shadow-lg backdrop-blur-sm">
-              <div className="h-2 w-2 animate-pulse rounded-full bg-green-400" />
+              <div className="h-2 w-2 animate-pulse rounded-full bg-emerald-400" />
               <span>Consultas Activas</span>
             </div>
             {/* Main Heading */}
@@ -224,7 +224,6 @@ export default function Hero() {
                         </span>
                       </div>
                       <div className="flex items-center gap-2">
-                        {/* <div className="h-2 w-2 animate-pulse rounded-full bg-green-400"></div> */}
                         <Image
                           src="/cu-blanco.svg"
                           width={18}
@@ -301,7 +300,7 @@ export default function Hero() {
                             </p>
                           </div>
                           <div className="flex flex-col gap-1 space-y-1">
-                            <div className="flex cursor-pointer items-center gap-2 rounded-lg border border-gray-200 bg-gray-200 px-3 py-3 text-xs">
+                            <div className="flex cursor-pointer items-center gap-2 rounded-lg border border-blue-400/80 bg-blue-100/50 px-3 py-3 text-xs">
                               <span>🌳</span> Más áreas verdes
                             </div>
                             <div className="flex cursor-pointer items-center gap-2 rounded-lg border border-gray-200 bg-gray-200 px-3 py-3 text-xs">
@@ -345,7 +344,7 @@ export default function Hero() {
                             <div className="flex cursor-pointer items-center gap-2 rounded-lg border border-gray-200 bg-gray-200 px-3 py-3 text-xs">
                               <span>🏛️</span> Plaza de Armas
                             </div>
-                            <div className="flex cursor-pointer items-center gap-2 rounded-lg border border-gray-200 bg-gray-200 px-3 py-3 text-xs">
+                            <div className="flex cursor-pointer items-center gap-2 rounded-lg border border-blue-400/80 bg-blue-100/50 px-3 py-3 text-xs">
                               <span>🌊</span> Playa las Conchitas
                             </div>
                             <div className="flex cursor-pointer items-center gap-2 rounded-lg border border-gray-200 bg-gray-200 px-3 py-3 text-xs">
@@ -392,7 +391,7 @@ export default function Hero() {
                             <div className="flex cursor-pointer items-center gap-2 rounded-lg border border-gray-200 bg-gray-200 px-3 py-3 text-xs">
                               <span>🛒</span> Ferias locales
                             </div>
-                            <div className="flex cursor-pointer items-center gap-2 rounded-lg border border-gray-200 bg-gray-200 px-3 py-3 text-xs">
+                            <div className="flex cursor-pointer items-center gap-2 rounded-lg border border-blue-400/80 bg-blue-100/50 px-3 py-3 text-xs">
                               <span>🐈</span> Más gatitos
                             </div>
                           </div>
@@ -405,7 +404,7 @@ export default function Hero() {
                       >
                         <div className="flex h-full flex-col items-center justify-center p-6 text-center">
                           <div className="mb-4 animate-pulse text-5xl">🎉</div>
-                          <h3 className="mb-3 text-lg font-bold text-green-600">
+                          <h3 className="mb-3 text-lg font-bold text-emerald-600">
                             ¡Gracias!
                           </h3>
                           <p className="mb-2 text-sm text-gray-700">
@@ -415,8 +414,8 @@ export default function Hero() {
                             Juntos transformamos El Quisco
                           </p>
                           <div className="mb-4 flex items-center gap-2">
-                            <div className="h-2 w-2 animate-pulse rounded-full bg-green-400"></div>
-                            <span className="text-xs font-medium text-green-600">
+                            <div className="h-2 w-2 animate-pulse rounded-full bg-emerald-400"></div>
+                            <span className="text-xs font-medium text-emerald-600">
                               Completado
                             </span>
                           </div>
