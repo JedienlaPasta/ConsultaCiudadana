@@ -23,7 +23,7 @@ export default function Definitions({
 
   return (
     <div className="group mb-8">
-      <div className="relative overflow-hidden rounded-xl border border-emerald-100 bg-gradient-to-br from-white via-emerald-50/30 to-teal-50/50">
+      <div className="relative overflow-hidden rounded-xl border border-emerald-100/70 bg-gradient-to-br from-white via-emerald-50/30 to-teal-50/50">
         {/* Content container */}
         <div className="relative p-5 sm:px-8 sm:py-7">
           <h4 className="mb-2 bg-gradient-to-r from-emerald-700 to-teal-700 bg-clip-text text-xl font-bold text-transparent">
