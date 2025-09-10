@@ -18,7 +18,7 @@ export default function SectorSelectionList({
   };
 
   return (
-    <div className="mt-4 space-y-4 md:mt-8">
+    <div className="mt-4 space-y-4 rounded-xl border border-slate-200 p-6 md:mt-8">
       <div className="flex items-center justify-between">
         <h3 className="text-lg font-semibold text-slate-700">
           Seleccione un sector
@@ -60,7 +60,7 @@ function SectorItem({ sector, isSelected, onSelect }: SectorItemProps) {
   return (
     <div
       onClick={() => onSelect(sector?.sector || "")}
-      className={`group md:p-4s relative flex cursor-pointer flex-col rounded-lg border px-4 py-3 transition-all duration-200 select-none hover:border-blue-200 hover:shadow-md ${isSelected ? "!border-[#0F69C4] !bg-blue-50 shadow-md" : "border-gray-200"}`}
+      className={`group md:p-4s relative flex cursor-pointer flex-col rounded-lg border bg-slate-100/60 px-4 py-3 transition-all duration-200 select-none hover:border-blue-200 hover:shadow-md ${isSelected ? "!border-[#0F69C4] !bg-blue-50 shadow-md" : "border-slate-200"}`}
     >
       {isSelected && (
         <div className="bg-blue-500s absolute top-2 right-2 flex size-6 items-center justify-center rounded-full border-2 border-[#0F69C4] text-[#0F69C4]">

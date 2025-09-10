@@ -362,16 +362,31 @@ export default function OptionSelectionList({
       )}
 
       {/* Normal components */}
-      <div className="flex items-center justify-between">
-        <h3 className="text-lg font-semibold text-slate-700">
-          {question.question}
-        </h3>
-        <div className="flex items-center gap-2 text-sm text-gray-500">
-          <span className="inline-block h-3 w-3 rounded-full bg-blue-500"></span>
-          <span>
-            {selectedOptions.length}/{question.maxOptions} seleccionados
-          </span>
+      <div>
+        <div className="flex items-center justify-between">
+          <h3 className="text-lg font-semibold text-slate-700">
+            {question.question}
+          </h3>
+          <div className="flex items-center gap-2 text-sm text-gray-500">
+            <span className="inline-block h-3 w-3 rounded-full bg-blue-500"></span>
+            <span>
+              {selectedOptions.length}/{question.maxOptions} seleccionados
+            </span>
+          </div>
         </div>
+        <span className="flex flex-wrap items-center gap-1 text-sm text-slate-500">
+          {question.question_description} Las opciones con el simbolo{" "}
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            className="size-4 text-slate-700"
+          >
+            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+            <path d="M20.894 15.553a1 1 0 0 1 -.447 1.341l-8 4a1 1 0 0 1 -.894 0l-8 -4a1 1 0 0 1 .894 -1.788l7.553 3.774l7.554 -3.775a1 1 0 0 1 1.341 .447m0 -4a1 1 0 0 1 -.447 1.341l-8 4a1 1 0 0 1 -.894 0l-8 -4a1 1 0 0 1 .894 -1.788l7.552 3.775l7.554 -3.775a1 1 0 0 1 1.341 .447m-8.887 -8.552q .056 0 .111 .007l.111 .02l.086 .024l.012 .006l.012 .002l.029 .014l.05 .019l.016 .009l.012 .005l8 4a1 1 0 0 1 0 1.788l-8 4a1 1 0 0 1 -.894 0l-8 -4a1 1 0 0 1 0 -1.788l8 -4l.011 -.005l.018 -.01l.078 -.032l.011 -.002l.013 -.006l.086 -.024l.11 -.02l.056 -.005z" />
+          </svg>
+          tienen sub-opciones.
+        </span>
       </div>
 
       <div className="grid gap-3 sm:grid-cols-2 md:gap-4 lg:grid-cols-3">
@@ -421,6 +436,9 @@ type OptionItemProps = {
 };
 
 function OptionItem({ option, isSelected, onSelect }: OptionItemProps) {
+  const hasSubOption =
+    "hasSubQuestion" in option ? option.hasSubQuestion : false;
+
   return (
     <div
       onClick={onSelect}
@@ -443,7 +461,9 @@ function OptionItem({ option, isSelected, onSelect }: OptionItemProps) {
         </div>
       )}
 
-      <div className="flex items-center gap-2">
+      <div
+        className={`flex items-center gap-2 ${isSelected ? "text-[#0F69C4]" : "text-slate-700"}`}
+      >
         <input
           type="radio"
           name={`option-${option.id}`}
@@ -451,11 +471,22 @@ function OptionItem({ option, isSelected, onSelect }: OptionItemProps) {
           checked={isSelected}
           onChange={onSelect}
         />
-        <h5
-          className={`font-medium group-hover:text-[#0F69C4] ${isSelected ? "text-[#0F69C4]" : "text-slate-700"}`}
-        >
+        <h5 className={`font-medium group-hover:text-[#0F69C4]`}>
           {option.option_name}
         </h5>
+        {hasSubOption && (
+          <span title="Esta opción tiene Subopciones">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              className="icon icon-tabler icons-tabler-filled icon-tabler-stack-2 size-4"
+            >
+              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+              <path d="M20.894 15.553a1 1 0 0 1 -.447 1.341l-8 4a1 1 0 0 1 -.894 0l-8 -4a1 1 0 0 1 .894 -1.788l7.553 3.774l7.554 -3.775a1 1 0 0 1 1.341 .447m0 -4a1 1 0 0 1 -.447 1.341l-8 4a1 1 0 0 1 -.894 0l-8 -4a1 1 0 0 1 .894 -1.788l7.552 3.775l7.554 -3.775a1 1 0 0 1 1.341 .447m-8.887 -8.552q .056 0 .111 .007l.111 .02l.086 .024l.012 .006l.012 .002l.029 .014l.05 .019l.016 .009l.012 .005l8 4a1 1 0 0 1 0 1.788l-8 4a1 1 0 0 1 -.894 0l-8 -4a1 1 0 0 1 0 -1.788l8 -4l.011 -.005l.018 -.01l.078 -.032l.011 -.002l.013 -.006l.086 -.024l.11 -.02l.056 -.005z" />
+            </svg>
+          </span>
+        )}
       </div>
 
       {option.option_description ? (
