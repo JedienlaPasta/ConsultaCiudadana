@@ -57,6 +57,7 @@ export async function getFilteredSurveysList(
           OR (@filter = 'activa' AND survey_end_date >= GETDATE() AND survey_start_date <= GETDATE())
           OR (@filter = 'terminada' AND survey_end_date < GETDATE())
         )
+        ORDER BY survey_end_date ASC
       `);
     return result.recordset.map(
       (item) =>
