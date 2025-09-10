@@ -1,33 +1,38 @@
 "use client";
 
-import { useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useState, useEffect } from "react";
 
 const filterTabs = [
   { key: "todas", label: "Todas" },
-  { key: "abierta", label: "Abierta" },
-  { key: "cerrada", label: "Cerrada" },
+  { key: "activa", label: "Activa" },
+  { key: "terminada", label: "Terminada" },
 ];
 
-export default function SurveyFilter() {
+export default function SurveyFilter({
+  defaultFilter,
+}: {
+  defaultFilter: string;
+}) {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [currentTab, setCurrentTab] = useState("todas");
+  const pathname = usePathname();
+  const [currentTab, setCurrentTab] = useState(defaultFilter);
 
   useEffect(() => {
-    const filter = searchParams.get("filter") || "todas";
+    const filter = searchParams.get("filter") || defaultFilter;
     setCurrentTab(filter);
-  }, [searchParams]);
+  }, [searchParams, defaultFilter]);
 
   const handleTabChange = (tabKey: string) => {
     setCurrentTab(tabKey);
     const params = new URLSearchParams(searchParams.toString());
-    if (tabKey === "todas") {
+    if (tabKey === defaultFilter) {
       params.delete("filter");
     } else {
       params.set("filter", tabKey);
     }
-    router.replace(`/consultas?${params.toString()}`, { scroll: false });
+    router.replace(`${pathname}?${params.toString()}`, { scroll: false });
   };
 
   return (
@@ -58,7 +63,7 @@ function Tab({ title, isActive, onClick }: TabProps) {
       onClick={onClick}
       className={`cursor-pointer rounded-lg border px-6 py-2 text-sm font-medium shadow-sm transition-all duration-200 ${
         isActive
-          ? "border-[#0A4581] bg-[#0A4581] text-white shadow-[#0A4581]/60"
+          ? "border-[#0A4581] bg-[#0A4581] text-white shadow-[#0A4581]/50"
           : "border-gray-200 bg-white text-gray-700 hover:bg-gray-200/90"
       }`}
     >

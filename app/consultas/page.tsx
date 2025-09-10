@@ -3,7 +3,7 @@ import Footer from "../ui/Footer";
 import SurveysList from "../ui/SurveysList";
 import Navbar from "../ui/Navbar";
 import SurveyFilter from "../ui/consultas/SurveyFilter";
-import { getSearchedSurveysList } from "../lib/data/encuesta";
+import { getFilteredSurveysList } from "../lib/data/encuesta";
 import SurveySearchBar from "../ui/consultas/SurveySearchBar";
 
 type PageProps = {
@@ -15,14 +15,14 @@ export default async function SurveysPage(props: PageProps) {
   const query = searchParams?.query || "";
   const filter = searchParams?.filter || "todas";
   const session = await getSession();
-  const surveys = await getSearchedSurveysList(query, filter);
+  const surveys = await getFilteredSurveysList(query, filter);
 
   return (
     <div className="flex min-h-dvh flex-col">
       <Navbar isLoggedIn={session !== null} />
       <Header />
       <div className="container mx-auto max-w-[80rem] flex-1 space-y-6 px-8 pt-8 pb-12">
-        <SurveyFilter />
+        <SurveyFilter defaultFilter="todas" />
         <SurveysList surveys={surveys} />
       </div>
       <Footer />

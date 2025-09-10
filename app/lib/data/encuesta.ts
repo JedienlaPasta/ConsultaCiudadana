@@ -36,7 +36,7 @@ export async function getSurveysList(): Promise<SurveyGeneralData[]> {
   }
 }
 
-export async function getSearchedSurveysList(
+export async function getFilteredSurveysList(
   query: string,
   filter: string,
 ): Promise<SurveyGeneralData[]> {
@@ -54,8 +54,8 @@ export async function getSearchedSurveysList(
         WHERE (survey_name LIKE @query OR survey_short_description LIKE @query)
         AND (
           @filter = 'todas'
-          OR (@filter = 'abierta' AND survey_end_date >= GETDATE() AND survey_start_date <= GETDATE())
-          OR (@filter = 'cerrada' AND survey_end_date < GETDATE())
+          OR (@filter = 'activa' AND survey_end_date >= GETDATE() AND survey_start_date <= GETDATE())
+          OR (@filter = 'terminada' AND survey_end_date < GETDATE())
         )
       `);
     return result.recordset.map(
