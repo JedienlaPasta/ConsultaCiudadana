@@ -6,7 +6,6 @@ import { useEffect, useState } from "react";
 import RexLoader from "./RexAnimation";
 import { SurveyGeneralData } from "../lib/definitions/encuesta";
 import { formatDateToSpanish } from "@/app/lib/utils/format";
-import SurveyState from "./SurveyState";
 
 export default function SurveysList({
   surveys,
@@ -63,26 +62,155 @@ function Survey({ survey }: { survey: SurveyGeneralData }) {
     return formatDateToSpanish(survey.survey_end_date);
   };
 
+  const surveyState = () => {
+    if (new Date(survey.survey_start_date) > new Date()) {
+      return "Proximamente";
+    }
+    if (new Date(survey.survey_end_date) > new Date()) {
+      return "Activa";
+    } else {
+      return "Terminada";
+    }
+  };
+
+  const stateTextColor = () => {
+    if (new Date(survey.survey_start_date) > new Date()) {
+      return "text-[#277ff2]";
+    }
+    if (new Date(survey.survey_end_date) > new Date()) {
+      return "text-emerald-600 ";
+    } else {
+      return "text-rose-600";
+    }
+  };
+
+  const stateBgColor = () => {
+    if (new Date(survey.survey_start_date) > new Date()) {
+      return "bg-[#277ff2]";
+    }
+    if (new Date(survey.survey_end_date) > new Date()) {
+      return "bg-emerald-200 ";
+    } else {
+      return "bg-rose-200";
+    }
+  };
+
   return (
     <Link
       href={`/consultas/${survey.id}`}
       className="group flex transform transition-all duration-300 hover:translate-y-[-4px]"
     >
       <div className="min-h-[185px]s flex grow">
-        <div className="col-span-10 flex grow flex-col rounded-l-2xl border border-r-8 border-slate-200/80 border-r-gray-300 bg-gradient-to-br from-white via-blue-50/60 to-indigo-50/70 shadow-md shadow-gray-200/80 transition-all group-hover:shadow-lg">
+        <div className="col-span-10 flex grow flex-col rounded-l-2xl border border-r-8 border-slate-200/80 border-r-gray-300 bg-slate-100/80 shadow-md shadow-gray-200/80 transition-all group-hover:shadow-lg">
           <div className="flex h-full grow flex-col px-6.5 pt-5 pb-3 md:gap-1 md:p-7 md:pb-5">
-            <div className="flex flex-col justify-between gap-1.5 md:flex-row">
-              <h3 className="text-lg font-bold text-[#0A4C8A] transition-colors group-hover:text-[#03529c] md:text-xl">
-                {survey.survey_name}
-              </h3>
-              <div className="mb-2 flex flex-wrap gap-2">
-                <SurveyState startDate={startDate} endDate={endDate} />
-                <span className="rounded-full bg-gray-200 px-3 py-1 text-xs font-medium text-slate-700">
-                  {survey.department}
-                </span>
+            <div>
+              <div className="mb-1.5 flex flex-wrap items-center justify-between gap-x-6 gap-y-1">
+                <h1 className="text-xl font-bold text-slate-700 transition-colors group-hover:text-[#03529c] lg:text-2xl">
+                  {survey.survey_name}
+                </h1>
+                <div
+                  className={`inline-flex items-center gap-1.5 rounded-md py-1 pr-2.5 pl-2 text-xs font-medium backdrop-blur-sm ${stateBgColor()} ${stateTextColor()}`}
+                >
+                  {surveyState() === "Terminada" ? (
+                    <svg
+                      className="size-3"
+                      aria-hidden="true"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      fill="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm7.707-3.707a1 1 0 0 0-1.414 1.414L10.586 12l-2.293 2.293a1 1 0 1 0 1.414 1.414L12 13.414l2.293 2.293a1 1 0 0 0 1.414-1.414L13.414 12l2.293-2.293a1 1 0 0 0-1.414-1.414L12 10.586 9.707 8.293Z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  ) : (
+                    <svg
+                      className="size-3"
+                      aria-hidden="true"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      fill="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm13.707-1.293a1 1 0 0 0-1.414-1.414L11 12.586l-1.793-1.793a1 1 0 0 0-1.414 1.414l2.5 2.5a1 1 0 0 0 1.414 0l4-4Z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  )}
+                  Consulta {surveyState()}
+                </div>
+              </div>
+              {/* Miscellaneous Info */}
+              <div className="mb-2 flex flex-wrap gap-x-6 gap-y-2">
+                <div className="flex items-center gap-2 text-slate-600">
+                  <svg
+                    className="size-4 text-slate-500"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
+                    />
+                  </svg>
+                  <span className="text-sm font-medium">Departamento:</span>
+                  <span className="text-sm font-semibold text-slate-700">
+                    {survey.department}
+                  </span>
+                </div>
+
+                <div className="flex items-center gap-2 text-slate-600">
+                  <svg
+                    className="size-4 text-slate-500"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                    />
+                  </svg>
+                  <span className="text-sm font-medium">Inicio:</span>
+                  <span className="text-sm font-semibold text-slate-700">
+                    {formatDateToSpanish(survey.survey_start_date)}
+                  </span>
+                </div>
+
+                <div className="flex items-center gap-2 text-slate-600">
+                  <svg
+                    className="size-4 text-slate-500"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
+                  </svg>
+                  <span className="text-sm font-medium">Término:</span>
+                  <span className="text-sm font-semibold text-slate-700">
+                    {formatDateToSpanish(survey.survey_end_date)}
+                  </span>
+                </div>
               </div>
             </div>
-            <p className="line-clamp-2 text-sm text-gray-600 md:text-base">
+            <p className="line-clamp-2 text-sm text-slate-500">
               {survey.survey_short_description}
             </p>
           </div>
@@ -104,19 +232,15 @@ function Survey({ survey }: { survey: SurveyGeneralData }) {
               </svg>
               <span>{startDate > new Date() ? "Inicio:" : "Término:"}</span>
               <span
-                className={daysLeft() > 0 ? "text-slate-600" : "text-rose-500"}
+                className={daysLeft() > 0 ? "text-slate-600" : "text-rose-400"}
               >
                 {daysLeft() + (daysLeft() === 1 ? " día" : " días")}
               </span>
             </p>
             <span
-              className={`transition-colors ${daysLeft() > 0 ? "text-slate-600" : "text-rose-500"} [#0A4C8A] group-hover:text-[#002F4C]" : "text-rose-500"}`}
+              className={`text-slate-600 transition-colors group-hover:text-[#03529c]`}
             >
-              {startDate > new Date()
-                ? "Ver detalle →"
-                : endDate > new Date()
-                  ? "Participar →"
-                  : "Consulta cerrada"}
+              Ver Detalle →
             </span>
           </div>
         </div>

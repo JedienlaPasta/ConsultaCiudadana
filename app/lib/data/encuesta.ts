@@ -17,6 +17,7 @@ export async function getSurveysList(): Promise<SurveyGeneralData[]> {
     const request = pool.request();
     const result = await request.query(`
         SELECT id, survey_name, survey_short_description, survey_start_date, survey_end_date, department FROM encuestas
+        ORDER BY survey_end_date ASC
       `);
     return result.recordset.map(
       (item) =>
