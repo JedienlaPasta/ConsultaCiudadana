@@ -181,15 +181,10 @@ export default function BarsAndPieChart({
               </span>
               {legendData.map((segment, index) => {
                 // Encontrar el valor máximo de votos
-                const maxVotes = Math.max(
-                  ...legendData.map((item) => item.value),
-                );
-
-                const percentage =
-                  totalVotes > 0 ? (segment.value / totalVotes) * 100 : 0;
-                // Calcular el porcentaje del width basado en el valor máximo
-                const barWidth =
-                  maxVotes > 0 ? (segment.value / maxVotes) * 100 : 0;
+                const maxVotes = Math.max(...legendData.map(item => item.value));
+                
+                // Calcular el porcentaje basado en el valor máximo
+                const percentage = maxVotes > 0 ? (segment.value / maxVotes) * 100 : 0;
                 const hasVotes = segment.value > 0;
                 return (
                   <div
@@ -201,7 +196,7 @@ export default function BarsAndPieChart({
                       className="absolute top-0 left-0 h-full flex-shrink-0 rounded-sm"
                       style={{
                         backgroundColor: segment.color,
-                        width: `${barWidth}%`,
+                        width: `${percentage}%`,
                         opacity: hasVotes ? 0.8 : 0.5,
                       }}
                     ></div>

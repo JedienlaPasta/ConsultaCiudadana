@@ -293,14 +293,19 @@ export default function OptionSelectionList({
     ));
   };
 
+  const handleModalClose = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setShowInfoModal(false);
+  };
+
   return (
     <div className="space-y-4">
-      {showInfoModal && (
-        <InfoModal
-          option={lastSelectedOptionWithSuboption}
-          onClose={() => setShowInfoModal(false)}
-        />
-      )}
+      <InfoModal
+        show={showInfoModal}
+        option={lastSelectedOptionWithSuboption}
+        onClose={handleModalClose}
+      />
 
       {loading && (
         <div className="shadow-mds flex aspect-[4/3] items-center justify-center rounded-lg bg-gray-100 p-4 md:aspect-[16/8]">
@@ -362,7 +367,7 @@ export default function OptionSelectionList({
       )}
 
       {/* Normal components */}
-      <div>
+      <div className="rounded-xl border border-slate-200/80 bg-gradient-to-br from-white via-blue-50/30 to-indigo-50/50 p-6">
         <div className="flex items-center justify-between">
           <h3 className="text-lg font-semibold text-slate-700">
             {question.question}
@@ -374,30 +379,20 @@ export default function OptionSelectionList({
             </span>
           </div>
         </div>
-        <span className="flex flex-wrap items-center gap-1 text-sm text-slate-500">
-          {question.question_description} Las opciones con el simbolo{" "}
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="currentColor"
-            className="size-4 text-slate-700"
-          >
-            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-            <path d="M20.894 15.553a1 1 0 0 1 -.447 1.341l-8 4a1 1 0 0 1 -.894 0l-8 -4a1 1 0 0 1 .894 -1.788l7.553 3.774l7.554 -3.775a1 1 0 0 1 1.341 .447m0 -4a1 1 0 0 1 -.447 1.341l-8 4a1 1 0 0 1 -.894 0l-8 -4a1 1 0 0 1 .894 -1.788l7.552 3.775l7.554 -3.775a1 1 0 0 1 1.341 .447m-8.887 -8.552q .056 0 .111 .007l.111 .02l.086 .024l.012 .006l.012 .002l.029 .014l.05 .019l.016 .009l.012 .005l8 4a1 1 0 0 1 0 1.788l-8 4a1 1 0 0 1 -.894 0l-8 -4a1 1 0 0 1 0 -1.788l8 -4l.011 -.005l.018 -.01l.078 -.032l.011 -.002l.013 -.006l.086 -.024l.11 -.02l.056 -.005z" />
-          </svg>
-          tienen sub-opciones.
+        <span className="inline-flex flex-wrap items-center gap-1 text-sm text-slate-500">
+          {question.question_description}{" "}
         </span>
-      </div>
 
-      <div className="grid gap-3 sm:grid-cols-2 md:gap-4 lg:grid-cols-3">
-        {question.options.map((option) => (
-          <OptionItem
-            option={option}
-            key={option.option_name}
-            isSelected={selectedOptions.includes(option.id)}
-            onSelect={() => handleOptionSelect(option.id)}
-          />
-        ))}
+        <div className="mt-4 grid gap-3 sm:grid-cols-2 md:gap-4 lg:grid-cols-3">
+          {question.options.map((option) => (
+            <OptionItem
+              option={option}
+              key={option.option_name}
+              isSelected={selectedOptions.includes(option.id)}
+              onSelect={() => handleOptionSelect(option.id)}
+            />
+          ))}
+        </div>
       </div>
 
       {/* Conditionaly rendered subquestion if option is selected && hasSubQuestion */}
@@ -405,22 +400,32 @@ export default function OptionSelectionList({
         (option, index) =>
           option.subQuestion &&
           selectedOptions.includes(option.id) && (
-            <div key={index} className="space-y-4">
-              <div className="flex items-center justify-between">
-                <h3 className="text-lg font-semibold text-slate-700">
-                  {option.subQuestion}
-                </h3>
-                <div className="flex items-center gap-2 text-sm text-gray-500">
-                  <span className="inline-block h-3 w-3 rounded-full bg-blue-500"></span>
-                  <span>
-                    {/* De momento solo 1 opcion por subpregunta */}
-                    {getSelectedSubOption(option.id) ? "1" : "0"}/{1}{" "}
-                    seleccionados
+            <div
+              key={index}
+              className="rounded-xl border border-slate-200/80 bg-gradient-to-br from-white via-blue-50/30 to-indigo-50/50 p-6"
+            >
+              <div className="space-y-4">
+                <div>
+                  <div className="flex items-center justify-between">
+                    <h3 className="text-lg font-semibold text-slate-700">
+                      {option.subQuestion}
+                    </h3>
+                    <div className="flex items-center gap-2 text-sm text-gray-500">
+                      <span className="inline-block h-3 w-3 rounded-full bg-blue-500"></span>
+                      <span>
+                        {/* De momento solo 1 opcion por subpregunta */}
+                        {getSelectedSubOption(option.id) ? "1" : "0"}/{1}{" "}
+                        seleccionados
+                      </span>
+                    </div>
+                  </div>
+                  <span className="flex flex-wrap items-center gap-1 text-sm text-slate-500">
+                    {option.subQuestionDescription}
                   </span>
                 </div>
-              </div>
-              <div className="grid gap-3 sm:grid-cols-2 md:gap-4 lg:grid-cols-3">
-                {getFilteredSubOptions(option)}
+                <div className="grid gap-3 sm:grid-cols-2 md:gap-4 lg:grid-cols-3">
+                  {getFilteredSubOptions(option)}
+                </div>
               </div>
             </div>
           ),
@@ -442,10 +447,10 @@ function OptionItem({ option, isSelected, onSelect }: OptionItemProps) {
   return (
     <div
       onClick={onSelect}
-      className={`group relative flex cursor-pointer flex-col rounded-lg border px-4 py-3 transition-all duration-200 select-none hover:border-blue-200 hover:shadow-md md:p-4 ${isSelected ? "!border-[#0F69C4] !bg-blue-50 shadow-md" : "border-gray-200"}`}
+      className={`group relative flex cursor-pointer flex-col rounded-lg border px-4 py-3 transition-all duration-300 select-none hover:shadow-md md:p-4 ${isSelected ? "border-[#0F69C4] bg-[#f2f6fe] shadow-md" : "border-gray-200/90 bg-gray-200/30 hover:border-blue-300"}`}
     >
       {isSelected && (
-        <div className="bg-blue-500s absolute top-[50%] right-4 flex size-6 translate-y-[-50%] items-center justify-center rounded-full border-2 border-[#0F69C4] text-[#0F69C4]">
+        <div className="absolute top-[50%] right-4 flex size-6 translate-y-[-50%] items-center justify-center rounded-full border-2 border-[#0F69C4] text-[#0F69C4]">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="size-4"
@@ -462,7 +467,7 @@ function OptionItem({ option, isSelected, onSelect }: OptionItemProps) {
       )}
 
       <div
-        className={`flex items-center gap-2 ${isSelected ? "text-[#0F69C4]" : "text-slate-700"}`}
+        className={`flex items-center gap-2 ${isSelected ? "text-[#0F69C4]" : "text-slate-600"}`}
       >
         <input
           type="radio"
@@ -480,7 +485,7 @@ function OptionItem({ option, isSelected, onSelect }: OptionItemProps) {
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
               fill="currentColor"
-              className="icon icon-tabler icons-tabler-filled icon-tabler-stack-2 size-4"
+              className="size-4 group-hover:text-[#0F69C4]"
             >
               <path stroke="none" d="M0 0h24v24H0z" fill="none" />
               <path d="M20.894 15.553a1 1 0 0 1 -.447 1.341l-8 4a1 1 0 0 1 -.894 0l-8 -4a1 1 0 0 1 .894 -1.788l7.553 3.774l7.554 -3.775a1 1 0 0 1 1.341 .447m0 -4a1 1 0 0 1 -.447 1.341l-8 4a1 1 0 0 1 -.894 0l-8 -4a1 1 0 0 1 .894 -1.788l7.552 3.775l7.554 -3.775a1 1 0 0 1 1.341 .447m-8.887 -8.552q .056 0 .111 .007l.111 .02l.086 .024l.012 .006l.012 .002l.029 .014l.05 .019l.016 .009l.012 .005l8 4a1 1 0 0 1 0 1.788l-8 4a1 1 0 0 1 -.894 0l-8 -4a1 1 0 0 1 0 -1.788l8 -4l.011 -.005l.018 -.01l.078 -.032l.011 -.002l.013 -.006l.086 -.024l.11 -.02l.056 -.005z" />

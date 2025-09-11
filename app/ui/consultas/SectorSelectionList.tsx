@@ -18,18 +18,24 @@ export default function SectorSelectionList({
   };
 
   return (
-    <div className="mt-4 space-y-4 rounded-xl border border-slate-200 p-6 md:mt-8">
+    <div className="space-y-4s mt-4 rounded-xl border border-slate-200/80 bg-gradient-to-br from-white via-blue-50/30 to-indigo-50/50 p-6 md:mt-8">
       <div className="flex items-center justify-between">
         <h3 className="text-lg font-semibold text-slate-700">
           Seleccione un sector
         </h3>
         <div className="flex items-center gap-2 text-sm text-gray-500">
           <span className="inline-block h-3 w-3 rounded-full bg-blue-500"></span>
-          Sector seleccionado
+          <span>
+            {selectedSector !== "" ? "1" : "0"}/{1} seleccionados
+          </span>
         </div>
       </div>
+      <span className="inline-flex flex-wrap items-center gap-1 text-sm text-slate-500">
+        Selecciona el sector en donde vives. Algunos de los componentes por los
+        que votaras solo aparecen de acuerdo al sector que hayas seleccionado.
+      </span>
 
-      <div className="grid gap-3 sm:grid-cols-2 md:gap-4 lg:grid-cols-3">
+      <div className="mt-4 grid gap-3 sm:grid-cols-2 md:gap-4 lg:grid-cols-3">
         {sectoresSurveyList.options.map((sector) => (
           <SectorItem
             sector={sector}
@@ -60,10 +66,10 @@ function SectorItem({ sector, isSelected, onSelect }: SectorItemProps) {
   return (
     <div
       onClick={() => onSelect(sector?.sector || "")}
-      className={`group md:p-4s relative flex cursor-pointer flex-col rounded-lg border bg-slate-100/60 px-4 py-3 transition-all duration-200 select-none hover:border-blue-200 hover:shadow-md ${isSelected ? "!border-[#0F69C4] !bg-blue-50 shadow-md" : "border-slate-200"}`}
+      className={`group relative flex cursor-pointer flex-col rounded-lg border px-4 py-3 transition-all duration-300 select-none hover:shadow-md ${isSelected ? "border-[#0F69C4] bg-[#f2f6fe] shadow-md" : "border-gray-200/90 bg-gray-200/30 hover:border-blue-300"}`}
     >
       {isSelected && (
-        <div className="bg-blue-500s absolute top-2 right-2 flex size-6 items-center justify-center rounded-full border-2 border-[#0F69C4] text-[#0F69C4]">
+        <div className="absolute top-2 right-2 flex size-6 items-center justify-center rounded-full border-2 border-[#0F69C4] text-[#0F69C4]">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="size-4"
@@ -88,7 +94,7 @@ function SectorItem({ sector, isSelected, onSelect }: SectorItemProps) {
           onChange={() => onSelect(sector?.sector || "")}
         />
         <h5
-          className={`font-medium group-hover:text-[#0F69C4] ${isSelected ? "text-[#0F69C4]" : "text-slate-700"}`}
+          className={`font-medium group-hover:text-[#0F69C4] ${isSelected ? "text-[#0F69C4]" : "text-slate-600"}`}
         >
           {sector.option_name}
         </h5>

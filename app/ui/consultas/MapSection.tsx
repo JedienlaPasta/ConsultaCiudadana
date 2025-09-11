@@ -84,7 +84,7 @@ export default function MapSection({
           Haz clic en el mapa para seleccionar el sector donde vives.
         </p>
 
-        <div className="borders mb-4 flex items-center rounded-lg border-gray-200 bg-blue-50 p-4">
+        <div className="mb-4 flex items-center rounded-lg bg-slate-100 p-4">
           <div className="mr-2 flex size-6 items-center justify-center rounded-full bg-[#0A4C8A]">
             <svg
               xmlns="http://www.w3.org/2000/svg"

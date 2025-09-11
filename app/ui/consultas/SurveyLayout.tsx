@@ -191,22 +191,69 @@ export default function SurveyLayout({
               onAnswerChange={updateQuestionAnswer}
             />
             {!isLoading ? (
-              <div className="grids justify-between gap-4 md:flex">
+              <div className="flex w-full flex-col gap-4 sm:flex-row sm:justify-between">
+                {/* Botón Volver */}
                 <button
                   onClick={() => handleQuestionChange(currentQuestionIndex - 1)}
                   disabled={currentQuestionIndex === 0}
-                  className="w-full max-w-40 cursor-pointer rounded-lg border border-gray-300 py-3 text-sm text-slate-800 transition-all hover:bg-gray-100 active:scale-95 disabled:cursor-not-allowed disabled:bg-gray-300"
+                  className="group relative cursor-pointer overflow-hidden rounded-xl border border-slate-300 bg-gradient-to-bl from-slate-50 via-slate-100 to-slate-200/80 px-8 py-4 text-slate-700 shadow-sm transition-all duration-300 hover:shadow-md active:scale-95 disabled:cursor-not-allowed disabled:opacity-70 disabled:hover:shadow-sm sm:max-w-48"
                 >
-                  Volver
+                  <div className="absolute inset-0 bg-gradient-to-bl from-slate-200/80 via-slate-100 to-slate-50 opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-disabled:!opacity-0" />
+                  <div className="relative flex items-center justify-center gap-2">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-4 w-4 transition-transform duration-300 group-hover:-translate-x-1 group-disabled:translate-x-0"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M15 19l-7-7 7-7"
+                      />
+                    </svg>
+                    <span className="font-medium">Volver</span>
+                  </div>
                 </button>
+
+                {/* Botón Continuar/Enviar */}
                 <button
                   onClick={() => handleQuestionChange(currentQuestionIndex + 1)}
                   disabled={!checkSelectedOptions()}
-                  className="w-full max-w-80 cursor-pointer rounded-lg bg-[#0F69C4] py-3 text-sm text-white transition-all hover:bg-[#0A4C8A] active:scale-95 disabled:cursor-not-allowed disabled:bg-[#0F69C4]/70"
+                  className="group relative cursor-pointer overflow-hidden rounded-xl bg-gradient-to-br from-blue-500 via-blue-600 to-blue-700 px-12 py-4 text-white shadow-lg transition-all duration-300 hover:shadow-xl active:scale-95 disabled:cursor-not-allowed disabled:opacity-70 disabled:shadow-md sm:max-w-80"
                 >
-                  {currentQuestionIndex === surveyQuestions.flat().length - 1
-                    ? "Enviar Voto"
-                    : "Continuar"}
+                  {/* <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-disabled:opacity-0"></div> */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-blue-700 via-blue-600 to-blue-500 opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-disabled:!opacity-0" />
+                  <div className="flex items-center justify-center gap-2">
+                    <span className="z-10 font-semibold">
+                      {currentQuestionIndex ===
+                      surveyQuestions.flat().length - 1
+                        ? "Enviar Voto"
+                        : "Continuar"}
+                    </span>
+                    {currentQuestionIndex ===
+                    surveyQuestions.flat().length - 1 ? null : (
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1 group-disabled:translate-x-0"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M9 5l7 7-7 7"
+                        />
+                      </svg>
+                    )}
+                  </div>
+
+                  {/* Indicador de progreso sutil */}
+                  <div className="absolute bottom-0 left-0 h-0.5 bg-gradient-to-r from-blue-300 to-blue-400 transition-all duration-300 group-hover:h-1 group-disabled:h-0"></div>
                 </button>
               </div>
             ) : null}
