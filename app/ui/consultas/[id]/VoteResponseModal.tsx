@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Spinner } from "./Spinner";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 type InfoModalProps = {
