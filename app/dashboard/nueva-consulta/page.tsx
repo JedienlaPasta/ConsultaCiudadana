@@ -15,7 +15,7 @@ export default async function NewSurveyPage() {
       <Header />
       <NewSurveyContentLayout
         sectors={sectors}
-        sessionSub={Number(session?.sub) || 19973725}
+        sessionSub={Number(session?.sub)}
       />
       <Footer />
     </div>

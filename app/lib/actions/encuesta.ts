@@ -22,8 +22,6 @@ export async function registerVote(
     const transaction = new sql.Transaction(pool);
     await transaction.begin();
 
-    console.log(surveyAnswers.answers);
-
     try {
       // Verificar si ya participo
       const checkParticipationRequest = new sql.Request(transaction);
@@ -33,11 +31,10 @@ export async function registerVote(
           SELECT TOP 1 id FROM encuestas_participadas WHERE survey_id = @survey_id AND user_rut = @user_rut
         `);
       if (checkResult.recordset.length > 0) {
-        console.log("Ya ha participado de esta encuesta anteriormente");
         return {
           success: false,
           message:
-            "Ya has participado en esta encuesta, no puedes votar dos veces.",
+            "Ya has participado en esta encuesta, solo puedes votar una vez por encuesta.",
         };
       }
 
@@ -110,7 +107,7 @@ export async function registerVote(
       await transaction.commit();
       return {
         success: true,
-        message: "Voto guardado, gracias por participar!",
+        message: "Tu voto se ha guardado exitosamente.",
       };
     } catch (error) {
       await transaction.rollback();
@@ -120,7 +117,7 @@ export async function registerVote(
     console.error("Error al registrar el voto:", error);
     return {
       success: false,
-      message: "No se pudo registrar el voto, intente nuevamente",
+      message: "No se pudo registrar el voto, intente nuevamente.",
     };
   }
 }
