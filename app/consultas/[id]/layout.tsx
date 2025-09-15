@@ -5,7 +5,7 @@ import { getSession } from "@/app/lib/actions/auth";
 import { getSurveyDetails } from "@/app/lib/data/encuesta";
 
 type SurveyDetailsProps = {
-  params: Promise<{ id: number }>;
+  params: Promise<{ id: string }>;
   children: React.ReactNode;
 };
 

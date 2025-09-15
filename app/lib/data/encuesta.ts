@@ -205,7 +205,7 @@ export async function getSurveyGeneralDetails(
   }
 }
 
-export async function getSurveyDetails(id: number): Promise<SurveyData> {
+export async function getSurveyDetails(id: string): Promise<SurveyData> {
   const defaultSurvey: SurveyData = {
     survey_name: "",
     survey_short_description: "",
