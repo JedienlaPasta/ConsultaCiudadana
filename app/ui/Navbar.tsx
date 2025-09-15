@@ -51,7 +51,7 @@ export default function Navbar({ isLoggedIn }: { isLoggedIn: boolean }) {
             href="/"
           >
             <Image
-              src="/logos/6.png"
+              src="/logos/2.png"
               alt="logo"
               width={50}
               height={50}

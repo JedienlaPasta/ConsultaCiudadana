@@ -659,3 +659,29 @@ export async function getAreSurveyResultsAvailable(
     return false;
   }
 }
+
+export async function getSurveysForSitemap(): Promise<SurveyGeneralData[]> {
+  try {
+    const pool = await connectToDB();
+    if (!pool) {
+      console.warn("No se pudo establecer conexión con la base de datos");
+      return [];
+    }
+    const request = pool.request();
+    const result = await request.query(`
+        SELECT id, survey_start_date, survey_end_date, updated_at FROM encuestas
+        WHERE survey_end_date >= GETDATE() AND survey_start_date <= GETDATE()
+        ORDER BY survey_end_date ASC
+      `);
+    return result.recordset.map(
+      (item) =>
+        ({
+          id: item.id,
+          lastModified: item.updated_at,
+        }) as SurveyGeneralData,
+    );
+  } catch (error) {
+    console.error("Error al obtener la lista de encuestas:", error);
+    return [];
+  }
+}

@@ -4,8 +4,36 @@ import { geist } from "./ui/fonts";
 import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
-  title: "Participa El Quisco",
-  description: "Consultas ciudadanas - El Quisco",
+  title: "Participa — Municipalidad de El Quisco",
+  description:
+    "Participa en las consultas ciudadanas de El Quisco. Información, plazos y cómo votar.",
+  openGraph: {
+    title: "Participa — Municipalidad de El Quisco",
+    description: "Participa en las consultas ciudadanas de El Quisco",
+    url: "https://participacion.munielquisco.gob.cl/",
+    siteName: "Participa — Municipalidad de El Quisco",
+    images: [
+      {
+        url: "https://participacion.munielquisco.gob.cl/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Participa — Municipalidad de El Quisco",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Participa — Municipalidad de El Quisco",
+    description: "Participa en las consultas ciudadanas de El Quisco",
+    images: [
+      {
+        url: "https://participacion.munielquisco.gob.cl/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Participa — Municipalidad de El Quisco",
+      },
+    ],
+  },
 };
 
 export default function RootLayout({

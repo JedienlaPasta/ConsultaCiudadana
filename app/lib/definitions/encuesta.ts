@@ -119,6 +119,7 @@ export type SurveyGeneralData = {
   created_at: string;
   created_by_name: string;
   participation: number;
+  lastModified?: string;
 };
 
 // Respuesta individual para una opción

@@ -60,7 +60,7 @@ export default function ResultsUnavailable() {
         {/* Botón de regreso */}
         <button
           onClick={() => window.history.back()}
-          className="w-full rounded-lg bg-blue-600 px-4 py-3 font-medium text-white transition-colors duration-200 hover:bg-blue-700"
+          className="w-full cursor-pointer rounded-lg bg-blue-600 px-4 py-3 font-medium text-white transition-colors duration-200 hover:bg-blue-700"
         >
           Volver atrás
         </button>
