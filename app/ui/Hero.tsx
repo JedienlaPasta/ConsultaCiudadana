@@ -207,7 +207,7 @@ export default function Hero() {
                         <div className="relative">
                           <div className="absolute inset-0 rounded-full bg-white/20 blur-sm"></div>
                           <Image
-                            src="/logos/6.png"
+                            src="/logos/2.png"
                             alt="logo"
                             width={50}
                             height={50}
