@@ -51,46 +51,154 @@ export default function SurveyLayout({
   const [hasVoted, setHasVoted] = useState(false);
   const topRef = useRef<HTMLDivElement>(null);
 
+  // ... existing code ...
+
+  // NUEVO: Estado para controlar si el componente debe renderizar
+  const [shouldRender, setShouldRender] = useState(!hasParticipated);
+
   const router = useRouter();
 
+  // MEJORADO: useEffect más robusto
   useEffect(() => {
     if (!rut) {
       toast.error("No se ha encontrado el RUT del usuario");
-      router.push("/");
+      router.replace("/");
       return;
     }
 
     if (hasParticipated) {
+      setShouldRender(false);
       toast.error("Ya has participado de esta encuesta");
+      // Usar replace para no agregar al historial
       router.replace("/");
+      return;
     }
   }, [hasParticipated, router, rut]);
 
-  // Agregar un nuevo useEffect para manejar la navegación del navegador
+  // NUEVO: Efecto para manejar navegación del navegador
   useEffect(() => {
-    const handleBeforeUnload = () => {
-      if (hasVoted) {
-        // Limpiar el historial para prevenir volver atrás
-        window.history.replaceState(null, "", "/");
+    const handleVisibilityChange = () => {
+      if (hasVoted && document.visibilityState === "visible") {
+        // Si ya votó y la página se vuelve visible, redirigir
+        router.replace("/");
       }
     };
 
-    const handlePopState = (event: PopStateEvent) => {
-      if (hasVoted || hasParticipated) {
-        event.preventDefault();
+    const handleBeforeUnload = () => {
+      if (hasVoted) {
+        // Marcar en sessionStorage que ya votó
+        sessionStorage.setItem(`voted_${surveyId}_${rut}`, "true");
+      }
+    };
+
+    const handlePopState = () => {
+      // Verificar si ya votó en esta sesión
+      const hasVotedInSession =
+        sessionStorage.getItem(`voted_${surveyId}_${rut}`) === "true";
+      if (hasVoted || hasParticipated || hasVotedInSession) {
         router.replace("/");
         toast.error("Ya has participado de esta encuesta");
       }
     };
 
+    // Verificar al cargar si ya votó en esta sesión
+    const hasVotedInSession =
+      sessionStorage.getItem(`voted_${surveyId}_${rut}`) === "true";
+    if (hasVotedInSession && !hasVoted) {
+      setHasVoted(true);
+      router.replace("/");
+      return;
+    }
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
     window.addEventListener("beforeunload", handleBeforeUnload);
     window.addEventListener("popstate", handlePopState);
 
     return () => {
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
       window.removeEventListener("beforeunload", handleBeforeUnload);
       window.removeEventListener("popstate", handlePopState);
     };
-  }, [hasVoted, hasParticipated, router]);
+  }, [hasVoted, hasParticipated, router, surveyId, rut]);
+
+  // NUEVO: No renderizar si no debe mostrar el componente
+  if (!shouldRender || hasParticipated) {
+    return null;
+  }
+
+  // MEJORADO: Función formAction con sessionStorage
+  const formAction = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (hasVoted) {
+      toast.error("Ya has enviado tu voto");
+      return;
+    }
+
+    setResponse({
+      success: false,
+      message: "Verificando...",
+    });
+    setIsLoadingResponse(true);
+    setShowResponseModal(true);
+
+    try {
+      const response = await registerVote(surveyAnswers, rut);
+      if (!response.success) {
+        throw new Error(response.message);
+      }
+
+      setHasVoted(true);
+      // NUEVO: Guardar en sessionStorage inmediatamente
+      sessionStorage.setItem(`voted_${surveyId}_${rut}`, "true");
+
+      // NUEVO: Limpiar el historial del navegador
+      if (window.history.length > 1) {
+        window.history.replaceState(null, "", "/");
+      }
+
+      setTimeout(() => {
+        setResponse({
+          success: true,
+          message: response.message,
+        });
+      }, 3000);
+    } catch (error) {
+      console.log(error instanceof Error ? error.message : "Error desconocido");
+      const message =
+        error instanceof Error
+          ? error.message
+          : "No se pudo registrar el voto, intente nuevamente";
+
+      setTimeout(() => {
+        setResponse({
+          success: false,
+          message: message,
+        });
+      }, 3000);
+    } finally {
+      setTimeout(() => {
+        setIsLoadingResponse(false);
+      }, 3000);
+    }
+  };
+
+  // MEJORADO: Modal de respuesta exitosa
+  if (hasVoted && response.success) {
+    return (
+      <VoteResponseModal
+        response={response}
+        show={true}
+        isLoading={false}
+        onClose={() => {
+          // Limpiar completamente el historial y redirigir
+          sessionStorage.setItem(`voted_${surveyId}_${rut}`, "true");
+          window.history.replaceState(null, "", "/");
+          router.replace("/");
+        }}
+      />
+    );
+  }
 
   // Actualizar respuesta de una pregunta específica
   const updateQuestionAnswer = (questionId: number, answer: QuestionAnswer) => {
@@ -176,54 +284,54 @@ export default function SurveyLayout({
     }, 700);
   };
 
-  const formAction = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  // const formAction = async (e: React.FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault();
 
-    if (hasVoted) {
-      toast.error("Ya has enviado tu voto");
-      return;
-    }
+  //   if (hasVoted) {
+  //     toast.error("Ya has enviado tu voto");
+  //     return;
+  //   }
 
-    setResponse({
-      success: false,
-      message: "Verificando...",
-    });
-    setIsLoadingResponse(true);
-    setShowResponseModal(true);
+  //   setResponse({
+  //     success: false,
+  //     message: "Verificando...",
+  //   });
+  //   setIsLoadingResponse(true);
+  //   setShowResponseModal(true);
 
-    try {
-      const response = await registerVote(surveyAnswers, rut);
-      if (!response.success) {
-        throw new Error(response.message);
-      }
+  //   try {
+  //     const response = await registerVote(surveyAnswers, rut);
+  //     if (!response.success) {
+  //       throw new Error(response.message);
+  //     }
 
-      setHasVoted(true);
+  //     setHasVoted(true);
 
-      setTimeout(() => {
-        setResponse({
-          success: true,
-          message: response.message,
-        });
-      }, 3000);
-    } catch (error) {
-      console.log(error instanceof Error ? error.message : "Error desconocido");
-      const message =
-        error instanceof Error
-          ? error.message
-          : "No se pudo registrar el voto, intente nuevamente";
+  //     setTimeout(() => {
+  //       setResponse({
+  //         success: true,
+  //         message: response.message,
+  //       });
+  //     }, 3000);
+  //   } catch (error) {
+  //     console.log(error instanceof Error ? error.message : "Error desconocido");
+  //     const message =
+  //       error instanceof Error
+  //         ? error.message
+  //         : "No se pudo registrar el voto, intente nuevamente";
 
-      setTimeout(() => {
-        setResponse({
-          success: false,
-          message: message,
-        });
-      }, 3000);
-    } finally {
-      setTimeout(() => {
-        setIsLoadingResponse(false);
-      }, 3000);
-    }
-  };
+  //     setTimeout(() => {
+  //       setResponse({
+  //         success: false,
+  //         message: message,
+  //       });
+  //     }, 3000);
+  //   } finally {
+  //     setTimeout(() => {
+  //       setIsLoadingResponse(false);
+  //     }, 3000);
+  //   }
+  // };
 
   if (hasVoted && response.success) {
     return (

@@ -15,7 +15,12 @@ export default async function SurveyPage(props: SurveyDetailsProps) {
 
   const session = await getSession();
   const rut = Number(session?.sub);
+
   const hasParticipated = await verifyParticipation(rut, id);
+  if (hasParticipated) {
+    redirect("/");
+  }
+
   const surveyQuestions = await getSurveyQuestions(id);
   if (surveyQuestions.length === 0) {
     redirect("/consultas");
