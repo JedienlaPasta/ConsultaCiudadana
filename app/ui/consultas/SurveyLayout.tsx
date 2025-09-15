@@ -231,7 +231,10 @@ export default function SurveyLayout({
         response={response}
         show={true}
         isLoading={false}
-        onClose={() => router.push("/")}
+        onClose={() => {
+          window.history.replaceState(null, "", "/");
+          router.replace("/");
+        }}
       />
     );
   }
