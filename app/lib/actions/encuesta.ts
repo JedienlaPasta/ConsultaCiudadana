@@ -5,6 +5,7 @@ import { connectToDB } from "../utils/db-connection";
 import sql from "mssql";
 import { SubOption, SurveyAnswers } from "../definitions/encuesta";
 import sanitizeHtml from "sanitize-html";
+import { revalidatePath } from "next/cache";
 
 export async function registerVote(
   surveyAnswers: SurveyAnswers,
@@ -105,6 +106,11 @@ export async function registerVote(
       }
 
       await transaction.commit();
+
+      revalidatePath(`/consultas/${surveyAnswers.survey_id}`);
+      revalidatePath(`/consultas/${surveyAnswers.survey_id}/resultados`);
+      revalidatePath("/consultas");
+
       return {
         success: true,
         message: "Tu voto se ha guardado exitosamente.",
