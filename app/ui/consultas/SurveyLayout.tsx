@@ -62,9 +62,35 @@ export default function SurveyLayout({
 
     if (hasParticipated) {
       toast.error("Ya has participado de esta encuesta");
-      router.push("/");
+      router.replace("/");
     }
-  }, [hasParticipated, router]);
+  }, [hasParticipated, router, rut]);
+
+  // Agregar un nuevo useEffect para manejar la navegación del navegador
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      if (hasVoted) {
+        // Limpiar el historial para prevenir volver atrás
+        window.history.replaceState(null, "", "/");
+      }
+    };
+
+    const handlePopState = (event: PopStateEvent) => {
+      if (hasVoted || hasParticipated) {
+        event.preventDefault();
+        router.replace("/");
+        toast.error("Ya has participado de esta encuesta");
+      }
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    window.addEventListener("popstate", handlePopState);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+      window.removeEventListener("popstate", handlePopState);
+    };
+  }, [hasVoted, hasParticipated, router]);
 
   // Actualizar respuesta de una pregunta específica
   const updateQuestionAnswer = (questionId: number, answer: QuestionAnswer) => {
