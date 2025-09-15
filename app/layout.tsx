@@ -43,6 +43,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es">
+      <head>
+        <link
+          href="https://fonts.googleapis.com/css2?family=Noto+Color+Emoji"
+          rel="stylesheet"
+        />
+      </head>
       <body className={`${geist.className} antialiased`}>
         <Toaster position="top-center" />
         {children}

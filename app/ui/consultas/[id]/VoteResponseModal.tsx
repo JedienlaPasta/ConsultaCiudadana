@@ -155,7 +155,7 @@ function SuccessModal({ message, isVisible }: ModalProps) {
             <div className="px-8 pt-10">
               {/* Mensaje */}
               <div className="text-center">
-                <p className="mb-2 text-4xl">🎉</p>
+                <p className="emoji mb-2 text-4xl">🎉</p>
                 <span className="mb-1 text-lg font-black text-slate-700">
                   Gracias por Participar!
                 </span>
