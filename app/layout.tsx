@@ -29,11 +29,14 @@ export const metadata: Metadata = {
     "participación municipalidad El Quisco",
 
     "cómo participar en encuestas municipales El Quisco",
+    "cómo participar en consultas ciudadanas El Quisco",
     "consultas ciudadanas online El Quisco",
+    "encuestas online municipalidad El Quisco",
     "opiniones vecinos El Quisco",
     "donde votar encuestas El Quisco",
     "que es participación ciudadana El Quisco",
 
+    "plataforma participación ciudadana El Quisco",
     "plataforma de participación ciudadana El Quisco",
     "encuestas online municipalidad El Quisco",
   ],
