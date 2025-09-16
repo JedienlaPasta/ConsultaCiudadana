@@ -2,6 +2,7 @@ import { getSession } from "@/app/lib/actions/auth";
 import { getSurveyAnalytics } from "@/app/lib/data/analytics";
 import { getSurveyGeneralDetails } from "@/app/lib/data/encuesta";
 import { formatDateToSpanish } from "@/app/lib/utils/format";
+import BarsChart from "@/app/ui/dashboard/consultas/[id]/BarsChart";
 import AnalyticsDonuts from "@/app/ui/dashboard/consultas/[id]/PieChart";
 import ParticipationMetricCard from "@/app/ui/dashboard/consultas/ParticipationMetricCard";
 import Header from "@/app/ui/dashboard/Header";
@@ -18,8 +19,39 @@ export default async function SurveyDetailsOverview({ params }: PageProps) {
   const surveyId = Number((await params).id);
   const analytics = await getSurveyAnalytics(surveyId);
   const generalData = await getSurveyGeneralDetails(surveyId);
-  // console.log(generalData);
-  console.log(analytics);
+
+  const surveyState = () => {
+    if (new Date(generalData.survey_start_date) > new Date()) {
+      return "Proximamente";
+    }
+    if (new Date(generalData.survey_end_date) > new Date()) {
+      return "Activa";
+    } else {
+      return "Terminada";
+    }
+  };
+
+  const stateTextColor = () => {
+    if (new Date(generalData.survey_start_date) > new Date()) {
+      return "text-[#277ff2]";
+    }
+    if (new Date(generalData.survey_end_date) > new Date()) {
+      return "text-emerald-600 ";
+    } else {
+      return "text-rose-600";
+    }
+  };
+
+  const stateBgColor = () => {
+    if (new Date(generalData.survey_start_date) > new Date()) {
+      return "bg-[#277ff2]";
+    }
+    if (new Date(generalData.survey_end_date) > new Date()) {
+      return "bg-emerald-200 ";
+    } else {
+      return "bg-rose-200";
+    }
+  };
 
   const dataLoadedAt = new Date();
 
@@ -28,45 +60,9 @@ export default async function SurveyDetailsOverview({ params }: PageProps) {
       <Navbar isLoggedIn={session !== null} />
       <Header />
 
-      <div className="container mx-auto max-w-[85rem] flex-1 px-6 py-10 lg:px-8">
-        {/* Enhanced Header Section with Breadcrumbs */}
-        <div className="mb-10">
-          <nav className="mb-6 flex items-center space-x-2 text-sm">
-            <Link
-              href="/dashboard"
-              className="flex items-center text-slate-500 transition-colors hover:text-slate-700"
-            >
-              <svg
-                className="mr-1.5 h-4 w-4"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2 2v0"
-                />
-              </svg>
-              Dashboard
-            </Link>
-            <svg
-              className="h-4 w-4 text-slate-400"
-              fill="currentColor"
-              viewBox="0 0 20 20"
-            >
-              <path
-                fillRule="evenodd"
-                d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                clipRule="evenodd"
-              />
-            </svg>
-            <span className="font-medium text-slate-700">
-              Análisis de Consulta
-            </span>
-          </nav>
-
+      <div className="container mx-auto max-w-[85rem] flex-1 px-4 py-8 lg:px-8">
+        {/* Header Section */}
+        <div className="mb-8">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
               <Link
@@ -109,40 +105,59 @@ export default async function SurveyDetailsOverview({ params }: PageProps) {
           </div>
         </div>
 
-        {/* Enhanced Survey Info Card */}
-        <div className="mb-10 overflow-hidden rounded-2xl bg-gradient-to-br from-blue-800/95 via-blue-600 to-blue-800/95 shadow-xl">
-          <div className="relative px-8 py-8">
-            {/* Background Pattern */}
-            <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2260%22%20height%3D%2260%22%20viewBox%3D%220%200%2060%2060%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cg%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%3E%3Cg%20fill%3D%22%2523ffffff%22%20fill-opacity%3D%220.05%22%3E%3Ccircle%20cx%3D%2230%22%20cy%3D%2230%22%20r%3D%222%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-30"></div>
-
-            <div className="relative">
-              <div className="flex items-start justify-between">
-                <div className="flex-1">
-                  <div className="mb-2 inline-flex items-center rounded-full bg-white/20 px-3 py-1 text-xs font-medium text-white backdrop-blur-sm">
+        {/* Survey Info Card */}
+        <div className="group mb-8 overflow-hidden rounded-3xl border border-slate-200 bg-slate-100 hover:bg-slate-200/50">
+          <div className="px-8 py-6">
+            <div className="w-full">
+              <div className="mb-2 flex flex-wrap items-start justify-between gap-2"></div>
+              <div className="mb-1.5 flex flex-wrap items-center justify-between gap-x-6 gap-y-1">
+                <h1 className="text-xl font-bold text-slate-700 transition-colors group-hover:text-[#03529c] lg:text-2xl">
+                  {generalData.survey_name}
+                </h1>
+                <div
+                  className={`inline-flex items-center gap-1.5 rounded-md py-1 pr-2.5 pl-2 text-xs font-medium backdrop-blur-sm ${stateBgColor()} ${stateTextColor()}`}
+                >
+                  {surveyState() === "Terminada" ? (
                     <svg
-                      className="mr-1.5 h-3 w-3"
+                      className="size-3"
+                      aria-hidden="true"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
                       fill="currentColor"
-                      viewBox="0 0 20 20"
+                      viewBox="0 0 24 24"
                     >
                       <path
                         fillRule="evenodd"
-                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                        d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm7.707-3.707a1 1 0 0 0-1.414 1.414L10.586 12l-2.293 2.293a1 1 0 1 0 1.414 1.414L12 13.414l2.293 2.293a1 1 0 0 0 1.414-1.414L13.414 12l2.293-2.293a1 1 0 0 0-1.414-1.414L12 10.586 9.707 8.293Z"
                         clipRule="evenodd"
                       />
                     </svg>
-                    Consulta Activa
-                  </div>
-                  <h1 className="mb-2 text-2xl font-bold text-white">
-                    {generalData?.survey_name}
-                  </h1>
-                  <p className="text text-blue-100">
-                    {generalData?.survey_short_description}
-                  </p>
-                </div>
-                <div className="ml-6 hidden lg:block">
-                  <div className="rounded-xl bg-white/10 p-3 backdrop-blur-sm">
+                  ) : (
                     <svg
-                      className="size-8 text-white"
+                      className="size-3"
+                      aria-hidden="true"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      fill="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm13.707-1.293a1 1 0 0 0-1.414-1.414L11 12.586l-1.793-1.793a1 1 0 0 0-1.414 1.414l2.5 2.5a1 1 0 0 0 1.414 0l4-4Z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  )}
+                  Consulta {surveyState()}
+                </div>
+              </div>
+              <div>
+                <div className="mb-2 flex flex-wrap gap-x-6 gap-y-2">
+                  <div className="flex items-center gap-2 text-slate-600">
+                    <svg
+                      className="size-4 text-slate-500"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -150,102 +165,85 @@ export default async function SurveyDetailsOverview({ params }: PageProps) {
                       <path
                         strokeLinecap="round"
                         strokeLinejoin="round"
-                        strokeWidth={1.5}
-                        d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+                        strokeWidth={2}
+                        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
                       />
                     </svg>
+                    <span className="text-sm font-medium">Encargado:</span>
+                    <span className="text-sm font-semibold text-slate-700">
+                      {"Encargado"}
+                    </span>
                   </div>
-                </div>
-              </div>
 
-              <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-3">
-                <div className="rounded-xl bg-white/10 px-4 py-3">
-                  <div className="flex items-center">
-                    <div className="rounded-lg bg-white/20 p-2">
-                      <svg
-                        className="h-5 w-5 text-white"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                        />
-                      </svg>
-                    </div>
-                    <div className="ml-3">
-                      <p className="text-sm font-medium text-blue-100">
-                        Fecha de Inicio
-                      </p>
-                      <p className="font-semibold text-white">
-                        {formatDateToSpanish(generalData?.survey_start_date)}
-                      </p>
-                    </div>
+                  <div className="flex items-center gap-2 text-slate-600">
+                    <svg
+                      className="size-4 text-slate-500"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
+                      />
+                    </svg>
+                    <span className="text-sm font-medium">Departamento:</span>
+                    <span className="text-sm font-semibold text-slate-700">
+                      {generalData.department}
+                    </span>
                   </div>
-                </div>
 
-                <div className="rounded-xl bg-white/10 px-4 py-3">
-                  <div className="flex items-center">
-                    <div className="rounded-lg bg-white/20 p-2">
-                      <svg
-                        className="h-5 w-5 text-white"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                        />
-                      </svg>
-                    </div>
-                    <div className="ml-3">
-                      <p className="text-sm font-medium text-blue-100">
-                        Fecha de Término
-                      </p>
-                      <p className="font-semibold text-white">
-                        {formatDateToSpanish(generalData?.survey_end_date)}
-                      </p>
-                    </div>
+                  <div className="flex items-center gap-2 text-slate-600">
+                    <svg
+                      className="size-4 text-slate-500"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                      />
+                    </svg>
+                    <span className="text-sm font-medium">Inicio:</span>
+                    <span className="text-sm font-semibold text-slate-700">
+                      {formatDateToSpanish(generalData.survey_start_date)}
+                    </span>
                   </div>
-                </div>
 
-                <div className="rounded-xl bg-white/10 px-4 py-3">
-                  <div className="flex items-center">
-                    <div className="rounded-lg bg-emerald-500 p-2">
-                      <svg
-                        className="h-5 w-5 text-white"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M5 13l4 4L19 7"
-                        />
-                      </svg>
-                    </div>
-                    <div className="ml-3">
-                      <p className="text-sm font-medium text-blue-100">
-                        Estado
-                      </p>
-                      <p className="font-semibold text-emerald-400">Activa</p>
-                    </div>
+                  <div className="flex items-center gap-2 text-slate-600">
+                    <svg
+                      className="size-4 text-slate-500"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
+                    </svg>
+                    <span className="text-sm font-medium">Término:</span>
+                    <span className="text-sm font-semibold text-slate-700">
+                      {formatDateToSpanish(generalData.survey_end_date)}
+                    </span>
                   </div>
                 </div>
+                <p className="line-clamp-2 text-sm text-slate-500">
+                  {generalData.survey_short_description}
+                </p>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Enhanced Participation Metrics */}
+        {/* Participation Metrics */}
         <div className="mb-10 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
           <ParticipationMetricCard
             title="Participación Promedio"
@@ -314,7 +312,7 @@ export default async function SurveyDetailsOverview({ params }: PageProps) {
           />
         </div>
 
-        {/* Enhanced Participation by Date Chart */}
+        {/* Participation by Date Chart */}
         <div className="mb-10 overflow-hidden rounded-2xl bg-white shadow-lg ring-1 ring-slate-200">
           <div className="border-b border-slate-200 bg-slate-50/50 px-8 py-6">
             <div className="flex items-center justify-between">
@@ -393,9 +391,9 @@ export default async function SurveyDetailsOverview({ params }: PageProps) {
           </div>
         </div>
 
-        {/* Enhanced Results Section */}
-        <div className="rounded-2xl bg-white shadow-lg ring-1 ring-slate-200">
-          <div className="border-b border-slate-200 bg-slate-50/50 px-8 py-6">
+        {/* Results Section */}
+        <div className="bg-white ring-slate-200 md:rounded-2xl md:shadow-lg md:ring-1">
+          <div className="border-b border-slate-200 bg-slate-50/50 py-6 md:px-8 md:pb-6">
             <div className="flex items-center justify-between">
               <div>
                 <h2 className="text-2xl font-semibold text-slate-900">
@@ -422,25 +420,28 @@ export default async function SurveyDetailsOverview({ params }: PageProps) {
             </div>
           </div>
 
-          <div className="p-8">
+          <div className="pt-4 md:p-8">
             <div className="space-y-8">
               {analytics.questionResults.map((question, index) => (
                 <div key={question.questionId} className="group">
-                  <div className="mb-6 flex items-center space-x-4">
+                  <div className="mb-6 flex items-center space-x-2 md:space-x-4">
                     <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 text-sm font-bold text-white">
                       {index + 1}
                     </div>
                     <div className="flex-1">
-                      <h3 className="text-lg font-semibold text-slate-900 transition-colors group-hover:text-indigo-600">
+                      <h3 className="font-semibold text-slate-800 transition-colors group-hover:text-indigo-600 md:text-lg">
                         {question.question || `Pregunta ${index + 1}`}
                       </h3>
                     </div>
                   </div>
-                  <div className="ml-12">
+                  <div className="hidden md:block">
                     <AnalyticsDonuts
                       key={question.questionId}
                       question={question}
                     />
+                  </div>
+                  <div className="block md:hidden">
+                    <BarsChart question={question} />
                   </div>
                 </div>
               ))}

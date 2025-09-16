@@ -181,10 +181,13 @@ export default function BarsAndPieChart({
               </span>
               {legendData.map((segment, index) => {
                 // Encontrar el valor máximo de votos
-                const maxVotes = Math.max(...legendData.map(item => item.value));
-                
+                const maxVotes = Math.max(
+                  ...legendData.map((item) => item.value),
+                );
+
                 // Calcular el porcentaje basado en el valor máximo
-                const percentage = maxVotes > 0 ? (segment.value / maxVotes) * 100 : 0;
+                const percentage =
+                  maxVotes > 0 ? (segment.value / maxVotes) * 100 : 0;
                 const hasVotes = segment.value > 0;
                 return (
                   <div

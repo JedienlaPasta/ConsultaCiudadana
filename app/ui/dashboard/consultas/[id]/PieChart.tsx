@@ -169,9 +169,9 @@ export default function AnalyticsDonuts({
     <div className="space-y-8">
       <div
         key={question.questionId}
-        className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm"
+        className="rounded-3xl border-slate-200 bg-white md:border md:p-6 md:shadow-sm"
       >
-        <div className="flex flex-col rounded-lg px-4 lg:flex-row lg:items-center lg:space-x-8">
+        <div className="flex flex-col rounded-lg md:px-1 lg:flex-row lg:items-center lg:space-x-8">
           <div className="flex-1">
             <div className="grid grid-cols-1 sm:grid-cols-2">
               {legendData.map((segment, index) => {
@@ -182,7 +182,7 @@ export default function AnalyticsDonuts({
                   <div
                     key={index}
                     title={segment.name}
-                    className={`flex cursor-context-menu items-start space-x-3 divide-y divide-slate-200 rounded-lg px-3.5 py-2.5 transition-colors duration-200 hover:bg-slate-200/50 ${
+                    className={`flex cursor-context-menu items-start space-x-3 divide-y divide-slate-200 rounded-lg py-2.5 transition-colors duration-200 hover:bg-slate-200/50 md:px-3.5 ${
                       hasVotes ? "" : "opacity-60"
                     }`}
                   >
@@ -218,7 +218,7 @@ export default function AnalyticsDonuts({
             </div>
           </div>
           {/* Gráfico de Dona */}
-          <div className="mb-6 flex-shrink-0 outline-none lg:mb-0">
+          <div className="mb-6 hidden flex-shrink-0 outline-none sm:block lg:mb-0">
             <div
               ref={chartRef}
               onMouseLeave={handleChartMouseLeave}
@@ -302,53 +302,6 @@ export default function AnalyticsDonuts({
               </div>
             </div>
           </div>
-
-          {/* Leyenda */}
-          {/* <div className="flex-1">
-            <div className="grid grid-cols-1 sm:grid-cols-2">
-              {legendData.map((segment, index) => {
-                const percentage =
-                  totalVotes > 0 ? (segment.value / totalVotes) * 100 : 0;
-                const hasVotes = segment.value > 0;
-                return (
-                  <div
-                    key={index}
-                    title={segment.name}
-                    className={`flex cursor-context-menu items-start space-x-3 divide-y divide-slate-200 rounded-lg px-3.5 py-2.5 transition-colors duration-200 hover:bg-slate-200/50 ${
-                      hasVotes ? "" : "opacity-60"
-                    }`}
-                  >
-                    <div
-                      className="mt-0.5 size-4 flex-shrink-0 rounded-sm"
-                      style={{
-                        backgroundColor: segment.color,
-                        opacity: hasVotes ? 1 : 0.5,
-                      }}
-                    ></div>
-                    <div className="min-w-0 flex-1">
-                      <div
-                        className={`truncate text-sm font-medium ${
-                          hasVotes ? "text-slate-700" : "text-gray-500"
-                        }`}
-                      >
-                        {segment.name}
-                      </div>
-                      <div className="mb-1 text-xs text-gray-500/90">
-                        {segment.value.toLocaleString()} votos
-                      </div>
-                    </div>
-                    <div
-                      className={`text-sm font-semibold ${
-                        hasVotes ? "text-slate-700" : "text-gray-400"
-                      }`}
-                    >
-                      {percentage.toFixed(0)}%
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div> */}
         </div>
       </div>
     </div>
