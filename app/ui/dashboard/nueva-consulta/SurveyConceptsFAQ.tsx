@@ -87,7 +87,7 @@ export default function SurveyConceptsFAQ({
               type="text"
               maxLength={90}
               className="h-10 w-full rounded-lg border border-slate-300 bg-white p-4 text-sm text-slate-700 shadow-sm transition-all outline-none placeholder:text-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:ring-offset-1"
-              placeholder={`Ej: https://test-participacion.munielquisco.gob.cl/...`}
+              placeholder={`Ej: https://participacion.munielquisco.gob.cl/...`}
               value={formData.survey_concepts_link}
               onChange={(e) =>
                 updateFormData("survey_concepts_link", e.target.value)
