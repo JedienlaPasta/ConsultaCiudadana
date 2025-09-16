@@ -51,14 +51,10 @@ export default function SurveyLayout({
   const [hasVoted, setHasVoted] = useState(false);
   const topRef = useRef<HTMLDivElement>(null);
 
-  // ... existing code ...
-
-  // NUEVO: Estado para controlar si el componente debe renderizar
   const [shouldRender, setShouldRender] = useState(!hasParticipated);
 
   const router = useRouter();
 
-  // MEJORADO: useEffect más robusto
   useEffect(() => {
     if (!rut) {
       toast.error("No se ha encontrado el RUT del usuario");
@@ -75,7 +71,7 @@ export default function SurveyLayout({
     }
   }, [hasParticipated, router, rut]);
 
-  // NUEVO: Efecto para manejar navegación del navegador
+  // Efecto para manejar navegación del navegador
   useEffect(() => {
     const handleVisibilityChange = () => {
       if (hasVoted && document.visibilityState === "visible") {
@@ -121,12 +117,10 @@ export default function SurveyLayout({
     };
   }, [hasVoted, hasParticipated, router, surveyId, rut]);
 
-  // NUEVO: No renderizar si no debe mostrar el componente
   if (!shouldRender || hasParticipated) {
     return null;
   }
 
-  // MEJORADO: Función formAction con sessionStorage
   const formAction = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -149,10 +143,10 @@ export default function SurveyLayout({
       }
 
       setHasVoted(true);
-      // NUEVO: Guardar en sessionStorage inmediatamente
+      // Guardar en sessionStorage inmediatamente
       sessionStorage.setItem(`voted_${surveyId}_${rut}`, "true");
 
-      // NUEVO: Limpiar el historial del navegador
+      // Limpiar el historial del navegador
       if (window.history.length > 1) {
         window.history.replaceState(null, "", "/");
       }
@@ -183,7 +177,7 @@ export default function SurveyLayout({
     }
   };
 
-  // MEJORADO: Modal de respuesta exitosa
+  // Modal de respuesta exitosa
   if (hasVoted && response.success) {
     return (
       <VoteResponseModal

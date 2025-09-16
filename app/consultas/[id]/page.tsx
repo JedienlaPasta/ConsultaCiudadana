@@ -186,7 +186,7 @@ export default async function SurveyDetail(props: SurveyDetailsProps) {
                 <h3 className="mb-2 bg-gradient-to-r from-[#23396f] to-blue-700 bg-clip-text text-xl font-bold text-transparent">
                   Objetivos
                 </h3>
-                <ul className="list-disc space-y-1 text-slate-600 marker:text-indigo-700 sm:pl-1 md:space-y-1.5">
+                <ul className="list-disc space-y-1 text-slate-600 marker:text-[#24469c] sm:pl-1 md:space-y-1.5">
                   {survey.objectives.map((objective) => (
                     <li key={objective}>{objective}</li>
                   ))}

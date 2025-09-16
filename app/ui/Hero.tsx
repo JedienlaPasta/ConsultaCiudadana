@@ -101,7 +101,7 @@ export default function Hero() {
           <div className="mb-8 flex w-full max-w-[28rem] flex-col gap-4 md:w-fit md:max-w-full md:flex-row md:gap-6">
             <button
               onClick={handleCTABtn}
-              className="group relative cursor-pointer overflow-hidden rounded-full bg-gradient-to-br from-blue-500 via-blue-600 to-blue-700 px-8 py-4 text-lg font-black text-white shadow-2xl transition-all duration-300 hover:scale-103 hover:shadow-blue-700/25 active:scale-95"
+              className="group relative cursor-pointer overflow-hidden rounded-full bg-gradient-to-br from-blue-500 via-blue-600 to-blue-700 px-6 py-4 text-lg font-black text-white shadow-2xl transition-all duration-300 hover:scale-103 hover:shadow-blue-700/25 active:scale-95 md:px-10"
             >
               {/* Overlay gradiente para hover con transición suave */}
               <div className="absolute inset-0 bg-gradient-to-br from-blue-700 via-blue-600 to-blue-500 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
@@ -125,7 +125,7 @@ export default function Hero() {
 
             <Link
               href="/consultas"
-              className="group relative overflow-hidden rounded-full border-2 border-white/30 bg-white/10 px-8 py-4 text-lg font-black text-white shadow-xl backdrop-blur-sm transition-all duration-300 hover:scale-103 hover:border-white/50 hover:bg-white/15 hover:shadow-white/5 active:scale-95"
+              className="group relative overflow-hidden rounded-full border-2 border-white/30 bg-white/10 px-6 py-4 text-lg font-black text-white shadow-xl backdrop-blur-sm transition-all duration-300 hover:scale-103 hover:border-white/50 hover:bg-white/15 hover:shadow-white/5 active:scale-95 md:px-10"
             >
               <div className="absolute inset-0 bg-gradient-to-r from-white/10 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
               <div className="relative flex items-center justify-center gap-2">

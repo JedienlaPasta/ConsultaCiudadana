@@ -17,9 +17,9 @@ export default function Footer() {
 
       {/* Main Footer Content */}
       <div className="relative z-10 container mx-auto max-w-[80rem] px-4 pt-7 pb-12 md:px-8">
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-3 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-7 md:grid-cols-3 lg:grid-cols-4">
           {/* Column 1: Logo and Info */}
-          <div className="flex flex-col space-y-4">
+          <div className="flex flex-col space-y-4 p-1">
             <div className="group">
               <div className="flex items-center justify-center gap-3 rounded-xl border border-slate-700/50 bg-gradient-to-br from-slate-800/50 to-gray-800/30 p-4 backdrop-blur-sm transition-all duration-300 hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-500/15">
                 <div className="hfit flex w-fit flex-shrink-0 items-center justify-center shadow-lg">
@@ -66,7 +66,7 @@ export default function Footer() {
           </div>
 
           {/* Column 2: Quick Links */}
-          <div className="space-y-4">
+          <div className="space-y-4 p-1">
             <div className="mb-4 flex items-center gap-2">
               <div className="h-6 w-1 rounded-full bg-gradient-to-b from-blue-400 to-blue-500"></div>
               <h3 className="bg-gradient-to-r from-white to-slate-300 bg-clip-text text-lg font-bold text-transparent">
@@ -123,7 +123,7 @@ export default function Footer() {
           </div>
 
           {/* Column 3: Contact */}
-          <div id="contact-info" className="space-y-4">
+          <div id="contact-info" className="space-y-4 rounded-lg p-1">
             <div className="mb-4 flex items-center gap-2">
               <div className="h-6 w-1 rounded-full bg-gradient-to-b from-blue-400 to-blue-500"></div>
               <h3 className="bg-gradient-to-r from-white to-slate-300 bg-clip-text text-lg font-bold text-transparent">
@@ -191,7 +191,7 @@ export default function Footer() {
           </div>
 
           {/* Column 4: Social Media */}
-          <div className="space-y-4">
+          <div className="space-y-4 p-1">
             <div className="mb-4 flex items-center gap-2">
               <div className="h-6 w-1 rounded-full bg-gradient-to-b from-blue-400 to-blue-500"></div>
               <h3 className="bg-gradient-to-r from-white to-slate-300 bg-clip-text text-lg font-bold text-transparent">

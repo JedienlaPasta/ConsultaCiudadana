@@ -100,12 +100,12 @@ function Survey({ survey }: { survey: SurveyGeneralData }) {
       href={`/consultas/${survey.id}`}
       className="group flex transform transition-all duration-300 hover:translate-y-[-4px]"
     >
-      <div className="min-h-[185px]s flex grow">
+      <div className="flex grow">
         <div className="col-span-10 flex grow flex-col rounded-l-2xl border border-r-8 border-slate-200/80 border-r-gray-300 bg-slate-100/80 shadow-md shadow-gray-200/80 transition-all group-hover:shadow-lg">
-          <div className="flex h-full grow flex-col px-6.5 pt-5 pb-3 md:gap-1 md:p-7 md:pb-5">
+          <div className="pt-5s flex h-full grow flex-col p-4 pb-3 sm:p-6.5 sm:pb-4 md:gap-1 md:p-7 md:pb-5">
             <div>
               <div className="mb-1.5 flex flex-wrap items-center justify-between gap-x-6 gap-y-1">
-                <h1 className="text-xl font-bold text-slate-700 transition-colors group-hover:text-[#03529c] lg:text-2xl">
+                <h1 className="text-lg font-bold text-slate-700 transition-colors group-hover:text-[#03529c] sm:text-xl lg:text-2xl">
                   {survey.survey_name}
                 </h1>
                 <div
@@ -210,7 +210,7 @@ function Survey({ survey }: { survey: SurveyGeneralData }) {
                 </div>
               </div>
             </div>
-            <p className="line-clamp-2 text-sm text-slate-500">
+            <p className="line-clamp-6 text-sm text-slate-500 sm:line-clamp-2">
               {survey.survey_short_description}
             </p>
           </div>

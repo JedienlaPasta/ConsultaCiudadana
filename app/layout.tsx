@@ -117,7 +117,7 @@ export default function RootLayout({
           rel="canonical"
           href="https://participacion.munielquisco.gob.cl/"
         />
-        <meta name="theme-color" content="#004aad" />
+        <meta name="theme-color" content="#0e4194" />
       </head>
       <body className={`${geist.className} antialiased`}>
         <Toaster position="top-center" />

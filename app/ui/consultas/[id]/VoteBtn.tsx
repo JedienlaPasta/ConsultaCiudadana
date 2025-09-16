@@ -14,7 +14,7 @@ export default function VoteBtn({ id, surveyState }: VoteBtnProps) {
     <div>
       {surveyState === "Abierta" && (
         <div className="group rounded-xl border border-gray-200 bg-gray-50 select-none">
-          <label className="group flex cursor-pointer items-start gap-3 rounded-lg px-4.5 py-4 focus-within:ring-2 focus-within:ring-blue-300 focus-within:ring-offset-0">
+          <label className="group flex cursor-pointer items-start gap-3 rounded-lg px-4.5 py-4 focus-within:ring-2 focus-within:ring-blue-500 focus-within:ring-offset-0">
             <input
               type="checkbox"
               className="mt-1 h-4 w-4 rounded border-gray-300 text-blue-600"
@@ -36,23 +36,27 @@ export default function VoteBtn({ id, surveyState }: VoteBtnProps) {
       )}
       {surveyState === "Cerrada" ? (
         <Link
-          className="flex min-h-11 w-full grow items-center justify-center gap-0.5 rounded-lg bg-[#0F69C4] py-[8px] pr-5 pl-4 text-center text-[#fff] transition-all select-none hover:bg-[#2275C9] active:scale-95"
+          className="group relative flex min-h-11 w-full grow items-center justify-center gap-0.5 overflow-hidden rounded-lg bg-gradient-to-br from-blue-500 via-blue-600 to-blue-700 py-[8px] pr-5 pl-4 text-center text-white transition-all select-none hover:bg-[#2275C9] active:scale-95"
           href={`/consultas/${id}/resultados`}
         >
-          Ver resultados
+          <div className="absolute inset-0 bg-gradient-to-tr from-blue-700 via-blue-600 to-blue-500 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+          <span className="relative">Ver resultados</span>
         </Link>
       ) : isChecked ? (
         <Link
-          className="mt-5 flex min-h-11 w-full grow items-center justify-center gap-0.5 rounded-lg bg-[#0F69C4] py-[8px] pr-5 pl-4 text-center text-[#fff] transition-all select-none hover:bg-[#2275C9] active:scale-95"
+          className="group relative mt-5 flex min-h-11 w-full grow items-center justify-center gap-0.5 overflow-hidden rounded-lg bg-gradient-to-br from-blue-500 via-blue-600 to-blue-700 py-[8px] pr-5 pl-4 text-center text-white transition-all select-none hover:bg-[#2275C9] active:scale-95"
           href={
             surveyState === "Abierta"
               ? `/consultas/${id}/voto`
               : `/consultas/${id}/resultados`
           }
         >
-          {surveyState === "Abierta"
-            ? "Ir a votar"
-            : "Aun no empieza la consulta"}
+          <div className="absolute inset-0 bg-gradient-to-tr from-blue-700 via-blue-600 to-blue-500 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+          <span className="relative">
+            {surveyState === "Abierta"
+              ? "Ir a votar"
+              : "Aun no empieza la consulta"}
+          </span>
         </Link>
       ) : (
         <button

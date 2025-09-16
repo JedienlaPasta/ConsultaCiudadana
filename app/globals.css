@@ -154,3 +154,8 @@ ul {
 .expand-modal {
   animation: expandModal 0.5s ease-out forwards;
 }
+
+/* Efecto de destacado para el elemento de contacto */
+.contact-highlight {
+  box-shadow: 0 0 0 3px rgb(15, 99, 255);
+}

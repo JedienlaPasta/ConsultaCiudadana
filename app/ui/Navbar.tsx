@@ -30,6 +30,9 @@ export default function Navbar({ isLoggedIn }: { isLoggedIn: boolean }) {
     e.preventDefault();
     const element = document.getElementById("contact-info");
     if (element) {
+      // Agregar clase de destacado antes del scroll
+      element.classList.add("contact-highlight");
+
       const elementPosition = element.getBoundingClientRect().top;
       const offsetPosition = elementPosition + window.pageYOffset;
 
@@ -37,6 +40,11 @@ export default function Navbar({ isLoggedIn }: { isLoggedIn: boolean }) {
         top: offsetPosition,
         behavior: "smooth",
       });
+
+      // Remover la clase después de la animación (3 segundos)
+      setTimeout(() => {
+        element.classList.remove("contact-highlight");
+      }, 3000);
     }
   };
 
