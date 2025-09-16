@@ -17,6 +17,7 @@ export type MapComponentProps = {
   boundaryData: GeoJSONType.FeatureCollection;
   linesData?: GeoJSONType.FeatureCollection;
   areasData?: GeoJSONType.FeatureCollection;
+  routesData?: GeoJSONType.FeatureCollection;
   selectedSector?: string | null;
   selectedComponent?: string[];
   onSectorSelect?: (sectorName: string) => void;
@@ -58,6 +59,7 @@ export default function MapComponent({
   boundaryData,
   linesData,
   areasData,
+  routesData,
   selectedSector,
   selectedComponent,
   onSectorSelect,
@@ -162,7 +164,7 @@ export default function MapComponent({
 
   const getStyle = (feature?: GeoJSONType.Feature) => {
     if (!feature) return defaultStyle;
-    if (linesData || areasData) {
+    if (linesData || areasData || routesData) {
       if (feature.properties?.ZONA === selectedSector) {
         return selectedStyle;
       }
@@ -267,7 +269,7 @@ export default function MapComponent({
 
     // Array con todas las opciones posibles en orden fijo
     const allPossibleOptions = [
-      "tramo conector",
+      "ruta piimep",
       "peatonalización permanente",
       "peatonalización temporal",
       "sentido de tránsito",
@@ -286,8 +288,8 @@ export default function MapComponent({
 
     // Para las subopciones de "tramo conector", usar el mismo color base
     selectedComponent?.forEach((component) => {
-      if (component.toLowerCase().includes("tramo conector")) {
-        colorMap[component.toLowerCase()] = colorMap["tramo conector"];
+      if (component.toLowerCase().includes("ruta piimep")) {
+        colorMap[component.toLowerCase()] = colorMap["ruta piimep"];
       }
     });
 
@@ -361,6 +363,43 @@ export default function MapComponent({
               features: linesData.features.filter((feature) =>
                 selectedComponent?.some((component) => {
                   if (component.toLowerCase().includes("tramo conector")) {
+                    return false;
+                  } else {
+                    return (
+                      feature.properties?.TIPO?.toString().toLowerCase() ===
+                      component.toLowerCase()
+                    );
+                  }
+                }),
+              ),
+            } as GeoJSONType.FeatureCollection
+          }
+          style={(feature) => {
+            const componentName =
+              feature?.properties?.TIPO?.toString().toLowerCase() || "default";
+            console.log(selectedComponent);
+
+            const matchedComponent = selectedComponent?.find((component) =>
+              component.toLowerCase().includes(componentName),
+            );
+            return {
+              color: matchedComponent
+                ? componentColors[matchedComponent.toLowerCase()]
+                : "#8B4513",
+              weight: 6,
+            };
+          }}
+        />
+      )}
+      {/* {linesData && (
+        <RLGeoJSON
+          key={selectedComponent?.join(",") + "lines"}
+          data={
+            {
+              ...linesData,
+              features: linesData.features.filter((feature) =>
+                selectedComponent?.some((component) => {
+                  if (component.toLowerCase().includes("tramo conector")) {
                     const tramo = component
                       .toLowerCase()
                       .replace("tramo conector", "")
@@ -399,6 +438,49 @@ export default function MapComponent({
             };
           }}
         />
+      )} */}
+      {routesData && (
+        <RLGeoJSON
+          key={selectedComponent?.join(",") + "routes"}
+          data={
+            {
+              ...routesData,
+              features: routesData.features.filter((feature) =>
+                selectedComponent?.some((component) => {
+                  if (component.toLowerCase().includes("ruta piimep")) {
+                    const tramo = component
+                      .toLowerCase()
+                      .replace("ruta piimep", "")
+                      .trim();
+
+                    const isTramo =
+                      feature.properties?.TIPO?.toString().toLowerCase() ===
+                        "ruta piimep" &&
+                      feature.properties?.NOMBRE?.toString().toLowerCase() ===
+                        tramo;
+
+                    return isTramo;
+                  }
+                }),
+              ),
+            } as GeoJSONType.FeatureCollection
+          }
+          style={(feature) => {
+            const componentName =
+              feature?.properties?.TIPO?.toString().toLowerCase() || "default";
+            console.log(selectedComponent);
+
+            const matchedComponent = selectedComponent?.find((component) =>
+              component.toLowerCase().includes(componentName),
+            );
+            return {
+              color: matchedComponent
+                ? componentColors[matchedComponent.toLowerCase()]
+                : "#8B4513",
+              weight: 6,
+            };
+          }}
+        />
       )}
       {areasData && (
         <RLGeoJSON
@@ -425,7 +507,7 @@ export default function MapComponent({
               color: matchedComponent
                 ? componentColors[matchedComponent.toLowerCase()]
                 : "#8B4513",
-              weight: 5,
+              weight: 6,
             };
           }}
         />

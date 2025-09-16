@@ -20,6 +20,7 @@ const sectoresPath = "/output-buffer.geojson";
 const comunaPath = "/output-limite.geojson";
 const linesPath = "/lines.geojson";
 const areaPath = "/areas.geojson";
+const routesPath = "/routes.geojson";
 
 type OptionSelectionListProps = {
   question: SurveyQuestion;
@@ -36,6 +37,7 @@ export default function OptionSelectionList({
   const [comuna, setComuna] = useState(null);
   const [lines, setLines] = useState(null);
   const [area, setArea] = useState(null);
+  const [routes, setRoutes] = useState(null);
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
@@ -86,12 +88,14 @@ export default function OptionSelectionList({
       fetch(comunaPath).then((response) => response.json()),
       fetch(linesPath).then((response) => response.json()),
       fetch(areaPath).then((response) => response.json()),
+      fetch(routesPath).then((response) => response.json()),
     ])
-      .then(([sectoresData, comunaData, linesData, areaData]) => {
+      .then(([sectoresData, comunaData, linesData, areaData, routesData]) => {
         setSectores(sectoresData);
         setComuna(comunaData);
         setLines(linesData);
         setArea(areaData);
+        setRoutes(routesData);
       })
       .catch((err) => {
         setError(err);
@@ -344,7 +348,7 @@ export default function OptionSelectionList({
           </div>
         </div>
       )}
-      {!loading && !error && sectores && comuna && lines && area && (
+      {!loading && !error && sectores && comuna && lines && area && routes && (
         <div className="relative aspect-[4/3] h-fit overflow-hidden rounded-lg bg-gray-100 shadow-md shadow-gray-200/80 md:aspect-[16/8]">
           <div className="absolute top-2 right-2 z-[1000] flex flex-col rounded-md bg-white px-2 py-1.5 shadow-lg md:top-5 md:right-5 md:space-y-1">
             {/* <h5 className="text-xs md:text-sm">Leyenda</h5> */}
@@ -360,6 +364,7 @@ export default function OptionSelectionList({
             boundaryData={comuna}
             linesData={lines}
             areasData={area}
+            routesData={routes}
             selectedSector={selectedSectorId}
             selectedComponent={selectedComponent}
           />
@@ -444,6 +449,10 @@ function OptionItem({ option, isSelected, onSelect }: OptionItemProps) {
   const hasSubOption =
     "hasSubQuestion" in option ? option.hasSubQuestion : false;
 
+  const cleanOptionName =
+    option.option_name !== "Ruta PIIMEP"
+      ? option.option_name.replace("Ruta PIIMEP", "Ruta").trim()
+      : option.option_name;
   return (
     <div
       onClick={onSelect}
@@ -477,7 +486,7 @@ function OptionItem({ option, isSelected, onSelect }: OptionItemProps) {
           onChange={onSelect}
         />
         <h5 className={`font-medium group-hover:text-[#0F69C4]`}>
-          {option.option_name}
+          {cleanOptionName}
         </h5>
         {hasSubOption && (
           <span title="Esta opción tiene Subopciones">
