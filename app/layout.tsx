@@ -12,10 +12,30 @@ export const metadata: Metadata = {
   keywords: [
     "consultas públicas El Quisco",
     "participación ciudadana",
+    "participación ciudadana El Quisco",
     "encuestas municipales",
+    "encuestas municipales El Quisco",
     "opinión ciudadana",
+    "opinión ciudadana El Quisco",
+    "votar online",
     "votar online El Quisco",
     "municipalidad El Quisco consultas",
+    "municipalidad El Quisco consultas ciudadanas",
+    "participa",
+    "participa El Quisco",
+    "participa municipalidad El Quisco",
+    "participación",
+    "participación El Quisco",
+    "participación municipalidad El Quisco",
+
+    "cómo participar en encuestas municipales El Quisco",
+    "consultas ciudadanas online El Quisco",
+    "opiniones vecinos El Quisco",
+    "donde votar encuestas El Quisco",
+    "que es participación ciudadana El Quisco",
+
+    "plataforma de participación ciudadana El Quisco",
+    "encuestas online municipalidad El Quisco",
   ],
 
   openGraph: {
