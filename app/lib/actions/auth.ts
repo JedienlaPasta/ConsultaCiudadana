@@ -147,7 +147,7 @@ export async function exchangeCodeForTokens(code: string) {
       rut: `${userInfo.RolUnico.numero}-${userInfo.RolUnico.DV}`,
       name: `${userInfo.name.nombres.join(" ")} ${userInfo.name.apellidos.join(" ")}`,
       role: userRole,
-      exp: Math.floor(Date.now() / 1000) + 60 * 30,
+      exp: Math.floor(Date.now() / 1000) + 60 * 60,
     };
 
     const sessionToken = jwt.sign(sessionPayload, jwtSecret, {
@@ -160,7 +160,7 @@ export async function exchangeCodeForTokens(code: string) {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       path: "/",
-      maxAge: 60 * 30, // 30 min
+      maxAge: 60 * 60, // 1 hora
       sameSite: "lax",
     });
 
