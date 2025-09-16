@@ -15,7 +15,7 @@ export async function signInWithClaveUnica(returnTo: string) {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     path: "/",
-    maxAge: 1800, // 30 minutos
+    maxAge: 3600, // 60 minutos
     sameSite: "lax",
   });
 
@@ -23,7 +23,7 @@ export async function signInWithClaveUnica(returnTo: string) {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     path: "/",
-    maxAge: 1800, // 30 minutos
+    maxAge: 3600, // 60 minutos
     sameSite: "lax",
   });
 
