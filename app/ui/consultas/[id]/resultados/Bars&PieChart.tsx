@@ -187,6 +187,8 @@ export default function BarsAndPieChart({
 
                 // Calcular el porcentaje basado en el valor máximo
                 const percentage =
+                  totalVotes > 0 ? (segment.value / totalVotes) * 100 : 0;
+                const barWidth =
                   maxVotes > 0 ? (segment.value / maxVotes) * 100 : 0;
                 const hasVotes = segment.value > 0;
                 return (
@@ -199,7 +201,7 @@ export default function BarsAndPieChart({
                       className="absolute top-0 left-0 h-full flex-shrink-0 rounded-sm"
                       style={{
                         backgroundColor: segment.color,
-                        width: `${percentage}%`,
+                        width: `${barWidth}%`,
                         opacity: hasVotes ? 0.8 : 0.5,
                       }}
                     ></div>
