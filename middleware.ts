@@ -25,35 +25,35 @@ export async function middleware(request: NextRequest) {
   // Para rutas protegidas, verificar sesión
   const session = request.cookies.get("app_session")?.value;
 
-  // if (!session) {
-  //   const redirectUrl = new URL("/", request.url);
-  //   redirectUrl.searchParams.set("authError", "no_session");
-  //   redirectUrl.searchParams.set(
-  //     "message",
-  //     "Debes iniciar sesión para acceder a esta página",
-  //   );
-  //   return NextResponse.redirect(redirectUrl);
-  // }
+  if (!session) {
+    const redirectUrl = new URL("/", request.url);
+    redirectUrl.searchParams.set("authError", "no_session");
+    redirectUrl.searchParams.set(
+      "message",
+      "Debes iniciar sesión para acceder a esta página",
+    );
+    return NextResponse.redirect(redirectUrl);
+  }
 
   try {
     // Verificar JWT y extraer payload
     const secret = new TextEncoder().encode(jwtSecret);
-    // const { payload } = await jose.jwtVerify(session, secret);
+    const { payload } = await jose.jwtVerify(session, secret);
 
     // Para rutas de dashboard, verificar roles específicos
-    // if (isDashboardRoute) {
-    //   const userRole = payload.role as string;
-    //   const allowedRoles = ["admin", "super_admin"];
+    if (isDashboardRoute) {
+      const userRole = payload.role as string;
+      const allowedRoles = ["admin", "super_admin"];
 
-    //   if (!userRole || !allowedRoles.includes(userRole.toLowerCase())) {
-    //     console.log(
-    //       `Acceso denegado para rol: ${userRole} en ruta: ${pathname}`,
-    //     );
-    //     const redirectUrl = new URL("/", request.url);
-    //     redirectUrl.searchParams.set("authError", "access_denied");
-    //     return NextResponse.redirect(redirectUrl);
-    //   }
-    // }
+      if (!userRole || !allowedRoles.includes(userRole.toLowerCase())) {
+        console.log(
+          `Acceso denegado para rol: ${userRole} en ruta: ${pathname}`,
+        );
+        const redirectUrl = new URL("/", request.url);
+        redirectUrl.searchParams.set("authError", "access_denied");
+        return NextResponse.redirect(redirectUrl);
+      }
+    }
 
     return NextResponse.next();
   } catch (error) {
@@ -66,5 +66,5 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   // matcher: ["/consultas/:id/voto/:path*"],
-  // matcher: ["/consultas/:id/voto/:path*", "/dashboard/:path*"],
+  matcher: ["/consultas/:id/voto/:path*", "/dashboard/:path*"],
 };
