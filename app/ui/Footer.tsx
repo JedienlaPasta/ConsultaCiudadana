@@ -76,12 +76,12 @@ export default function Footer() {
             <ul className="!ml-0 !list-none space-y-3 text-sm">
               <li>
                 <Link
-                  href="/"
+                  href="/privacidad"
                   className="group flex items-center gap-2 rounded-lg p-2 pl-3 transition-all duration-200 hover:translate-x-1 hover:bg-slate-800/50"
                 >
                   <div className="h-1.5 w-1.5 rounded-full bg-sky-500 opacity-0 transition-opacity group-hover:opacity-100"></div>
                   <span className="text-gray-400 transition-colors group-hover:text-sky-500">
-                    Participa
+                    Privacidad
                   </span>
                 </Link>
               </li>
