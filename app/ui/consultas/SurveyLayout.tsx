@@ -278,55 +278,6 @@ export default function SurveyLayout({
     }, 700);
   };
 
-  // const formAction = async (e: React.FormEvent<HTMLFormElement>) => {
-  //   e.preventDefault();
-
-  //   if (hasVoted) {
-  //     toast.error("Ya has enviado tu voto");
-  //     return;
-  //   }
-
-  //   setResponse({
-  //     success: false,
-  //     message: "Verificando...",
-  //   });
-  //   setIsLoadingResponse(true);
-  //   setShowResponseModal(true);
-
-  //   try {
-  //     const response = await registerVote(surveyAnswers, rut);
-  //     if (!response.success) {
-  //       throw new Error(response.message);
-  //     }
-
-  //     setHasVoted(true);
-
-  //     setTimeout(() => {
-  //       setResponse({
-  //         success: true,
-  //         message: response.message,
-  //       });
-  //     }, 3000);
-  //   } catch (error) {
-  //     console.log(error instanceof Error ? error.message : "Error desconocido");
-  //     const message =
-  //       error instanceof Error
-  //         ? error.message
-  //         : "No se pudo registrar el voto, intente nuevamente";
-
-  //     setTimeout(() => {
-  //       setResponse({
-  //         success: false,
-  //         message: message,
-  //       });
-  //     }, 3000);
-  //   } finally {
-  //     setTimeout(() => {
-  //       setIsLoadingResponse(false);
-  //     }, 3000);
-  //   }
-  // };
-
   if (hasVoted && response.success) {
     return (
       <VoteResponseModal

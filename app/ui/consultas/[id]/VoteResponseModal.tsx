@@ -119,7 +119,7 @@ function SuccessModal({ message, isVisible }: ModalProps) {
       // Reiniciar el contador cuando el modal se hace visible
       setCountdown(5);
       setProgress(100);
-      
+
       // Contador que se actualiza cada segundo
       const countdownInterval = setInterval(() => {
         setCountdown((prev) => {
@@ -130,8 +130,8 @@ function SuccessModal({ message, isVisible }: ModalProps) {
           }
           return prev - 1;
         });
-        
-        setProgress((prev) => Math.max(0, prev - 20)); // 100/5 = 20% por segundo
+
+        setProgress((prev) => Math.max(0, prev - 25));
       }, 1000);
 
       return () => clearInterval(countdownInterval);
@@ -184,17 +184,17 @@ function SuccessModal({ message, isVisible }: ModalProps) {
                   </span>{" "}
                   segundo{countdown !== 1 ? "s" : ""}...
                 </p>
-                
+
                 {/* Barra de progreso */}
-                <div className="mb-4 mx-auto w-32">
-                  <div className="h-1 bg-gray-200 rounded-full overflow-hidden">
-                    <div 
+                <div className="mx-auto mb-4 w-32">
+                  <div className="h-1 overflow-hidden rounded-full bg-gray-200">
+                    <div
                       className="h-full bg-gradient-to-r from-blue-500 to-blue-600 transition-all duration-1000 ease-linear"
                       style={{ width: `${progress}%` }}
                     />
                   </div>
                 </div>
-                
+
                 <div className="flex justify-center gap-3 rounded-b-xl px-5 pt-0 pb-10">
                   <button
                     onClick={() => router.push("/")}
