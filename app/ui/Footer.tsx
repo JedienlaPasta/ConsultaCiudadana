@@ -69,9 +69,9 @@ export default function Footer() {
           <div className="space-y-4 p-1">
             <div className="mb-4 flex items-center gap-2">
               <div className="h-6 w-1 rounded-full bg-gradient-to-b from-blue-400 to-blue-500"></div>
-              <h3 className="bg-gradient-to-r from-white to-slate-300 bg-clip-text text-lg font-bold text-transparent">
+              <h2 className="bg-gradient-to-r from-white to-slate-300 bg-clip-text text-lg font-bold text-transparent">
                 Enlaces Rápidos
-              </h3>
+              </h2>
             </div>
             <ul className="!ml-0 !list-none space-y-3 text-sm">
               <li>
@@ -126,9 +126,9 @@ export default function Footer() {
           <div id="contact-info" className="space-y-4 rounded-lg p-1">
             <div className="mb-4 flex items-center gap-2">
               <div className="h-6 w-1 rounded-full bg-gradient-to-b from-blue-400 to-blue-500"></div>
-              <h3 className="bg-gradient-to-r from-white to-slate-300 bg-clip-text text-lg font-bold text-transparent">
+              <h2 className="bg-gradient-to-r from-white to-slate-300 bg-clip-text text-lg font-bold text-transparent">
                 Contacto
-              </h3>
+              </h2>
             </div>
             <div className="space-y-4">
               <Link
@@ -194,15 +194,16 @@ export default function Footer() {
           <div className="space-y-4 p-1">
             <div className="mb-4 flex items-center gap-2">
               <div className="h-6 w-1 rounded-full bg-gradient-to-b from-blue-400 to-blue-500"></div>
-              <h3 className="bg-gradient-to-r from-white to-slate-300 bg-clip-text text-lg font-bold text-transparent">
+              <h2 className="bg-gradient-to-r from-white to-slate-300 bg-clip-text text-lg font-bold text-transparent">
                 Síguenos
-              </h3>
+              </h2>
             </div>
             <div className="flex items-center gap-3">
               {/* Facebook */}
               <Link
                 href="https://www.facebook.com/MuniDeElQuisco"
                 target="_blank"
+                title="Síguenos en Facebook"
                 className="group flex h-12 w-12 items-center justify-center rounded-xl border border-slate-700/50 bg-gradient-to-br from-slate-800/50 to-gray-800/30 transition-all duration-300 hover:scale-110 hover:border-blue-500/50 hover:shadow-lg hover:shadow-blue-500/20"
               >
                 <svg
@@ -223,6 +224,7 @@ export default function Footer() {
               <Link
                 href="https://x.com/elquiscomuni"
                 target="_blank"
+                title="Síguenos en X"
                 className="group flex h-12 w-12 items-center justify-center rounded-xl border border-slate-700/50 bg-gradient-to-br from-slate-800/50 to-gray-800/30 transition-all duration-300 hover:scale-110 hover:border-slate-400/50 hover:shadow-lg hover:shadow-slate-500/20"
               >
                 <svg
@@ -239,6 +241,7 @@ export default function Footer() {
               <Link
                 href="https://www.instagram.com/munielquisco"
                 target="_blank"
+                title="Síguenos en Instagram"
                 className="group flex h-12 w-12 items-center justify-center rounded-xl border border-slate-700/50 bg-gradient-to-br from-slate-800/50 to-gray-800/30 transition-all duration-300 hover:scale-110 hover:border-pink-500/50 hover:shadow-lg hover:shadow-pink-500/20"
               >
                 <svg
