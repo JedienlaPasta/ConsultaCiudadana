@@ -122,7 +122,7 @@ export default function VoteConfirmationOverview({
               </div>
             </div>
 
-            <div className="relative overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition-all duration-300 hover:scale-[1.02] hover:shadow-md">
+            <div className="relative overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition-all duration-300 hover:scale-[1.01] hover:shadow-md">
               <div className="flex items-center">
                 <div
                   className={`rounded-l-xls flex h-20 w-13 flex-shrink-0 items-center justify-center bg-gradient-to-br from-blue-500 to-blue-600 font-bold text-white shadow-lg`}
@@ -257,7 +257,7 @@ export default function VoteConfirmationOverview({
                         key={`${item.option.id}-${index}`}
                         className="group/item"
                       >
-                        <div className="relative overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition-all duration-300 group-hover/item:scale-[1.02] hover:shadow-md">
+                        <div className="relative overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition-all duration-300 group-hover/item:scale-[1.01] hover:shadow-md">
                           <div className="flex items-center">
                             <div
                               className={`rounded-l-xls flex h-20 w-13 flex-shrink-0 items-center justify-center bg-gradient-to-br ${colorScheme.bg} font-bold text-white shadow-lg`}

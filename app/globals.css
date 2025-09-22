@@ -125,13 +125,38 @@ ul {
     auto;
 }
 
+:root {
+  --blob-scale: 4;
+}
+
+/* Para pantallas Full HD+ */
+@media (min-width: 1920px) {
+  :root {
+    --blob-scale: 5;
+  }
+}
+
+/* Para pantallas ultrawide 1440p */
+@media (min-width: 2560px) {
+  :root {
+    --blob-scale: 6;
+  }
+}
+
+/* Para pantallas 4K */
+@media (min-width: 3840px) {
+  :root {
+    --blob-scale: 8;
+  }
+}
+
 @keyframes expandBlob {
   0% {
     transform: scale(0);
     opacity: 0.9;
   }
   100% {
-    transform: scale(4);
+    transform: scale(var(--blob-scale));
     opacity: 1;
   }
 }
