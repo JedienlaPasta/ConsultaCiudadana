@@ -29,8 +29,8 @@ export default async function PrivacyPage() {
             <p className="text-lg leading-relaxed text-gray-600">
               La Municipalidad de El Quisco, en cumplimiento de la Ley N° 19.628
               sobre protección de la vida privada y normativa relacionada,
-              informa a las y los usuarios de la plataforma Participa —
-              Consultas Ciudadanas El Quisco lo siguiente:
+              informa a los usuarios de la plataforma Participa — Consultas
+              Ciudadanas El Quisco lo siguiente:
             </p>
           </div>
 
@@ -58,7 +58,6 @@ export default async function PrivacyPage() {
                 </svg>
               }
               title="Responsable del Tratamiento"
-              number="01"
             >
               <p className="mb-4 text-gray-700">
                 La Municipalidad de El Quisco es responsable de la recopilación
@@ -124,10 +123,13 @@ export default async function PrivacyPage() {
                 </svg>
               }
               title="Datos Personales que Recopilamos"
-              number="02"
             >
-              <div className="rounded-xl border border-green-200 bg-green-50 p-6">
-                <div className="mb-3 flex items-center gap-3">
+              <p className="mb-4 text-gray-700">
+                Solo recolectamos datos esenciales para asegurar el correcto
+                funcionamiento de la plataforma.
+              </p>
+              <div className="mb-4 rounded-xl border border-green-200 bg-green-50 p-6">
+                <div className="flex items-center gap-3">
                   <div className="flex h-10 w-10 items-center justify-center rounded-full bg-green-100">
                     <svg
                       className="h-5 w-5 text-green-600"
@@ -142,9 +144,6 @@ export default async function PrivacyPage() {
                     </svg>
                   </div>
                   <div>
-                    <h4 className="font-semibold text-gray-900">
-                      Únicamente datos esenciales
-                    </h4>
                     <p className="text-gray-700">
                       <strong className="text-gray-800">
                         RUT y Dígito Verificador:
@@ -153,9 +152,28 @@ export default async function PrivacyPage() {
                       necesarios para asegurar que cada persona pueda participar
                       una única vez en cada consulta.
                     </p>
+                  </div>
+                </div>
+              </div>
+              <div className="rounded-xl border border-green-200 bg-green-50 p-6">
+                <div className="flex items-center gap-3">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-green-100">
+                    <svg
+                      className="h-5 w-5 text-green-600"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </div>
+                  <div>
                     <p className="text-gray-700">
                       <strong className="text-gray-800">
-                        Registro de participación:
+                        Registro de Participación:
                       </strong>{" "}
                       si bien queda almacenada tu participación en cada
                       consulta, no se registra de forma que pueda vincularse a
@@ -188,20 +206,19 @@ export default async function PrivacyPage() {
                 </svg>
               }
               title="Finalidad del Tratamiento"
-              number="03"
             >
               <p className="mb-6 text-gray-700">
                 Los datos personales se utilizan únicamente para:
               </p>
               <div className="space-y-4">
                 {[
-                  "Verificar la identidad de las y los ciudadanos que participan en consultas ciudadanas",
-                  "Garantizar que cada persona pueda emitir su opinión una sola vez en cada consulta",
-                  "Resguardar la validez y transparencia del proceso de participación",
+                  "Verificar la identidad de los ciudadanos que participan en consultas ciudadanas.",
+                  "Garantizar que cada persona pueda emitir su opinión una sola vez en cada consulta.",
+                  "Resguardar la validez y transparencia del proceso de participación.",
                 ].map((item, index) => (
                   <div
                     key={index}
-                    className="flex items-start gap-4 rounded-lg border border-gray-200 bg-white p-4 transition-shadow hover:shadow-md"
+                    className="flex items-center gap-4 rounded-lg border border-gray-200 bg-white p-4"
                   >
                     <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-blue-100">
                       <span className="text-sm font-semibold text-blue-600">
@@ -236,27 +253,23 @@ export default async function PrivacyPage() {
                 </svg>
               }
               title="Datos que NO Recopilamos"
-              number="04"
               variant="negative"
             >
               <div className="space-y-4">
                 {[
                   {
-                    text: "No se almacenan contraseñas ni credenciales de ClaveÚnica",
-                    icon: "🔐",
+                    text: "No se almacenan contraseñas ni credenciales de ClaveÚnica.",
                   },
                   {
-                    text: "No se guardan direcciones IP ni geolocalización",
-                    icon: "📍",
+                    text: "No se guardan direcciones IP ni geolocalización.",
                   },
                   {
-                    text: "Las respuestas a las consultas son anónimas y no se asocian directamente al RUT del participante",
-                    icon: "👤",
+                    text: "Las respuestas a las consultas son anónimas y no se asocian directamente al RUT del participante.",
                   },
                 ].map((item, index) => (
                   <div
                     key={index}
-                    className="flex items-start gap-4 rounded-lg border border-red-200 bg-red-50 p-4"
+                    className="flex items-center gap-4 rounded-lg border border-red-200 bg-red-50 p-4"
                   >
                     <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-red-100">
                       <svg
@@ -299,7 +312,6 @@ export default async function PrivacyPage() {
                 </svg>
               }
               title="Base Legal"
-              number="05"
             >
               <div className="rounded-xl border border-amber-200 bg-amber-50 p-6">
                 <p className="text-gray-700">
@@ -315,7 +327,7 @@ export default async function PrivacyPage() {
             </PrivacySection>
 
             {/* Conservación */}
-            <PrivacySection
+            {/* <PrivacySection
               icon={
                 <svg
                   className="size-6"
@@ -336,7 +348,6 @@ export default async function PrivacyPage() {
                 </svg>
               }
               title="Conservación de los Datos"
-              number="06"
             >
               <div className="rounded-xl border border-purple-200 bg-purple-50 p-6">
                 <div className="flex items-start gap-4">
@@ -366,7 +377,7 @@ export default async function PrivacyPage() {
                   </div>
                 </div>
               </div>
-            </PrivacySection>
+            </PrivacySection> */}
 
             {/* Derechos */}
             <PrivacySection
@@ -388,7 +399,6 @@ export default async function PrivacyPage() {
                 </svg>
               }
               title="Derechos de las Personas"
-              number="07"
             >
               <p className="mb-6 text-gray-700">
                 De acuerdo con la Ley N° 19.628, las personas pueden solicitar:
@@ -398,30 +408,30 @@ export default async function PrivacyPage() {
                   {
                     title: "Acceso",
                     desc: "a sus datos personales",
-                    icon: "👁️",
+                    // icon: "👁️",
                   },
                   {
                     title: "Rectificación",
                     desc: "de datos erróneos",
-                    icon: "✏️",
+                    // icon: "✏️",
                   },
                   {
                     title: "Eliminación",
                     desc: "o cancelación de los datos, cuando proceda",
-                    icon: "🗑️",
+                    // icon: "🗑️",
                   },
                   {
                     title: "Oposición",
                     desc: "a su uso para fines distintos a los declarados",
-                    icon: "🚫",
+                    // icon: "🚫",
                   },
                 ].map((right, index) => (
                   <div
                     key={index}
-                    className="rounded-lg border border-gray-200 bg-white p-4 transition-shadow hover:shadow-md"
+                    className="rounded-lg border border-gray-200 bg-white px-6 py-4"
                   >
                     <div className="flex items-center gap-3">
-                      <span className="text-2xl">{right.icon}</span>
+                      {/* <span className="emoji text-2xl">{right.icon}</span> */}
                       <div>
                         <h4 className="font-semibold text-gray-900">
                           {right.title}
@@ -501,7 +511,6 @@ export default async function PrivacyPage() {
                 </svg>
               }
               title="Seguridad"
-              number="08"
             >
               <div className="rounded-xl border border-emerald-200 bg-emerald-50 p-6">
                 <div className="flex items-start gap-4">
@@ -644,7 +653,6 @@ function Header() {
 interface PrivacySectionProps {
   icon: React.ReactNode;
   title: string;
-  number: string;
   children: React.ReactNode;
   variant?: "default" | "negative";
 }
@@ -652,7 +660,6 @@ interface PrivacySectionProps {
 function PrivacySection({
   icon,
   title,
-  number,
   children,
   variant = "default",
 }: PrivacySectionProps) {
@@ -662,22 +669,17 @@ function PrivacySection({
 
   return (
     <div
-      className={`${bgColor} ${borderColor} group overflow-hidden rounded-2xl border shadow-sm transition-all duration-300 hover:shadow-lg`}
+      className={`${bgColor} ${borderColor} group overflow-hidden rounded-2xl border shadow-sm transition-all duration-300`}
     >
       <div className="p-8 md:p-10">
-        <div className="mb-6 flex items-start gap-6">
+        <div className="mb-6 flex items-center gap-6">
           <div className="flex-shrink-0">
-            <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 text-white shadow-lg transition-transform group-hover:scale-105">
+            <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-500 via-blue-600 to-blue-700 text-white shadow-lg transition-transform">
               {icon}
             </div>
           </div>
           <div className="flex-1">
-            <div className="mb-2 flex items-center gap-4">
-              <span className="rounded-full bg-blue-100 px-3 py-1 text-xs font-bold text-blue-600">
-                {number}
-              </span>
-            </div>
-            <h2 className="mb-2 text-2xl font-bold text-gray-900 md:text-3xl">
+            <h2 className="text-2xl font-bold text-gray-900 md:text-3xl">
               {title}
             </h2>
           </div>
