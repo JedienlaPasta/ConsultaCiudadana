@@ -10,7 +10,7 @@ import {
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import RexLoader from "../RexAnimation";
-import InfoModal from "./InfoModal";
+import InfoModal from "./[id]/InfoModal";
 
 const DynamicMapComponent = dynamic(() => import("./MapComponent"), {
   ssr: false, // Desactiva el Server-Side Rendering para este componente
@@ -304,7 +304,7 @@ export default function OptionSelectionList({
   };
 
   return (
-    <div className="space-y-4">
+    <div className="grid space-y-4">
       <InfoModal
         show={showInfoModal}
         option={lastSelectedOptionWithSuboption}
@@ -324,63 +324,72 @@ export default function OptionSelectionList({
         </div>
       )}
 
-      {error && (
-        <div className="rounded-lg bg-red-50 p-6 shadow-md">
-          <div className="flex items-center">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="mr-3 h-6 w-6 text-red-500"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-              />
-            </svg>
-            <p className="text-red-700">
-              Error al cargar el mapa o los sectores:{" "}
-              {error instanceof Error ? error.message : String(error)}
-            </p>
-          </div>
-        </div>
-      )}
-      {!loading && !error && sectores && comuna && lines && area && routes && (
-        <div className="relative aspect-[4/3] h-fit overflow-hidden rounded-lg bg-gray-100 shadow-md shadow-gray-200/80 md:aspect-[16/8]">
-          <div className="absolute top-2 right-2 z-[1000] flex flex-col rounded-md bg-white px-2 py-1.5 shadow-lg md:top-5 md:right-5 md:space-y-1">
-            {/* <h5 className="text-xs md:text-sm">Leyenda</h5> */}
-            <div className="flex items-center gap-1">
-              <span className="size-3.5 rounded bg-[#357bf0]"></span>
-              <p className="text-[10px] text-gray-500 md:text-xs">
-                Sector seleccionado
+      <div className="order-3 md:order-1">
+        {error && (
+          <div className="rounded-lg bg-red-50 p-6 shadow-md">
+            <div className="flex items-center">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="mr-3 h-6 w-6 text-red-500"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+              <p className="text-red-700">
+                Error al cargar el mapa o los sectores:{" "}
+                {error instanceof Error ? error.message : String(error)}
               </p>
             </div>
           </div>
-          <DynamicMapComponent
-            geojsonData={sectores}
-            boundaryData={comuna}
-            linesData={lines}
-            areasData={area}
-            routesData={routes}
-            selectedSector={selectedSectorId}
-            selectedComponent={selectedComponent}
-          />
-        </div>
-      )}
+        )}
+        {!loading &&
+          !error &&
+          sectores &&
+          comuna &&
+          lines &&
+          area &&
+          routes && (
+            <div className="relative aspect-[4/3] h-fit overflow-hidden rounded-lg bg-gray-100 shadow-md shadow-gray-200/80 md:aspect-[16/8]">
+              <div className="absolute top-2 right-2 z-[1000] flex flex-col rounded-md bg-white px-2 py-1.5 shadow-lg md:top-5 md:right-5 md:space-y-1">
+                {/* <h5 className="text-xs md:text-sm">Leyenda</h5> */}
+                <div className="flex items-center gap-1">
+                  <span className="size-3.5 rounded bg-[#357bf0]"></span>
+                  <p className="text-[10px] text-gray-500 md:text-xs">
+                    Sector seleccionado
+                  </p>
+                </div>
+              </div>
+              <DynamicMapComponent
+                geojsonData={sectores}
+                boundaryData={comuna}
+                linesData={lines}
+                areasData={area}
+                routesData={routes}
+                selectedSector={selectedSectorId}
+                selectedComponent={selectedComponent}
+              />
+            </div>
+          )}
+      </div>
 
       {/* Normal components */}
-      <div className="rounded-xl border border-slate-200/80 bg-gradient-to-br from-white via-blue-50/30 to-indigo-50/50 p-6">
+      <div className="order-1 rounded-xl border-slate-200/80 bg-gradient-to-br from-white via-blue-50/30 to-indigo-50/50 pb-6 md:order-2 md:border md:p-6">
         <div className="flex items-center justify-between">
           <h3 className="text-lg font-semibold text-slate-700">
             {question.question}
           </h3>
           <div className="flex items-center gap-2 text-sm text-gray-500">
             <span className="inline-block h-3 w-3 rounded-full bg-blue-500"></span>
-            <span>
-              {selectedOptions.length}/{question.maxOptions} seleccionados
+            <span className="flex gap-1">
+              {selectedOptions.length}/{question.maxOptions}
+              <span className="hidden sm:block">seleccionados</span>
             </span>
           </div>
         </div>
@@ -407,7 +416,7 @@ export default function OptionSelectionList({
           selectedOptions.includes(option.id) && (
             <div
               key={index}
-              className="rounded-xl border border-slate-200/80 bg-gradient-to-br from-white via-blue-50/30 to-indigo-50/50 p-6"
+              className="order-2 -mt-6 rounded-xl border-slate-200/80 bg-gradient-to-br from-white via-blue-50/30 to-indigo-50/50 pb-6 md:order-3 md:border md:p-6"
             >
               <div className="space-y-4">
                 <div>
@@ -417,10 +426,10 @@ export default function OptionSelectionList({
                     </h3>
                     <div className="flex items-center gap-2 text-sm text-gray-500">
                       <span className="inline-block h-3 w-3 rounded-full bg-blue-500"></span>
-                      <span>
+                      <span className="flex gap-1">
                         {/* De momento solo 1 opcion por subpregunta */}
                         {getSelectedSubOption(option.id) ? "1" : "0"}/{1}{" "}
-                        seleccionados
+                        <span className="hidden sm:block">seleccionados</span>
                       </span>
                     </div>
                   </div>

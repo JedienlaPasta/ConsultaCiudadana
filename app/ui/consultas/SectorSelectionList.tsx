@@ -18,15 +18,16 @@ export default function SectorSelectionList({
   };
 
   return (
-    <div className="space-y-4s mt-4 rounded-xl border border-slate-200/80 bg-gradient-to-br from-white via-blue-50/30 to-indigo-50/50 p-6 md:mt-8">
+    <div className="mb-4 rounded-xl border-slate-200/80 bg-gradient-to-br from-white via-blue-50/30 to-indigo-50/50 md:mt-8 md:mb-0 md:border md:p-6">
       <div className="flex items-center justify-between">
         <h3 className="text-lg font-semibold text-slate-700">
           Seleccione un sector
         </h3>
         <div className="flex items-center gap-2 text-sm text-gray-500">
           <span className="inline-block h-3 w-3 rounded-full bg-blue-500"></span>
-          <span>
-            {selectedSector !== "" ? "1" : "0"}/{1} seleccionados
+          <span className="flex gap-1">
+            {selectedSector !== "" ? "1" : "0"}/{1}{" "}
+            <span className="hidden sm:block">seleccionados</span>
           </span>
         </div>
       </div>

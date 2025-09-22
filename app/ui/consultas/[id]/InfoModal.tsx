@@ -41,12 +41,12 @@ export default function InfoModal({ option, show, onClose }: InfoModalProps) {
         }`}
       />
       <div
-        className={`bg-whites absolute top-1/2 left-1/2 w-md max-w-[80%] -translate-x-1/2 -translate-y-1/2 transform overflow-hidden rounded-xl ${
+        className={`bg-whites absolute top-1/2 left-1/2 w-md max-w-[95%] -translate-x-1/2 -translate-y-1/2 transform overflow-hidden rounded-xl ${
           isVisible ? "opacity-100" : "opacity-0"
         } transition-all duration-300`}
       >
         {/* Header con gradiente */}
-        <div className="flex items-center justify-between rounded-t-xl bg-gradient-to-r from-blue-500 to-blue-600 px-6 py-4">
+        <div className="flex items-center justify-between rounded-t-xl bg-gradient-to-r from-blue-500 to-blue-600 px-5 py-4">
           <div className="flex items-center gap-3">
             <div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-200/20">
               <svg
@@ -88,7 +88,7 @@ export default function InfoModal({ option, show, onClose }: InfoModalProps) {
         </div>
 
         <div className="bg-white">
-          <div className="flex-1 px-8 pt-6 pb-2">
+          <div className="flex-1 p-6 pb-3">
             <p className="text-sm leading-relaxed text-slate-600">
               <span className="mr-0.5 inline-flex items-center rounded bg-blue-50 px-2 py-0.5 text-sm font-medium text-blue-700 ring-1 ring-blue-200">
                 {option}

@@ -63,7 +63,7 @@ export default function VoteConfirmationOverview({
         <div className="absolute inset-0 bg-black/10"></div>
         <div className="relative z-10">
           <div className="mb-4 flex items-center gap-3">
-            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-white/20 backdrop-blur-sm">
+            <div className="hidden size-12 items-center justify-center rounded-full bg-white/20 backdrop-blur-sm md:flex">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-6 w-6 text-white"
@@ -98,7 +98,7 @@ export default function VoteConfirmationOverview({
         <div className="group relative overflow-hidden rounded-2xl border border-slate-200/80 bg-gradient-to-br from-white via-blue-50/50 to-indigo-50/70 p-6 shadow-lg transition-all duration-300 hover:shadow-xl">
           <div className="relative z-10">
             <div className="mb-6 flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 shadow-lg">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 shadow-lg">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-5 w-5 text-white"
@@ -218,7 +218,7 @@ export default function VoteConfirmationOverview({
               <div className="mb-6 flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <div
-                    className={`flex size-10 items-center justify-center rounded-xl bg-gradient-to-br ${colorScheme.bg} shadow-lg`}
+                    className={`flex size-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br ${colorScheme.bg} shadow-lg`}
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -239,7 +239,7 @@ export default function VoteConfirmationOverview({
                   </div>
                 </div>
                 <div
-                  className={`rounded-2xl bg-gradient-to-br ${colorScheme.bg} px-4 py-2 shadow-lg`}
+                  className={`hidden rounded-2xl bg-gradient-to-br md:block ${colorScheme.bg} px-4 py-2 shadow-lg`}
                 >
                   <span className="text-sm font-bold text-white">
                     {selectedOptions.length}/{question.maxOptions}
