@@ -213,7 +213,7 @@ export default async function SurveyDetail(props: SurveyDetailsProps) {
 
           {/* Right Column - Participation */}
           <div className="lg:col-span-1">
-            <div className="sticky top-24 overflow-hidden border-t border-slate-200/80 bg-gradient-to-br from-white via-blue-50/30 to-indigo-50/50 md:mb-8 md:rounded-xl md:border md:shadow md:shadow-gray-200/80">
+            <div className="overflow-hidden border-t border-slate-200/80 bg-gradient-to-br from-white via-blue-50/30 to-indigo-50/50 md:mb-5 md:rounded-xl md:border md:shadow md:shadow-gray-200/80">
               <div className="space-y-3 px-5 py-6">
                 <h2 className="mb-4 text-xl font-bold text-[#23396f]">
                   Detalles de la Consulta
@@ -323,7 +323,7 @@ export default async function SurveyDetail(props: SurveyDetailsProps) {
               </div>
 
               {surveyState() === "Abierta" && (
-                <div className="px-5">
+                <div className="px-5 pb-5">
                   <div className="rounded-xl border border-blue-200/80 bg-gradient-to-r from-blue-50/80 to-indigo-50/80">
                     <h3 className="border-b border-blue-200/80 px-5 pt-3 pb-2 font-semibold text-[#0A4C8A]">
                       Cómo Participar
@@ -354,13 +354,15 @@ export default async function SurveyDetail(props: SurveyDetailsProps) {
                   </div>
                 </div>
               )}
+            </div>
 
+            <div className="sticky top-23 overflow-hidden border-t border-slate-200/80 bg-gradient-to-br from-white via-blue-50/30 to-indigo-50/50 md:mb-8 md:rounded-xl md:border md:shadow md:shadow-gray-200/80">
               {surveyState() === "Cerrada" ? (
                 <div className="px-5 pb-5">
                   <VoteBtn id={id} surveyState={surveyState()} />
                 </div>
-              ) : !isLoggedIn ? (
-                <div className="mt-6 space-y-5 px-5 pb-5">
+              ) : isLoggedIn ? (
+                <div className="mt-5 space-y-5 px-5 pb-5 md:mt-6">
                   <div className="rounded-xl border border-gray-200 bg-gray-50/50 p-4 transition-colors duration-200 hover:bg-gray-50">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center">
