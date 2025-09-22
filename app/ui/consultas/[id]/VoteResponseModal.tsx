@@ -111,15 +111,30 @@ function LoadingModal({ message, isVisible }: ModalProps) {
 
 function SuccessModal({ message, isVisible }: ModalProps) {
   const router = useRouter();
+  const [countdown, setCountdown] = useState(5);
+  const [progress, setProgress] = useState(100);
 
   useEffect(() => {
     if (isVisible) {
-      // Redirigir automáticamente después de 5 segundos
-      const timer = setTimeout(() => {
-        router.push("/");
-      }, 5000);
+      // Reiniciar el contador cuando el modal se hace visible
+      setCountdown(5);
+      setProgress(100);
+      
+      // Contador que se actualiza cada segundo
+      const countdownInterval = setInterval(() => {
+        setCountdown((prev) => {
+          if (prev <= 1) {
+            // Cuando llega a 0, redirigir
+            router.push("/");
+            return 0;
+          }
+          return prev - 1;
+        });
+        
+        setProgress((prev) => Math.max(0, prev - 20)); // 100/5 = 20% por segundo
+      }, 1000);
 
-      return () => clearTimeout(timer);
+      return () => clearInterval(countdownInterval);
     }
   }, [isVisible, router]);
 
@@ -162,9 +177,24 @@ function SuccessModal({ message, isVisible }: ModalProps) {
                 <p className="mb-2 text-sm leading-relaxed text-slate-400">
                   {message}
                 </p>
-                <p className="mb-4 text-xs text-slate-400">
-                  Serás redirigido automáticamente en 5 segundos...
+                <p className="mb-2 text-xs text-slate-400">
+                  Serás redirigido automáticamente en{" "}
+                  <span className="font-semibold text-blue-600">
+                    {countdown}
+                  </span>{" "}
+                  segundo{countdown !== 1 ? "s" : ""}...
                 </p>
+                
+                {/* Barra de progreso */}
+                <div className="mb-4 mx-auto w-32">
+                  <div className="h-1 bg-gray-200 rounded-full overflow-hidden">
+                    <div 
+                      className="h-full bg-gradient-to-r from-blue-500 to-blue-600 transition-all duration-1000 ease-linear"
+                      style={{ width: `${progress}%` }}
+                    />
+                  </div>
+                </div>
+                
                 <div className="flex justify-center gap-3 rounded-b-xl px-5 pt-0 pb-10">
                   <button
                     onClick={() => router.push("/")}
