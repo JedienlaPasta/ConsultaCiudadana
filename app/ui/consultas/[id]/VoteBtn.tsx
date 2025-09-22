@@ -14,7 +14,9 @@ export default function VoteBtn({ id, surveyState }: VoteBtnProps) {
     <div>
       {surveyState === "Abierta" && (
         <div className="group rounded-xl border border-gray-200 bg-gray-50 select-none">
-          <label className="group flex cursor-pointer items-start gap-3 rounded-lg px-4.5 py-4 focus-within:ring-2 focus-within:ring-blue-500 focus-within:ring-offset-0">
+          <label
+            className={`group flex cursor-pointer items-start gap-3 rounded-lg px-4.5 py-4 ${isChecked ? "text-white ring-2 ring-blue-500 ring-offset-0" : ""}`}
+          >
             <input
               type="checkbox"
               className="mt-1 h-4 w-4 rounded border-gray-300 text-blue-600"
@@ -23,12 +25,12 @@ export default function VoteBtn({ id, surveyState }: VoteBtnProps) {
             />
             <div className="flex-1">
               <p className="text-sm leading-relaxed font-medium text-gray-700">
-                He revisado toda la información disponible y comprendo las
-                opciones sobre las que voy a votar.
+                Confirmo que he leído la documentación de esta encuesta y acepto
+                las políticas de privacidad y uso de datos.
               </p>
               <p className="mt-1 text-xs text-gray-500">
-                Es importante que hayas leído toda la documentación presentada
-                en el link o como mínimo la sección de definición de términos.
+                Te recomendamos leer toda la documentación de la consulta y las
+                políticas de privacidad antes de votar.
               </p>
             </div>
           </label>
