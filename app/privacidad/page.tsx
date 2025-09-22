@@ -21,7 +21,7 @@ export default async function PrivacyPage() {
                   clipRule="evenodd"
                 />
               </svg>
-              Protección de Datos Garantizada
+              Privacidad de Datos Protegida
             </div>
             <h1 className="mb-4 text-3xl font-bold text-gray-900 md:text-4xl">
               Política de Privacidad y Uso de Datos
@@ -40,16 +40,20 @@ export default async function PrivacyPage() {
             <PrivacySection
               icon={
                 <svg
-                  className="h-6 w-6"
+                  className="size-6"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
                   fill="none"
-                  stroke="currentColor"
                   viewBox="0 0 24 24"
                 >
                   <path
+                    stroke="currentColor"
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-4m-2 0v-5a2 2 0 012-2h2a2 2 0 012 2v5m-6 0H5m0 0v-5a2 2 0 012-2h2a2 2 0 012 2v5"
+                    strokeWidth="2"
+                    d="M6 4h12M6 4v16M6 4H5m13 0v16m0-16h1m-1 16H6m12 0h1M6 20H5M9 7h1v1H9V7Zm5 0h1v1h-1V7Zm-5 4h1v1H9v-1Zm5 0h1v1h-1v-1Zm-3 4h2a1 1 0 0 1 1 1v4h-4v-4a1 1 0 0 1 1-1Z"
                   />
                 </svg>
               }
@@ -102,16 +106,20 @@ export default async function PrivacyPage() {
             <PrivacySection
               icon={
                 <svg
-                  className="h-6 w-6"
+                  className="size-6"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
                   fill="none"
-                  stroke="currentColor"
                   viewBox="0 0 24 24"
                 >
                   <path
+                    stroke="currentColor"
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+                    strokeWidth="2"
+                    d="M9.5 11.5 11 13l4-3.5M12 20a16.405 16.405 0 0 1-5.092-5.804A16.694 16.694 0 0 1 5 6.666L12 4l7 2.667a16.695 16.695 0 0 1-1.908 7.529A16.406 16.406 0 0 1 12 20Z"
                   />
                 </svg>
               }
@@ -162,16 +170,20 @@ export default async function PrivacyPage() {
             <PrivacySection
               icon={
                 <svg
-                  className="h-6 w-6"
+                  className="size-6"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
                   fill="none"
-                  stroke="currentColor"
                   viewBox="0 0 24 24"
                 >
                   <path
+                    stroke="currentColor"
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"
+                    strokeWidth="2"
+                    d="M10 3v4a1 1 0 0 1-1 1H5m4 6 2 2 4-4m4-8v16a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V7.914a1 1 0 0 1 .293-.707l3.914-3.914A1 1 0 0 1 9.914 3H18a1 1 0 0 1 1 1Z"
                   />
                 </svg>
               }
@@ -206,16 +218,20 @@ export default async function PrivacyPage() {
             <PrivacySection
               icon={
                 <svg
-                  className="h-6 w-6"
+                  className="size-6"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
                   fill="none"
-                  stroke="currentColor"
                   viewBox="0 0 24 24"
                 >
                   <path
+                    stroke="currentColor"
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728L5.636 5.636m12.728 12.728L5.636 5.636"
+                    strokeWidth="2"
+                    d="M12 13V8m0 8h.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
                   />
                 </svg>
               }
@@ -265,16 +281,20 @@ export default async function PrivacyPage() {
             <PrivacySection
               icon={
                 <svg
-                  className="h-6 w-6"
+                  className="size-6"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
                   fill="none"
-                  stroke="currentColor"
                   viewBox="0 0 24 24"
                 >
                   <path
+                    stroke="currentColor"
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"
+                    strokeWidth="2"
+                    d="M5.5 21h13M12 21V7m0 0a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm2-1.8c3.073.661 2.467 2.8 5 2.8M5 8c3.359 0 2.192-2.115 5.012-2.793M7 9.556V7.75m0 1.806-1.95 4.393a.773.773 0 0 0 .37.962.785.785 0 0 0 .362.089h2.436a.785.785 0 0 0 .643-.335.776.776 0 0 0 .09-.716L7 9.556Zm10 0V7.313m0 2.243-1.95 4.393a.773.773 0 0 0 .37.962.786.786 0 0 0 .362.089h2.436a.785.785 0 0 0 .643-.335.775.775 0 0 0 .09-.716L17 9.556Z"
                   />
                 </svg>
               }
@@ -298,16 +318,20 @@ export default async function PrivacyPage() {
             <PrivacySection
               icon={
                 <svg
-                  className="h-6 w-6"
+                  className="size-6"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
                   fill="none"
-                  stroke="currentColor"
                   viewBox="0 0 24 24"
                 >
                   <path
+                    stroke="currentColor"
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                    strokeWidth="2"
+                    d="M12 8v4l3 3m6-3a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
                   />
                 </svg>
               }
@@ -348,16 +372,18 @@ export default async function PrivacyPage() {
             <PrivacySection
               icon={
                 <svg
-                  className="h-6 w-6"
+                  className="size-6"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
                   fill="none"
-                  stroke="currentColor"
                   viewBox="0 0 24 24"
                 >
                   <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    d="M7 17v1a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1a3 3 0 0 0-3-3h-4a3 3 0 0 0-3 3Zm8-9a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
                   />
                 </svg>
               }
@@ -457,33 +483,41 @@ export default async function PrivacyPage() {
             <PrivacySection
               icon={
                 <svg
-                  className="h-6 w-6"
+                  className="size-6"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
                   fill="none"
-                  stroke="currentColor"
                   viewBox="0 0 24 24"
                 >
                   <path
+                    stroke="currentColor"
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+                    strokeWidth="2"
+                    d="M9.5 11.5 11 13l4-3.5M12 20a16.405 16.405 0 0 1-5.092-5.804A16.694 16.694 0 0 1 5 6.666L12 4l7 2.667a16.695 16.695 0 0 1-1.908 7.529A16.406 16.406 0 0 1 12 20Z"
                   />
                 </svg>
               }
               title="Seguridad"
               number="08"
             >
-              <div className="rounded-xl border border-green-200 bg-green-50 p-6">
+              <div className="rounded-xl border border-emerald-200 bg-emerald-50 p-6">
                 <div className="flex items-start gap-4">
-                  <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-green-100">
+                  <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-emerald-100">
                     <svg
-                      className="h-6 w-6 text-green-600"
+                      className="h-6 w-6 text-emerald-600"
+                      aria-hidden="true"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
                       fill="currentColor"
-                      viewBox="0 0 20 20"
+                      viewBox="0 0 24 24"
                     >
                       <path
                         fillRule="evenodd"
-                        d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                        d="M11.644 3.066a1 1 0 0 1 .712 0l7 2.666A1 1 0 0 1 20 6.68a17.694 17.694 0 0 1-2.023 7.98 17.406 17.406 0 0 1-5.402 6.158 1 1 0 0 1-1.15 0 17.405 17.405 0 0 1-5.403-6.157A17.695 17.695 0 0 1 4 6.68a1 1 0 0 1 .644-.949l7-2.666Zm4.014 7.187a1 1 0 0 0-1.316-1.506l-3.296 2.884-.839-.838a1 1 0 0 0-1.414 1.414l1.5 1.5a1 1 0 0 0 1.366.046l4-3.5Z"
                         clipRule="evenodd"
                       />
                     </svg>
@@ -518,12 +552,14 @@ export default async function PrivacyPage() {
                     clipRule="evenodd"
                   />
                 </svg>
-                Última actualización: {new Date().toLocaleDateString("es-CL")}
+                Última actualización: 30-09-2025
+                {/* Última actualización: {new Date().toLocaleDateString("es-CL")} */}
               </div>
               <p className="mx-auto max-w-2xl text-sm text-gray-600">
                 Esta política de privacidad puede ser actualizada
                 periódicamente. Te recomendamos revisarla regularmente para
-                mantenerte informado sobre cómo protegemos tu información.
+                mantenerte informado sobre cómo protegemos o usamos tu
+                información.
               </p>
             </div>
           </div>

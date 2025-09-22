@@ -16,6 +16,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "daily",
       priority: 0.8,
     },
+    {
+      url: "https://participacion.munielquisco.gob.cl/privacidad",
+      lastModified: new Date(),
+      changeFrequency: "daily",
+      priority: 0.8,
+    },
     ...surveys.map((survey) => ({
       url: `https://participacion.munielquisco.gob.cl/consultas/${survey.id}`,
       lastModified: survey.lastModified
