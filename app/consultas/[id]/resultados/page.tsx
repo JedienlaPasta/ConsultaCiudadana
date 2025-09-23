@@ -69,7 +69,7 @@ export default async function SurveyDetailsOverview({ params }: PageProps) {
                   className="group border-slate-200 pb-4 not-last:border-b sm:pb-12"
                 >
                   <div className="mb-3 flex items-center space-x-4 md:mb-4">
-                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 text-sm font-bold text-white">
+                    <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 text-sm font-bold text-white">
                       {counter}
                     </div>
                     <div className="flex-1">

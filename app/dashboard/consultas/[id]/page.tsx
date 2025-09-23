@@ -106,7 +106,7 @@ export default async function SurveyDetailsOverview({ params }: PageProps) {
         </div>
 
         {/* Survey Info Card */}
-        <div className="group mb-8 overflow-hidden rounded-3xl border border-slate-200 bg-slate-100 hover:bg-slate-200/50">
+        <div className="group mb-8 overflow-hidden rounded-2xl border border-slate-200 bg-slate-100 hover:bg-slate-200/50">
           <div className="px-8 py-6">
             <div className="w-full">
               <div className="mb-2 flex flex-wrap items-start justify-between gap-2"></div>

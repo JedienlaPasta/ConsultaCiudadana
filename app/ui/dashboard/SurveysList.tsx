@@ -47,7 +47,7 @@ export default function DashboardSurveysList({
 function Survey({ survey }: { survey: SurveyGeneralData }) {
   const surveyState = () => {
     if (new Date(survey.survey_start_date) > new Date()) {
-      return "Proximamente";
+      return "En Espera";
     }
     if (new Date(survey.survey_end_date) > new Date()) {
       return "Activa";
@@ -58,23 +58,23 @@ function Survey({ survey }: { survey: SurveyGeneralData }) {
 
   const stateTextColor = () => {
     if (new Date(survey.survey_start_date) > new Date()) {
-      return "text-[#277ff2]";
+      return "text-orange-600";
     }
     if (new Date(survey.survey_end_date) > new Date()) {
-      return "text-emerald-500 ";
+      return "text-emerald-600 ";
     } else {
-      return "text-rose-500";
+      return "text-rose-600";
     }
   };
 
   const stateBgColor = () => {
     if (new Date(survey.survey_start_date) > new Date()) {
-      return "bg-[#277ff2]";
+      return "bg-orange-200/50";
     }
     if (new Date(survey.survey_end_date) > new Date()) {
-      return "bg-emerald-500/85 ";
+      return "bg-emerald-200/50";
     } else {
-      return "bg-rose-500/85";
+      return "bg-rose-200/50";
     }
   };
 
@@ -107,9 +107,6 @@ function Survey({ survey }: { survey: SurveyGeneralData }) {
               <h1 className="mb-2 text-2xl font-bold text-white">
                 {survey.survey_name}
               </h1>
-              {/* <p className="text text-blue-100">
-                {survey.survey_short_description}
-              </p> */}
             </div>
             <div className="ml-6 hidden lg:block">
               <div className="rounded-xl bg-white/10 p-3 backdrop-blur-sm">

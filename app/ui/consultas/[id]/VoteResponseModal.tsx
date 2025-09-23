@@ -154,7 +154,7 @@ function SuccessModal({ message, isVisible }: ModalProps) {
         }}
       />
       <div
-        className={`absolute top-1/2 left-1/2 z-20 w-md max-w-[80%] -translate-x-1/2 -translate-y-1/2 transform overflow-hidden rounded-xl ${
+        className={`absolute top-1/2 left-1/2 z-20 w-md max-w-[95%] -translate-x-1/2 -translate-y-1/2 transform overflow-hidden rounded-xl ${
           isVisible ? "opacity-100" : "opacity-0"
         } transition-all duration-300`}
       >

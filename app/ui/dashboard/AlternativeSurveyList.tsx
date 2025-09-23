@@ -50,7 +50,7 @@ function Survey({ survey }: { survey: SurveyGeneralData }) {
 
   const surveyState = () => {
     if (new Date(survey.survey_start_date) > new Date()) {
-      return "Proximamente";
+      return "En Espera";
     }
     if (new Date(survey.survey_end_date) > new Date()) {
       return "Activa";
@@ -61,7 +61,7 @@ function Survey({ survey }: { survey: SurveyGeneralData }) {
 
   const stateTextColor = () => {
     if (new Date(survey.survey_start_date) > new Date()) {
-      return "text-[#277ff2]";
+      return "text-orange-600";
     }
     if (new Date(survey.survey_end_date) > new Date()) {
       return "text-emerald-600 ";
@@ -72,12 +72,12 @@ function Survey({ survey }: { survey: SurveyGeneralData }) {
 
   const stateBgColor = () => {
     if (new Date(survey.survey_start_date) > new Date()) {
-      return "bg-[#277ff2]";
+      return "bg-orange-200/50";
     }
     if (new Date(survey.survey_end_date) > new Date()) {
-      return "bg-emerald-200 ";
+      return "bg-emerald-200/50";
     } else {
-      return "bg-rose-200";
+      return "bg-rose-200/50";
     }
   };
 
