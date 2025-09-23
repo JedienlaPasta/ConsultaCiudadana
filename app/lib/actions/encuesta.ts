@@ -29,7 +29,7 @@ export async function registerVote(
       const checkResult = await checkParticipationRequest
         .input("survey_id", sql.Int, surveyAnswers.survey_id)
         .input("user_rut", sql.Int, userRut).query(`
-          SELECT TOP 1 id FROM encuestas_participadas WHERE survey_id = @survey_id AND user_rut = @user_rut
+          SELECT TOP 1 id FROM participacion_encuestas WHERE survey_id = @survey_id AND user_rut = @user_rut
         `);
       if (checkResult.recordset.length > 0) {
         return {
@@ -44,7 +44,7 @@ export async function registerVote(
       await participationRequest
         .input("survey_id", sql.Int, surveyAnswers.survey_id)
         .input("user_rut", sql.Int, userRut).query(`
-          INSERT INTO encuestas_participadas (survey_id, user_rut) 
+          INSERT INTO participacion_encuestas (survey_id, user_rut) 
           VALUES (@survey_id, @user_rut)
         `);
 

@@ -50,7 +50,7 @@ export async function getSurveyAnalytics(
       surveyId,
     ).query(`
         SELECT COUNT(*) as total_participants
-        FROM encuestas_participadas
+        FROM participacion_encuestas
         WHERE survey_id = @survey_id
       `);
 
@@ -62,7 +62,7 @@ export async function getSurveyAnalytics(
     const todayResult = await todayRequest.input("survey_id", sql.Int, surveyId)
       .query(`
         SELECT COUNT(*) as today_participants
-        FROM encuestas_participadas
+        FROM participacion_encuestas
         WHERE survey_id = @survey_id
         AND CAST(voted_at AS DATE) = CAST(GETDATE() AS DATE)
       `);
@@ -80,7 +80,7 @@ export async function getSurveyAnalytics(
         SELECT
           CAST(voted_at AS DATE) as participation_date,
           COUNT(*) as daily_count
-        FROM encuestas_participadas
+        FROM participacion_encuestas
         WHERE survey_id = @survey_id
         GROUP BY CAST(voted_at AS DATE)
         ORDER BY participation_date

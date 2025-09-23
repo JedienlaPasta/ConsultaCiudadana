@@ -130,7 +130,7 @@ export default async function PrivacyPage() {
               </p>
               <div className="mb-4 rounded-xl border border-green-200 bg-green-50 p-6">
                 <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-green-100">
+                  <div className="flex size-10 shrink-0 items-center justify-center rounded-full bg-green-100">
                     <svg
                       className="h-5 w-5 text-green-600"
                       fill="currentColor"
@@ -157,7 +157,7 @@ export default async function PrivacyPage() {
               </div>
               <div className="rounded-xl border border-green-200 bg-green-50 p-6">
                 <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-green-100">
+                  <div className="flex size-10 shrink-0 items-center justify-center rounded-full bg-green-100">
                     <svg
                       className="h-5 w-5 text-green-600"
                       fill="currentColor"
@@ -261,7 +261,7 @@ export default async function PrivacyPage() {
                     text: "No se almacenan contraseñas ni credenciales de ClaveÚnica.",
                   },
                   {
-                    text: "No se guardan direcciones IP ni geolocalización.",
+                    text: "No se guardan direcciones IP ni geolocalización exacta.",
                   },
                   {
                     text: "Las respuestas a las consultas son anónimas y no se asocian directamente al RUT del participante.",
@@ -327,7 +327,7 @@ export default async function PrivacyPage() {
             </PrivacySection>
 
             {/* Conservación */}
-            {/* <PrivacySection
+            <PrivacySection
               icon={
                 <svg
                   className="size-6"
@@ -377,7 +377,7 @@ export default async function PrivacyPage() {
                   </div>
                 </div>
               </div>
-            </PrivacySection> */}
+            </PrivacySection>
 
             {/* Derechos */}
             <PrivacySection

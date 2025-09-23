@@ -17,7 +17,7 @@ export async function verifyParticipation(
       .input("survey_id", sql.Int, surveyId)
       .input("user_rut", sql.Int, userRut)
       .query(
-        "SELECT id FROM encuestas_participadas WHERE survey_id = @survey_id AND user_rut = @user_rut",
+        "SELECT id FROM participacion_encuestas WHERE survey_id = @survey_id AND user_rut = @user_rut",
       );
 
     if (participationResult.recordset.length > 0) {

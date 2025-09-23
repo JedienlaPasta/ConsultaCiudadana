@@ -103,7 +103,7 @@ export async function getSurveysListByAccess(
           COUNT(DISTINCT ep.user_rut) AS participation
         FROM encuestas e
         INNER JOIN permisos p ON e.id = p.survey_id
-        LEFT JOIN encuestas_participadas ep ON e.id = ep.survey_id
+        LEFT JOIN participacion_encuestas ep ON e.id = ep.survey_id
         LEFT JOIN usuarios u ON e.created_by = u.rut
         WHERE (p.user_rut = @rut)
         GROUP BY 

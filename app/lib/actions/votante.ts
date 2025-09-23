@@ -3,12 +3,24 @@
 import sql from "mssql";
 import { connectToDB } from "../utils/db-connection";
 import { getDV } from "../utils/getValues";
+import crypto from "crypto";
+
+const USER_HASH_SECRET =
+  process.env.USER_HASH_SECRET ||
+  "very_super_long_and_not_so_safe_secret_secret_for_hashes.";
+
+function generateUserHash(rut: string, dv: string) {
+  return crypto
+    .createHmac("sha256", USER_HASH_SECRET)
+    .update(`${rut}-${dv}`)
+    .digest("hex");
+}
 
 // CU => ClaveUnica
 export async function checkUserRecord(
   rutCU: string,
   dvCU: string,
-  nombreCU: string,
+  // nombreCU: string,
 ) {
   const rut = Number(rutCU);
   try {
@@ -21,9 +33,15 @@ export async function checkUserRecord(
       };
     }
 
-    const checkVotanteRequest = pool.request();
-    const result = await checkVotanteRequest.input("rut", sql.Int, rut).query(`
-        SELECT rut, dv FROM usuarios WHERE rut = @rut
+    const userHash = generateUserHash(rutCU, dvCU);
+
+    const checkUserRequest = pool.request();
+    const result = await checkUserRequest.input(
+      "user_hash",
+      sql.Char(64),
+      userHash,
+    ).query(`
+        SELECT user_hash FROM usuarios WHERE user_hash = @user_hash
         `);
 
     if (result.recordset.length > 0) {
@@ -34,6 +52,7 @@ export async function checkUserRecord(
       };
     }
 
+    // Validate DV
     const dv = getDV(rut);
     if (!dv || dv !== dvCU) {
       console.warn("DV incorrecto.");
@@ -44,15 +63,19 @@ export async function checkUserRecord(
       };
     }
 
-    // Record not found in DB
-    const insertVotanteRequest = pool.request();
-    await insertVotanteRequest
-      .input("rut", sql.Int, rut)
-      .input("dv", sql.NVarChar, dv)
-      .input("full_name", sql.NVarChar, nombreCU).query(`
-        INSERT INTO usuarios (rut, dv, full_name) 
-        VALUES (@rut, @dv, @full_name)
+    // Asign expiring date for temp users
+    const expiresAt = new Date();
+    expiresAt.setDate(expiresAt.getDate() + 180);
+
+    // Insert new temp user
+    const insertUserRequest = pool.request();
+    await insertUserRequest
+      .input("user_hash", sql.Char(64), userHash)
+      .input("expires_at", sql.DateTime2, expiresAt).query(`
+        INSERT INTO usuarios (user_hash, user_role, expires_at) 
+        VALUES (@user_hash, 'votante', @expires_at)
       `);
+
     console.log("Registro insertado en la base de datos.");
     return {
       success: true,
