@@ -380,7 +380,7 @@ export async function createSurvey(
           sql.NVarChar,
           validatedData.data.survey_concepts_link,
         )
-        .input("created_by", sql.Int, sub).query(`
+        .input("created_by", sql.Char(64), userHash).query(`
           INSERT INTO encuestas (survey_name, survey_short_description, survey_large_description, survey_start_date, survey_end_date, department, survey_concepts_description, survey_concepts_link, created_by) 
           OUTPUT INSERTED.id
           VALUES (@survey_name, @survey_short_description, @survey_large_description, @survey_start_date, @survey_end_date, @department, @survey_concepts_description, @survey_concepts_link, @created_by)
