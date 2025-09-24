@@ -11,7 +11,8 @@ import Navbar from "../ui/Navbar";
 export default async function Dashboard() {
   const session = await getSession();
   const surveys = await getSurveysListByAccess(
-    session?.sub || String(19973725),
+    session?.sub || "",
+    session?.dv || "",
   );
 
   // Calculate analytics
