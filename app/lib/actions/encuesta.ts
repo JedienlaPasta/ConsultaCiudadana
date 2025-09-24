@@ -55,11 +55,17 @@ export async function registerVote(
         .input("survey_id", sql.Int, surveyAnswers.survey_id)
         .input("user_hashed_key", sql.Char(64), userHash).query(`
           INSERT INTO participacion_encuestas (survey_id, user_hashed_key) 
+          OUTPUT INSERTED.id
           VALUES (@survey_id, @user_hashed_key)
         `);
 
-      const participationResultValue = participationResult.recordset[0];
-      console.log("participationResultValue:", participationResultValue);
+      if (
+        !participationResult.recordset ||
+        participationResult.recordset.length === 0
+      ) {
+        throw new Error("Error al registrar la participación");
+      }
+
       const participationId = participationResult.recordset[0].id;
       console.log("Participación registrada con ID:", participationId);
 
