@@ -2,7 +2,7 @@ import { connectToDB } from "../utils/db-connection";
 import sql from "mssql";
 import { generateUserHash } from "../utils/userHash";
 
-export async function getUserRole(rut: string, dv: string) {
+export async function getUserRole(sub: string, dv: string) {
   const pool = await connectToDB();
   try {
     if (!pool) {
@@ -14,7 +14,7 @@ export async function getUserRole(rut: string, dv: string) {
       };
     }
 
-    const userHash = generateUserHash(rut, dv);
+    const userHash = generateUserHash(sub, dv);
 
     const userRoleRequest = pool.request();
     const userRoleResult = await userRoleRequest.input(

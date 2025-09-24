@@ -6,6 +6,7 @@ import {
 } from "../definitions/encuesta";
 import { connectToDB } from "../utils/db-connection";
 import sql from "mssql";
+import { generateUserHash } from "../utils/userHash";
 
 export async function getSurveysList(): Promise<SurveyGeneralData[]> {
   try {
@@ -77,7 +78,8 @@ export async function getFilteredSurveysList(
 }
 
 export async function getSurveysListByAccess(
-  rut: string | undefined,
+  sub: string,
+  dv: string,
 ): Promise<SurveyGeneralData[]> {
   try {
     const pool = await connectToDB();
@@ -87,8 +89,9 @@ export async function getSurveysListByAccess(
     }
     const request = pool.request();
 
-    if (rut) {
-      const result = await request.input("rut", sql.Int, parseInt(rut)).query(`
+    const userHash = generateUserHash(sub, dv);
+    const result = await request.input("user_hash", sql.Char(64), userHash)
+      .query(`
           SELECT DISTINCT 
           e.id,
           e.survey_name,
@@ -100,12 +103,12 @@ export async function getSurveysListByAccess(
           e.created_by,
           u.full_name as created_by_name,
           p.survey_access,
-          COUNT(DISTINCT ep.user_rut) AS participation
+          COUNT(DISTINCT pe.user_hashed_key) AS participation
         FROM encuestas e
         INNER JOIN permisos p ON e.id = p.survey_id
-        LEFT JOIN participacion_encuestas ep ON e.id = ep.survey_id
-        LEFT JOIN usuarios u ON e.created_by = u.rut
-        WHERE (p.user_rut = @rut)
+        LEFT JOIN participacion_encuestas pe ON e.id = pe.survey_id
+        LEFT JOIN usuarios u ON e.created_by = u.user_hash
+        WHERE (p.user_hashed_key = @user_hash)
         GROUP BY 
           e.id,
           e.survey_name,
@@ -120,19 +123,18 @@ export async function getSurveysListByAccess(
         ORDER BY e.created_at DESC
         `);
 
-      return result.recordset.map((row: SurveyGeneralData) => ({
-        id: row.id,
-        survey_name: row.survey_name,
-        survey_short_description: row.survey_short_description,
-        survey_start_date: row.survey_start_date,
-        survey_end_date: row.survey_end_date,
-        department: row.department,
-        created_at: row.created_at,
-        created_by_name: row.created_by_name,
-        // survey_access: row.survey_access, // Mostrar de alguna forma los administradores de la encuesta?
-        participation: row.participation,
-      }));
-    }
+    return result.recordset.map((row: SurveyGeneralData) => ({
+      id: row.id,
+      survey_name: row.survey_name,
+      survey_short_description: row.survey_short_description,
+      survey_start_date: row.survey_start_date,
+      survey_end_date: row.survey_end_date,
+      department: row.department,
+      created_at: row.created_at,
+      created_by_name: row.created_by_name,
+      // survey_access: row.survey_access, // Mostrar de alguna forma los administradores de la encuesta?
+      participation: row.participation,
+    }));
 
     return [];
   } catch (error) {

@@ -14,9 +14,10 @@ export default async function SurveyPage(props: SurveyDetailsProps) {
   const id = params.id;
 
   const session = await getSession();
-  const rut = Number(session?.sub);
+  const sub = session?.sub || "";
+  const dv = session?.dv || "";
 
-  const hasParticipated = await verifyParticipation(rut, id);
+  const hasParticipated = await verifyParticipation(id, sub, dv);
   if (hasParticipated) {
     redirect("/");
   }
