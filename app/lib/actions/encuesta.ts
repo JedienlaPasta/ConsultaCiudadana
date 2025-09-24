@@ -44,14 +44,18 @@ export async function registerVote(
         };
       }
       console.log("No ha participado en esta encuesta");
+      console.log("sub:", sub);
+      console.log("dv:", dv);
+      console.log("user_hash:", userHash);
+      console.log("survey_id:", surveyAnswers.survey_id);
 
       // Registrar participación
       const participationRequest = new sql.Request(transaction);
       const participationResult = await participationRequest
         .input("survey_id", sql.Int, surveyAnswers.survey_id)
-        .input("user_hash", sql.Char(64), userHash).query(`
+        .input("user_hashed_key", sql.Char(64), userHash).query(`
           INSERT INTO participacion_encuestas (survey_id, user_hashed_key) 
-          VALUES (@survey_id, @user_hash)
+          VALUES (@survey_id, @user_hashed_key)
         `);
 
       const participationId = participationResult.recordset[0].id;
