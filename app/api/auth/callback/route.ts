@@ -37,7 +37,7 @@ export async function GET(request: Request) {
 
     // Verificar si esta registrado en la DB y sino se registra
     if (response.success && response.userData) {
-      await checkUserRecord(response.userData.rut, response.userData.dv);
+      await checkUserRecord(response.userData.sub, response.userData.dv);
     }
 
     returnTo = cookieStore.get("claveunica_return_to")?.value || "/";

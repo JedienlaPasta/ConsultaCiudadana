@@ -134,6 +134,8 @@ export async function exchangeCodeForTokens(code: string) {
       name: `${userInfo.name.nombres.join(" ")} ${userInfo.name.apellidos.join(" ")}`,
     };
 
+    console.log("rut:", userData.rut);
+
     const userRoleResult = await getUserRole(userData.sub, userData.dv);
     let userRole = "votante"; // Rol por defecto si no se encuentra en BD
     if (userRoleResult.success && userRoleResult.role) {
@@ -143,7 +145,8 @@ export async function exchangeCodeForTokens(code: string) {
     // Crear sesión JWT
     const sessionPayload = {
       sub: userInfo.sub,
-      rut: `${userInfo.RolUnico.numero}-${userInfo.RolUnico.DV}`,
+      dv: userInfo.RolUnico.DV,
+      // rut: `${userInfo.RolUnico.numero}-${userInfo.RolUnico.DV}`,
       name: `${userInfo.name.nombres.join(" ")} ${userInfo.name.apellidos.join(" ")}`,
       role: userRole,
       exp: Math.floor(Date.now() / 1000) + 60 * 60,

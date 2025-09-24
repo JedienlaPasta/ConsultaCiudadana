@@ -248,7 +248,11 @@ const SurveySchema = z.object({
   ),
 });
 
-export async function createSurvey(formData: FormData, rut: number) {
+export async function createSurvey(
+  formData: FormData,
+  rut: string,
+  dv: string,
+) {
   // console.log(formData);
   const surveyName = formData.get("survey_name") as string;
   const surveyShortDescription = formData.get(

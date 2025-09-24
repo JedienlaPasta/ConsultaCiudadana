@@ -5,13 +5,7 @@ import { connectToDB } from "../utils/db-connection";
 import { getDV } from "../utils/getValues";
 import { generateUserHash } from "../utils/userHash";
 
-// CU => ClaveUnica
-export async function checkUserRecord(
-  rutCU: string,
-  dvCU: string,
-  // nombreCU: string,
-) {
-  const rut = Number(rutCU);
+export async function checkUserRecord(sub: string, dv: string) {
   try {
     const pool = await connectToDB();
     if (!pool) {
@@ -22,7 +16,7 @@ export async function checkUserRecord(
       };
     }
 
-    const userHash = generateUserHash(rutCU, dvCU);
+    const userHash = generateUserHash(sub, dv);
 
     const checkUserRequest = pool.request();
     const result = await checkUserRequest.input(
@@ -42,8 +36,7 @@ export async function checkUserRecord(
     }
 
     // Validate DV
-    const dv = getDV(rut);
-    if (!dv || dv !== dvCU) {
+    if (!dv || getDV(sub) !== dv) {
       console.warn("DV incorrecto.");
 
       return {
