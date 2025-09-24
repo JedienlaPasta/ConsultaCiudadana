@@ -58,6 +58,8 @@ export async function registerVote(
           VALUES (@survey_id, @user_hashed_key)
         `);
 
+      const participationResultValue = participationResult.recordset[0];
+      console.log("participationResultValue:", participationResultValue);
       const participationId = participationResult.recordset[0].id;
       console.log("Participación registrada con ID:", participationId);
 
