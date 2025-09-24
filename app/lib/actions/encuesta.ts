@@ -395,7 +395,7 @@ export async function createSurvey(
         .input("user_hash", sql.Char(64), userHash)
         .input("survey_access", sql.NVarChar, "editar")
         .query(
-          `INSERT INTO permisos (survey_id, user_hash, survey_access) VALUES (@survey_id, @user_hash, @survey_access)`,
+          `INSERT INTO permisos (survey_id, user_hash, survey_access) VALUES (@survey_id, @user_hashed_key, @survey_access)`,
         );
 
       // 3. Insertar links
