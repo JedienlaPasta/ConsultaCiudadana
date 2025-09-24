@@ -250,7 +250,7 @@ const SurveySchema = z.object({
 
 export async function createSurvey(
   formData: FormData,
-  rut: string,
+  sub: string,
   dv: string,
 ) {
   // console.log(formData);
@@ -374,7 +374,7 @@ export async function createSurvey(
           sql.NVarChar,
           validatedData.data.survey_concepts_link,
         )
-        .input("created_by", sql.Int, rut).query(`
+        .input("created_by", sql.Int, sub).query(`
           INSERT INTO encuestas (survey_name, survey_short_description, survey_large_description, survey_start_date, survey_end_date, department, survey_concepts_description, survey_concepts_link, created_by) 
           OUTPUT INSERTED.id
           VALUES (@survey_name, @survey_short_description, @survey_large_description, @survey_start_date, @survey_end_date, @department, @survey_concepts_description, @survey_concepts_link, @created_by)
@@ -386,7 +386,7 @@ export async function createSurvey(
       const permisoRequest = new sql.Request(transaction);
       await permisoRequest
         .input("survey_id", sql.Int, surveyId)
-        .input("user_rut", sql.Int, rut)
+        .input("user_rut", sql.Int, sub)
         .input("survey_access", sql.NVarChar, "editar")
         .query(
           `INSERT INTO permisos (survey_id, user_rut, survey_access) VALUES (@survey_id, @user_rut, @survey_access)`,

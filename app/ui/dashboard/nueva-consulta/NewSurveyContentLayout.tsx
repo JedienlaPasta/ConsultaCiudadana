@@ -25,9 +25,11 @@ const STORAGE_KEY = "survey_form_data";
 export default function NewSurveyContentLayout({
   sectors,
   sessionSub,
+  sessionDv,
 }: {
   sectors: { sector_name: string }[];
-  sessionSub: number;
+  sessionSub: string;
+  sessionDv: string;
 }) {
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState<SurveyFormData>(INITIAL_FORM_DATA);
@@ -332,7 +334,7 @@ export default function NewSurveyContentLayout({
 
     const toastId = toast.loading("Guardando consulta...");
     try {
-      const response = await createSurvey(myFormData, sessionSub);
+      const response = await createSurvey(myFormData, sessionSub, sessionDv);
 
       if (!response.success) {
         throw new Error(response.message);
