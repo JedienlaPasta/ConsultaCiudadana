@@ -33,7 +33,7 @@ export async function registerVote(
       const checkResult = await checkParticipationRequest
         .input("survey_id", sql.Int, surveyAnswers.survey_id)
         .input("user_hash", sql.Char(64), userHash).query(`
-          SELECT TOP 1 id FROM participacion_encuestas WHERE survey_id = @survey_id AND user_hash = @user_hashed_key
+          SELECT TOP 1 id FROM participacion_encuestas WHERE survey_id = @survey_id AND user_hashed_key = @user_hash
         `);
       if (checkResult.recordset.length > 0) {
         return {
@@ -48,8 +48,8 @@ export async function registerVote(
       const participationResult = await participationRequest
         .input("survey_id", sql.Int, surveyAnswers.survey_id)
         .input("user_hash", sql.Char(64), userHash).query(`
-          INSERT INTO participacion_encuestas (survey_id, user_hash) 
-          VALUES (@survey_id, @user_hashed_key)
+          INSERT INTO participacion_encuestas (survey_id, user_hashed_key) 
+          VALUES (@survey_id, @user_hash)
         `);
 
       const participationId = participationResult.recordset[0].id;
@@ -406,7 +406,7 @@ export async function createSurvey(
         .input("user_hash", sql.Char(64), userHash)
         .input("survey_access", sql.NVarChar, "editar")
         .query(
-          `INSERT INTO permisos (survey_id, user_hash, survey_access) VALUES (@survey_id, @user_hashed_key, @survey_access)`,
+          `INSERT INTO permisos (survey_id, user_hashed_key, survey_access) VALUES (@survey_id, @user_hash, @survey_access)`,
         );
 
       // 3. Insertar links
