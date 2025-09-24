@@ -32,7 +32,8 @@ export default async function SurveyPage(props: SurveyDetailsProps) {
         <SurveyLayout
           questions={surveyQuestions}
           surveyId={id}
-          rut={rut}
+          sub={session?.sub || ""}
+          dv={session?.dv || ""}
           hasParticipated={hasParticipated}
         />
       </div>

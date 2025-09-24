@@ -10,7 +10,8 @@ import { generateUserHash } from "../utils/userHash";
 
 export async function registerVote(
   surveyAnswers: SurveyAnswers,
-  userRut: number,
+  sub: string,
+  dv: string,
 ) {
   try {
     const pool = await connectToDB();
@@ -21,6 +22,8 @@ export async function registerVote(
       };
     }
 
+    const userHash = generateUserHash(sub, dv);
+
     const transaction = new sql.Transaction(pool);
     await transaction.begin();
 
@@ -29,8 +32,8 @@ export async function registerVote(
       const checkParticipationRequest = new sql.Request(transaction);
       const checkResult = await checkParticipationRequest
         .input("survey_id", sql.Int, surveyAnswers.survey_id)
-        .input("user_rut", sql.Int, userRut).query(`
-          SELECT TOP 1 id FROM participacion_encuestas WHERE survey_id = @survey_id AND user_rut = @user_rut
+        .input("user_hash", sql.Char(64), userHash).query(`
+          SELECT TOP 1 id FROM participacion_encuestas WHERE survey_id = @survey_id AND user_hash = @user_hash
         `);
       if (checkResult.recordset.length > 0) {
         return {
@@ -44,9 +47,9 @@ export async function registerVote(
       const participationRequest = new sql.Request(transaction);
       await participationRequest
         .input("survey_id", sql.Int, surveyAnswers.survey_id)
-        .input("user_rut", sql.Int, userRut).query(`
-          INSERT INTO participacion_encuestas (survey_id, user_rut) 
-          VALUES (@survey_id, @user_rut)
+        .input("user_hash", sql.Char(64), userHash).query(`
+          INSERT INTO participacion_encuestas (survey_id, user_hash) 
+          VALUES (@survey_id, @user_hash)
         `);
 
       // Registrar voto (mapa)
