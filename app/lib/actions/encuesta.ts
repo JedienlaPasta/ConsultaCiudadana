@@ -55,6 +55,7 @@ export async function registerVote(
         `);
 
       const participationId = participationResult.recordset[0].id;
+      console.log("Participación registrada con ID:", participationId);
 
       // Detalle de participacion (fecha)
       const participationDetailRequest = new sql.Request(transaction);
@@ -65,7 +66,7 @@ export async function registerVote(
           VALUES (@survey_id, @participation_id)
         `);
 
-      console.log("Participación registrada con ID:", participationId);
+      console.log("Detalle de participación registrado");
       // Registrar voto (mapa)
       if (surveyAnswers.answers[0].sector_id) {
         const surveyId = surveyAnswers.survey_id;
