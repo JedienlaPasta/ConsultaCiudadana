@@ -33,7 +33,7 @@ export async function registerVote(
       const checkResult = await checkParticipationRequest
         .input("survey_id", sql.Int, surveyAnswers.survey_id)
         .input("user_hash", sql.Char(64), userHash).query(`
-          SELECT TOP 1 id FROM participacion_encuestas WHERE survey_id = @survey_id AND user_hash = @user_hash
+          SELECT TOP 1 id FROM participacion_encuestas WHERE survey_id = @survey_id AND user_hash = @user_hashed_key
         `);
       if (checkResult.recordset.length > 0) {
         return {
@@ -45,11 +45,22 @@ export async function registerVote(
 
       // Registrar participación
       const participationRequest = new sql.Request(transaction);
-      await participationRequest
+      const participationResult = await participationRequest
         .input("survey_id", sql.Int, surveyAnswers.survey_id)
         .input("user_hash", sql.Char(64), userHash).query(`
           INSERT INTO participacion_encuestas (survey_id, user_hash) 
-          VALUES (@survey_id, @user_hash)
+          VALUES (@survey_id, @user_hashed_key)
+        `);
+
+      const participationId = participationResult.recordset[0].id;
+
+      // Detalle de participacion (fecha)
+      const participationDetailRequest = new sql.Request(transaction);
+      await participationDetailRequest
+        .input("survey_id", sql.Int, surveyAnswers.survey_id)
+        .input("participation_id", sql.Int, participationId).query(`
+          INSERT INTO participacion_encuestas_detalle (survey_id, participation_id) 
+          VALUES (@survey_id, @participation_id)
         `);
 
       // Registrar voto (mapa)
