@@ -6,6 +6,7 @@ import sql from "mssql";
 import { SubOption, SurveyAnswers } from "../definitions/encuesta";
 import sanitizeHtml from "sanitize-html";
 import { revalidatePath } from "next/cache";
+import { generateUserHash } from "../utils/userHash";
 
 export async function registerVote(
   surveyAnswers: SurveyAnswers,
@@ -339,6 +340,8 @@ export async function createSurvey(
       };
     }
 
+    const userHash = generateUserHash(sub, dv);
+
     const transaction = new sql.Transaction(pool);
     await transaction.begin();
 
@@ -386,10 +389,10 @@ export async function createSurvey(
       const permisoRequest = new sql.Request(transaction);
       await permisoRequest
         .input("survey_id", sql.Int, surveyId)
-        .input("user_rut", sql.Int, sub)
+        .input("user_hash", sql.Char(64), userHash)
         .input("survey_access", sql.NVarChar, "editar")
         .query(
-          `INSERT INTO permisos (survey_id, user_rut, survey_access) VALUES (@survey_id, @user_rut, @survey_access)`,
+          `INSERT INTO permisos (survey_id, user_hash, survey_access) VALUES (@survey_id, @user_hash, @survey_access)`,
         );
 
       // 3. Insertar links
