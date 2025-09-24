@@ -1,7 +1,8 @@
 import { connectToDB } from "../utils/db-connection";
 import sql from "mssql";
+import { generateUserHash } from "../utils/userHash";
 
-export async function getUserRole(rut: number) {
+export async function getUserRole(rut: string, dv: string) {
   const pool = await connectToDB();
   try {
     if (!pool) {
@@ -13,15 +14,20 @@ export async function getUserRole(rut: number) {
       };
     }
 
+    const userHash = generateUserHash(rut, dv);
+
     const userRoleRequest = pool.request();
-    const userRoleResult = await userRoleRequest.input("rut", sql.Int, rut)
-      .query(`
-        SELECT user_role FROM usuarios WHERE rut = @rut
+    const userRoleResult = await userRoleRequest.input(
+      "user_hash",
+      sql.Char(64),
+      userHash,
+    ).query(`
+        SELECT user_role FROM usuarios WHERE user_hash = @user_hash
         `);
     if (userRoleResult.recordset.length === 0) {
       return {
         success: false,
-        message: "No se encontró el rol del usuario.",
+        message: "No se encontró el usuario.",
         role: "votante",
       };
     }

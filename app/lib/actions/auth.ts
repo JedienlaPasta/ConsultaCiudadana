@@ -134,9 +134,8 @@ export async function exchangeCodeForTokens(code: string) {
       name: `${userInfo.name.nombres.join(" ")} ${userInfo.name.apellidos.join(" ")}`,
     };
 
-    const userRoleResult = await getUserRole(userData.sub);
-    // Extraer solo el rol del resultado
-    let userRole = "usuario"; // Rol por defecto si no se encuentra en BD
+    const userRoleResult = await getUserRole(userData.sub, userData.dv);
+    let userRole = "votante"; // Rol por defecto si no se encuentra en BD
     if (userRoleResult.success && userRoleResult.role) {
       userRole = userRoleResult.role;
     }

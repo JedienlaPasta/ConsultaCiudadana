@@ -3,18 +3,7 @@
 import sql from "mssql";
 import { connectToDB } from "../utils/db-connection";
 import { getDV } from "../utils/getValues";
-import crypto from "crypto";
-
-const USER_HASH_SECRET =
-  process.env.USER_HASH_SECRET ||
-  "very_super_long_and_not_so_safe_secret_secret_for_hashes.";
-
-function generateUserHash(rut: string, dv: string) {
-  return crypto
-    .createHmac("sha256", USER_HASH_SECRET)
-    .update(`${rut}-${dv}`)
-    .digest("hex");
-}
+import { generateUserHash } from "../utils/userHash";
 
 // CU => ClaveUnica
 export async function checkUserRecord(
