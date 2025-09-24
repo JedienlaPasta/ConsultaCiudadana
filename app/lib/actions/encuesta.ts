@@ -26,6 +26,7 @@ export async function registerVote(
 
     const transaction = new sql.Transaction(pool);
     await transaction.begin();
+    console.log("Guardando voto...");
 
     try {
       // Verificar si ya participo
@@ -42,6 +43,7 @@ export async function registerVote(
             "Ya has participado en esta encuesta, solo puedes votar una vez por encuesta.",
         };
       }
+      console.log("No ha participado en esta encuesta");
 
       // Registrar participación
       const participationRequest = new sql.Request(transaction);
@@ -63,6 +65,7 @@ export async function registerVote(
           VALUES (@survey_id, @participation_id)
         `);
 
+      console.log("Participación registrada con ID:", participationId);
       // Registrar voto (mapa)
       if (surveyAnswers.answers[0].sector_id) {
         const surveyId = surveyAnswers.survey_id;
@@ -87,6 +90,7 @@ export async function registerVote(
             INSERT INTO votos (survey_id, question_id, option_id) 
             VALUES (@survey_id, @question_id, @option_id)
           `);
+        console.log("Registrado voto mapa:", sectorOptionId);
       }
 
       // Registrar votos
@@ -117,6 +121,7 @@ export async function registerVote(
                 VALUES (@survey_id, @question_id, @option_id)
               `);
           }
+          console.log("Registrado voto:", selectedOption.option_id);
         }
       }
 
