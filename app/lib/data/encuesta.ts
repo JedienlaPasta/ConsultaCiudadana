@@ -93,34 +93,34 @@ export async function getSurveysListByAccess(
     const result = await request.input("user_hash", sql.Char(64), userHash)
       .query(`
           SELECT DISTINCT 
-          e.id,
-          e.survey_name,
-          e.survey_short_description,
-          e.survey_start_date,
-          e.survey_end_date,
-          e.department,
-          e.created_at,
-          e.created_by,
-          u.full_name as created_by_name,
-          p.survey_access,
-          COUNT(DISTINCT pe.user_hashed_key) AS participation
-        FROM encuestas e
-        INNER JOIN permisos p ON e.id = p.survey_id
-        LEFT JOIN participacion_encuestas pe ON e.id = pe.survey_id
-        LEFT JOIN usuarios u ON e.created_by = u.user_hash
-        WHERE (p.user_hashed_key = @user_hash)
-        GROUP BY 
-          e.id,
-          e.survey_name,
-          e.survey_short_description,
-          e.survey_start_date,
-          e.survey_end_date,
-          e.department,
-          e.created_at,
-          e.created_by,
-          p.survey_access,
-          u.full_name
-        ORDER BY e.created_at DESC
+            e.id,
+            e.survey_name,
+            e.survey_short_description,
+            e.survey_start_date,
+            e.survey_end_date,
+            e.department,
+            e.created_at,
+            e.created_by,
+            u.name as created_by_name,
+            p.survey_access,
+            COUNT(DISTINCT ped.id) AS participation
+          FROM encuestas e
+          INNER JOIN permisos p ON e.id = p.survey_id
+          LEFT JOIN participacion_encuesta_detalle ped ON e.id = ped.survey_id
+          LEFT JOIN usuarios u ON e.created_by = u.user_hash
+          WHERE p.user_hashed_key = @user_hash
+          GROUP BY 
+            e.id,
+            e.survey_name,
+            e.survey_short_description,
+            e.survey_start_date,
+            e.survey_end_date,
+            e.department,
+            e.created_at,
+            e.created_by,
+            p.survey_access,
+            u.name
+          ORDER BY e.created_at DESC
         `);
 
     return result.recordset.map((row: SurveyGeneralData) => ({
@@ -132,8 +132,8 @@ export async function getSurveysListByAccess(
       department: row.department,
       created_at: row.created_at,
       created_by_name: row.created_by_name,
-      // survey_access: row.survey_access, // Mostrar de alguna forma los administradores de la encuesta?
       participation: row.participation,
+      survey_access: row.survey_access,
     }));
   } catch (error) {
     console.error("Error al obtener la lista de encuestas:", error);
@@ -148,7 +148,6 @@ export async function getSurveyGeneralDetails(
     id: 0,
     survey_name: "",
     survey_short_description: "",
-    // survey_large_description: "",
     survey_start_date: "",
     survey_end_date: "",
     department: "",
@@ -177,15 +176,11 @@ export async function getSurveyGeneralDetails(
 
     const survey = surveyResult.recordset[0];
 
-    // console.log(survey.survey_start_date.toISOString().split("T")[0]);
-    // console.log(survey.survey_end_date.toISOString().split("T")[0]);
-
     // Construir el objeto final
     const surveyFormData: SurveyGeneralData = {
       id: survey.id,
       survey_name: survey.survey_name,
       survey_short_description: survey.survey_short_description,
-      // survey_large_description: survey.survey_large_description,
       survey_start_date: survey.survey_start_date
         ? survey.survey_start_date.toISOString().split("T")[0]
         : "",
@@ -290,95 +285,6 @@ export async function getSurveyDetails(id: string): Promise<SurveyData> {
         WHERE survey_id = @survey_id 
         ORDER BY id
       `);
-
-    // 6. Obtener preguntas con sus opciones
-    // const questionsRequest = pool.request();
-    // const questionsResult = await questionsRequest.input(
-    //   "survey_id",
-    //   sql.Int,
-    //   id,
-    // ).query(`
-    //     SELECT
-    //       p.id,
-    //       p.step,
-    //       p.step_description,
-    //       p.question,
-    //       p.question_description,
-    //       p.question_type,
-    //       p.multiple_answers,
-    //       p.min_answers,
-    //       p.max_answers,
-    //       ep.question_order
-    //     FROM preguntas p
-    //     INNER JOIN encuestas_preguntas ep ON p.id = ep.question_id
-    //     WHERE ep.survey_id = @survey_id
-    //     ORDER BY ep.question_order
-    //   `);
-
-    // 7. Para cada pregunta, obtener sus opciones
-    // const questions = [];
-    // for (const questionRow of questionsResult.recordset) {
-    //   const optionsRequest = pool.request();
-    //   const optionsResult = await optionsRequest.input(
-    //     "question_id",
-    //     sql.Int,
-    //     questionRow.id,
-    //   ).query(`
-    //       SELECT
-    //         o.id,
-    //         o.option_name,
-    //         o.option_description,
-    //         o.sub_question_id,
-    //         o.option_order,
-    //         sp.question as sub_question
-    //       FROM opciones o
-    //       LEFT JOIN preguntas sp ON o.sub_question_id = sp.id
-    //       WHERE o.question_id = @question_id AND o.is_active = 1
-    //       ORDER BY o.option_order
-    //     `);
-
-    // const options = [];
-    // for (const optionRow of optionsResult.recordset) {
-    //   let subOptions = [];
-
-    //   // Si hay una subpregunta, obtener sus opciones
-    //   if (optionRow.sub_question_id) {
-    //     const subOptionsRequest = pool.request();
-    //     const subOptionsResult = await subOptionsRequest.input(
-    //       "sub_question_id",
-    //       sql.Int,
-    //       optionRow.sub_question_id,
-    //     ).query(`
-    //         SELECT option_name
-    //         FROM opciones
-    //         WHERE question_id = @sub_question_id AND is_active = 1
-    //         ORDER BY option_order
-    //       `);
-
-    //     subOptions = subOptionsResult.recordset.map((row) => row.option);
-    //   }
-
-    //   options.push({
-    //     id: optionRow.id,
-    //     option_name: optionRow.option_name,
-    //     hasSubQuestion: !!optionRow.sub_question_id,
-    //     subQuestion: optionRow.sub_question || "",
-    //     subOptions: subOptions,
-    //   });
-    // }
-
-    // questions.push({
-    //   id: questionRow.id,
-    //   questionId: questionRow.id,
-    //   question: questionRow.question,
-    //   step: questionRow.step || "",
-    //   step_description: questionRow.step_description || "",
-    //   isMapQuestion: questionRow.question_type === "mapa",
-    //   maxOptions: questionRow.max_answers || 1,
-    //   minOptions: questionRow.min_answers || 1,
-    //   options: options,
-    // });
-    // }
 
     // Construir el objeto final
     const surveyFormData: SurveyData = {
@@ -580,42 +486,7 @@ export async function getSurveyQuestions(
   }
 }
 
-type Sector = {
-  sector_name: string;
-};
-
-// Sectors
-export async function getSectors(): Promise<Sector[]> {
-  const defaultSectors: Sector[] = [];
-
-  try {
-    const pool = await connectToDB();
-    if (!pool) {
-      console.warn("No se pudo establecer conexión con la base de datos");
-      return defaultSectors;
-    }
-
-    const sectorRequest = pool.request();
-    const sectorResult = await sectorRequest.query(
-      "SELECT sector FROM sectores",
-    );
-
-    if (sectorResult.recordset.length === 0) {
-      console.warn("No se encontraron sectores");
-      return defaultSectors;
-    }
-
-    const sectors = sectorResult.recordset.map((row) => ({
-      sector_name: row.sector,
-    }));
-
-    return sectors;
-  } catch (error) {
-    console.error("Error al obtener detalles de la encuesta:", error);
-    return defaultSectors;
-  }
-}
-
+// Check if survey results are available
 export async function getAreSurveyResultsAvailable(
   surveyId: number,
 ): Promise<boolean> {
