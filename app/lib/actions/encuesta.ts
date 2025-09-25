@@ -135,11 +135,11 @@ export async function registerVote(
 
       await transaction.commit();
 
-      setTimeout(() => {
-        revalidatePath(`/consultas/${surveyAnswers.survey_id}`);
-        revalidatePath(`/consultas/${surveyAnswers.survey_id}/resultados`);
-        revalidatePath("/consultas");
-      }, 6000);
+      // setTimeout(() => {
+      revalidatePath(`/consultas/${surveyAnswers.survey_id}`);
+      revalidatePath(`/consultas/${surveyAnswers.survey_id}/resultados`);
+      revalidatePath("/consultas");
+      // }, 6000);
 
       return {
         success: true,
