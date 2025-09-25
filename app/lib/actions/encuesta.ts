@@ -74,7 +74,7 @@ export async function registerVote(
       await participationDetailRequest
         .input("survey_id", sql.Int, surveyAnswers.survey_id)
         .input("participation_id", sql.Int, participationId).query(`
-          INSERT INTO participacion_encuestas_detalle (survey_id, participation_id) 
+          INSERT INTO participacion_encuesta_detalle (survey_id, participation_id) 
           VALUES (@survey_id, @participation_id)
         `);
 
