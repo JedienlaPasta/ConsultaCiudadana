@@ -135,8 +135,6 @@ export async function getSurveysListByAccess(
       // survey_access: row.survey_access, // Mostrar de alguna forma los administradores de la encuesta?
       participation: row.participation,
     }));
-
-    return [];
   } catch (error) {
     console.error("Error al obtener la lista de encuestas:", error);
     return [];

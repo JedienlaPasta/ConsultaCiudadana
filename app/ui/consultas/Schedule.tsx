@@ -2,7 +2,6 @@ import { ChronogramItem } from "@/app/lib/definitions/encuesta";
 import React from "react";
 
 export default function Schedule({ schedule }: { schedule: ChronogramItem[] }) {
-  console.log(schedule[0].date);
   return (
     <div className="overflow-hidden rounded-xl border border-slate-200/80 bg-gradient-to-br from-white via-blue-50/30 to-indigo-50/50 p-5 sm:px-8 sm:py-6">
       <h3 className="mb-3 bg-gradient-to-r from-[#23396f] to-blue-700 bg-clip-text text-xl font-bold text-transparent">

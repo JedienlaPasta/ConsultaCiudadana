@@ -19,8 +19,6 @@ export default function Definitions({
     return html; // Fallback for SSR
   };
 
-  console.log(link);
-
   return (
     <div className="group mb-8">
       <div className="relative overflow-hidden rounded-xl border border-emerald-100/70 bg-gradient-to-br from-white via-emerald-50/30 to-teal-50/50">

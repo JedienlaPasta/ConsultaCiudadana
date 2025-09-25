@@ -36,7 +36,7 @@ export default function SurveyQuestions({
   addQuestion,
   sectors,
 }: SurveyQuestionsProps) {
-  console.log(formData);
+  // console.log(formData);
   const removeOption = (questionIndex: number, optionIndex: number) => {
     setFormData((prev) => ({
       ...prev,

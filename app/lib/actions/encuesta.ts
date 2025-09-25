@@ -43,11 +43,6 @@ export async function registerVote(
             "Ya has participado en esta encuesta, solo puedes votar una vez por encuesta.",
         };
       }
-      console.log("No ha participado en esta encuesta");
-      console.log("sub:", sub);
-      console.log("dv:", dv);
-      console.log("user_hash:", userHash);
-      console.log("survey_id:", surveyAnswers.survey_id);
 
       // Registrar participación
       const participationRequest = new sql.Request(transaction);
