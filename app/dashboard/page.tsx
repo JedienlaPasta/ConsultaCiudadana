@@ -5,14 +5,15 @@ import Header from "../ui/dashboard/Header";
 import { getSurveysListByAccess } from "../lib/data/encuesta";
 import Link from "next/link";
 import AnalyticsCard from "../ui/dashboard/AnalyticsCard";
-import AlternativeSurveyList from "../ui/dashboard/AlternativeSurveyList";
+// import AlternativeSurveyList from "../ui/dashboard/AlternativeSurveyList";
 import Navbar from "../ui/Navbar";
+import DashboardSurveysList from "../ui/dashboard/SurveysList";
 
 export default async function Dashboard() {
   const session = await getSession();
   const surveys = await getSurveysListByAccess(
-    session?.sub || "",
-    session?.dv || "",
+    session?.sub || "19973725",
+    session?.dv || "2",
   );
 
   // Calculate analytics
@@ -237,8 +238,8 @@ export default async function Dashboard() {
             </div>
           </div>
 
-          <AlternativeSurveyList surveys={surveys} />
-          {/* <DashboardSurveysList surveys={surveys} /> */}
+          {/* <AlternativeSurveyList surveys={surveys} /> */}
+          <DashboardSurveysList surveys={surveys} />
         </div>
       </div>
       <Footer />

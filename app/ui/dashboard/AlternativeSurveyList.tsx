@@ -45,8 +45,11 @@ export default function AlternativeSurveyList({
 }
 
 function Survey({ survey }: { survey: SurveyGeneralData }) {
-  const splitName = survey.created_by_name.split(" ");
-  const createdBy = splitName[0] + " " + splitName[2];
+  const splitName = survey?.created_by_name?.split(" ") || [];
+  const createdBy =
+    splitName.length >= 3
+      ? splitName[0] + " " + splitName[2]
+      : survey?.created_by_name || "Desconocido";
 
   const surveyState = () => {
     if (new Date(survey.survey_start_date) > new Date()) {

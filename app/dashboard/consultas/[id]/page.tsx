@@ -3,6 +3,8 @@ import { getSurveyAnalytics } from "@/app/lib/data/analytics";
 import { getSurveyGeneralDetails } from "@/app/lib/data/encuesta";
 import { formatDateToSpanish } from "@/app/lib/utils/format";
 import BarsChart from "@/app/ui/dashboard/consultas/[id]/BarsChart";
+import OptionsMenu from "@/app/ui/dashboard/consultas/[id]/OptionsMenu";
+import PermissionsModal from "@/app/ui/dashboard/consultas/[id]/PermissionsModal";
 import AnalyticsDonuts from "@/app/ui/dashboard/consultas/[id]/PieChart";
 import ParticipationMetricCard from "@/app/ui/dashboard/consultas/ParticipationMetricCard";
 import Header from "@/app/ui/dashboard/Header";
@@ -11,18 +13,31 @@ import Navbar from "@/app/ui/Navbar";
 import Link from "next/link";
 
 type PageProps = {
+  searchParams?: Promise<{
+    permissions?: string;
+  }>;
   params: Promise<{ id: string }>;
 };
 
-export default async function SurveyDetailsOverview({ params }: PageProps) {
+export default async function SurveyDetailsOverview({
+  searchParams,
+  params,
+}: PageProps) {
   const session = await getSession();
-  const surveyId = Number((await params).id);
+  const surveyId = (await params).id;
+  const permissions = (await searchParams)?.permissions;
   const analytics = await getSurveyAnalytics(surveyId);
   const generalData = await getSurveyGeneralDetails(surveyId);
 
+  const splitName = generalData?.created_by_name?.split(" ") || [];
+  const createdBy =
+    splitName.length >= 3
+      ? splitName[0] + " " + splitName[2]
+      : generalData?.created_by_name || "Desconocido";
+
   const surveyState = () => {
     if (new Date(generalData.survey_start_date) > new Date()) {
-      return "Proximamente";
+      return "En Espera";
     }
     if (new Date(generalData.survey_end_date) > new Date()) {
       return "Activa";
@@ -33,7 +48,7 @@ export default async function SurveyDetailsOverview({ params }: PageProps) {
 
   const stateTextColor = () => {
     if (new Date(generalData.survey_start_date) > new Date()) {
-      return "text-[#277ff2]";
+      return "text-orange-600";
     }
     if (new Date(generalData.survey_end_date) > new Date()) {
       return "text-emerald-600 ";
@@ -44,12 +59,12 @@ export default async function SurveyDetailsOverview({ params }: PageProps) {
 
   const stateBgColor = () => {
     if (new Date(generalData.survey_start_date) > new Date()) {
-      return "bg-[#277ff2]";
+      return "bg-orange-200/50";
     }
     if (new Date(generalData.survey_end_date) > new Date()) {
-      return "bg-emerald-200 ";
+      return "bg-emerald-200/50";
     } else {
-      return "bg-rose-200";
+      return "bg-rose-200/50";
     }
   };
 
@@ -59,6 +74,8 @@ export default async function SurveyDetailsOverview({ params }: PageProps) {
     <div className="flex min-h-dvh flex-col bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/50">
       <Navbar isLoggedIn={session !== null} />
       <Header />
+
+      {permissions === "true" && <PermissionsModal />}
 
       <div className="container mx-auto max-w-[85rem] flex-1 px-4 py-8 lg:px-8">
         {/* Header Section */}
@@ -85,23 +102,7 @@ export default async function SurveyDetailsOverview({ params }: PageProps) {
                 Volver al Dashboard
               </Link>
             </div>
-            <div className="flex items-center space-x-3">
-              <button className="rounded-lg bg-white/80 p-2.5 text-slate-600 shadow-sm ring-1 ring-slate-200 transition-all hover:bg-white hover:text-slate-900 hover:shadow-md">
-                <svg
-                  className="h-5 w-5"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"
-                  />
-                </svg>
-              </button>
-            </div>
+            <OptionsMenu id={surveyId} />
           </div>
         </div>
 
@@ -171,7 +172,7 @@ export default async function SurveyDetailsOverview({ params }: PageProps) {
                     </svg>
                     <span className="text-sm font-medium">Encargado:</span>
                     <span className="text-sm font-semibold text-slate-700">
-                      {"Encargado"}
+                      {createdBy}
                     </span>
                   </div>
 

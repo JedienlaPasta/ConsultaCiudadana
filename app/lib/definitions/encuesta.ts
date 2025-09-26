@@ -117,8 +117,8 @@ export type SurveyGeneralData = {
   survey_end_date: string;
   department: string;
   created_at: string;
-  created_by_name: string;
   participation: number;
+  created_by_name?: string;
   survey_access?: string;
   lastModified?: string;
 };
