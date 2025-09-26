@@ -3,7 +3,7 @@ import { getSurveyAnalytics } from "@/app/lib/data/analytics";
 import { getSurveyGeneralDetails } from "@/app/lib/data/encuesta";
 import { formatDateToSpanish } from "@/app/lib/utils/format";
 import BarsChart from "@/app/ui/dashboard/consultas/[id]/BarsChart";
-import OptionsMenu from "@/app/ui/dashboard/consultas/[id]/OptionsMenu";
+import SurveyOptionsMenu from "@/app/ui/dashboard/consultas/[id]/OptionsMenu";
 import PermissionsModal from "@/app/ui/dashboard/consultas/[id]/PermissionsModal";
 import AnalyticsDonuts from "@/app/ui/dashboard/consultas/[id]/PieChart";
 import ParticipationMetricCard from "@/app/ui/dashboard/consultas/ParticipationMetricCard";
@@ -102,7 +102,7 @@ export default async function SurveyDetailsOverview({
                 Volver al Dashboard
               </Link>
             </div>
-            <OptionsMenu id={surveyId} />
+            <SurveyOptionsMenu />
           </div>
         </div>
 
