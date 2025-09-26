@@ -21,6 +21,8 @@ const comunaPath = "/output-limite.geojson";
 const linesPath = "/lines.geojson";
 const areaPath = "/areas.geojson";
 const routesPath = "/routes.geojson";
+const routes_linesPath = "/routes_lines.geojson";
+const routes_areaPath = "/routes_areas.geojson";
 
 type OptionSelectionListProps = {
   question: SurveyQuestion;
@@ -38,6 +40,8 @@ export default function OptionSelectionList({
   const [lines, setLines] = useState(null);
   const [area, setArea] = useState(null);
   const [routes, setRoutes] = useState(null);
+  const [routes_lines, setRoutes_lines] = useState(null);
+  const [routes_area, setRoutes_area] = useState(null);
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
@@ -89,14 +93,28 @@ export default function OptionSelectionList({
       fetch(linesPath).then((response) => response.json()),
       fetch(areaPath).then((response) => response.json()),
       fetch(routesPath).then((response) => response.json()),
+      fetch(routes_linesPath).then((response) => response.json()),
+      fetch(routes_areaPath).then((response) => response.json()),
     ])
-      .then(([sectoresData, comunaData, linesData, areaData, routesData]) => {
-        setSectores(sectoresData);
-        setComuna(comunaData);
-        setLines(linesData);
-        setArea(areaData);
-        setRoutes(routesData);
-      })
+      .then(
+        ([
+          sectoresData,
+          comunaData,
+          linesData,
+          areaData,
+          routesData,
+          routes_linesData,
+          routes_areaData,
+        ]) => {
+          setSectores(sectoresData);
+          setComuna(comunaData);
+          setLines(linesData);
+          setArea(areaData);
+          setRoutes(routesData);
+          setRoutes_lines(routes_linesData);
+          setRoutes_area(routes_areaData);
+        },
+      )
       .catch((err) => {
         setError(err);
         setLoading(false);
@@ -355,7 +373,9 @@ export default function OptionSelectionList({
           comuna &&
           lines &&
           area &&
-          routes && (
+          routes &&
+          routes_lines &&
+          routes_area && (
             <div className="relative aspect-[4/3] h-fit overflow-hidden rounded-lg bg-gray-100 shadow-md shadow-gray-200/80 md:aspect-[16/8]">
               <div className="absolute top-2 right-2 z-[1000] flex flex-col rounded-md bg-white px-2 py-1.5 shadow-lg md:top-5 md:right-5 md:space-y-1">
                 {/* <h5 className="text-xs md:text-sm">Leyenda</h5> */}
@@ -372,6 +392,8 @@ export default function OptionSelectionList({
                 linesData={lines}
                 areasData={area}
                 routesData={routes}
+                routes_linesData={routes_lines}
+                routes_areasData={routes_area}
                 selectedSector={selectedSectorId}
                 selectedComponent={selectedComponent}
               />

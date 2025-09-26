@@ -18,6 +18,8 @@ export type MapComponentProps = {
   linesData?: GeoJSONType.FeatureCollection;
   areasData?: GeoJSONType.FeatureCollection;
   routesData?: GeoJSONType.FeatureCollection;
+  routes_linesData?: GeoJSONType.FeatureCollection;
+  routes_areasData?: GeoJSONType.FeatureCollection;
   selectedSector?: string | null;
   selectedComponent?: string[];
   onSectorSelect?: (sectorName: string) => void;
@@ -60,6 +62,8 @@ export default function MapComponent({
   linesData,
   areasData,
   routesData,
+  routes_linesData,
+  routes_areasData,
   selectedSector,
   selectedComponent,
   onSectorSelect,
@@ -354,6 +358,38 @@ export default function MapComponent({
         </div>
       )}
 
+      {/* Areas Data */}
+      {areasData && (
+        <RLGeoJSON
+          key={selectedComponent?.join(",") + "areas"}
+          data={
+            {
+              ...areasData,
+              features: areasData.features.filter((feature) =>
+                selectedComponent?.some(
+                  (component) =>
+                    feature.properties?.Tipo?.toString().toLowerCase() ===
+                    component.toLowerCase(),
+                ),
+              ),
+            } as GeoJSONType.FeatureCollection
+          }
+          style={(feature) => {
+            const componentName =
+              feature?.properties?.Tipo?.toString().toLowerCase() || "default";
+            const matchedComponent = selectedComponent?.find(
+              (comp) => comp.toLowerCase() === componentName,
+            );
+            return {
+              color: matchedComponent
+                ? componentColors[matchedComponent.toLowerCase()]
+                : "#8B4513",
+              weight: 6,
+            };
+          }}
+        />
+      )}
+      {/* Lines Data */}
       {linesData && (
         <RLGeoJSON
           key={selectedComponent?.join(",") + "lines"}
@@ -391,55 +427,8 @@ export default function MapComponent({
           }}
         />
       )}
-      {/* {linesData && (
-        <RLGeoJSON
-          key={selectedComponent?.join(",") + "lines"}
-          data={
-            {
-              ...linesData,
-              features: linesData.features.filter((feature) =>
-                selectedComponent?.some((component) => {
-                  if (component.toLowerCase().includes("tramo conector")) {
-                    const tramo = component
-                      .toLowerCase()
-                      .replace("tramo conector", "")
-                      .trim();
-
-                    const isTramo =
-                      feature.properties?.TIPO?.toString().toLowerCase() ===
-                        "tramo conector" &&
-                      feature.properties?.NOMBRE?.toString().toLowerCase() ===
-                        tramo;
-
-                    return isTramo;
-                  } else {
-                    return (
-                      feature.properties?.TIPO?.toString().toLowerCase() ===
-                      component.toLowerCase()
-                    );
-                  }
-                }),
-              ),
-            } as GeoJSONType.FeatureCollection
-          }
-          style={(feature) => {
-            const componentName =
-              feature?.properties?.TIPO?.toString().toLowerCase() || "default";
-            console.log(selectedComponent);
-
-            const matchedComponent = selectedComponent?.find((component) =>
-              component.toLowerCase().includes(componentName),
-            );
-            return {
-              color: matchedComponent
-                ? componentColors[matchedComponent.toLowerCase()]
-                : "#8B4513",
-              weight: 5,
-            };
-          }}
-        />
-      )} */}
-      {routesData && (
+      {/* Routes Data */}
+      {/* {routesData && (
         <RLGeoJSON
           key={selectedComponent?.join(",") + "routes"}
           data={
@@ -481,32 +470,95 @@ export default function MapComponent({
             };
           }}
         />
-      )}
-      {areasData && (
+      )} */}
+      {/* Routes Lines Data */}
+      {routes_linesData && (
         <RLGeoJSON
-          key={selectedComponent?.join(",") + "areas"}
+          key={selectedComponent?.join(",") + "routes_lines"}
           data={
             {
-              ...areasData,
-              features: areasData.features.filter((feature) =>
-                selectedComponent?.some(
-                  (component) =>
-                    feature.properties?.Tipo?.toString().toLowerCase() ===
-                    component.toLowerCase(),
-                ),
+              ...routes_linesData,
+              features: routes_linesData.features.filter((feature) =>
+                selectedComponent?.some((component) => {
+                  if (component.toLowerCase().includes("ruta piimep")) {
+                    const tramo = component
+                      .toLowerCase()
+                      .replace("ruta piimep", "")
+                      .trim();
+
+                    const isTramo =
+                      feature.properties?.TIPO?.toString().toLowerCase() ===
+                        "ruta piimep" &&
+                      feature.properties?.NOMBRE?.toString().toLowerCase() ===
+                        tramo;
+
+                    return isTramo;
+                  }
+                }),
               ),
             } as GeoJSONType.FeatureCollection
           }
           style={(feature) => {
             const componentName =
-              feature?.properties?.Tipo?.toString().toLowerCase() || "default";
-            const matchedComponent = selectedComponent?.find(
-              (comp) => comp.toLowerCase() === componentName,
+              feature?.properties?.TIPO?.toString().toLowerCase() || "default";
+            console.log(selectedComponent);
+
+            const matchedComponent = selectedComponent?.find((component) =>
+              component.toLowerCase().includes(componentName),
             );
             return {
               color: matchedComponent
                 ? componentColors[matchedComponent.toLowerCase()]
                 : "#8B4513",
+              weight: 6,
+            };
+          }}
+        />
+      )}
+      {/* Routes Areas Data */}
+      {routes_areasData && (
+        <RLGeoJSON
+          key={selectedComponent?.join(",") + "routes_areas"}
+          data={
+            {
+              ...routes_areasData,
+              features: routes_areasData.features.filter((feature) =>
+                selectedComponent?.some((component) => {
+                  if (component.toLowerCase().includes("ruta piimep")) {
+                    const tramo = component
+                      .toLowerCase()
+                      .replace("ruta piimep", "")
+                      .trim();
+                    console.log("tramo:", tramo);
+
+                    const isTramo =
+                      feature.properties?.Tipo?.toString().toLowerCase() ===
+                        "plaza nodo" &&
+                      feature.properties?.Nombre?.toString().toLowerCase() ===
+                        tramo;
+                    console.log(
+                      feature.properties?.Nombre?.toString().toLowerCase(),
+                    );
+                    console.log("isTramo:", isTramo);
+
+                    return isTramo;
+                  }
+                }),
+              ),
+            } as GeoJSONType.FeatureCollection
+          }
+          style={(feature) => {
+            const componentName =
+              feature?.properties?.TIPO?.toString().toLowerCase() || "default";
+            console.log(selectedComponent);
+
+            const matchedComponent = selectedComponent?.find((component) =>
+              component.toLowerCase().includes(componentName),
+            );
+            return {
+              color: matchedComponent
+                ? componentColors[matchedComponent.toLowerCase()]
+                : "#77ff17",
               weight: 6,
             };
           }}
