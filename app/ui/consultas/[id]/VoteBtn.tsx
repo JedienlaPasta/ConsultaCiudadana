@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useState } from "react";
 
 type VoteBtnProps = {
-  id: string;
+  id: number;
   surveyState: string;
 };
 
