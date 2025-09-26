@@ -7,6 +7,7 @@ import { SubOption, SurveyAnswers } from "../definitions/encuesta";
 import sanitizeHtml from "sanitize-html";
 import { revalidatePath } from "next/cache";
 import { generateUserHash } from "../utils/userHash";
+import { customAlphabet } from "nanoid";
 
 export async function registerVote(
   surveyAnswers: SurveyAnswers,
@@ -369,6 +370,11 @@ export async function createSurvey(
 
     const userHash = generateUserHash(sub, dv);
 
+    const generatePublicId = customAlphabet(
+      "ABCDEFGHJKLMNPQRSTUVWXYZ23456789",
+      8,
+    );
+
     const transaction = new sql.Transaction(pool);
     await transaction.begin();
 
@@ -381,9 +387,11 @@ export async function createSurvey(
         },
       );
 
+      const publicId = generatePublicId();
       const encuestaRequest = new sql.Request(transaction);
       // 1. Insertar encuesta
       const encuestaResult = await encuestaRequest
+        .input("public_id", sql.NVarChar, publicId)
         .input("survey_name", sql.NVarChar, validatedData.data.survey_name)
         .input(
           "survey_short_description",
@@ -405,9 +413,9 @@ export async function createSurvey(
           validatedData.data.survey_concepts_link,
         )
         .input("created_by", sql.Char(64), userHash).query(`
-          INSERT INTO encuestas (survey_name, survey_short_description, survey_large_description, survey_start_date, survey_end_date, department, survey_concepts_description, survey_concepts_link, created_by) 
+          INSERT INTO encuestas (public_id, survey_name, survey_short_description, survey_large_description, survey_start_date, survey_end_date, department, survey_concepts_description, survey_concepts_link, created_by) 
           OUTPUT INSERTED.id
-          VALUES (@survey_name, @survey_short_description, @survey_large_description, @survey_start_date, @survey_end_date, @department, @survey_concepts_description, @survey_concepts_link, @created_by)
+          VALUES (@public_id, @survey_name, @survey_short_description, @survey_large_description, @survey_start_date, @survey_end_date, @department, @survey_concepts_description, @survey_concepts_link, @created_by)
         `);
 
       const surveyId = encuestaResult.recordset[0].id;

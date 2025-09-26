@@ -143,7 +143,7 @@ export async function getSurveysListByAccess(
 }
 
 export async function getSurveyGeneralDetails(
-  id: string,
+  id: number,
 ): Promise<SurveyGeneralData> {
   const defaultSurvey: SurveyGeneralData = {
     id: 0,
@@ -167,7 +167,7 @@ export async function getSurveyGeneralDetails(
     // Obtener datos básicos de la encuesta
     const surveyRequest = pool.request();
     const surveyResult = await surveyRequest
-      .input("id", sql.NVarChar, id)
+      .input("id", sql.Int, id)
       .query("SELECT * FROM encuestas WHERE id = @id");
 
     if (surveyResult.recordset.length === 0) {
@@ -201,7 +201,7 @@ export async function getSurveyGeneralDetails(
   }
 }
 
-export async function getSurveyDetails(id: string): Promise<SurveyData> {
+export async function getSurveyDetails(id: number): Promise<SurveyData> {
   const defaultSurvey: SurveyData = {
     survey_name: "",
     survey_short_description: "",
@@ -228,7 +228,7 @@ export async function getSurveyDetails(id: string): Promise<SurveyData> {
     // 1. Obtener datos básicos de la encuesta
     const surveyRequest = pool.request();
     const surveyResult = await surveyRequest
-      .input("id", sql.NVarChar, id)
+      .input("id", sql.Int, id)
       .query("SELECT * FROM encuestas WHERE id = @id");
 
     if (surveyResult.recordset.length === 0) {
@@ -243,14 +243,14 @@ export async function getSurveyDetails(id: string): Promise<SurveyData> {
 
     const linksRequest = pool.request();
     const linksResult = await linksRequest
-      .input("survey_id", sql.NVarChar, id)
+      .input("survey_id", sql.Int, id)
       .query(
         "SELECT id, survey_link FROM links WHERE survey_id = @survey_id ORDER BY id",
       );
     // 2. Obtener objetivos
     const objectivesRequest = pool.request();
     const objectivesResult = await objectivesRequest
-      .input("survey_id", sql.NVarChar, id)
+      .input("survey_id", sql.Int, id)
       .query(
         "SELECT id, objective FROM objetivos WHERE survey_id = @survey_id ORDER BY id",
       );
@@ -259,7 +259,7 @@ export async function getSurveyDetails(id: string): Promise<SurveyData> {
     const chronogramRequest = pool.request();
     const chronogramResult = await chronogramRequest.input(
       "survey_id",
-      sql.NVarChar,
+      sql.Int,
       id,
     ).query(`
         SELECT chronogram_name as phase, chronogram_description as description, estimated_period as date 
@@ -270,7 +270,7 @@ export async function getSurveyDetails(id: string): Promise<SurveyData> {
 
     // 4. Obtener términos/definiciones
     const termsRequest = pool.request();
-    const termsResult = await termsRequest.input("survey_id", sql.NVarChar, id)
+    const termsResult = await termsRequest.input("survey_id", sql.Int, id)
       .query(`
         SELECT concept_name as name, concept_description as description 
         FROM terminos 
@@ -280,8 +280,7 @@ export async function getSurveyDetails(id: string): Promise<SurveyData> {
 
     // 5. Obtener FAQ
     const faqRequest = pool.request();
-    const faqResult = await faqRequest.input("survey_id", sql.NVarChar, id)
-      .query(`
+    const faqResult = await faqRequest.input("survey_id", sql.Int, id).query(`
         SELECT faq_question as question, faq_answer as answer 
         FROM faq 
         WHERE survey_id = @survey_id 
@@ -328,7 +327,7 @@ export async function getSurveyDetails(id: string): Promise<SurveyData> {
 
 // Survey questions
 export async function getSurveyQuestions(
-  id: string,
+  id: number,
 ): Promise<SurveyQuestion[]> {
   const defaultSurveyQuestions: SurveyQuestion[] = [];
 
@@ -342,7 +341,7 @@ export async function getSurveyQuestions(
     // Obtener datos básicos de la encuesta
     const surveyRequest = pool.request();
     const surveyResult = await surveyRequest
-      .input("id", sql.NVarChar, id)
+      .input("id", sql.Int, id)
       .query("SELECT id FROM encuestas WHERE id = @id");
 
     if (surveyResult.recordset.length === 0) {
@@ -354,7 +353,7 @@ export async function getSurveyQuestions(
     const questionsRequest = pool.request();
     const questionsResult = await questionsRequest.input(
       "survey_id",
-      sql.NVarChar,
+      sql.Int,
       id,
     ).query(`
         SELECT 
@@ -380,7 +379,7 @@ export async function getSurveyQuestions(
       const optionsRequest = pool.request();
       const optionsResult = await optionsRequest.input(
         "question_id",
-        sql.NVarChar,
+        sql.Int,
         questionRow.id,
       ).query(`
           SELECT 
@@ -411,7 +410,7 @@ export async function getSurveyQuestions(
           const subOptionsRequest = pool.request();
           const subOptionsResult = await subOptionsRequest.input(
             "sub_question_id",
-            sql.NVarChar,
+            sql.Int,
             optionRow.sub_question_id,
           ).query(`
               SELECT 
@@ -490,7 +489,7 @@ export async function getSurveyQuestions(
 
 // Check if survey results are available
 export async function getAreSurveyResultsAvailable(
-  surveyId: string,
+  surveyId: number,
 ): Promise<boolean> {
   try {
     const pool = await connectToDB();
@@ -502,7 +501,7 @@ export async function getAreSurveyResultsAvailable(
     const surveyRequest = pool.request();
     const surveyResult = await surveyRequest.input(
       "survey_id",
-      sql.NVarChar,
+      sql.Int,
       surveyId,
     ).query(`
         SELECT survey_start_date, survey_end_date

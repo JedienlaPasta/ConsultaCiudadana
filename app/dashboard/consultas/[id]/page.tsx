@@ -24,7 +24,7 @@ export default async function SurveyDetailsOverview({
   params,
 }: PageProps) {
   const session = await getSession();
-  const surveyId = (await params).id;
+  const surveyId = Number((await params).id);
   const permissions = (await searchParams)?.permissions;
   const analytics = await getSurveyAnalytics(surveyId);
   const generalData = await getSurveyGeneralDetails(surveyId);

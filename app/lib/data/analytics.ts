@@ -25,7 +25,7 @@ export type SurveyAnalytics = {
 };
 
 export async function getSurveyAnalytics(
-  surveyId: string,
+  surveyId: number,
 ): Promise<SurveyAnalytics> {
   const defaultAnalytics: SurveyAnalytics = {
     totalParticipants: 0,
