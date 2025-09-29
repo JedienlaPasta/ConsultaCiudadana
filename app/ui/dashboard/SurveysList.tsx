@@ -35,7 +35,7 @@ export default function DashboardSurveysList({
   }
   return (
     <div>
-      <div className="grid grid-cols-1">
+      <div className="grid grid-cols-1 gap-3 md:gap-5">
         {surveys?.map((survey, index) => (
           <Survey key={survey.id + "-" + index} survey={survey} />
         ))}
@@ -87,7 +87,7 @@ function Survey({ survey }: { survey: SurveyGeneralData }) {
   return (
     <Link
       href={`/dashboard/consultas/${survey.id}`}
-      className="group overflow-hidden border-b-2 border-slate-200 bg-slate-100 hover:bg-slate-200/50"
+      className="group overflow-hidden rounded-2xl border border-slate-200/70 bg-gradient-to-br from-blue-50/60 via-blue-50/30 to-indigo-50/50 hover:bg-slate-100/90"
     >
       <div className="px-8 py-6">
         {/* Background Pattern */}
@@ -256,20 +256,21 @@ function Survey({ survey }: { survey: SurveyGeneralData }) {
                 className="flex items-center gap-1.5 rounded-lg bg-slate-200/60 px-3 py-1 text-sm text-slate-600 transition-colors group-hover:text-[#03529c]"
               >
                 <svg
-                  className="size-4.5"
-                  aria-hidden="true"
                   xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  fill="currentColor"
                   viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="size-4"
                 >
-                  <path
-                    fillRule="evenodd"
-                    d="M20 10H4v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8ZM9 13v-1h6v1a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1Z"
-                    clipRule="evenodd"
-                  />
-                  <path d="M2 6a2 2 0 0 1 2-2h16a2 2 0 1 1 0 4H4a2 2 0 0 1-2-2Z" />
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                  <path d="M12 3l8 4.5l0 9l-8 4.5l-8 -4.5l0 -9l8 -4.5" />
+                  <path d="M12 12l8 -4.5" />
+                  <path d="M12 12l0 9" />
+                  <path d="M12 12l-8 -4.5" />
+                  <path d="M16 5.25l-8 4.5" />
                 </svg>
 
                 <span className="font-semibold">{survey.participation}</span>

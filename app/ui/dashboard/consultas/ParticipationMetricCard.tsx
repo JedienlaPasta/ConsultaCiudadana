@@ -48,13 +48,13 @@ export default function ParticipationMetricCard({
     >
       {/* Background gradient on hover */}
       <div
-        className={`absolute inset-0 bg-gradient-to-br ${colors.gradient} opacity-0 transition-opacity duration-300 group-hover:opacity-5`}
+        className={`absolute inset-0 bg-gradient-to-br ${colors.gradient} opacity-0 transition-opacity duration-300 group-hover:opacity-4`}
       ></div>
 
       <div className="relative">
         <div className="flex items-center justify-between">
           <div
-            className={`inline-flex rounded-xl ${colors.bg} p-3 ring-1 ${colors.ring} transition-transform duration-300 group-hover:scale-105`}
+            className={`inline-flex rounded-xl ${colors.bg} p-3 ring-1 ${colors.ring} transition-transform duration-300`}
           >
             {icon}
           </div>
