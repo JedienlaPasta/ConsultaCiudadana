@@ -38,7 +38,7 @@ export default function SurveysList({
     <div>
       <div className="grid grid-cols-1 gap-4 md:gap-6">
         {surveys?.map((survey, index) => (
-          <Survey key={survey.id + "-" + index} survey={survey} />
+          <Survey key={survey.public_id + "-" + index} survey={survey} />
         ))}
       </div>
     </div>
@@ -97,7 +97,7 @@ function Survey({ survey }: { survey: SurveyGeneralData }) {
 
   return (
     <Link
-      href={`/consultas/${survey.id}`}
+      href={`/consultas/${survey.public_id}`}
       className="group flex transform transition-all duration-300 hover:translate-y-[-4px]"
     >
       <div className="flex grow">
