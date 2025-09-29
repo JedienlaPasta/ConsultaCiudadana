@@ -47,7 +47,7 @@ export default function PermissionsDropdown({
     <div
       ref={dropdownRef}
       onClick={() => setIsOpen((prev) => !prev)}
-      className={`relative flex cursor-pointer items-center gap-1 rounded border border-slate-200 px-2 py-1 text-xs font-medium focus:ring-0 ${getRoleColor(
+      className={`relative flex cursor-pointer items-center gap-1 rounded-md border border-slate-200 px-2 py-1 text-xs font-medium focus:ring-0 ${getRoleColor(
         member.access,
       )}`}
     >

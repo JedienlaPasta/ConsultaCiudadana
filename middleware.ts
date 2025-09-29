@@ -43,7 +43,7 @@ export async function middleware(request: NextRequest) {
     // Para rutas de dashboard, verificar roles específicos
     if (isDashboardRoute) {
       const userRole = payload.role as string;
-      const allowedRoles = ["admin", "super_admin"];
+      const allowedRoles = ["admin", "encuestador"];
 
       if (!userRole || !allowedRoles.includes(userRole.toLowerCase())) {
         console.log(

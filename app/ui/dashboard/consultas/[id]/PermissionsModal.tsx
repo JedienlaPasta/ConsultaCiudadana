@@ -2,6 +2,7 @@
 import Image from "next/image";
 import { useState } from "react";
 import PermissionsDropdown from "./PermissionsDropdown";
+import UserSearchBar from "./UserSearchBar";
 
 export type TeamMember = {
   id: number;
@@ -13,8 +14,6 @@ export type TeamMember = {
 };
 
 export default function PermissionsModal() {
-  const [searchTerm, setSearchTerm] = useState("");
-
   // Datos de ejemplo para los miembros del equipo
   const [teamMembers, setTeamMembers] = useState<TeamMember[]>([
     {
@@ -90,38 +89,7 @@ export default function PermissionsModal() {
         </div>
 
         {/* Invite Team Members */}
-        <div className="px-6 pb-4">
-          <label className="mb-2 block text-[13px] font-bold text-gray-800">
-            Agregar miembros
-          </label>
-          <div className="flex gap-2">
-            <div className="relative flex-1">
-              <svg
-                className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 transform text-gray-400"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                />
-              </svg>
-              <input
-                type="text"
-                placeholder="Buscar..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full rounded-lg border border-gray-200 py-2 pr-3 pl-10 text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
-            {/* <button className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-700">
-              Agregar
-            </button> */}
-          </div>
-        </div>
+        <UserSearchBar />
 
         {/* Team Members List */}
         <div className="pb-4">

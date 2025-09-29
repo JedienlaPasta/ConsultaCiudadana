@@ -425,7 +425,7 @@ export async function createSurvey(
       await permisoRequest
         .input("survey_id", sql.Int, surveyId)
         .input("user_hash", sql.Char(64), userHash)
-        .input("survey_access", sql.NVarChar, "editar")
+        .input("survey_access", sql.NVarChar, "propietario")
         .query(
           `INSERT INTO permisos (survey_id, user_hashed_key, survey_access) VALUES (@survey_id, @user_hash, @survey_access)`,
         );
