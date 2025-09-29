@@ -13,7 +13,7 @@ export default async function Layout(props: SurveyDetailsProps) {
   const session = await getSession();
 
   const params = await props.params;
-  const id = Number(params.id);
+  const id = params.id;
   const survey = await getSurveyDetails(id);
 
   return (
