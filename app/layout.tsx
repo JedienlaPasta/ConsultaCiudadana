@@ -10,7 +10,10 @@ export const metadata: Metadata = {
   description:
     "Participa en las consultas ciudadanas de El Quisco, conoce información oficial, plazos de votación, resultados y cómo aportar a la toma de decisiones locales.",
   keywords: [
+    "consultas públicas",
     "consultas públicas El Quisco",
+    "consultas ciudadanas",
+    "consultas ciudadanas El Quisco",
     "participación ciudadana",
     "participación ciudadana El Quisco",
     "encuestas municipales",
