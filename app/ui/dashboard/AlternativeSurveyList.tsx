@@ -37,7 +37,7 @@ export default function AlternativeSurveyList({
     <div>
       <div className="grid grid-cols-1">
         {surveys?.map((survey, index) => (
-          <Survey key={survey.id + "-" + index} survey={survey} />
+          <Survey key={survey.public_id + "-" + index} survey={survey} />
         ))}
       </div>
     </div>
@@ -86,7 +86,7 @@ function Survey({ survey }: { survey: SurveyGeneralData }) {
 
   return (
     <Link
-      href={`/dashboard/consultas/${survey.id}`}
+      href={`/dashboard/consultas/${survey.public_id}`}
       className="group overflow-hidden border-b-2 border-slate-200 bg-slate-100 hover:bg-slate-200/50"
     >
       <div className="px-8 py-6">

@@ -37,7 +37,7 @@ export default function DashboardSurveysList({
     <div>
       <div className="grid grid-cols-1 gap-3 md:gap-5">
         {surveys?.map((survey, index) => (
-          <Survey key={survey.id + "-" + index} survey={survey} />
+          <Survey key={survey.public_id + "-" + index} survey={survey} />
         ))}
       </div>
     </div>
@@ -86,7 +86,7 @@ function Survey({ survey }: { survey: SurveyGeneralData }) {
 
   return (
     <Link
-      href={`/dashboard/consultas/${survey.id}`}
+      href={`/dashboard/consultas/${survey.public_id}`}
       className="group overflow-hidden rounded-2xl border border-slate-200/70 bg-gradient-to-br from-blue-50/60 via-blue-50/30 to-indigo-50/50 hover:bg-slate-100/90"
     >
       <div className="px-8 py-6">
