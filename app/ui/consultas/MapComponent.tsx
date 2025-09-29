@@ -558,7 +558,7 @@ export default function MapComponent({
             return {
               color: matchedComponent
                 ? componentColors[matchedComponent.toLowerCase()]
-                : "#77ff17",
+                : "#4517ff",
               weight: 6,
             };
           }}

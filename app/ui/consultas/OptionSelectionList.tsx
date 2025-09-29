@@ -438,7 +438,7 @@ export default function OptionSelectionList({
           selectedOptions.includes(option.id) && (
             <div
               key={index}
-              className="order-2 -mt-6 rounded-xl border-slate-200/80 bg-gradient-to-br from-white via-blue-50/30 to-indigo-50/50 pb-6 md:order-3 md:border md:p-6"
+              className="order-2 -mt-6 rounded-xl border-slate-200/80 bg-gradient-to-br from-white via-blue-50/30 to-indigo-50/50 pb-6 md:order-3 md:mt-0 md:border md:p-6"
             >
               <div className="space-y-4">
                 <div>
