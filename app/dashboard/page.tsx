@@ -200,7 +200,7 @@ export default async function Dashboard() {
             </div>
           </div>
 
-          <div className="p-0">
+          <div className="mb-4 p-0 md:mb-8">
             <DashboardSurveysList surveys={surveys} />
           </div>
         </div>

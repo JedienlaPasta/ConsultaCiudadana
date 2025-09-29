@@ -44,7 +44,7 @@ export async function getSurveyAnalytics(
 
     // 0. Get survey_id from public_id
     const idRequest = pool.request();
-    const idResult = await idRequest.input("public_id", sql.NVarChar, publicId)
+    const idResult = await idRequest.input("public_id", sql.Char(8), publicId)
       .query(`
         SELECT id FROM encuestas WHERE public_id = @public_id
       `);

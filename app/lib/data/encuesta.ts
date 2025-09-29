@@ -90,7 +90,6 @@ export async function getSurveysListByAccess(
     const request = pool.request();
 
     const userHash = generateUserHash(sub, dv);
-    console.log(userHash);
     const result = await request.input("user_hash", sql.Char(64), userHash)
       .query(`
           SELECT DISTINCT 
@@ -106,8 +105,8 @@ export async function getSurveysListByAccess(
             p.survey_access,
             COUNT(DISTINCT ped.id) AS participation
           FROM encuestas e
-          INNER JOIN permisos p ON e.public_id = p.survey_id
-          LEFT JOIN participacion_encuesta_detalle ped ON e.public_id = ped.survey_id
+          INNER JOIN permisos p ON e.id = p.survey_id
+          LEFT JOIN participacion_encuesta_detalle ped ON e.id = ped.survey_id
           LEFT JOIN usuarios u ON e.created_by = u.user_hash
           WHERE p.user_hashed_key = @user_hash
           GROUP BY 
@@ -156,6 +155,8 @@ export async function getSurveyGeneralDetails(
     created_by_name: "",
     participation: 0,
   };
+  console.log("============================================================");
+  console.log(public_id);
 
   try {
     const pool = await connectToDB();
@@ -168,7 +169,7 @@ export async function getSurveyGeneralDetails(
     const surveyRequest = pool.request();
     const surveyResult = await surveyRequest
       .input("public_id", sql.Char(8), public_id)
-      .query("SELECT id FROM encuestas WHERE public_id = @public_id");
+      .query("SELECT * FROM encuestas WHERE public_id = @public_id");
 
     const surveyId = surveyResult.recordset[0]?.id || 0;
 
