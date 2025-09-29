@@ -23,7 +23,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.8,
     },
     ...surveys.map((survey) => ({
-      url: `https://participacion.munielquisco.gob.cl/consultas/${survey.id}`,
+      url: `https://participacion.munielquisco.gob.cl/consultas/${survey.public_id}`,
       lastModified: survey.lastModified
         ? new Date(survey.lastModified)
         : new Date(),
