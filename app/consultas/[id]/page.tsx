@@ -22,7 +22,7 @@ export default async function SurveyDetail(props: SurveyDetailsProps) {
   const isLoggedIn = session !== null;
 
   const params = await props.params;
-  const id = Number(params.id);
+  const id = params.id;
   const survey = await getSurveyDetails(id);
   if (!survey.survey_name) {
     redirect("/consultas");

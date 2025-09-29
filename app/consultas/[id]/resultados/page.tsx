@@ -9,7 +9,7 @@ type PageProps = {
 };
 
 export default async function SurveyDetailsOverview({ params }: PageProps) {
-  const surveyId = Number((await params).id);
+  const surveyId = (await params).id;
   // PENDIENTE
   // Quizas separar en distintos componentes para renderizar, en el que primero se verifique si ya se pueden mostrar los resultados y si no, se muestre un mensaje de resultados no disponibles.
   // Luego, en caso de que si esten disponibles los resultados, se renderiza el otro componente que hace la consulta a la base de datos y muestra los resultados.
