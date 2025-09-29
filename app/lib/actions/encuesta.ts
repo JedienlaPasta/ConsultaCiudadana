@@ -30,10 +30,22 @@ export async function registerVote(
     console.log("Guardando voto...");
 
     try {
+      // Obtener ID de la encuesta
+      const surveyRequest = new sql.Request(transaction);
+      const surveyResult = await surveyRequest
+        .input("public_id", sql.NVarChar, surveyAnswers.public_id)
+        .query("SELECT id FROM encuestas WHERE public_id = @public_id");
+
+      const surveyId = surveyResult.recordset[0]?.id || 0;
+
+      if (surveyId === 0) {
+        throw new Error("No se encontró la encuesta con el ID especificado");
+      }
+
       // Verificar si ya participo
       const checkParticipationRequest = new sql.Request(transaction);
       const checkResult = await checkParticipationRequest
-        .input("survey_id", sql.Int, surveyAnswers.survey_id)
+        .input("survey_id", sql.Int, surveyId)
         .input("user_hash", sql.Char(64), userHash).query(`
           SELECT TOP 1 id FROM participacion_encuestas WHERE survey_id = @survey_id AND user_hashed_key = @user_hash
         `);
@@ -48,7 +60,7 @@ export async function registerVote(
       // Registrar participación
       const participationRequest = new sql.Request(transaction);
       const participationResult = await participationRequest
-        .input("survey_id", sql.Int, surveyAnswers.survey_id)
+        .input("survey_id", sql.Int, surveyId)
         .input("user_hashed_key", sql.Char(64), userHash).query(`
           INSERT INTO participacion_encuestas (survey_id, user_hashed_key) 
           OUTPUT INSERTED.id
@@ -68,7 +80,7 @@ export async function registerVote(
       // Detalle de participacion (fecha)
       const participationDetailRequest = new sql.Request(transaction);
       await participationDetailRequest
-        .input("survey_id", sql.Int, surveyAnswers.survey_id)
+        .input("survey_id", sql.Int, surveyId)
         .input("participation_id", sql.Int, participationId).query(`
           INSERT INTO participacion_encuesta_detalle (survey_id, participation_id) 
           VALUES (@survey_id, @participation_id)
@@ -77,7 +89,6 @@ export async function registerVote(
       console.log("Detalle de participación registrado");
       // Registrar voto (mapa)
       if (surveyAnswers.answers[0].sector_id) {
-        const surveyId = surveyAnswers.survey_id;
         const sector = surveyAnswers.answers[0].sector_id;
         const questionId = surveyAnswers.answers[0].question_id;
 
@@ -107,7 +118,7 @@ export async function registerVote(
         for (const selectedOption of answer.selected_options) {
           const voteRequest = new sql.Request(transaction);
           await voteRequest
-            .input("survey_id", sql.Int, surveyAnswers.survey_id)
+            .input("survey_id", sql.Int, surveyId)
             .input("question_id", sql.Int, answer.question_id)
             .input("option_id", sql.Int, selectedOption.option_id).query(`
               INSERT INTO votos (survey_id, question_id, option_id) 
@@ -123,7 +134,7 @@ export async function registerVote(
             // );
             const subVoteRequest = new sql.Request(transaction);
             await subVoteRequest
-              .input("survey_id", sql.Int, surveyAnswers.survey_id)
+              .input("survey_id", sql.Int, surveyId)
               .input("question_id", sql.Int, selectedOption.sub_question_id)
               .input("option_id", sql.Int, selectedOption.sub_option_id).query(`
                 INSERT INTO votos (survey_id, question_id, option_id) 
@@ -137,8 +148,8 @@ export async function registerVote(
       await transaction.commit();
 
       // setTimeout(() => {
-      revalidatePath(`/consultas/${surveyAnswers.survey_id}`);
-      revalidatePath(`/consultas/${surveyAnswers.survey_id}/resultados`);
+      revalidatePath(`/consultas/${surveyId}`);
+      revalidatePath(`/consultas/${surveyId}/resultados`);
       revalidatePath("/consultas");
       // }, 6000);
 
@@ -371,7 +382,7 @@ export async function createSurvey(
     const userHash = generateUserHash(sub, dv);
 
     const generatePublicId = customAlphabet(
-      "ABCDEFGHJKLMNPQRSTUVWXYZ23456789",
+      "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz23456789",
       8,
     );
 

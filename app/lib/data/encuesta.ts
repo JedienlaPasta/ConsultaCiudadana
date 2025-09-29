@@ -17,13 +17,13 @@ export async function getSurveysList(): Promise<SurveyGeneralData[]> {
     }
     const request = pool.request();
     const result = await request.query(`
-        SELECT id, survey_name, survey_short_description, survey_start_date, survey_end_date, department FROM encuestas
+        SELECT public_id, survey_name, survey_short_description, survey_start_date, survey_end_date, department FROM encuestas
         ORDER BY survey_end_date ASC
       `);
     return result.recordset.map(
       (item) =>
         ({
-          id: item.id,
+          public_id: item.public_id,
           survey_name: item.survey_name,
           survey_short_description: item.survey_short_description,
           survey_start_date: item.survey_start_date.toISOString().split("T")[0],
@@ -51,7 +51,7 @@ export async function getFilteredSurveysList(
     const result = await request
       .input("query", sql.NVarChar, `%${query}%`)
       .input("filter", sql.NVarChar, filter).query(`
-        SELECT id, survey_name, survey_short_description, survey_start_date, survey_end_date, department FROM encuestas
+        SELECT public_id, survey_name, survey_short_description, survey_start_date, survey_end_date, department FROM encuestas
         WHERE (survey_name LIKE @query OR survey_short_description LIKE @query)
         AND (
           @filter = 'todas'
@@ -63,7 +63,7 @@ export async function getFilteredSurveysList(
     return result.recordset.map(
       (item) =>
         ({
-          id: item.id,
+          public_id: item.public_id,
           survey_name: item.survey_name,
           survey_short_description: item.survey_short_description,
           survey_start_date: item.survey_start_date.toISOString().split("T")[0],
@@ -94,7 +94,7 @@ export async function getSurveysListByAccess(
     const result = await request.input("user_hash", sql.Char(64), userHash)
       .query(`
           SELECT DISTINCT 
-            e.id,
+            e.public_id,
             e.survey_name,
             e.survey_short_description,
             e.survey_start_date,
@@ -106,12 +106,12 @@ export async function getSurveysListByAccess(
             p.survey_access,
             COUNT(DISTINCT ped.id) AS participation
           FROM encuestas e
-          INNER JOIN permisos p ON e.id = p.survey_id
-          LEFT JOIN participacion_encuesta_detalle ped ON e.id = ped.survey_id
+          INNER JOIN permisos p ON e.public_id = p.survey_id
+          LEFT JOIN participacion_encuesta_detalle ped ON e.public_id = ped.survey_id
           LEFT JOIN usuarios u ON e.created_by = u.user_hash
           WHERE p.user_hashed_key = @user_hash
           GROUP BY 
-            e.id,
+            e.public_id,
             e.survey_name,
             e.survey_short_description,
             e.survey_start_date,
@@ -125,7 +125,7 @@ export async function getSurveysListByAccess(
         `);
 
     return result.recordset.map((row: SurveyGeneralData) => ({
-      id: row.id,
+      public_id: row.public_id,
       survey_name: row.survey_name,
       survey_short_description: row.survey_short_description,
       survey_start_date: row.survey_start_date,
@@ -143,10 +143,10 @@ export async function getSurveysListByAccess(
 }
 
 export async function getSurveyGeneralDetails(
-  id: number,
+  public_id: string,
 ): Promise<SurveyGeneralData> {
   const defaultSurvey: SurveyGeneralData = {
-    id: 0,
+    public_id: "",
     survey_name: "",
     survey_short_description: "",
     survey_start_date: "",
@@ -167,10 +167,12 @@ export async function getSurveyGeneralDetails(
     // Obtener datos básicos de la encuesta
     const surveyRequest = pool.request();
     const surveyResult = await surveyRequest
-      .input("id", sql.Int, id)
-      .query("SELECT * FROM encuestas WHERE id = @id");
+      .input("public_id", sql.NVarChar, public_id)
+      .query("SELECT id FROM encuestas WHERE public_id = @public_id");
 
-    if (surveyResult.recordset.length === 0) {
+    const surveyId = surveyResult.recordset[0]?.id || 0;
+
+    if (surveyId === 0) {
       console.warn("No se encontró la encuesta con el ID especificado");
       return defaultSurvey;
     }
@@ -179,7 +181,7 @@ export async function getSurveyGeneralDetails(
 
     // Construir el objeto final
     const surveyFormData: SurveyGeneralData = {
-      id: survey.id,
+      public_id: survey.public_id,
       survey_name: survey.survey_name,
       survey_short_description: survey.survey_short_description,
       survey_start_date: survey.survey_start_date
@@ -201,7 +203,7 @@ export async function getSurveyGeneralDetails(
   }
 }
 
-export async function getSurveyDetails(id: number): Promise<SurveyData> {
+export async function getSurveyDetails(public_id: string): Promise<SurveyData> {
   const defaultSurvey: SurveyData = {
     survey_name: "",
     survey_short_description: "",
@@ -228,10 +230,12 @@ export async function getSurveyDetails(id: number): Promise<SurveyData> {
     // 1. Obtener datos básicos de la encuesta
     const surveyRequest = pool.request();
     const surveyResult = await surveyRequest
-      .input("id", sql.Int, id)
-      .query("SELECT * FROM encuestas WHERE id = @id");
+      .input("public_id", sql.NVarChar, public_id)
+      .query("SELECT id FROM encuestas WHERE public_id = @public_id");
 
-    if (surveyResult.recordset.length === 0) {
+    const surveyId = surveyResult.recordset[0]?.id || 0;
+
+    if (surveyId === 0) {
       console.warn("No se encontró la encuesta con el ID especificado");
       return defaultSurvey;
     }
@@ -243,14 +247,14 @@ export async function getSurveyDetails(id: number): Promise<SurveyData> {
 
     const linksRequest = pool.request();
     const linksResult = await linksRequest
-      .input("survey_id", sql.Int, id)
+      .input("survey_id", sql.Int, surveyId)
       .query(
         "SELECT id, survey_link FROM links WHERE survey_id = @survey_id ORDER BY id",
       );
     // 2. Obtener objetivos
     const objectivesRequest = pool.request();
     const objectivesResult = await objectivesRequest
-      .input("survey_id", sql.Int, id)
+      .input("survey_id", sql.Int, surveyId)
       .query(
         "SELECT id, objective FROM objetivos WHERE survey_id = @survey_id ORDER BY id",
       );
@@ -260,7 +264,7 @@ export async function getSurveyDetails(id: number): Promise<SurveyData> {
     const chronogramResult = await chronogramRequest.input(
       "survey_id",
       sql.Int,
-      id,
+      surveyId,
     ).query(`
         SELECT chronogram_name as phase, chronogram_description as description, estimated_period as date 
         FROM cronogramas 
@@ -270,7 +274,7 @@ export async function getSurveyDetails(id: number): Promise<SurveyData> {
 
     // 4. Obtener términos/definiciones
     const termsRequest = pool.request();
-    const termsResult = await termsRequest.input("survey_id", sql.Int, id)
+    const termsResult = await termsRequest.input("survey_id", sql.Int, surveyId)
       .query(`
         SELECT concept_name as name, concept_description as description 
         FROM terminos 
@@ -280,7 +284,8 @@ export async function getSurveyDetails(id: number): Promise<SurveyData> {
 
     // 5. Obtener FAQ
     const faqRequest = pool.request();
-    const faqResult = await faqRequest.input("survey_id", sql.Int, id).query(`
+    const faqResult = await faqRequest.input("survey_id", sql.Int, surveyId)
+      .query(`
         SELECT faq_question as question, faq_answer as answer 
         FROM faq 
         WHERE survey_id = @survey_id 
@@ -327,7 +332,7 @@ export async function getSurveyDetails(id: number): Promise<SurveyData> {
 
 // Survey questions
 export async function getSurveyQuestions(
-  id: number,
+  public_id: string,
 ): Promise<SurveyQuestion[]> {
   const defaultSurveyQuestions: SurveyQuestion[] = [];
 
@@ -341,10 +346,12 @@ export async function getSurveyQuestions(
     // Obtener datos básicos de la encuesta
     const surveyRequest = pool.request();
     const surveyResult = await surveyRequest
-      .input("id", sql.Int, id)
-      .query("SELECT id FROM encuestas WHERE id = @id");
+      .input("public_id", sql.NVarChar, public_id)
+      .query("SELECT id FROM encuestas WHERE public_id = @public_id");
 
-    if (surveyResult.recordset.length === 0) {
+    const surveyId = surveyResult.recordset[0]?.id || 0;
+
+    if (surveyId === 0) {
       console.warn("No se encontró la encuesta con el ID especificado");
       return defaultSurveyQuestions;
     }
@@ -354,7 +361,7 @@ export async function getSurveyQuestions(
     const questionsResult = await questionsRequest.input(
       "survey_id",
       sql.Int,
-      id,
+      surveyId,
     ).query(`
         SELECT 
           p.id,
@@ -489,7 +496,7 @@ export async function getSurveyQuestions(
 
 // Check if survey results are available
 export async function getAreSurveyResultsAvailable(
-  surveyId: number,
+  public_id: string,
 ): Promise<boolean> {
   try {
     const pool = await connectToDB();
@@ -500,13 +507,13 @@ export async function getAreSurveyResultsAvailable(
 
     const surveyRequest = pool.request();
     const surveyResult = await surveyRequest.input(
-      "survey_id",
-      sql.Int,
-      surveyId,
+      "public_id",
+      sql.NVarChar,
+      public_id,
     ).query(`
         SELECT survey_start_date, survey_end_date
         FROM encuestas
-        WHERE id = @survey_id
+        WHERE public_id = @public_id
       `);
 
     if (surveyResult.recordset.length === 0) {
@@ -541,14 +548,14 @@ export async function getSurveysForSitemap(): Promise<SurveyGeneralData[]> {
     }
     const request = pool.request();
     const result = await request.query(`
-        SELECT id, survey_start_date, survey_end_date, updated_at FROM encuestas
+        SELECT public_id, survey_start_date, survey_end_date, updated_at FROM encuestas
         WHERE survey_end_date >= GETDATE() AND survey_start_date <= GETDATE()
         ORDER BY survey_end_date ASC
       `);
     return result.recordset.map(
       (item) =>
         ({
-          id: item.id,
+          public_id: item.public_id,
           lastModified: item.updated_at,
         }) as SurveyGeneralData,
     );

@@ -17,7 +17,7 @@ import VoteResponseModal from "./[id]/VoteResponseModal";
 
 type SurveyLayoutProps = {
   questions: SurveyQuestion[];
-  surveyId: number;
+  publicId: string;
   sub: string;
   dv: string;
   hasParticipated: boolean;
@@ -25,13 +25,13 @@ type SurveyLayoutProps = {
 
 export default function SurveyLayout({
   questions,
-  surveyId,
+  publicId,
   sub,
   dv,
   hasParticipated,
 }: SurveyLayoutProps) {
   const [surveyAnswers, setSurveyAnswers] = useState<SurveyAnswers>({
-    survey_id: surveyId,
+    public_id: publicId,
     answers: [],
   });
   const [surveyQuestions, setSurveyQuestions] = useState<SurveyQuestion[]>(
@@ -85,14 +85,14 @@ export default function SurveyLayout({
     const handleBeforeUnload = () => {
       if (hasVoted) {
         // Marcar en sessionStorage que ya votó
-        sessionStorage.setItem(`voted_${surveyId}_${sub}_${dv}`, "true");
+        sessionStorage.setItem(`voted_${publicId}_${sub}_${dv}`, "true");
       }
     };
 
     const handlePopState = () => {
       // Verificar si ya votó en esta sesión
       const hasVotedInSession =
-        sessionStorage.getItem(`voted_${surveyId}_${sub}_${dv}`) === "true";
+        sessionStorage.getItem(`voted_${publicId}_${sub}_${dv}`) === "true";
       if (hasVoted || hasParticipated || hasVotedInSession) {
         router.replace("/");
         toast.error("Ya has participado de esta encuesta");
@@ -101,7 +101,7 @@ export default function SurveyLayout({
 
     // Verificar al cargar si ya votó en esta sesión
     const hasVotedInSession =
-      sessionStorage.getItem(`voted_${surveyId}_${sub}_${dv}`) === "true";
+      sessionStorage.getItem(`voted_${publicId}_${sub}_${dv}`) === "true";
     if (hasVotedInSession && !hasVoted) {
       setHasVoted(true);
       router.replace("/");
@@ -117,7 +117,7 @@ export default function SurveyLayout({
       window.removeEventListener("beforeunload", handleBeforeUnload);
       window.removeEventListener("popstate", handlePopState);
     };
-  }, [hasVoted, hasParticipated, router, surveyId, sub, dv]);
+  }, [hasVoted, hasParticipated, router, publicId, sub, dv]);
 
   if (!shouldRender || hasParticipated) {
     return null;
@@ -146,7 +146,7 @@ export default function SurveyLayout({
 
       setHasVoted(true);
       // Guardar en sessionStorage inmediatamente
-      sessionStorage.setItem(`voted_${surveyId}_${sub}_${dv}`, "true");
+      sessionStorage.setItem(`voted_${publicId}_${sub}_${dv}`, "true");
 
       // Limpiar el historial del navegador
       if (window.history.length > 1) {
@@ -188,7 +188,7 @@ export default function SurveyLayout({
         isLoading={false}
         onClose={() => {
           // Limpiar completamente el historial y redirigir
-          sessionStorage.setItem(`voted_${surveyId}_${sub}_${dv}`, "true");
+          sessionStorage.setItem(`voted_${publicId}_${sub}_${dv}`, "true");
           window.history.replaceState(null, "", "/");
           router.replace("/");
         }}

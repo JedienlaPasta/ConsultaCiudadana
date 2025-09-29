@@ -25,7 +25,7 @@ export type SurveyAnalytics = {
 };
 
 export async function getSurveyAnalytics(
-  surveyId: number,
+  publicId: string,
 ): Promise<SurveyAnalytics> {
   const defaultAnalytics: SurveyAnalytics = {
     totalParticipants: 0,
@@ -41,6 +41,15 @@ export async function getSurveyAnalytics(
       console.warn("No se pudo establecer conexión con la base de datos");
       return defaultAnalytics;
     }
+
+    // 0. Get survey_id from public_id
+    const idRequest = pool.request();
+    const idResult = await idRequest.input("public_id", sql.NVarChar, publicId)
+      .query(`
+        SELECT id FROM encuestas WHERE public_id = @public_id
+      `);
+
+    const surveyId = idResult.recordset[0]?.id || 0;
 
     // 1. Get total participants
     const participantsRequest = pool.request();

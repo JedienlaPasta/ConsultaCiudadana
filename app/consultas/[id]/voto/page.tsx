@@ -6,23 +6,23 @@ import SurveyLayout from "@/app/ui/consultas/SurveyLayout";
 import { redirect } from "next/navigation";
 
 type SurveyDetailsProps = {
-  params: Promise<{ id: number }>;
+  params: Promise<{ id: string }>;
 };
 
 export default async function SurveyPage(props: SurveyDetailsProps) {
   const params = await props.params;
-  const id = params.id;
+  const publicId = params.id;
 
   const session = await getSession();
   const sub = session?.sub || "";
   const dv = session?.dv || "";
 
-  const hasParticipated = await verifyParticipation(id, sub, dv);
+  const hasParticipated = await verifyParticipation(publicId, sub, dv);
   if (hasParticipated) {
     redirect("/");
   }
 
-  const surveyQuestions = await getSurveyQuestions(id);
+  const surveyQuestions = await getSurveyQuestions(publicId);
   if (surveyQuestions.length === 0) {
     redirect("/consultas");
   }
@@ -32,9 +32,9 @@ export default async function SurveyPage(props: SurveyDetailsProps) {
       <div className="container mx-auto max-w-[80rem] flex-grow px-4 md:px-8">
         <SurveyLayout
           questions={surveyQuestions}
-          surveyId={id}
-          sub={session?.sub || ""}
-          dv={session?.dv || ""}
+          publicId={publicId}
+          sub={sub}
+          dv={dv}
           hasParticipated={hasParticipated}
         />
       </div>

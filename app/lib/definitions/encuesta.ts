@@ -110,7 +110,7 @@ export type SurveySector = {
 };
 
 export type SurveyGeneralData = {
-  id: number;
+  public_id: string;
   survey_name: string;
   survey_short_description: string;
   survey_start_date: string;
@@ -152,6 +152,6 @@ export type SurveyQuestion = {
 
 // Estado global de respuestas de la encuesta
 export type SurveyAnswers = {
-  survey_id: number;
+  public_id: string;
   answers: QuestionAnswer[];
 };

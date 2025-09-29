@@ -3,7 +3,7 @@ import sql from "mssql";
 import { generateUserHash } from "../utils/userHash";
 
 export async function verifyParticipation(
-  surveyId: number,
+  public_id: string,
   sub: string,
   dv: string,
 ): Promise<boolean> {
@@ -15,6 +15,18 @@ export async function verifyParticipation(
     }
 
     const userHash = generateUserHash(sub, dv);
+
+    const surveyRequest = pool.request();
+    const surveyResult = await surveyRequest
+      .input("public_id", sql.NVarChar, public_id)
+      .query("SELECT id FROM encuestas WHERE public_id = @public_id");
+
+    if (surveyResult.recordset.length === 0) {
+      console.warn("No se encontró la encuesta con el ID especificado");
+      return false;
+    }
+
+    const surveyId = surveyResult.recordset[0].id;
 
     const participationRequest = pool.request();
     const participationResult = await participationRequest

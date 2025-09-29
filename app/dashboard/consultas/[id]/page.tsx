@@ -24,10 +24,10 @@ export default async function SurveyDetailsOverview({
   params,
 }: PageProps) {
   const session = await getSession();
-  const surveyId = Number((await params).id);
+  const publicId = (await params).id;
   const permissions = (await searchParams)?.permissions;
-  const analytics = await getSurveyAnalytics(surveyId);
-  const generalData = await getSurveyGeneralDetails(surveyId);
+  const analytics = await getSurveyAnalytics(publicId);
+  const generalData = await getSurveyGeneralDetails(publicId);
 
   const splitName = generalData?.created_by_name?.split(" ") || [];
   const createdBy =
