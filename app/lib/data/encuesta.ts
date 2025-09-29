@@ -167,7 +167,7 @@ export async function getSurveyGeneralDetails(
     // Obtener datos básicos de la encuesta
     const surveyRequest = pool.request();
     const surveyResult = await surveyRequest
-      .input("public_id", sql.NVarChar, public_id)
+      .input("public_id", sql.Char(8), public_id)
       .query("SELECT id FROM encuestas WHERE public_id = @public_id");
 
     const surveyId = surveyResult.recordset[0]?.id || 0;
@@ -230,8 +230,8 @@ export async function getSurveyDetails(public_id: string): Promise<SurveyData> {
     // 1. Obtener datos básicos de la encuesta
     const surveyRequest = pool.request();
     const surveyResult = await surveyRequest
-      .input("public_id", sql.NVarChar, public_id)
-      .query("SELECT id FROM encuestas WHERE public_id = @public_id");
+      .input("public_id", sql.Char(8), public_id)
+      .query("SELECT * FROM encuestas WHERE public_id = @public_id");
 
     const surveyId = surveyResult.recordset[0]?.id || 0;
 
@@ -346,7 +346,7 @@ export async function getSurveyQuestions(
     // Obtener datos básicos de la encuesta
     const surveyRequest = pool.request();
     const surveyResult = await surveyRequest
-      .input("public_id", sql.NVarChar, public_id)
+      .input("public_id", sql.Char(8), public_id)
       .query("SELECT id FROM encuestas WHERE public_id = @public_id");
 
     const surveyId = surveyResult.recordset[0]?.id || 0;
@@ -508,7 +508,7 @@ export async function getAreSurveyResultsAvailable(
     const surveyRequest = pool.request();
     const surveyResult = await surveyRequest.input(
       "public_id",
-      sql.NVarChar,
+      sql.Char(8),
       public_id,
     ).query(`
         SELECT survey_start_date, survey_end_date
