@@ -21,7 +21,7 @@ export default async function PrivacyPage() {
                   clipRule="evenodd"
                 />
               </svg>
-              Privacidad de Datos Protegida
+              Protección de Datos
             </div>
             <h1 className="mb-4 text-3xl font-bold text-gray-900 md:text-4xl">
               Política de Privacidad y Uso de Datos
@@ -261,7 +261,7 @@ export default async function PrivacyPage() {
                     text: "No se almacenan contraseñas ni credenciales de ClaveÚnica.",
                   },
                   {
-                    text: "No se guardan direcciones IP ni geolocalización exacta.",
+                    text: "No se guardan direcciones IP ni datos de geolocalización.",
                   },
                   {
                     text: "Las respuestas a las consultas son anónimas y no se asocian directamente al RUT del participante.",
@@ -369,10 +369,13 @@ export default async function PrivacyPage() {
                       Tiempo limitado y necesario
                     </h4>
                     <p className="text-gray-700">
-                      Los datos personales se almacenan solo por el tiempo
-                      estrictamente necesario para la validación de
-                      participación en las consultas, y luego se resguardan
-                      conforme a las políticas de archivo de la Municipalidad.
+                      Los datos personales se almacenan por un período de{" "}
+                      <strong>12 meses</strong>, a partir de la fecha de término
+                      de la consulta, con el fin de validar su participación.
+                      Una vez transcurrido este período, todos los datos
+                      personales son eliminados, mientras que los datos de
+                      participación y votos son anonimizados y resguardados para
+                      fines estadísticos.
                     </p>
                   </div>
                 </div>
@@ -540,6 +543,9 @@ export default async function PrivacyPage() {
                       proteger los datos contra pérdida, mal uso, acceso no
                       autorizado o divulgación.
                     </p>
+                    {/* Si bien hacemos uso de tu rut para verificar tu participación, este se almacena de forma segura y solo se utiliza para validar tu voto. Mas especificamente, no almacenamos tu rut directamente, sino que un valor encriptado de el. */}
+                    {/* Solo se permite conexion segura HTTPS para acceder a la pagina. */}
+                    {/* No compartimos tus datos con terceros y estos son eliminados una vez que ya no son necesarios. */}
                   </div>
                 </div>
               </div>
