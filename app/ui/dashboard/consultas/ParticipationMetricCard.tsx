@@ -44,7 +44,7 @@ export default function ParticipationMetricCard({
 
   return (
     <div
-      className={`group relative overflow-hidden rounded-2xl bg-white p-6 shadow-lg ring-1 ${colors.ring} transition-all duration-300 hover:scale-[1.02] hover:shadow-xl`}
+      className={`group relative overflow-hidden rounded-2xl bg-white p-6 shadow-lg ring-1 shadow-gray-300/70 ${colors.ring} transition-all duration-300 hover:shadow-xl`}
     >
       {/* Background gradient on hover */}
       <div

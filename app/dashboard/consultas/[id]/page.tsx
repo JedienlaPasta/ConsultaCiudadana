@@ -107,7 +107,7 @@ export default async function SurveyDetailsOverview({
         </div>
 
         {/* Survey Info Card */}
-        <div className="group mb-8 overflow-hidden rounded-2xl border border-slate-200/70 bg-gradient-to-br from-blue-50/60 via-blue-50/30 to-indigo-50/50">
+        <div className="group mb-8 overflow-hidden rounded-2xl border border-slate-200/70 bg-gradient-to-br from-blue-50/60 via-blue-50/30 to-indigo-50/50 shadow-lg shadow-gray-300/70">
           <div className="px-8 py-6">
             <div className="w-full">
               <div className="mb-2 flex flex-wrap items-start justify-between gap-2"></div>
@@ -314,7 +314,7 @@ export default async function SurveyDetailsOverview({
         </div>
 
         {/* Participation by Date Chart */}
-        <div className="mb-10 overflow-hidden rounded-2xl bg-white shadow-lg ring-1 ring-slate-200">
+        <div className="mb-10 overflow-hidden rounded-2xl bg-white shadow-lg ring-1 shadow-gray-300/70 ring-slate-200">
           <div className="border-b border-slate-200 bg-slate-50/50 px-8 py-6">
             <div className="flex items-center justify-between">
               <div>

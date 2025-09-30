@@ -87,7 +87,7 @@ function Survey({ survey }: { survey: SurveyGeneralData }) {
   return (
     <Link
       href={`/dashboard/consultas/${survey.public_id}`}
-      className="group overflow-hidden rounded-2xl border border-slate-200/70 bg-gradient-to-br from-blue-50/60 via-blue-50/30 to-indigo-50/50 hover:bg-slate-100/90"
+      className="group overflow-hidden rounded-2xl border border-slate-200/70 bg-gradient-to-br from-blue-50/60 via-blue-50/30 to-indigo-50/50 shadow-lg shadow-gray-300/70 hover:bg-slate-100/90"
     >
       <div className="px-8 py-6">
         {/* Background Pattern */}

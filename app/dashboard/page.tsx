@@ -37,7 +37,7 @@ export default async function Dashboard() {
         <div className="mb-6">
           <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
             <div>
-              <h2 className="mb-1 text-2xl font-bold text-slate-800 md:text-3xl">
+              <h2 className="text-xl font-bold text-slate-800 md:text-2xl">
                 ¡Bienvenido de vuelta!
               </h2>
               <p className="text-slate-600">
@@ -75,7 +75,7 @@ export default async function Dashboard() {
         </div>
 
         {/* Analytics Cards */}
-        <div className="mb-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mb-6 grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4">
           <AnalyticsCard
             title="Total Consultas"
             value={totalSurveys}
@@ -171,10 +171,10 @@ export default async function Dashboard() {
 
         {/* Survey Management Section */}
         <div className="">
-          <div className="py-4 md:py-6">
-            <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+          <div className="py-4 md:py-4">
+            <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
               <div>
-                <h2 className="mb-1 text-2xl font-bold text-slate-800 md:text-3xl">
+                <h2 className="text-xl font-bold text-slate-800 md:text-2xl">
                   Mis Consultas
                 </h2>
                 <p className="text-slate-600">
