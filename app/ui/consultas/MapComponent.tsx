@@ -262,6 +262,7 @@ export default function MapComponent({
   const getSelectedComponentColors = () => {
     const colors = [
       "#9d46fa",
+      "#dd00ff",
       "#206ef5",
       "#00d681",
       "#f04a5e",
@@ -273,7 +274,8 @@ export default function MapComponent({
 
     // Array con todas las opciones posibles en orden fijo
     const allPossibleOptions = [
-      "ruta piimep",
+      "tramo conector",
+      "acceso borde costero",
       "peatonalización permanente",
       "peatonalización temporal",
       "sentido de tránsito",
@@ -292,8 +294,8 @@ export default function MapComponent({
 
     // Para las subopciones de "tramo conector", usar el mismo color base
     selectedComponent?.forEach((component) => {
-      if (component.toLowerCase().includes("ruta piimep")) {
-        colorMap[component.toLowerCase()] = colorMap["ruta piimep"];
+      if (component.toLowerCase().includes("tramo conector")) {
+        colorMap[component.toLowerCase()] = colorMap["tramo conector"];
       }
     });
 
@@ -413,11 +415,12 @@ export default function MapComponent({
           style={(feature) => {
             const componentName =
               feature?.properties?.TIPO?.toString().toLowerCase() || "default";
-            console.log(selectedComponent);
+            // console.log(selectedComponent);
 
             const matchedComponent = selectedComponent?.find((component) =>
               component.toLowerCase().includes(componentName),
             );
+            console.log(matchedComponent);
             return {
               color: matchedComponent
                 ? componentColors[matchedComponent.toLowerCase()]
@@ -471,10 +474,10 @@ export default function MapComponent({
           }}
         />
       )} */}
-      {/* Routes Lines Data */}
+      {/* Routes Lines Data TC */}
       {routes_linesData && (
         <RLGeoJSON
-          key={selectedComponent?.join(",") + "routes_lines"}
+          key={selectedComponent?.join(",") + "routes_lines_tc"}
           data={
             {
               ...routes_linesData,
@@ -488,7 +491,7 @@ export default function MapComponent({
 
                     const isTramo =
                       feature.properties?.TIPO?.toString().toLowerCase() ===
-                        "ruta piimep" &&
+                        "tramo conector" &&
                       feature.properties?.NOMBRE?.toString().toLowerCase() ===
                         tramo;
 
@@ -499,17 +502,73 @@ export default function MapComponent({
             } as GeoJSONType.FeatureCollection
           }
           style={(feature) => {
-            const componentName =
+            const componentType =
               feature?.properties?.TIPO?.toString().toLowerCase() || "default";
-            console.log(selectedComponent);
+            const componentName =
+              feature?.properties?.NOMBRE?.toString().toLowerCase() ||
+              "default";
 
             const matchedComponent = selectedComponent?.find((component) =>
               component.toLowerCase().includes(componentName),
             );
+            if (matchedComponent) {
+              return {
+                color: componentColors[componentType.toLowerCase()],
+                weight: 6,
+              };
+            }
             return {
-              color: matchedComponent
-                ? componentColors[matchedComponent.toLowerCase()]
-                : "#8B4513",
+              color: "#8B4513",
+              weight: 6,
+            };
+          }}
+        />
+      )}
+      {/* Routes Lines Data ABC */}
+      {routes_linesData && (
+        <RLGeoJSON
+          key={selectedComponent?.join(",") + "routes_lines_abc"}
+          data={
+            {
+              ...routes_linesData,
+              features: routes_linesData.features.filter((feature) =>
+                selectedComponent?.some((component) => {
+                  if (component.toLowerCase().includes("ruta piimep")) {
+                    const tramo = component
+                      .toLowerCase()
+                      .replace("ruta piimep", "")
+                      .trim();
+
+                    const isTramo =
+                      feature.properties?.TIPO?.toString().toLowerCase() ===
+                        "acceso borde costero" &&
+                      feature.properties?.NOMBRE?.toString().toLowerCase() ===
+                        tramo;
+
+                    return isTramo;
+                  }
+                }),
+              ),
+            } as GeoJSONType.FeatureCollection
+          }
+          style={(feature) => {
+            const componentType =
+              feature?.properties?.TIPO?.toString().toLowerCase() || "default";
+            const componentName =
+              feature?.properties?.NOMBRE?.toString().toLowerCase() ||
+              "default";
+
+            const matchedComponent = selectedComponent?.find((component) =>
+              component.toLowerCase().includes(componentName),
+            );
+            if (matchedComponent) {
+              return {
+                color: componentColors[componentType.toLowerCase()],
+                weight: 6,
+              };
+            }
+            return {
+              color: "#8B4513",
               weight: 6,
             };
           }}
