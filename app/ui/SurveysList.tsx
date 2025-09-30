@@ -20,27 +20,77 @@ export default function SurveysList({
     }, 700);
   }, []);
 
+  const surveysToDisplay = surveys?.map((survey, index) => (
+    <Survey key={survey.public_id + "-" + index} survey={survey} />
+  ));
+
   if (loading) {
     return (
       <div>
         <div className="flex items-center justify-center rounded-lg bg-slate-200/60 p-4">
           <div className="flex w-full flex-col items-center gap-1 rounded-lg bg-white py-5 md:gap-2 md:px-10 md:py-8">
             <RexLoader />
-            <p className="animate-pulse text-sm text-slate-500">
-              Cargando las consultas...
+            <p className="text-sm text-slate-500">Cargando las consultas...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (surveysToDisplay.length === 0) {
+    return (
+      <div>
+        <div className="flex items-center justify-center rounded-lg bg-slate-200/60 p-4">
+          <div className="flex w-full flex-col items-center gap-1 rounded-lg bg-white py-5 md:gap-2 md:px-10 md:py-8">
+            <p className="text-sm text-slate-500">
+              No hay consultas disponibles en este momento.
             </p>
           </div>
         </div>
       </div>
     );
   }
+
   return (
     <div>
-      <div className="grid grid-cols-1 gap-4 md:gap-6">
-        {surveys?.map((survey, index) => (
-          <Survey key={survey.public_id + "-" + index} survey={survey} />
-        ))}
-      </div>
+      <div className="grid grid-cols-1 gap-4 md:gap-6">{surveysToDisplay}</div>
+      {surveysToDisplay.length < 2 && (
+        <div className="mt-4 md:mt-6">
+          <EmptySlotPlaceholder />
+        </div>
+      )}
+      <Link
+        href="/consultas"
+        className="group relative mx-auto mt-6 flex w-full max-w-md items-center justify-between overflow-hidden rounded-2xl border-2 border-[#23396f]/20 bg-gradient-to-br from-white via-indigo-50 to-indigo-50 px-8 py-4 shadow-lg transition-all duration-300 hover:border-indigo-700/30 hover:shadow-xl active:scale-95"
+      >
+        <div className="absolute inset-0 bg-gradient-to-r from-indigo-50 via-indigo-50 to-white opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+        <div className="relative flex items-center gap-3">
+          <div className="flex flex-col">
+            <span className="font-semibold text-[#23396f] transition-colors duration-300 group-hover:text-[#1d2d5a]">
+              Ver todas las consultas
+            </span>
+            <span className="text-xs text-gray-500">
+              Explora {surveys.length} consulta
+              {surveys.length !== 1 ? "s" : ""} disponible
+              {surveys.length !== 1 ? "s" : ""}
+            </span>
+          </div>
+        </div>
+
+        <svg
+          className="h-5 w-5 text-[#23396f] transition-transform duration-300 group-hover:translate-x-1"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M9 5l7 7-7 7"
+          />
+        </svg>
+      </Link>
     </div>
   );
 }
@@ -266,5 +316,37 @@ function Survey({ survey }: { survey: SurveyGeneralData }) {
         </div>
       </div>
     </Link>
+  );
+}
+
+function EmptySlotPlaceholder() {
+  return (
+    <div className="flex grow">
+      <div className="flex grow">
+        <div className="flex h-full grow flex-col items-center justify-center rounded-3xl bg-slate-100/80 p-4 shadow-lg shadow-gray-200/50 sm:p-6 md:gap-1 md:p-8">
+          <div className="mb-3 rounded-full bg-slate-200/70 p-3 opacity-80">
+            <svg
+              className="h-8 w-8 text-slate-400"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={1.5}
+                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+              />
+            </svg>
+          </div>
+          <p className="text text-center font-medium text-slate-400 opacity-80">
+            Próximamente más consultas
+          </p>
+          <p className="text-center text-sm text-slate-400 opacity-80">
+            Mantente atento a nuevas oportunidades de participación
+          </p>
+        </div>
+      </div>
+    </div>
   );
 }

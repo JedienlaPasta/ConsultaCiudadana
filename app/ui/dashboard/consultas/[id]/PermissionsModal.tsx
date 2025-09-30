@@ -3,6 +3,7 @@ import Image from "next/image";
 import { useState } from "react";
 import PermissionsDropdown from "./PermissionsDropdown";
 import UserSearchBar from "./UserSearchBar";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export type TeamMember = {
   id: number;
@@ -49,6 +50,14 @@ export default function PermissionsModal() {
       isYou: false,
     },
   ]);
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const handleCloseModal = () => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.delete("permissions");
+    router.replace(`?${params.toString()}`, { scroll: false });
+  };
 
   const handlePermissionsManagement = (member: TeamMember) => {
     setTeamMembers((prevMembers) =>
@@ -62,7 +71,10 @@ export default function PermissionsModal() {
 
   return (
     <div className="fixed top-0 left-0 z-2000 h-full w-full transform p-4">
-      <div className="fixed top-0 left-0 h-full w-full bg-gray-900/50" />
+      <div
+        onClick={handleCloseModal}
+        className="fixed top-0 left-0 h-full w-full bg-gray-900/50"
+      />
       <div className="absolute top-1/2 left-1/2 w-full max-w-md -translate-x-1/2 -translate-y-1/2 transform overflow-hidden rounded-xl bg-white shadow-xl transition-all duration-300">
         {/* Header */}
         <div className="flex items-start justify-between p-6 pb-0">
@@ -134,7 +146,10 @@ export default function PermissionsModal() {
 
         {/* Footer */}
         <div className="flex justify-between gap-3 border-t border-gray-100 p-6 pt-4">
-          <button className="px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:text-gray-900">
+          <button
+            onClick={handleCloseModal}
+            className="cursor-pointer px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:text-gray-900"
+          >
             Descartar cambios
           </button>
           <button className="rounded-lg bg-blue-600 px-4 py-3 text-sm font-medium text-white transition-colors hover:bg-blue-700">
