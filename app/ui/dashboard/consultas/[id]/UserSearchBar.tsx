@@ -1,5 +1,6 @@
 "use client";
-import { useState } from "react";
+import { useState, useMemo } from "react";
+import { TeamMember } from "./PermissionsModal";
 
 const userList = [
   {
@@ -36,8 +37,43 @@ const userList = [
   },
 ];
 
-export default function UserSearchBar() {
-  const [searchTerm, setSearchTerm] = useState("");
+type SearchBarProps = {
+  usersWithAccess: TeamMember[];
+  allUsers: TeamMember[];
+};
+
+export default function UserSearchBar(props: SearchBarProps) {
+  const [searchTerm, setSearchTerm] = useState<string>("");
+
+  // Filtrado optimizado con useMemo
+  const filteredUsers = useMemo(() => {
+    if (searchTerm.length < 2) return []; // Cambiar a 2 caracteres mínimo
+
+    return props.allUsers.filter((user) =>
+      user.name.toLowerCase().includes(searchTerm.toLowerCase()),
+    );
+    // return props.allUsers.filter(
+    //   (user) =>
+    //     user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    //     user.username.toLowerCase().includes(searchTerm.toLowerCase()),
+    // );
+  }, [searchTerm]);
+
+  const handleTermChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setSearchTerm(value);
+  };
+
+  const handleClear = () => {
+    setSearchTerm("");
+  };
+
+  const handleUserSelect = (user: TeamMember) => {
+    // Aquí puedes agregar la lógica para seleccionar un usuario
+    console.log("Usuario seleccionado:", user);
+    setSearchTerm("");
+  };
+
   return (
     <div className="px-6 pb-4">
       <label className="mb-2 block text-[13px] font-bold text-gray-800">
@@ -58,60 +94,61 @@ export default function UserSearchBar() {
             d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
           />
         </svg>
+
         <input
           type="text"
-          placeholder="Buscar..."
+          placeholder="Buscar usuarios..."
+          onChange={handleTermChange}
           value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="w-full rounded-lg border border-gray-200 py-2 pr-3 pl-10 text-sm transition-colors outline-none focus:border-blue-500"
+          className="w-full rounded-lg border border-gray-200 py-2 pr-10 pl-10 text-sm text-slate-700 transition-colors outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
         />
-        {searchTerm.length > 2 && (
-          // <div className="absolute top-1/2 right-3 size-4.5 -translate-y-1/2 transform animate-spin text-gray-500/50">
-          //   <svg
-          //     xmlns="http://www.w3.org/2000/svg"
-          //     viewBox="0 0 24 24"
-          //     fill="none"
-          //     stroke="currentColor"
-          //     strokeWidth={2}
-          //     strokeLinecap="round"
-          //     strokeLinejoin="round"
-          //     className=""
-          //   >
-          //     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-          //     <path d="M12 6l0 -3" />
-          //     <path d="M16.25 7.75l2.15 -2.15" />
-          //     <path d="M18 12l3 0" />
-          //     <path d="M16.25 16.25l2.15 2.15" />
-          //     <path d="M12 18l0 3" />
-          //     <path d="M7.75 16.25l-2.15 2.15" />
-          //     <path d="M6 12l-3 0" />
-          //     <path d="M7.75 7.75l-2.15 -2.15" />
-          //   </svg>
-          // </div>
-          <ul className="absolute top-full left-0 z-20 mt-1 !ml-0 h-fit w-full rounded-lg border border-gray-200 bg-white shadow-lg">
-            {userList
-              .filter((user) =>
-                user.name.toLowerCase().includes(searchTerm.toLowerCase()),
-              )
-              .map((user) => (
-                <li
-                  key={user.id}
-                  className="flex cursor-pointer items-center justify-between px-4 py-2 text-sm text-gray-800 hover:bg-gray-100/80"
-                >
-                  <div className="flex items-center gap-2">
-                    <div className="flex size-8 items-center justify-center rounded-full bg-gray-200 text-center text-xs font-bold text-gray-600">
-                      {user.avatar}
-                    </div>
-                    <div>
-                      <p className="font-bold">{user.name}</p>
-                      <p className="-mt-0.5 text-xs text-gray-500">
-                        {user.username}
-                      </p>
-                    </div>
+
+        {searchTerm && (
+          <button
+            onClick={handleClear}
+            className="absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer rounded-full p-0.5 text-gray-400 transition-colors hover:bg-gray-200 hover:text-gray-600"
+          >
+            <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+              <path
+                fillRule="evenodd"
+                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                clipRule="evenodd"
+              />
+            </svg>
+          </button>
+        )}
+
+        {/* Lista de resultados mejorada */}
+        {filteredUsers.length > 0 && (
+          <ul className="absolute top-full left-0 z-20 mt-1 !ml-0 max-h-60 w-full overflow-y-auto rounded-lg border border-gray-200 bg-white shadow-lg">
+            {filteredUsers.map((user) => (
+              <li
+                key={user.user_hash}
+                onClick={() => handleUserSelect(user)}
+                className="flex cursor-pointer items-center justify-between px-4 py-3 text-sm text-gray-800 transition-colors first:rounded-t-lg last:rounded-b-lg hover:bg-indigo-50"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="flex size-8 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-blue-600 text-center text-xs font-bold text-white">
+                    {user.avatar}
                   </div>
-                </li>
-              ))}
+                  <div>
+                    <p className="font-semibold text-gray-900">{user.name}</p>
+                    <p className="text-xs text-gray-500">{user.username}</p>
+                  </div>
+                </div>
+                <span className="text-xs text-gray-400">
+                  {user.survey_access}
+                </span>
+              </li>
+            ))}
           </ul>
+        )}
+
+        {/* Mensaje cuando no hay resultados */}
+        {searchTerm.length >= 2 && filteredUsers.length === 0 && (
+          <div className="absolute top-full left-0 z-20 mt-1 w-full rounded-lg border border-gray-200 bg-white p-4 text-center text-sm text-gray-500 shadow-lg">
+            No se encontraron usuarios para "{searchTerm}"
+          </div>
         )}
       </div>
     </div>

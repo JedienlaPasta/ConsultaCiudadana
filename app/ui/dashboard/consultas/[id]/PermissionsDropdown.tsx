@@ -43,24 +43,29 @@ export default function PermissionsDropdown({
     };
   }, []);
 
+  const surveyAccess = member?.survey_access || "Lector";
+
   return (
     <div
       ref={dropdownRef}
       onClick={() => setIsOpen((prev) => !prev)}
       className={`relative flex cursor-pointer items-center gap-1 rounded-md border border-slate-200 px-2 py-1 text-xs font-medium focus:ring-0 ${getRoleColor(
-        member.access,
+        surveyAccess,
       )}`}
     >
       <input
         type="button"
         name="permission"
-        value={member.access}
+        value={
+          surveyAccess?.charAt(0).toUpperCase() + surveyAccess?.slice(1) ||
+          "Lector"
+        }
         autoComplete="off"
         readOnly
         required
         className="cursor-pointer"
       />
-      {member.access !== "Propietario" && (
+      {surveyAccess !== "propietario" && (
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="24"
@@ -74,11 +79,13 @@ export default function PermissionsDropdown({
         </svg>
       )}
 
-      {isOpen && member.access !== "Propietario" && (
+      {isOpen && surveyAccess !== "propietario" && (
         <ul className="absolute top-6.5 right-0 z-10 list-none overflow-hidden rounded-lg border border-slate-200 bg-white p-0.5 text-sm text-nowrap shadow-sm transition-all">
           <li>
             <button
-              onClick={() => handleSelection({ ...member, access: "Editor" })}
+              onClick={() =>
+                handleSelection({ ...member, survey_access: "Editor" })
+              }
               className={`w-full ${dropdownOptionStyle}`}
             >
               <span className="border-none text-left">Editor</span>
@@ -86,7 +93,9 @@ export default function PermissionsDropdown({
           </li>
           <li>
             <button
-              onClick={() => handleSelection({ ...member, access: "Lector" })}
+              onClick={() =>
+                handleSelection({ ...member, survey_access: "Lector" })
+              }
               className={`w-full ${dropdownOptionStyle}`}
             >
               <span className="border-none text-left">Lector</span>

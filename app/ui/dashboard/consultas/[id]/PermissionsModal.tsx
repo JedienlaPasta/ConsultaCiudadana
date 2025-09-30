@@ -6,50 +6,62 @@ import UserSearchBar from "./UserSearchBar";
 import { useRouter, useSearchParams } from "next/navigation";
 
 export type TeamMember = {
-  id: number;
+  user_hash: string;
   name: string;
-  username: string;
-  avatar: string;
-  access: string;
-  isYou: boolean;
+  user_role: string;
+  survey_access?: string;
+
+  username?: string;
+  avatar?: string;
+  isYou?: boolean;
 };
 
-export default function PermissionsModal() {
+type PermissionsModalProps = {
+  teamMembersList: TeamMember[];
+  allUsers: TeamMember[];
+};
+
+export default function PermissionsModal({
+  teamMembersList,
+  allUsers,
+}: PermissionsModalProps) {
   // Datos de ejemplo para los miembros del equipo
-  const [teamMembers, setTeamMembers] = useState<TeamMember[]>([
-    {
-      id: 1,
-      name: "Olivia Rhye",
-      username: "@olivia",
-      avatar: "OR",
-      access: "Propietario",
-      isYou: true,
-    },
-    {
-      id: 2,
-      name: "Candice Wu",
-      username: "@candice",
-      avatar: "CW",
-      access: "Editor",
-      isYou: false,
-    },
-    {
-      id: 3,
-      name: "Orlando Diggs",
-      username: "@orlando",
-      avatar: "OD",
-      access: "Lector",
-      isYou: false,
-    },
-    {
-      id: 4,
-      name: "Andi Lane",
-      username: "@andi",
-      avatar: "AL",
-      access: "Lector",
-      isYou: false,
-    },
-  ]);
+  const [teamMembers, setTeamMembers] = useState<TeamMember[]>(teamMembersList);
+  console.log(teamMembers);
+  // const [teamMembers, setTeamMembers] = useState<TeamMember[]>([
+  //   {
+  //     id: 1,
+  //     name: "Olivia Rhye",
+  //     username: "@olivia",
+  //     avatar: "OR",
+  //     access: "Propietario",
+  //     isYou: true,
+  //   },
+  //   {
+  //     id: 2,
+  //     name: "Candice Wu",
+  //     username: "@candice",
+  //     avatar: "CW",
+  //     access: "Editor",
+  //     isYou: false,
+  //   },
+  //   {
+  //     id: 3,
+  //     name: "Orlando Diggs",
+  //     username: "@orlando",
+  //     avatar: "OD",
+  //     access: "Lector",
+  //     isYou: false,
+  //   },
+  //   {
+  //     id: 4,
+  //     name: "Andi Lane",
+  //     username: "@andi",
+  //     avatar: "AL",
+  //     access: "Lector",
+  //     isYou: false,
+  //   },
+  // ]);
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -62,8 +74,8 @@ export default function PermissionsModal() {
   const handlePermissionsManagement = (member: TeamMember) => {
     setTeamMembers((prevMembers) =>
       prevMembers.map((prevMember) =>
-        prevMember.id === member.id
-          ? { ...prevMember, access: member.access }
+        prevMember.user_hash === member.user_hash
+          ? { ...prevMember, survey_access: member.survey_access }
           : { ...prevMember },
       ),
     );
@@ -101,7 +113,7 @@ export default function PermissionsModal() {
         </div>
 
         {/* Invite Team Members */}
-        <UserSearchBar />
+        <UserSearchBar usersWithAccess={teamMembers} allUsers={allUsers} />
 
         {/* Team Members List */}
         <div className="pb-4">
@@ -111,7 +123,7 @@ export default function PermissionsModal() {
           <div className="space-y-3s">
             {teamMembers.map((member) => (
               <div
-                key={member.id}
+                key={member.user_hash}
                 className="flex items-center justify-between px-6 py-1.5 hover:bg-gray-100/80"
               >
                 <div className="flex items-center gap-3">

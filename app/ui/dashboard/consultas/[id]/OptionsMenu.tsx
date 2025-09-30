@@ -67,15 +67,14 @@ export default function SurveyOptionsMenu() {
           >
             <span className="border-none text-left">Compartir Consulta</span>
           </li>
-          {/* <li>
+          <li>
             <button
-              onClick={() => console.log("pending")}
-              disabled
+              onClick={() => console.log("exportar votos")}
               className={`w-full cursor-not-allowed ${dropdownOptionStyle}`}
             >
-              <span className="border-none text-left">Solicitar Inicio</span>
+              <span className="border-none text-left">Exportar Votos</span>
             </button>
-          </li> */}
+          </li>
           <li>
             <button
               onClick={() => console.log("pending")}

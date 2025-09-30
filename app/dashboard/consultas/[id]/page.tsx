@@ -1,6 +1,10 @@
 import { getSession } from "@/app/lib/actions/auth";
 import { getSurveyAnalytics } from "@/app/lib/data/analytics";
 import { getSurveyGeneralDetails } from "@/app/lib/data/encuesta";
+import {
+  getUsersWithPermission,
+  getValidUsersToShareTo,
+} from "@/app/lib/data/usuarios";
 import { formatDateToSpanish } from "@/app/lib/utils/format";
 import BarsChart from "@/app/ui/dashboard/consultas/[id]/BarsChart";
 import SurveyOptionsMenu from "@/app/ui/dashboard/consultas/[id]/OptionsMenu";
@@ -28,6 +32,12 @@ export default async function SurveyDetailsOverview({
   const permissions = (await searchParams)?.permissions;
   const analytics = await getSurveyAnalytics(publicId);
   const generalData = await getSurveyGeneralDetails(publicId);
+
+  const teamMembers = await getUsersWithPermission(publicId);
+  const allValidUsers = await getValidUsersToShareTo();
+
+  console.log("Team Members:", teamMembers);
+  console.log("All Valid Users:", allValidUsers);
 
   const splitName = generalData?.created_by_name?.split(" ") || [];
   const createdBy =
@@ -75,7 +85,12 @@ export default async function SurveyDetailsOverview({
       <Navbar isLoggedIn={session !== null} />
       <Header />
 
-      {permissions === "true" && <PermissionsModal />}
+      {permissions === "true" && (
+        <PermissionsModal
+          teamMembersList={teamMembers.users}
+          allUsers={allValidUsers.users}
+        />
+      )}
 
       <div className="container mx-auto max-w-[85rem] flex-1 px-4 py-8 lg:px-8">
         {/* Header Section */}
