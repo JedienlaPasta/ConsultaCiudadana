@@ -132,7 +132,7 @@ export async function getUsersWithPermission(public_id: string) {
         users: [],
       };
     }
-    console.log(usersWithPermissionResult.recordset);
+    // console.log(usersWithPermissionResult.recordset);
     return {
       success: true,
       message: "Usuarios con permisos para compartir encontrados.",

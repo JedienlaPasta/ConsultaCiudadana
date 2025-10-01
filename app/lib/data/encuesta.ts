@@ -155,8 +155,6 @@ export async function getSurveyGeneralDetails(
     created_by_name: "",
     participation: 0,
   };
-  console.log("============================================================");
-  console.log(public_id);
 
   try {
     const pool = await connectToDB();

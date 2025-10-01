@@ -36,8 +36,8 @@ export default async function SurveyDetailsOverview({
   const teamMembers = await getUsersWithPermission(publicId);
   const allValidUsers = await getValidUsersToShareTo();
 
-  console.log("Team Members:", teamMembers);
-  console.log("All Valid Users:", allValidUsers);
+  // console.log("Team Members:", teamMembers);
+  // console.log("All Valid Users:", allValidUsers);
 
   const splitName = generalData?.created_by_name?.split(" ") || [];
   const createdBy =
@@ -87,6 +87,7 @@ export default async function SurveyDetailsOverview({
 
       {permissions === "true" && (
         <PermissionsModal
+          publicId={publicId}
           teamMembersList={teamMembers.users}
           allUsers={allValidUsers.users}
         />
