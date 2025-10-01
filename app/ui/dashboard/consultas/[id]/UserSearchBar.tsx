@@ -2,40 +2,40 @@
 import { TeamMember } from "@/app/lib/definitions/usuarios";
 import { useState, useMemo } from "react";
 
-const userList = [
-  {
-    id: 1,
-    name: "Olivia Rhye",
-    username: "@olivia",
-    avatar: "OR",
-    access: "Propietario",
-    isYou: true,
-  },
-  {
-    id: 2,
-    name: "Candice Wu",
-    username: "@candice",
-    avatar: "CW",
-    access: "Editor",
-    isYou: false,
-  },
-  {
-    id: 3,
-    name: "Orlando Diggs",
-    username: "@orlando",
-    avatar: "OD",
-    access: "Lector",
-    isYou: false,
-  },
-  {
-    id: 4,
-    name: "Andi Lane",
-    username: "@andi",
-    avatar: "AL",
-    access: "Lector",
-    isYou: false,
-  },
-];
+// const userList = [
+//   {
+//     id: 1,
+//     name: "Olivia Rhye",
+//     username: "@olivia",
+//     avatar: "OR",
+//     access: "Propietario",
+//     isYou: true,
+//   },
+//   {
+//     id: 2,
+//     name: "Candice Wu",
+//     username: "@candice",
+//     avatar: "CW",
+//     access: "Editor",
+//     isYou: false,
+//   },
+//   {
+//     id: 3,
+//     name: "Orlando Diggs",
+//     username: "@orlando",
+//     avatar: "OD",
+//     access: "Lector",
+//     isYou: false,
+//   },
+//   {
+//     id: 4,
+//     name: "Andi Lane",
+//     username: "@andi",
+//     avatar: "AL",
+//     access: "Lector",
+//     isYou: false,
+//   },
+// ];
 
 type SearchBarProps = {
   allUsers: TeamMember[];
@@ -153,7 +153,7 @@ export default function UserSearchBar({
         {/* Mensaje cuando no hay resultados */}
         {searchTerm.length >= 2 && filteredUsers.length === 0 && (
           <div className="absolute top-full left-0 z-20 mt-1 w-full rounded-lg border border-gray-200 bg-white p-4 text-center text-sm text-gray-500 shadow-lg">
-            No se encontraron usuarios para "{searchTerm}"
+            No se encontraron usuarios para '{searchTerm}''
           </div>
         )}
       </div>
