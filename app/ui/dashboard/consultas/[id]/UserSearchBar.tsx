@@ -153,7 +153,7 @@ export default function UserSearchBar({
         {/* Mensaje cuando no hay resultados */}
         {searchTerm.length >= 2 && filteredUsers.length === 0 && (
           <div className="absolute top-full left-0 z-20 mt-1 w-full rounded-lg border border-gray-200 bg-white p-4 text-center text-sm text-gray-500 shadow-lg">
-            No se encontraron usuarios para '{searchTerm}''
+            No se encontraron usuarios para: {searchTerm}
           </div>
         )}
       </div>
