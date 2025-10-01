@@ -1,7 +1,7 @@
 "use client";
 
+import { TeamMember } from "@/app/lib/definitions/usuarios";
 import { useEffect, useRef, useState } from "react";
-import { TeamMember } from "./PermissionsModal";
 
 type PermissionsDropdownProps = {
   member: TeamMember;

@@ -4,17 +4,9 @@ import { useState } from "react";
 import PermissionsDropdown from "./PermissionsDropdown";
 import UserSearchBar from "./UserSearchBar";
 import { useRouter, useSearchParams } from "next/navigation";
-
-export type TeamMember = {
-  user_hash: string;
-  name: string;
-  user_role: string;
-  survey_access?: string;
-
-  username?: string;
-  avatar?: string;
-  isYou?: boolean;
-};
+import { toast } from "sonner";
+import { TeamMember } from "@/app/lib/definitions/usuarios";
+import { updateSurveyUsersPermissions } from "@/app/lib/actions/usuarios";
 
 type PermissionsModalProps = {
   teamMembersList: TeamMember[];
@@ -27,41 +19,10 @@ export default function PermissionsModal({
 }: PermissionsModalProps) {
   // Datos de ejemplo para los miembros del equipo
   const [teamMembers, setTeamMembers] = useState<TeamMember[]>(teamMembersList);
-  console.log(teamMembers);
-  // const [teamMembers, setTeamMembers] = useState<TeamMember[]>([
-  //   {
-  //     id: 1,
-  //     name: "Olivia Rhye",
-  //     username: "@olivia",
-  //     avatar: "OR",
-  //     access: "Propietario",
-  //     isYou: true,
-  //   },
-  //   {
-  //     id: 2,
-  //     name: "Candice Wu",
-  //     username: "@candice",
-  //     avatar: "CW",
-  //     access: "Editor",
-  //     isYou: false,
-  //   },
-  //   {
-  //     id: 3,
-  //     name: "Orlando Diggs",
-  //     username: "@orlando",
-  //     avatar: "OD",
-  //     access: "Lector",
-  //     isYou: false,
-  //   },
-  //   {
-  //     id: 4,
-  //     name: "Andi Lane",
-  //     username: "@andi",
-  //     avatar: "AL",
-  //     access: "Lector",
-  //     isYou: false,
-  //   },
-  // ]);
+  const [newTeamMembers, setNewTeamMembers] = useState<TeamMember[]>([]);
+  const [membersToRemove, setMembersToRemove] = useState<TeamMember[]>([]);
+  console.log(newTeamMembers);
+
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -69,6 +30,16 @@ export default function PermissionsModal({
     const params = new URLSearchParams(searchParams.toString());
     params.delete("permissions");
     router.replace(`?${params.toString()}`, { scroll: false });
+  };
+
+  const onUserSelect = (user: TeamMember) => {
+    // console.log("Usuario seleccionado:", user);
+    if (teamMembers.some((member) => member.user_hash === user.user_hash)) {
+      return;
+    }
+    user.survey_access = "Lector";
+    setNewTeamMembers((prevMembers) => [...prevMembers, user]);
+    setTeamMembers((prevMembers) => [...prevMembers, user]);
   };
 
   const handlePermissionsManagement = (member: TeamMember) => {
@@ -79,6 +50,27 @@ export default function PermissionsModal({
           : { ...prevMember },
       ),
     );
+  };
+
+  const formAction = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const toastId = toast.loading("Guardando cambios...");
+    try {
+      const response = await updateSurveyUsersPermissions(teamMembers);
+      if (!response.success) {
+        throw new Error(response.message);
+      }
+      toast.success("Cambios guardados exitosamente", { id: toastId });
+      handleCloseModal();
+    } catch (error) {
+      console.log(error instanceof Error ? error.message : "Error desconocido");
+      const message =
+        error instanceof Error
+          ? error.message
+          : "No se pudo guardar los cambios, intente nuevamente";
+      toast.error(message, { id: toastId });
+    }
   };
 
   return (
@@ -113,7 +105,7 @@ export default function PermissionsModal({
         </div>
 
         {/* Invite Team Members */}
-        <UserSearchBar usersWithAccess={teamMembers} allUsers={allUsers} />
+        <UserSearchBar allUsers={allUsers} onUserSelect={onUserSelect} />
 
         {/* Team Members List */}
         <div className="pb-4">
@@ -121,38 +113,42 @@ export default function PermissionsModal({
             Miembros de la consulta
           </div>
           <div className="space-y-3s">
-            {teamMembers.map((member) => (
-              <div
-                key={member.user_hash}
-                className="flex items-center justify-between px-6 py-1.5 hover:bg-gray-100/80"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="flex size-9 items-center justify-center rounded-full bg-gradient-to-br from-blue-400 to-blue-600 text-xs font-medium text-white">
-                    {member.avatar}
-                  </div>
-                  <div>
-                    <div className="flex items-center gap-2">
-                      <span className="text-sm font-medium text-gray-900">
-                        {member.name}
-                      </span>
-                      {member.isYou && (
-                        <span className="rounded bg-blue-100/80 px-2.5 py-0.5 text-xs text-blue-600">
-                          Tú
+            {teamMembers.map((member) => {
+              const splitName = member.name.split(" ");
+              const avatar = splitName[0][0] + splitName[1][0];
+              return (
+                <div
+                  key={member.user_hash}
+                  className="flex items-center justify-between px-6 py-1.5 hover:bg-gray-100/80"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="flex size-9 items-center justify-center rounded-full bg-gradient-to-br from-blue-400 to-blue-600 text-xs font-medium text-white">
+                      {avatar}
+                    </div>
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-sm font-medium text-gray-900">
+                          {member.name}
                         </span>
-                      )}
-                    </div>
-                    <div className="text-xs text-gray-600">
-                      {member.username}
+                        {member.isYou && (
+                          <span className="rounded bg-blue-100/80 px-2.5 py-0.5 text-xs text-blue-600">
+                            Tú
+                          </span>
+                        )}
+                      </div>
+                      <div className="text-xs text-gray-600">
+                        {member.username}
+                      </div>
                     </div>
                   </div>
+                  {/* Permission Dropdown */}
+                  <PermissionsDropdown
+                    member={member}
+                    handleSelection={handlePermissionsManagement}
+                  />
                 </div>
-                {/* Permission Dropdown */}
-                <PermissionsDropdown
-                  member={member}
-                  handleSelection={handlePermissionsManagement}
-                />
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
 
@@ -164,7 +160,7 @@ export default function PermissionsModal({
           >
             Descartar cambios
           </button>
-          <button className="rounded-lg bg-blue-600 px-4 py-3 text-sm font-medium text-white transition-colors hover:bg-blue-700">
+          <button className="cursor-pointer rounded-lg bg-blue-600 px-4 py-3 text-sm font-medium text-white transition-colors hover:bg-blue-700">
             Guardar cambios
           </button>
         </div>

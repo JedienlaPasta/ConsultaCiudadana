@@ -1,6 +1,6 @@
 "use client";
+import { TeamMember } from "@/app/lib/definitions/usuarios";
 import { useState, useMemo } from "react";
-import { TeamMember } from "./PermissionsModal";
 
 const userList = [
   {
@@ -38,18 +38,21 @@ const userList = [
 ];
 
 type SearchBarProps = {
-  usersWithAccess: TeamMember[];
   allUsers: TeamMember[];
+  onUserSelect: (user: TeamMember) => void;
 };
 
-export default function UserSearchBar(props: SearchBarProps) {
+export default function UserSearchBar({
+  allUsers,
+  onUserSelect,
+}: SearchBarProps) {
   const [searchTerm, setSearchTerm] = useState<string>("");
 
   // Filtrado optimizado con useMemo
   const filteredUsers = useMemo(() => {
     if (searchTerm.length < 2) return []; // Cambiar a 2 caracteres mínimo
 
-    return props.allUsers.filter((user) =>
+    return allUsers.filter((user) =>
       user.name.toLowerCase().includes(searchTerm.toLowerCase()),
     );
     // return props.allUsers.filter(
@@ -69,8 +72,7 @@ export default function UserSearchBar(props: SearchBarProps) {
   };
 
   const handleUserSelect = (user: TeamMember) => {
-    // Aquí puedes agregar la lógica para seleccionar un usuario
-    console.log("Usuario seleccionado:", user);
+    onUserSelect(user);
     setSearchTerm("");
   };
 
@@ -121,26 +123,30 @@ export default function UserSearchBar(props: SearchBarProps) {
         {/* Lista de resultados mejorada */}
         {filteredUsers.length > 0 && (
           <ul className="absolute top-full left-0 z-20 mt-1 !ml-0 max-h-60 w-full overflow-y-auto rounded-lg border border-gray-200 bg-white shadow-lg">
-            {filteredUsers.map((user) => (
-              <li
-                key={user.user_hash}
-                onClick={() => handleUserSelect(user)}
-                className="flex cursor-pointer items-center justify-between px-4 py-3 text-sm text-gray-800 transition-colors first:rounded-t-lg last:rounded-b-lg hover:bg-indigo-50"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="flex size-8 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-blue-600 text-center text-xs font-bold text-white">
-                    {user.avatar}
+            {filteredUsers.map((user) => {
+              const splitName = user.name.split(" ");
+              const avatar = splitName[0][0] + splitName[1][0];
+              return (
+                <li
+                  key={user.user_hash}
+                  onClick={() => handleUserSelect(user)}
+                  className="flex cursor-pointer items-center justify-between px-4 py-2.5 text-sm text-gray-800 transition-colors first:rounded-t-lg last:rounded-b-lg hover:bg-indigo-50"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="flex size-9 items-center justify-center rounded-full bg-gradient-to-br from-blue-400 to-blue-600 text-xs font-medium text-white">
+                      {avatar}
+                    </div>
+                    <div>
+                      <p className="font-semibold text-gray-900">{user.name}</p>
+                      <p className="text-xs text-gray-500">{user.username}</p>
+                    </div>
                   </div>
-                  <div>
-                    <p className="font-semibold text-gray-900">{user.name}</p>
-                    <p className="text-xs text-gray-500">{user.username}</p>
-                  </div>
-                </div>
-                <span className="text-xs text-gray-400">
-                  {user.survey_access}
-                </span>
-              </li>
-            ))}
+                  <span className="text-xs text-gray-400">
+                    {user.survey_access}
+                  </span>
+                </li>
+              );
+            })}
           </ul>
         )}
 
