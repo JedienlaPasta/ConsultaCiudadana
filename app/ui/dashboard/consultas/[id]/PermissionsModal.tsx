@@ -24,8 +24,8 @@ export default function PermissionsModal({
   const [newTeamMembers, setNewTeamMembers] = useState<TeamMember[]>([]);
   const [membersToUpdate, setMembersToUpdate] = useState<TeamMember[]>([]);
   const [membersToRemove, setMembersToRemove] = useState<TeamMember[]>([]);
-  console.log("New Members:", newTeamMembers);
-  console.log("To Update:", membersToUpdate);
+  // console.log("New Members:", newTeamMembers);
+  // console.log("To Update:", membersToUpdate);
 
   const router = useRouter();
   const searchParams = useSearchParams();

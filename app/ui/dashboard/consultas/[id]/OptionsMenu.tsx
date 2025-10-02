@@ -32,7 +32,7 @@ export default function SurveyOptionsMenu() {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  });
+  }, []);
 
   const toggleModal = () => {
     setModalOpen((prev) => !prev);

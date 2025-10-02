@@ -30,6 +30,7 @@ export default function AnalyticsDonuts({
     total: 0,
   };
   const [hover, setHover] = useState(initialHover);
+  console.log(hover);
   const hoverRef = useRef(initialHover);
 
   const colors = [
@@ -276,7 +277,7 @@ export default function AnalyticsDonuts({
               <div
                 ref={tooltipRef}
                 className={`pointer-events-none absolute z-50 w-fit transform rounded-lg border border-gray-200 bg-white px-3 py-2 shadow-lg transition-all duration-150 ease-out ${
-                  hover.show ? "scale-100 opacity-95" : "scale-95 opacity-0"
+                  hover.show ? "scale-100" : "scale-95 opacity-0"
                 }`}
                 style={{ left: hover.x, top: hover.y }}
                 aria-hidden={!hover.show}

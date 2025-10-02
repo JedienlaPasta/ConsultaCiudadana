@@ -1,7 +1,7 @@
 "use client";
 
 import { TeamMember } from "@/app/lib/definitions/usuarios";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 type PermissionsDropdownProps = {
   member: TeamMember;
@@ -13,8 +13,24 @@ export default function PermissionsDropdown({
   handleSelection,
 }: PermissionsDropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
-
   const dropdownRef = useRef<HTMLDivElement | null>(null);
+
+  const closeDropdown = useCallback((e: MouseEvent): void => {
+    if (
+      dropdownRef.current &&
+      !(dropdownRef.current as HTMLElement).contains(e.target as Node)
+    ) {
+      setIsOpen(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    setIsOpen(false);
+    document.addEventListener("click", closeDropdown);
+    return () => {
+      document.removeEventListener("click", closeDropdown);
+    };
+  }, [closeDropdown]);
 
   const dropdownOptionStyle =
     "cursor-pointer pl-4 pr-6 py-2.5 text-[13px] font-medium divide-y flex items-center gap-2 rounded-md group transition-all text-slate-600 duration-300 hover:bg-slate-200/65 hover:text-slate-700";
@@ -25,23 +41,6 @@ export default function PermissionsDropdown({
         return "text-gray-700 bg-slate-100";
     }
   };
-
-  const closeDropdown = (e: MouseEvent): void => {
-    if (
-      dropdownRef.current &&
-      !(dropdownRef.current as HTMLElement).contains(e.target as Node)
-    ) {
-      setIsOpen(false);
-    }
-  };
-
-  useEffect(() => {
-    setIsOpen(false);
-    document.addEventListener("click", closeDropdown);
-    return () => {
-      document.removeEventListener("click", closeDropdown);
-    };
-  }, []);
 
   const surveyAccess = member?.survey_access || "Lector";
 
