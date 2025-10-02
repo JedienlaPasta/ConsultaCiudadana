@@ -215,7 +215,7 @@ export async function getSurveyDetails(public_id: string): Promise<SurveyData> {
     survey_links: [],
     objectives: [],
     chronogram: [],
-    survey_options_definitions: [],
+    survey_concepts_name: [],
     frequently_asked_questions: [],
   };
 
@@ -312,7 +312,7 @@ export async function getSurveyDetails(public_id: string): Promise<SurveyData> {
         description: row.description,
         date: row.date,
       })),
-      survey_options_definitions: termsResult.recordset.map((row) => ({
+      survey_concepts_name: termsResult.recordset.map((row) => ({
         name: row.name,
         description: row.description,
       })),

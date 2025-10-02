@@ -322,8 +322,8 @@ export default function NewSurveyContentLayout({
     myFormData.append("objectives", JSON.stringify(formData.objectives));
     myFormData.append("chronogram", JSON.stringify(formData.chronogram));
     myFormData.append(
-      "survey_options_definitions",
-      JSON.stringify(formData.survey_options_definitions),
+      "survey_concepts_name",
+      JSON.stringify(formData.survey_concepts_name),
     );
     myFormData.append(
       "frequently_asked_questions",

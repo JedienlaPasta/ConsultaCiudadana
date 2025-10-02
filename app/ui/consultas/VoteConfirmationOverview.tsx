@@ -53,8 +53,12 @@ export default function VoteConfirmationOverview({
   );
 
   // Check if all required selections are made
-  const hasValidSelections =
-    mapQuestion?.answer?.sector_id && questionsWithAnswers.length > 0;
+  const hasValidSelections = () => {
+    if (!mapQuestion) {
+      return questionsWithAnswers.length > 0;
+    }
+    return mapQuestion?.answer?.sector_id && questionsWithAnswers.length > 0;
+  };
 
   return (
     <div className="space-y-8">
@@ -341,7 +345,7 @@ export default function VoteConfirmationOverview({
       })}
 
       {/* Validation Message mejorado */}
-      {!hasValidSelections && (
+      {!hasValidSelections() && (
         <div className="relative overflow-hidden rounded-2xl border border-amber-200 bg-gradient-to-br from-amber-50 to-white p-6 shadow-lg">
           <div className="absolute inset-0 bg-gradient-to-br from-amber-500/5 to-transparent"></div>
           <div className="relative z-10">

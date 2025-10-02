@@ -40,7 +40,7 @@ export default function SurveyConceptsFAQ({
             Conceptos Técnicos
           </h2>
           <span className="absolute top-7 right-8 rounded-full bg-gray-100 px-3 py-1 text-sm font-medium text-gray-700">
-            {formData.survey_options_definitions.length} conceptos
+            {formData.survey_concepts_name.length} conceptos
           </span>
         </div>
 
@@ -109,7 +109,7 @@ export default function SurveyConceptsFAQ({
 
         <div className="p-6">
           <div className="space-y-4">
-            {formData.survey_options_definitions.map((definition, index) => (
+            {formData.survey_concepts_name.map((definition, index) => (
               <div
                 key={index}
                 className="relative overflow-hidden rounded-lg border border-gray-200 bg-gray-50 transition-all duration-200 hover:shadow-md"
@@ -126,11 +126,11 @@ export default function SurveyConceptsFAQ({
                       )}
                     </h4>
                   </div>
-                  {formData.survey_options_definitions.length > 5 && (
+                  {formData.survey_concepts_name.length > 5 && (
                     <button
                       className="group ml-4 cursor-pointer rounded-lg bg-[#02427e] p-2 text-gray-100 transition-all duration-200 hover:bg-[#003261]"
                       onClick={() =>
-                        removeArrayItem("survey_options_definitions", index)
+                        removeArrayItem("survey_concepts_name", index)
                       }
                       title="Eliminar definición"
                     >
@@ -169,7 +169,7 @@ export default function SurveyConceptsFAQ({
                       placeholder={`Ej: Opción para mejorar infraestructura...`}
                       value={definition.name}
                       onChange={(e) =>
-                        updateArrayItem("survey_options_definitions", index, {
+                        updateArrayItem("survey_concepts_name", index, {
                           ...definition,
                           name: e.target.value,
                         })
@@ -185,7 +185,7 @@ export default function SurveyConceptsFAQ({
                       rows={6}
                       value={definition.description}
                       onChange={(e) =>
-                        updateArrayItem("survey_options_definitions", index, {
+                        updateArrayItem("survey_concepts_name", index, {
                           ...definition,
                           description: e.target.value,
                         })
@@ -201,7 +201,7 @@ export default function SurveyConceptsFAQ({
             <button
               className="group flex h-10 w-full cursor-pointer items-center justify-center rounded-lg bg-blue-500 transition-all duration-200 hover:border-gray-400 hover:bg-blue-600"
               onClick={() =>
-                addArrayItem("survey_options_definitions", {
+                addArrayItem("survey_concepts_name", {
                   name: "",
                   description: "",
                 })

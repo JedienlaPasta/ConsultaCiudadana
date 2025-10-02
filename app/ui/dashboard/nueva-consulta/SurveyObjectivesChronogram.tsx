@@ -43,7 +43,7 @@ export default function SurveyContent({
             Especifica los objetivos principales que buscas alcanzar.
           </p>
           <p className="text-sm text-slate-600">
-            Se requieren 2 objetivos como mínimo.
+            Se requieren 3 objetivos como mínimo.
           </p>
         </div>
 
@@ -130,7 +130,7 @@ export default function SurveyContent({
             Define las etapas que tendrá el proyecto.
           </p>
           <p className="text-sm text-slate-600">
-            Se requieren 2 fases como mínimo.
+            Se requieren 3 fases como mínimo.
           </p>
         </div>
 

@@ -329,18 +329,20 @@ export default function OptionSelectionList({
         onClose={handleModalClose}
       />
 
-      {loading && (
-        <div className="shadow-mds flex aspect-[4/3] items-center justify-center rounded-lg bg-gray-100 p-4 md:aspect-[16/8]">
-          <div className="flex h-full w-full flex-col items-center justify-center rounded-lg bg-gray-200">
-            <div className="flex flex-col items-center gap-1 rounded-lg bg-white px-4 py-5 md:gap-2 md:px-10 md:py-8">
-              <RexLoader />
-              <p className="animate-pulse text-sm text-slate-500">
-                Cargando mapa y sectores...
-              </p>
+      {loading &&
+        question.isMapQuestion &&
+        question.question === "Seleccione tres Componentes" && (
+          <div className="shadow-mds flex aspect-[4/3] items-center justify-center rounded-lg bg-gray-100 p-4 md:aspect-[16/8]">
+            <div className="flex h-full w-full flex-col items-center justify-center rounded-lg bg-gray-200">
+              <div className="flex flex-col items-center gap-1 rounded-lg bg-white px-4 py-5 md:gap-2 md:px-10 md:py-8">
+                <RexLoader />
+                <p className="animate-pulse text-sm text-slate-500">
+                  Cargando mapa y sectores...
+                </p>
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
 
       <div className="order-3 md:order-1">
         {error && (
@@ -367,7 +369,8 @@ export default function OptionSelectionList({
             </div>
           </div>
         )}
-        {!loading &&
+        {question.question === "Seleccione tres Componentes" &&
+          !loading &&
           !error &&
           sectores &&
           comuna &&

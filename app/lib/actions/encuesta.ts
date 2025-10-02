@@ -171,47 +171,68 @@ export async function registerVote(
 }
 
 const SurveySchema = z.object({
-  survey_name: z.string().min(10, { message: "El nombre es requerido" }),
-  survey_short_description: z
-    .string()
-    .min(50, { message: "La descripción es requerida" }),
-  survey_large_description: z
-    .string()
-    .min(50, { message: "La descripción es requerida" }),
+  survey_name: z.string().min(10, {
+    message: "El nombre de la encuesta debe tener al menos 10 caracteres",
+  }),
+  department: z.string().min(3, {
+    message: "El departamento es requerido y debe tener al menos 3 caracteres",
+  }),
+  survey_short_description: z.string().min(50, {
+    message:
+      "La descripción corta de la encuesta debe tener al menos 50 caracteres",
+  }),
+  survey_large_description: z.string().min(50, {
+    message:
+      "La descripción detallada de la encuesta debe tener al menos 50 caracteres",
+  }),
   start_date: z.string().refine((date) => !isNaN(Date.parse(date)), {
-    message: "Fecha de inicio inválida",
+    message: "Fecha de inicio inválida o no ingresada.",
   }),
   end_date: z.string().refine((date) => !isNaN(Date.parse(date)), {
-    message: "Fecha de término inválida",
+    message: "Fecha de término inválida o no ingresada.",
   }),
-  department: z.string().min(3, { message: "El departamento es requerido" }),
   survey_concepts_description: z.string().optional(),
   survey_concepts_link: z.string().optional(),
   survey_links: z.array(z.string()).optional(),
-  objectives: z.array(z.string()),
+  objectives: z.array(
+    z.string().min(10, {
+      message: "El objetivo de la encuesta debe tener al menos 10 caracteres",
+    }),
+  ),
   chronogram: z.array(
     z.object({
-      phase: z.string().min(5, { message: "Las etapas son requeridas" }),
-      description: z
-        .string()
-        .min(10, { message: "La descripción es requerida" }),
+      phase: z.string().min(5, {
+        message:
+          "El nombre de la etapa (cronograma) debe tener al menos 5 caracteres",
+      }),
+      description: z.string().min(10, {
+        message:
+          "La descripción de la etapa (cronograma) debe tener al menos 10 caracteres",
+      }),
       date: z.string().optional(),
     }),
   ),
-  survey_options_definitions: z.array(
+  survey_concepts_name: z.array(
     z.object({
-      name: z
-        .string()
-        .min(5, { message: "El nombre de los términos es requerido" }),
-      description: z
-        .string()
-        .min(10, { message: "La descripción es requerida" }),
+      name: z.string().min(5, {
+        message: "El nombre del concepto debe tener al menos 5 caracteres",
+      }),
+      description: z.string().min(10, {
+        message:
+          "La descripción del concepto debe tener al menos 10 caracteres",
+      }),
     }),
   ),
   frequently_asked_questions: z.array(
     z.object({
-      question: z.string().min(10, { message: "La pregunta es requerida" }),
-      answer: z.string().min(10, { message: "La respuesta es requerida" }),
+      question: z.string().min(10, {
+        message:
+          "La pregunta (pregunta frecuente) debe tener al menos 10 caracteres",
+      }),
+      answer: z.string().min(10, {
+        message:
+          "La respuesta (pregunta frecuente) debe tener al menos 10 caracteres",
+      }),
     }),
   ),
   questions: z.array(
@@ -220,8 +241,14 @@ const SurveySchema = z.object({
         id: z.number(),
         questionId: z.number(),
         question_description: z.string().optional(),
-        step: z.string(),
-        step_description: z.string(),
+        step: z.string().min(5, {
+          message:
+            "Contenido Consulta: El nombre del paso debe tener al menos 5 caracteres",
+        }),
+        step_description: z.string().min(10, {
+          message:
+            "Contenido Consulta: La descripción del paso debe tener al menos 10 caracteres",
+        }),
         isMapQuestion: z.boolean(),
         minOptions: z.coerce.number(),
         maxOptions: z.coerce.number(),
@@ -232,7 +259,7 @@ const SurveySchema = z.object({
           z.object({
             isMapQuestion: z.literal(true),
             questionId: z.number().refine((val) => val !== 0, {
-              message: "questionId invalido para pregunta tipo Mapa",
+              message: "questionId inválido para pregunta tipo mapa",
             }),
             question: z.string().optional(),
             options: z.array(z.any()).optional(),
@@ -242,23 +269,34 @@ const SurveySchema = z.object({
             .object({
               isMapQuestion: z.literal(false),
               questionId: z.literal(0),
-              question: z
-                .string()
-                .min(5, { message: "El texto de la pregunta es requerido" }),
-              step: z.string(),
-              step_description: z.string(),
+              question: z.string().min(10, {
+                message:
+                  "Contenido Consulta: La pregunta debe tener al menos 10 caracteres",
+              }),
+              question_description: z.string().optional(),
+              step: z.string().min(5, {
+                message:
+                  "Contenido Consulta: El nombre del paso debe tener al menos 5 caracteres",
+              }),
+              step_description: z.string().min(10, {
+                message:
+                  "Contenido Consulta: La descripción del paso debe tener al menos 10 caracteres",
+              }),
               minOptions: z.coerce.number().min(1, {
-                message: "El mínimo de opciones debe ser al menos 1",
+                message:
+                  "Contenido Consulta: El mínimo de opciones debe ser al menos 1",
               }),
               maxOptions: z.coerce.number().min(1, {
-                message: "El máximo de opciones debe ser al menos 1",
+                message:
+                  "Contenido Consulta: El máximo de opciones debe ser al menos 1",
               }),
               options: z.array(
                 z.object({
                   id: z.number(),
-                  option_name: z
-                    .string()
-                    .min(1, { message: "El texto de la opción es requerido" }),
+                  option_name: z.string().min(1, {
+                    message:
+                      "Contenido Consulta: La opción debe tener al menos 2 caracteres",
+                  }),
                   option_description: z.string().optional(),
                   hasSubQuestion: z.boolean(),
                   subQuestion: z.string().optional(),
@@ -268,7 +306,8 @@ const SurveySchema = z.object({
                       z.object({
                         id: z.number(),
                         option_name: z.string().min(1, {
-                          message: "El texto de la opción es requerido",
+                          message:
+                            "Contenido Consulta: La opción debe tener al menos 2 caracteres",
                         }),
                         option_description: z.string().optional(),
                         sector_id: z.string().optional(),
@@ -316,7 +355,7 @@ export async function createSurvey(
   const objectives = JSON.parse((formData.get("objectives") as string) || "[]");
   const chronogram = JSON.parse((formData.get("chronogram") as string) || "[]");
   const surveyOptionDefinitions = JSON.parse(
-    (formData.get("survey_options_definitions") as string) || "[]",
+    (formData.get("survey_concepts_name") as string) || "[]",
   );
   const frequentlyAskedQuestions = JSON.parse(
     (formData.get("frequently_asked_questions") as string) || "[]",
@@ -335,30 +374,134 @@ export async function createSurvey(
     survey_links: surveyLinks,
     objectives: objectives,
     chronogram: chronogram,
-    survey_options_definitions: surveyOptionDefinitions,
+    survey_concepts_name: surveyOptionDefinitions,
     frequently_asked_questions: frequentlyAskedQuestions,
     questions: questions,
   });
-  // console.log("validatedData: ", validatedData);
+  console.log("================================");
+  console.log("validatedData: ", validatedData);
 
   if (!validatedData.success) {
     console.error("Error al validar los datos:", validatedData.error);
 
     const errors = validatedData.error.issues;
+
+    // Acepta PropertyKey[] y convierte a string para comparar
+    const getIndex = (path: PropertyKey[], key: string) => {
+      const i = path.findIndex((p) => String(p) === key);
+      const next = path[i + 1];
+      return typeof next === "number" ? next + 1 : undefined;
+    };
+
     const fieldErrors = errors.map((error) => {
-      const field = error.path.join(".");
+      const issuePath = error.path as PropertyKey[];
+      const field = issuePath.map(String).join(".");
+
+      // min/max options
       if (field.includes("minOptions") || field.includes("maxOptions")) {
-        return "Las opciones mínimas y máximas deben ser números válidos";
+        const qIndex = getIndex(issuePath, "questions");
+        return `Configura la cantidad de opciones a elegir en la pregunta ${qIndex ?? "correspondiente"}: mínimo y máximo deben ser números enteros válidos.`;
       }
+
+      // Campos generales
       if (field.includes("survey_name")) {
-        return "El nombre de la encuesta es requerido";
+        return "Información general: El nombre de la encuesta debe tener al menos 10 caracteres.";
       }
+      if (field.includes("survey_short_description")) {
+        return "Información general: La descripción corta de la encuesta debe tener al menos 50 caracteres.";
+      }
+      if (field.includes("survey_large_description")) {
+        return "Información general: La descripción detallada de la encuesta debe tener al menos 50 caracteres.";
+      }
+      if (field.includes("start_date")) {
+        return "Información general: Fecha de inicio inválida o no ingresada.";
+      }
+      if (field.includes("end_date")) {
+        return "Información general: Fecha de término inválida o no ingresada.";
+      }
+      if (field.includes("department")) {
+        return "Información general: El departamento es requerido y debe tener al menos 3 caracteres.";
+      }
+
+      // Objetivos
+      if (field.includes("objectives")) {
+        return "Objetivos y Cronograma: El objetivo de la encuesta debe tener al menos 10 caracteres.";
+      }
+
+      // Cronograma
+      if (field.includes("chronogram")) {
+        const cIndex = getIndex(issuePath, "chronogram");
+        if (field.includes("phase")) {
+          return `Objetivos y Cronograma: La etapa ${cIndex ?? ""} requiere un nombre de al menos 5 caracteres.`;
+        }
+        if (field.includes("description")) {
+          return `Objetivos y Cronograma: La etapa ${cIndex ?? ""} requiere una descripción de al menos 10 caracteres.`;
+        }
+      }
+
+      // Definiciones de términos
+      if (field.includes("survey_concepts_name")) {
+        const tIndex = getIndex(issuePath, "survey_concepts_name");
+        if (field.includes("name")) {
+          return `Conceptos y FAQ: El término ${tIndex ?? ""} requiere un nombre de al menos 5 caracteres.`;
+        }
+        if (field.includes("description")) {
+          return `Conceptos y FAQ: El término ${tIndex ?? ""} requiere una descripción de al menos 10 caracteres.`;
+        }
+      }
+
+      // FAQ
+      if (field.includes("frequently_asked_questions")) {
+        const fIndex = getIndex(issuePath, "frequently_asked_questions");
+        if (field.includes("question")) {
+          return `Conceptos y FAQ: La pregunta frecuente ${fIndex ?? ""} debe tener al menos 10 caracteres.`;
+        }
+        if (field.includes("answer")) {
+          return `Conceptos y FAQ: La respuesta frecuente ${fIndex ?? ""} debe tener al menos 10 caracteres.`;
+        }
+      }
+
+      // Preguntas y opciones
+      if (field.includes("questions")) {
+        const qIndex = getIndex(issuePath, "questions");
+
+        if (field.includes("step") && !field.includes("step_description")) {
+          return `Contenido Consulta: El nombre del paso de la pregunta ${qIndex ?? ""} debe tener al menos 5 caracteres.`;
+        }
+        if (field.includes("step_description")) {
+          return `Contenido Consulta: La descripción del paso de la pregunta ${qIndex ?? ""} debe tener al menos 10 caracteres.`;
+        }
+
+        if (
+          field.includes("question") &&
+          !field.includes("question_description")
+        ) {
+          return `Contenido Consulta: La pregunta ${qIndex ?? ""} debe tener al menos 10 caracteres.`;
+        }
+
+        if (field.includes("options")) {
+          const oIndex = getIndex(issuePath, "options");
+          if (field.includes("option_name")) {
+            return `Contenido Consulta: La opción ${oIndex ?? ""} de la pregunta ${qIndex ?? ""} debe tener al menos 2 caracteres.`;
+          }
+        }
+
+        if (field.includes("subOptions")) {
+          const sIndex = getIndex(issuePath, "subOptions");
+          if (field.includes("option_name")) {
+            return `Contenido Consulta: La sub-opción ${sIndex ?? ""} de la pregunta ${qIndex ?? ""} debe tener al menos 2 caracteres.`;
+          }
+        }
+      }
+
+      // Fallback: mensaje nativo de Zod
       return error.message;
     });
 
     return {
       success: false,
-      message: fieldErrors[0] || "Error de validación",
+      message: fieldErrors[0] || "Se encontraron errores de validación.",
+      errors: fieldErrors,
     };
   }
 
@@ -489,8 +632,8 @@ export async function createSurvey(
         }
       }
 
-      // 6. Insertar términos (survey_options_definitions)
-      for (const termino of validatedData.data.survey_options_definitions) {
+      // 6. Insertar términos (survey_concepts_name)
+      for (const termino of validatedData.data.survey_concepts_name) {
         if (termino.name.trim() && termino.description.trim()) {
           const cleanDescription = sanitizeHtml(termino.description, {
             allowedTags: ["b", "i", "u", "ol", "ul", "li", "p", "br"],

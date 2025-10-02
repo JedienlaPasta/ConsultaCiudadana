@@ -200,7 +200,7 @@ export default async function SurveyDetail(props: SurveyDetailsProps) {
 
             {/* Guía de participación */}
             <Definitions
-              definitions={survey.survey_options_definitions}
+              definitions={survey.survey_concepts_name}
               description={survey.survey_concepts_description}
               link={survey.survey_concepts_link}
             />

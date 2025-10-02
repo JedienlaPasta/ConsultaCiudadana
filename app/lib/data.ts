@@ -234,12 +234,12 @@ export const INITIAL_FORM_DATA: SurveyFormData = {
     { phase: "", description: "", date: "" },
     { phase: "", description: "", date: "" },
   ],
-  survey_options_definitions: [
+  survey_concepts_name: [
     { name: "", description: "" },
     { name: "", description: "" },
     { name: "", description: "" },
-    { name: "", description: "" },
-    { name: "", description: "" },
+    // { name: "", description: "" },
+    // { name: "", description: "" },
   ],
   frequently_asked_questions: [
     { question: "", answer: "" },

@@ -66,7 +66,7 @@ export type SurveyFormData = {
   survey_links: string[];
   objectives: string[];
   chronogram: ChronogramItem[];
-  survey_options_definitions: OptionDefinition[];
+  survey_concepts_name: OptionDefinition[];
   frequently_asked_questions: FAQ[];
   questions: Question[];
 };
@@ -76,7 +76,7 @@ export type FormDataArrays = {
   survey_links: string[];
   objectives: string[];
   chronogram: ChronogramItem[];
-  survey_options_definitions: OptionDefinition[];
+  survey_concepts_name: OptionDefinition[];
   frequently_asked_questions: FAQ[];
   questions: Question[];
 };
@@ -99,7 +99,7 @@ export type SurveyData = {
   survey_links: string[];
   objectives: string[];
   chronogram: ChronogramItem[];
-  survey_options_definitions: OptionDefinition[];
+  survey_concepts_name: OptionDefinition[];
   frequently_asked_questions: FAQ[];
 };
 

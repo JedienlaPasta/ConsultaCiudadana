@@ -60,7 +60,7 @@ export default function SurveyLayout({
   useEffect(() => {
     if (!sub || !dv) {
       toast.error("No se ha encontrado el RUT del usuario");
-      router.replace("/");
+      // router.replace("/");
       return;
     }
 
@@ -442,8 +442,6 @@ function QuestionSection({
   setSelectedSectorId,
   onAnswerChange,
 }: QuestionSectionProps) {
-  const isMap = question.step === "Seleccionar sector";
-
   if (isLoading)
     return (
       <div>
@@ -462,7 +460,7 @@ function QuestionSection({
     return <VoteConfirmationOverview surveyQuestions={surveyQuestions} />;
   }
 
-  return isMap ? (
+  return question.isMapQuestion ? (
     <MapSection
       selectedSectorId={selectedSectorId}
       setSelectedSectorId={(sectorId) => {
