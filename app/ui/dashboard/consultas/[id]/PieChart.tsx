@@ -30,7 +30,6 @@ export default function AnalyticsDonuts({
     total: 0,
   };
   const [hover, setHover] = useState(initialHover);
-  console.log(hover);
   const hoverRef = useRef(initialHover);
 
   const colors = [

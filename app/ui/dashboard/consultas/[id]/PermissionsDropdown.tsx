@@ -100,6 +100,16 @@ export default function PermissionsDropdown({
               <span className="border-none text-left">Lector</span>
             </button>
           </li>
+          <li>
+            <button
+              onClick={() =>
+                handleSelection({ ...member, survey_access: "Quitar Acceso" })
+              }
+              className={`w-full ${dropdownOptionStyle}`}
+            >
+              <span className="border-none text-left">Quitar Acceso</span>
+            </button>
+          </li>
         </ul>
       )}
     </div>

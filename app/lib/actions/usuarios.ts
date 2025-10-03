@@ -8,7 +8,6 @@ export async function updateSurveyUsersPermissions(
   public_id: string,
   newTeamMembers: TeamMember[],
   membersToUpdate: TeamMember[],
-  membersToRemove: TeamMember[],
 ) {
   const pool = await connectToDB();
   try {
@@ -25,7 +24,9 @@ export async function updateSurveyUsersPermissions(
     console.log("Actualizando permisos de usuarios...");
     console.log("Nuevos miembros:", newTeamMembers);
     console.log("Miembros a actualizar:", membersToUpdate);
-    console.log("Miembros a remover:", membersToRemove);
+
+    const allowedAccess = new Set(["lector", "editor", "propietario"]);
+
     try {
       // Get survey id
       const surveyIdRequest = new sql.Request(transaction);
@@ -49,73 +50,86 @@ export async function updateSurveyUsersPermissions(
         if (teamMember.user_role === "votante") {
           continue;
         }
-        // Pendiente:
-        // 1. Si el usuario ya tiene permiso, pero es diferente, actualizarlo.
-        // 2. Si no tiene permiso, insertarlo.
-        // 3. Si se le quita el permiso al usuario, eliminarlo (de la tabla permisos).
-        const access = teamMember.survey_access?.toLowerCase();
+        const normalizedAccess = teamMember.survey_access
+          ? teamMember.survey_access.toLowerCase()
+          : undefined;
+
+        if (!normalizedAccess) {
+          throw new Error("El permiso del usuario es requerido.");
+        }
+
+        if (!allowedAccess.has(normalizedAccess)) {
+          throw new Error(
+            "Permiso inválido. Debe ser 'Lector', 'Editor' o 'Propietario'.",
+          );
+        }
+        console.log(normalizedAccess);
 
         const addUserRequest = new sql.Request(transaction);
         const addUserResult = await addUserRequest
           .input("survey_id", sql.Int, surveyId)
           .input("user_hashed_key", sql.NVarChar, teamMember.user_hash)
-          .input("survey_access", sql.NVarChar, access).query(`
+          .input("survey_access", sql.NVarChar, normalizedAccess).query(`
             INSERT INTO permisos (survey_id, user_hashed_key, survey_access)
             VALUES (@survey_id, @user_hashed_key, @survey_access)
         `);
         if (addUserResult.rowsAffected[0] === 0) {
-          return {
-            success: false,
-            message: "No se pudo guardar el permiso del usuario.",
-          };
+          throw new Error("No se pudo agregar el permiso del usuario.");
+        }
+      }
+
+      for (const teamMember of membersToUpdate) {
+        if (teamMember.user_role === "votante") {
+          continue;
         }
 
-        // Update Team Member
-        for (const teamMember of membersToUpdate) {
-          if (teamMember.user_role === "votante") {
-            continue;
-          }
-          const access = teamMember.survey_access?.toLowerCase();
+        const normalizedAccess = teamMember.survey_access
+          ? teamMember.survey_access.toLowerCase()
+          : undefined;
 
-          const updateUserRequest = new sql.Request(transaction);
-          const updateUserResult = await updateUserRequest
+        if (!normalizedAccess) {
+          throw new Error("El permiso del usuario es requerido.");
+        }
+
+        if (normalizedAccess === "quitar acceso") {
+          const deleteUserRequest = new sql.Request(transaction);
+          const deleteUserResult = await deleteUserRequest
             .input("survey_id", sql.Int, surveyId)
             .input("user_hashed_key", sql.NVarChar, teamMember.user_hash)
-            .input("survey_access", sql.NVarChar, access).query(`
+            .query(`
+                DELETE FROM permisos
+                WHERE survey_id = @survey_id AND user_hashed_key = @user_hashed_key
+              `);
+          if (deleteUserResult.rowsAffected[0] === 0) {
+            throw new Error(
+              "No se encontró un permiso para eliminar para este usuario.",
+            );
+          }
+          continue;
+        }
+
+        if (!allowedAccess.has(normalizedAccess)) {
+          throw new Error(
+            "Permiso inválido. Debe ser 'Lector', 'Editor' o 'Propietario'.",
+          );
+        }
+
+        const updateUserRequest = new sql.Request(transaction);
+        const updateUserResult = await updateUserRequest
+          .input("survey_id", sql.Int, surveyId)
+          .input("user_hashed_key", sql.NVarChar, teamMember.user_hash)
+          .input("survey_access", sql.NVarChar, normalizedAccess).query(`
               UPDATE permisos
               SET survey_access = @survey_access
               WHERE survey_id = @survey_id AND user_hashed_key = @user_hashed_key
             `);
-          if (updateUserResult.rowsAffected[0] === 0) {
-            return {
-              success: false,
-              message: "No se pudo actualizar el permiso del usuario.",
-            };
-          }
-        }
-
-        // Remove Team Member
-        for (const teamMember of membersToRemove) {
-          if (teamMember.user_role === "votante") {
-            continue;
-          }
-
-          const removeUserRequest = new sql.Request(transaction);
-          const removeUserResult = await removeUserRequest
-            .input("survey_id", sql.Int, surveyId)
-            .input("user_hashed_key", sql.NVarChar, teamMember.user_hash)
-            .query(`
-              DELETE FROM permisos
-              WHERE survey_id = @survey_id AND user_hashed_key = @user_hashed_key
-            `);
-          if (removeUserResult.rowsAffected[0] === 0) {
-            return {
-              success: false,
-              message: "No se pudo eliminar el permiso del usuario.",
-            };
-          }
+        if (updateUserResult.rowsAffected[0] === 0) {
+          throw new Error(
+            "No se pudo actualizar el permiso del usuario (registro no encontrado).",
+          );
         }
       }
+
       await transaction.commit();
 
       return {

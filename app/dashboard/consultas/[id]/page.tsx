@@ -118,7 +118,7 @@ export default async function SurveyDetailsOverview({
                 Volver al Dashboard
               </Link>
             </div>
-            <SurveyOptionsMenu />
+            <SurveyOptionsMenu publicId={publicId} />
           </div>
         </div>
 

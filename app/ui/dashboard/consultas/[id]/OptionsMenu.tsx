@@ -1,8 +1,9 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { downloadSurveyAnalytics } from "@/app/lib/actions/analytics";
 
-export default function SurveyOptionsMenu() {
+export default function SurveyOptionsMenu({ publicId }: { publicId: string }) {
   const [modalOpen, setModalOpen] = useState(false);
   const modalRef = useRef<HTMLDivElement>(null);
 
@@ -38,6 +39,10 @@ export default function SurveyOptionsMenu() {
     setModalOpen((prev) => !prev);
   };
 
+  const handleDownload = async () => {
+    const result = await downloadSurveyAnalytics(publicId);
+  };
+
   return (
     <div
       ref={modalRef}
@@ -70,9 +75,9 @@ export default function SurveyOptionsMenu() {
           <li>
             <button
               onClick={() => console.log("exportar votos")}
-              className={`w-full cursor-not-allowed ${dropdownOptionStyle}`}
+              className={`w-full cursor-pointer ${dropdownOptionStyle}`}
             >
-              <span className="border-none text-left">Exportar Votos</span>
+              <span className="border-none text-left">Descargar Métricas</span>
             </button>
           </li>
           <li>

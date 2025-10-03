@@ -23,9 +23,8 @@ export default function PermissionsModal({
   const [teamMembers, setTeamMembers] = useState<TeamMember[]>(teamMembersList);
   const [newTeamMembers, setNewTeamMembers] = useState<TeamMember[]>([]);
   const [membersToUpdate, setMembersToUpdate] = useState<TeamMember[]>([]);
-  const [membersToRemove, setMembersToRemove] = useState<TeamMember[]>([]);
-  // console.log("New Members:", newTeamMembers);
-  // console.log("To Update:", membersToUpdate);
+  console.log("New Members:", newTeamMembers);
+  console.log("To Update:", membersToUpdate);
 
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -47,6 +46,8 @@ export default function PermissionsModal({
     user.survey_access = "Lector";
     setNewTeamMembers((prevMembers) => [...prevMembers, user]);
     setTeamMembers((prevMembers) => [...prevMembers, user]);
+    console.log("=====");
+    console.log("Team Members List:", teamMembersList);
   };
 
   const handlePermissionsManagement = (member: TeamMember) => {
@@ -57,25 +58,51 @@ export default function PermissionsModal({
           : { ...prevMember },
       ),
     );
+
     const isMember = teamMembersList.some(
       (teamMember) => teamMember.user_hash === member.user_hash,
     );
 
-    // Si existe en la lista de miembros del equipo y su acceso ha cambiado.
+    // Actualizar estado para miembros existentes
     if (
       isMember &&
       teamMembersList.find(
-        (teamMembera) => teamMembera.user_hash === member.user_hash,
+        (teamMember) => teamMember.user_hash === member.user_hash,
       )?.survey_access !== member.survey_access
     ) {
-      setMembersToUpdate((prevMembers) => [...prevMembers, member]);
+      setMembersToUpdate((prevMembers) => {
+        const index = prevMembers.findIndex(
+          (m) => m.user_hash === member.user_hash,
+        );
+        if (index !== -1) {
+          return prevMembers.map((m) =>
+            m.user_hash === member.user_hash ? { ...m, ...member } : m,
+          );
+        }
+        return [...prevMembers, member];
+      });
     } else {
-      // Si no ha cambiado, lo eliminamos de la lista de actualizaciones.
       setMembersToUpdate((prevMembers) =>
         prevMembers.filter(
           (prevMember) => prevMember.user_hash !== member.user_hash,
         ),
       );
+    }
+
+    // Para usuarios nuevos, upsert en newTeamMembers actualizando survey_access
+    if (!isMember) {
+      setNewTeamMembers((prevMembers) => {
+        const exists = prevMembers.some(
+          (m) => m.user_hash === member.user_hash,
+        );
+        return exists
+          ? prevMembers.map((m) =>
+              m.user_hash === member.user_hash
+                ? { ...m, survey_access: member.survey_access }
+                : m,
+            )
+          : [...prevMembers, member];
+      });
     }
   };
 
@@ -88,7 +115,6 @@ export default function PermissionsModal({
         publicId,
         newTeamMembers,
         membersToUpdate,
-        membersToRemove,
       );
       if (!response.success) {
         throw new Error(response.message);
@@ -144,7 +170,7 @@ export default function PermissionsModal({
 
         {/* Team Members List */}
         <div className="pb-4">
-          <div className="mb-0.5 px-6 text-[13px] font-bold text-gray-800">
+          <div className="mb-1 px-6 text-[13px] font-bold text-gray-800">
             Miembros de la consulta
           </div>
           <div className="space-y-3s">
@@ -154,7 +180,7 @@ export default function PermissionsModal({
               return (
                 <div
                   key={member.user_hash}
-                  className="flex items-center justify-between px-6 py-1.5 hover:bg-gray-100/80"
+                  className="flex items-center justify-between px-6 py-2 hover:bg-gray-100/80"
                 >
                   <div className="flex items-center gap-3">
                     <div className="flex size-9 items-center justify-center rounded-full bg-gradient-to-br from-blue-400 to-blue-600 text-xs font-medium text-white">
@@ -188,7 +214,7 @@ export default function PermissionsModal({
         </div>
 
         {/* Footer */}
-        <div className="flex justify-between gap-3 border-t border-gray-100 p-6 pt-4">
+        <div className="mt-6 flex justify-between gap-3 border-t border-gray-100 p-6 pt-4">
           <button
             type="button"
             onClick={handleCloseModal}
