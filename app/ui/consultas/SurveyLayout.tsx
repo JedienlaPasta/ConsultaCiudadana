@@ -7,13 +7,13 @@ import { toast } from "sonner";
 import RexLoader from "../RexAnimation";
 import MapSection from "./MapSection";
 import { registerVote } from "../../lib/actions/encuesta";
-import SurveyProgress from "./SurveyProgress";
 import {
   QuestionAnswer,
   SurveyAnswers,
   SurveyQuestion,
 } from "@/app/lib/definitions/encuesta";
 import VoteResponseModal from "./[id]/VoteResponseModal";
+import SurveyProgress from "./SurveyProgress";
 
 type SurveyLayoutProps = {
   questions: SurveyQuestion[];
@@ -310,9 +310,9 @@ export default function SurveyLayout({
 
           <div
             ref={topRef}
-            className="mx-auto grid grid-cols-1 justify-end gap-4 py-6 md:gap-6 md:py-8"
+            className="mx-auto grid grid-cols-1 justify-end gap-0 py-6 md:gap-2 md:py-8"
           >
-            <div className="rounded-lg bg-slate-200/60 lg:col-span-1">
+            <div className="rounded-lg lg:col-span-1">
               <SurveyProgress
                 currentQuestionIndex={currentQuestionIndex}
                 questions={surveyQuestions}
