@@ -263,7 +263,7 @@ export default async function SurveyDetailsOverview({
         {/* Participation Metrics */}
         <div className="mb-10 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
           <ParticipationMetricCard
-            title="Participación Promedio"
+            title="Participación Diaria"
             value={String(analytics.averageDailyParticipation)}
             color="emerald"
             lastUpdated={dataLoadedAt}
@@ -285,7 +285,7 @@ export default async function SurveyDetailsOverview({
           />
 
           <ParticipationMetricCard
-            title="Participación Hoy"
+            title="Participado Hoy"
             value={String(analytics.todayParticipation)}
             color="blue"
             lastUpdated={dataLoadedAt}
