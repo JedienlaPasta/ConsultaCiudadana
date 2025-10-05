@@ -25,14 +25,20 @@ export type SurveyAnalytics = {
   averageDailyParticipation: number;
 };
 
-export async function downloadSurveyAnalytics(publicId: string) {
+export type DownloadSurveyAnalyticsResult =
+  | { success: true; fileName: string; base64: string; mimeType: string }
+  | { success: false; message: string };
+
+export async function downloadSurveyAnalytics(
+  publicId: string,
+): Promise<DownloadSurveyAnalyticsResult> {
+  "use server";
   try {
     const pool = await connectToDB();
     if (!pool) {
-      console.warn("No se pudo establecer conexión con la base de datos");
       return {
-        message: "No se pudo establecer conexión con la base de datos",
         success: false,
+        message: "No se pudo establecer conexión con la base de datos",
       };
     }
 
@@ -297,12 +303,15 @@ export async function downloadSurveyAnalytics(publicId: string) {
 
     // Exportar a Buffer
     const buffer = await workbook.xlsx.writeBuffer();
+    const base64 = Buffer.from(buffer).toString("base64");
     const fileName = `Analytics_${publicId}.xlsx`;
 
     return {
       success: true,
       fileName,
-      buffer,
+      base64,
+      mimeType:
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
     };
   } catch (error) {
     console.error("Error al obtener analytics de la encuesta:", error);

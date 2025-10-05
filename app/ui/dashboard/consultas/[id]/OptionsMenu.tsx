@@ -41,6 +41,26 @@ export default function SurveyOptionsMenu({ publicId }: { publicId: string }) {
 
   const handleDownload = async () => {
     const result = await downloadSurveyAnalytics(publicId);
+
+    if (!result.success) {
+      // Aquí puedes mostrar un toast con result.message
+      return;
+    }
+
+    const byteChars = atob(result.base64);
+    const byteNumbers = new Array(byteChars.length);
+    for (let i = 0; i < byteChars.length; i++) {
+      byteNumbers[i] = byteChars.charCodeAt(i);
+    }
+    const byteArray = new Uint8Array(byteNumbers);
+
+    const blob = new Blob([byteArray], { type: result.mimeType });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = result.fileName;
+    a.click();
+    URL.revokeObjectURL(url);
   };
 
   return (
@@ -74,7 +94,7 @@ export default function SurveyOptionsMenu({ publicId }: { publicId: string }) {
           </li>
           <li>
             <button
-              onClick={() => console.log("exportar votos")}
+              onClick={handleDownload}
               className={`w-full cursor-pointer ${dropdownOptionStyle}`}
             >
               <span className="border-none text-left">Descargar Métricas</span>
