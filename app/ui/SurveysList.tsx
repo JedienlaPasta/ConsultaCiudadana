@@ -38,27 +38,14 @@ export default function SurveysList({
   }
 
   if (surveysToDisplay.length === 0) {
-    return (
-      <div>
-        <div className="flex items-center justify-center rounded-lg bg-slate-200/60 p-4">
-          <div className="flex w-full flex-col items-center gap-1 rounded-lg bg-white py-5 md:gap-2 md:px-10 md:py-8">
-            <p className="text-sm text-slate-500">
-              No hay consultas disponibles en este momento.
-            </p>
-          </div>
-        </div>
-      </div>
-    );
+    return <EmptySlotPlaceholder />;
   }
 
   return (
     <div>
+      {/* Surveys List */}
       <div className="grid grid-cols-1 gap-4 md:gap-6">{surveysToDisplay}</div>
-      {surveysToDisplay.length < 2 && (
-        <div className="mt-4 md:mt-6">
-          <EmptySlotPlaceholder />
-        </div>
-      )}
+      {/* View All Surveys Button */}
       <Link
         href="/consultas"
         className="group relative mx-auto mt-6 flex w-full max-w-md items-center justify-between overflow-hidden rounded-2xl border-2 border-[#23396f]/20 bg-gradient-to-br from-white via-indigo-50 to-indigo-50 px-8 py-4 shadow-lg transition-all duration-300 hover:border-indigo-700/30 hover:shadow-xl active:scale-95"
