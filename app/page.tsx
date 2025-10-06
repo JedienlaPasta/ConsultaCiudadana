@@ -1,6 +1,5 @@
 import { Suspense } from "react";
 import AuthErrorHandler from "@/app/ui/error/AuthErrorHandler";
-import Link from "next/link";
 import { getSession } from "./lib/actions/auth";
 import Footer from "./ui/Footer";
 import Hero from "./ui/Hero";

@@ -128,6 +128,15 @@ export default function Navbar({ isLoggedIn }: { isLoggedIn: boolean }) {
                 Contacto
               </button>
             </li>
+            <li className="max-[950px]:hidden">
+              <Link
+                href="/como-participar"
+                id="gestion-link"
+                className="flex min-h-11 items-center rounded-sm px-4 text-white transition-colors hover:bg-[#0f69c4]"
+              >
+                Cómo Participar
+              </Link>
+            </li>
             <li className="max-[850px]:hidden">
               <Link
                 href="/dashboard"
@@ -146,7 +155,7 @@ export default function Navbar({ isLoggedIn }: { isLoggedIn: boolean }) {
 
       {/* Mobile menu - moved outside container for better positioning */}
       <div
-        className={`absolute top-full left-0 w-full overflow-hidden bg-[#05223f] shadow-lg transition-all duration-500 ease-in-out md:hidden ${isMenuOpen ? "max-h-[300px]" : "max-h-0"}`}
+        className={`absolute top-full left-0 w-full overflow-hidden bg-[#05223f] shadow-lg transition-all duration-500 ease-in-out md:hidden ${isMenuOpen ? "h-fit" : "max-h-0"}`}
       >
         <ul className="!ml-0 flex !list-none flex-col divide-y divide-[#0A4581]/30">
           <li>
@@ -157,6 +166,17 @@ export default function Navbar({ isLoggedIn }: { isLoggedIn: boolean }) {
             >
               <div className="flex items-center px-6 py-4">
                 <span className="text-sm font-medium">Dashboard</span>
+              </div>
+            </Link>
+          </li>
+          <li>
+            <Link
+              href="/como-participar"
+              className="block w-full text-white transition-colors hover:bg-[#0540a6]"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              <div className="flex items-center px-6 py-4">
+                <span className="text-sm font-medium">Cómo Participar</span>
               </div>
             </Link>
           </li>
