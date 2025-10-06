@@ -1,3 +1,4 @@
+"use server";
 import { connectToDB } from "../utils/db-connection";
 import sql from "mssql";
 import ExcelJS from "exceljs";
@@ -32,7 +33,6 @@ export type DownloadSurveyAnalyticsResult =
 export async function downloadSurveyAnalytics(
   publicId: string,
 ): Promise<DownloadSurveyAnalyticsResult> {
-  "use server";
   try {
     const pool = await connectToDB();
     if (!pool) {
