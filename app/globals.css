@@ -99,6 +99,11 @@ ul {
   padding: 10px;
 }
 
+.test {
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
 .app-screen {
   position: absolute;
   width: 100%;
