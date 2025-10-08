@@ -53,7 +53,7 @@ export default async function ComoParticipar() {
                             d="M2 12a10 10 0 1 1 20 0A10 10 0 0 1 2 12Zm14.707-1.293a1 1 0 0 0-1.414-1.414L11 12.586 9.207 10.793a1 1 0 1 0-1.414 1.414l2.5 2.5a1 1 0 0 0 1.414 0l5-5Z"
                           />
                         </svg>
-                        Botón "Quiero Participar" para ver las consultas
+                        Botón {`"Quiero Participar"`} para ver las consultas
                         disponibles.
                       </li>
                       <li className="flex items-center gap-2">
@@ -67,7 +67,7 @@ export default async function ComoParticipar() {
                             d="M2 12a10 10 0 1 1 20 0A10 10 0 0 1 2 12Zm14.707-1.293a1 1 0 0 0-1.414-1.414L11 12.586 9.207 10.793a1 1 0 1 0-1.414 1.414l2.5 2.5a1 1 0 0 0 1.414 0l5-5Z"
                           />
                         </svg>
-                        Botón "Cómo participar" para consultar esta guía.
+                        Botón {`"Cómo participar"`} para consultar esta guía.
                       </li>
                       <li className="flex items-center gap-2">
                         <svg
@@ -80,8 +80,8 @@ export default async function ComoParticipar() {
                             d="M2 12a10 10 0 1 1 20 0A10 10 0 0 1 2 12Zm14.707-1.293a1 1 0 0 0-1.414-1.414L11 12.586 9.207 10.793a1 1 0 1 0-1.414 1.414l2.5 2.5a1 1 0 0 0 1.414 0l5-5Z"
                           />
                         </svg>
-                        Cada tarjeta gris en "Últimas Consultas" representa una
-                        consulta disponible.
+                        Cada tarjeta gris en {`"Últimas Consultas"`} representa
+                        una consulta disponible.
                       </li>
                     </ul>
 
@@ -215,8 +215,8 @@ export default async function ComoParticipar() {
                             d="M2 12a10 10 0 1 1 20 0A10 10 0 0 1 2 12Zm14.707-1.293a1 1 0 0 0-1.414-1.414L11 12.586 9.207 10.793a1 1 0 1 0-1.414 1.414l2.5 2.5a1 1 0 0 0 1.414 0l5-5Z"
                           />
                         </svg>
-                        Botón "Iniciar sesión" para participar en la consulta en
-                        caso de no haber iniciado sesión.
+                        Botón {`"Iniciar sesión"`} para participar en la
+                        consulta en caso de no haber iniciado sesión.
                       </li>
                       <li className="flex items-center gap-2">
                         <svg
@@ -229,7 +229,7 @@ export default async function ComoParticipar() {
                             d="M2 12a10 10 0 1 1 20 0A10 10 0 0 1 2 12Zm14.707-1.293a1 1 0 0 0-1.414-1.414L11 12.586 9.207 10.793a1 1 0 1 0-1.414 1.414l2.5 2.5a1 1 0 0 0 1.414 0l5-5Z"
                           />
                         </svg>
-                        Enlaces "Ver documento completo" para acceder al
+                        Enlaces {`"Ver documento completo"`} para acceder al
                         material completo relativo a la consulta.
                       </li>
                     </ul>
@@ -354,8 +354,8 @@ export default async function ComoParticipar() {
                             d="M2 12a10 10 0 1 1 20 0A10 10 0 0 1 2 12Zm14.707-1.293a1 1 0 0 0-1.414-1.414L11 12.586 9.207 10.793a1 1 0 1 0-1.414 1.414l2.5 2.5a1 1 0 0 0 1.414 0l5-5Z"
                           />
                         </svg>
-                        Botón "Iniciar sesión" para participar en la consulta en
-                        caso de no haber iniciado sesión.
+                        Botón {`"Iniciar sesión"`} para participar en la
+                        consulta en caso de no haber iniciado sesión.
                       </li>
                       <li className="flex items-center gap-2">
                         <svg
@@ -368,7 +368,7 @@ export default async function ComoParticipar() {
                             d="M2 12a10 10 0 1 1 20 0A10 10 0 0 1 2 12Zm14.707-1.293a1 1 0 0 0-1.414-1.414L11 12.586 9.207 10.793a1 1 0 1 0-1.414 1.414l2.5 2.5a1 1 0 0 0 1.414 0l5-5Z"
                           />
                         </svg>
-                        Enlaces "Ver documento completo" para acceder al
+                        Enlaces {`"Ver documento completo"`} para acceder al
                         material completo relativo a la consulta.
                       </li>
                     </ul>
