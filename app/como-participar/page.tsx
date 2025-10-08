@@ -563,8 +563,8 @@ type Props = {
 function SurveyParticipationTutorialView({ children }: Props) {
   return (
     <div className="relative w-fit">
-      <div className="absolute inset-0 scale-100 rounded-3xl bg-gradient-to-br from-blue-500/20 to-indigo-500/20 blur-xl xl:scale-120" />
-      <div className="relative z-10 w-72 drop-shadow-2xl transition-transform duration-1000">
+      <div className="absolute inset-0 scale-100 rounded-3xl bg-gradient-to-br from-slate-700/10 to-gray-700/10 blur-xl xl:scale-120" />
+      <div className="relative z-10 w-80 drop-shadow-2xl transition-transform duration-1000">
         {/* Phone container */}
         <div className="phone-container">
           <div className="phone">

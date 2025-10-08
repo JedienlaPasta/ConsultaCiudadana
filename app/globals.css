@@ -85,14 +85,14 @@ ul {
   justify-content: center;
   align-items: center;
   position: relative;
-  max-width: 288px;
+  max-width: 320px;
   margin: 0 auto;
 }
 
 .phone {
   position: relative;
-  width: 288px;
-  height: 560px;
+  width: 320px;
+  height: 600px;
   background: #252627;
   border-radius: 40px;
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
