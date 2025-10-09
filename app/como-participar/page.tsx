@@ -8,14 +8,14 @@ export default async function ComoParticipar() {
   const session = await getSession();
   return (
     // <div className="container mx-auto max-w-[80rem]">
-    <div className="flex min-h-dvh flex-col bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/20">
+    <div className="flex min-h-dvh snap-y snap-mandatory flex-col bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/20">
       <Navbar isLoggedIn={session !== null} />
       <HowToParticipateHeader />
       <div className="flex flex-col gap-6">
         <div className="relative flex flex-col">
           {/* View 1 - Inicio */}
-          <section className="flex min-h-[105svh] w-full">
-            <div className="container mx-auto grid max-w-[80rem] grid-cols-1 items-center gap-10 px-4 lg:grid-cols-2">
+          <section className="flex min-h-[100svh] w-full snap-start py-16">
+            <div className="container mx-auto grid max-w-[80rem] grid-cols-1 items-center gap-10 px-6 lg:grid-cols-2 lg:gap-16">
               {/* Panel descriptivo - Inicio */}
               <div className="order-2 lg:order-1">
                 <div className="rounded-2xl bg-white shadow-md ring-1 ring-gray-200 backdrop-blur">
@@ -28,7 +28,7 @@ export default async function ComoParticipar() {
                       <span className="ring-1s inline-flex w-fit items-center rounded-full bg-blue-50 px-2 py-0.5 text-[11px] font-medium text-blue-700">
                         Guía
                       </span>
-                      <h2 className="text-2xl font-bold text-[#0e4194]">
+                      <h2 className="-mt-0.5 text-2xl font-bold text-[#0e4194]">
                         Inicio
                       </h2>
                     </div>
@@ -98,9 +98,8 @@ export default async function ComoParticipar() {
                   </div>
                 </div>
               </div>
-
               {/* Teléfono - Preguntas */}
-              <div className="order-1 flex justify-center lg:order-2">
+              <div className="order-1 flex justify-center lg:top-24 lg:order-2">
                 <SurveyParticipationTutorialView>
                   {/* Pantalla 1: Bienvenida mejorada */}
                   <div className="app-screen active">
@@ -174,8 +173,8 @@ export default async function ComoParticipar() {
           </section>
 
           {/* View 2 - Detalle de consulta */}
-          <section className="flex min-h-[105svh] w-full bg-gradient-to-br from-[#0b59a8] via-[#093d8f] to-[#0d2452]">
-            <div className="container mx-auto grid max-w-[80rem] grid-cols-1 items-center gap-10 px-4 lg:grid-cols-2">
+          <section className="flex min-h-[100svh] w-full snap-start bg-gradient-to-br from-[#0b59a8] via-[#093d8f] to-[#0d2452] py-16">
+            <div className="container mx-auto grid max-w-[80rem] grid-cols-1 items-center gap-10 px-6 lg:grid-cols-2 lg:gap-16">
               {/* Panel descriptivo - Detalle de consulta */}
               <div className="order-2 lg:order-1">
                 <div className="rounded-2xl bg-white shadow-md ring-1 ring-gray-200 backdrop-blur">
@@ -188,7 +187,7 @@ export default async function ComoParticipar() {
                       <span className="ring-1s inline-flex w-fit items-center rounded-full bg-blue-50 px-2 py-0.5 text-[11px] font-medium text-blue-700">
                         Guía
                       </span>
-                      <h2 className="text-2xl font-bold text-[#0e4194]">
+                      <h2 className="-mt-0.5 text-2xl font-bold text-[#0e4194]">
                         Detalle de la Consulta
                       </h2>
                     </div>
@@ -197,10 +196,9 @@ export default async function ComoParticipar() {
                   {/* Cuerpo con descripción e ítems con íconos */}
                   <div className="px-5 py-4">
                     <p className="max-w-xl text-gray-700">
-                      Información detallada sobre la consulta ciudadana,
-                      incluyendo el objetivo, las etapas, definiciones y enlaces
-                      al material complementario. Para participar debes iniciar
-                      sesión con{" "}
+                      Aquí encontrarás el objetivo, etapas, documentos y estado
+                      de avance de cada consulta. Para participar necesitas
+                      iniciar sesión con{" "}
                       <span className="font-medium">Clave Única</span>.
                     </p>
                     <ul className="mt-3 space-y-2 text-sm text-gray-700">
@@ -215,8 +213,8 @@ export default async function ComoParticipar() {
                             d="M2 12a10 10 0 1 1 20 0A10 10 0 0 1 2 12Zm14.707-1.293a1 1 0 0 0-1.414-1.414L11 12.586 9.207 10.793a1 1 0 1 0-1.414 1.414l2.5 2.5a1 1 0 0 0 1.414 0l5-5Z"
                           />
                         </svg>
-                        Botón {`"Iniciar sesión"`} para participar en la
-                        consulta en caso de no haber iniciado sesión.
+                        Botón {`"Iniciar sesión"`}: habilita la participación y
+                        guarda tu avance.
                       </li>
                       <li className="flex items-center gap-2">
                         <svg
@@ -229,29 +227,27 @@ export default async function ComoParticipar() {
                             d="M2 12a10 10 0 1 1 20 0A10 10 0 0 1 2 12Zm14.707-1.293a1 1 0 0 0-1.414-1.414L11 12.586 9.207 10.793a1 1 0 1 0-1.414 1.414l2.5 2.5a1 1 0 0 0 1.414 0l5-5Z"
                           />
                         </svg>
-                        Enlaces {`"Ver documento completo"`} para acceder al
-                        material completo relativo a la consulta.
+                        Enlace {`"Ver documento completo"`}: accede a las bases
+                        y material complementario.
                       </li>
                     </ul>
 
                     {/* Callout que conecta con el placeholder */}
                     <div className="mt-5 rounded-xl bg-blue-50 px-4 py-3 text-sm text-[#0e4194] ring-1 ring-blue-200">
-                      <span className="font-semibold">Tip:</span> No seras
-                      redirigido inmediatamente a la encuesta una vez iniciada
-                      la sesión, ya que primero debes aceptar los{" "}
+                      <span className="font-semibold">Tip:</span> tras iniciar
+                      sesión, primero acepta los{" "}
                       <span className="font-semibold">
-                        términos y condiciones de uso de datos
+                        términos y condiciones
                       </span>{" "}
-                      y luego presionar el botón de
-                      <span className="font-semibold"> Ir a votar</span> para
-                      iniciar el proceso de consulta.
+                      y luego presiona{" "}
+                      <span className="font-semibold">“Ir a votar”</span> para
+                      comenzar la encuesta.
                     </div>
                   </div>
                 </div>
               </div>
-
               {/* Teléfono - Preguntas */}
-              <div className="flex justify-center">
+              <div className="flex justify-center lg:top-24">
                 <SurveyParticipationTutorialView>
                   {/* Pantalla 2: Detalle de consulta */}
                   <div className="app-screen active">
@@ -264,30 +260,59 @@ export default async function ComoParticipar() {
                       </div>
                     </div>
                     <div className="p-3">
-                      {/* Progress Bar */}
-                      <div className="mt-2.5 mb-4 flex h-2 gap-1">
-                        <div className="h-full w-full rounded-xs bg-emerald-400 transition-all duration-500" />
-                        <div className="h-full w-full rounded-xs bg-gray-200 transition-all duration-500" />
-                        <div className="h-full w-full rounded-xs bg-gray-200 transition-all duration-500" />
-                      </div>
                       {/* Question */}
-                      <div className="question mb-4">
-                        <p className="text-sm font-semibold text-gray-800">
-                          ¿Qué mejorarías primero?
+                      <div className="question mb-2">
+                        <p className="text-lg font-bold text-[#23396f]">
+                          Acerca de esta Consulta
                         </p>
                       </div>
-                      <div className="flex flex-col gap-1 space-y-1">
-                        <div className="flex cursor-pointer items-center gap-2 rounded-lg border border-blue-400/80 bg-blue-100/50 px-3 py-3 text-xs">
-                          <span className="emoji">🌳</span> Más áreas verdes
+
+                      <div className="overflow-hidden rounded-xl border border-slate-200/80 bg-gradient-to-br from-white via-blue-50/30 to-indigo-50/50 p-5 sm:px-4 sm:py-3">
+                        <h3 className="text-md mb-1 bg-[#23396f] to-blue-700 bg-clip-text font-bold text-transparent">
+                          Descripción General
+                        </h3>
+                        <div className="text-xs text-slate-600">
+                          Un texto que describe en detalle todos los aspectos de
+                          la consulta.
                         </div>
-                        <div className="flex cursor-pointer items-center gap-2 rounded-lg border border-gray-200 bg-gray-200 px-3 py-3 text-xs">
-                          <span className="emoji">💡</span> Mejor iluminación
-                        </div>
-                        <div className="flex cursor-pointer items-center gap-2 rounded-lg border border-gray-200 bg-gray-200 px-3 py-3 text-xs">
-                          <span className="emoji">🪑</span> Mobiliario urbano
-                        </div>
-                        <div className="flex cursor-pointer items-center gap-2 rounded-lg border border-gray-200 bg-gray-200 px-3 py-3 text-xs">
-                          <span className="emoji">🚔</span> Más seguridad
+                      </div>
+
+                      <div className="mt-3 overflow-hidden border-t border-slate-200/80 bg-gradient-to-br from-white via-blue-50/30 to-indigo-50/50 md:mb-8 md:rounded-xl md:border md:shadow md:shadow-gray-200/80">
+                        <div className="mt-3 space-y-3 px-3 pb-3">
+                          <div className="rounded-xl border border-gray-200 bg-gray-50/50 p-4 transition-colors duration-200 hover:bg-gray-50">
+                            <div className="flex items-center justify-between">
+                              <div className="flex items-center">
+                                <div>
+                                  <p className="text-sm font-medium text-gray-900">
+                                    Políticas de Privacidad
+                                  </p>
+                                  <p className="text-xs text-gray-500">
+                                    Conoce cómo usamos tus datos
+                                  </p>
+                                </div>
+                              </div>
+                              <div className="inline-flex items-center rounded-lg border border-gray-200 bg-white px-2 py-1 text-sm font-medium text-gray-700 shadow-sm">
+                                Ver
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  className="ml-1 h-3 w-3"
+                                  viewBox="0 0 20 20"
+                                  fill="currentColor"
+                                >
+                                  <path
+                                    fillRule="evenodd"
+                                    d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                    clipRule="evenodd"
+                                  />
+                                </svg>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div className="group relative flex min-h-11 w-full grow items-center justify-center gap-0.5 overflow-hidden rounded-lg bg-gradient-to-br from-blue-500 via-blue-600 to-blue-700 py-[8px] pr-5 pl-4 text-center text-white transition-all select-none hover:bg-[#2275C9] active:scale-95">
+                            <div className="absolute inset-0 bg-gradient-to-tr from-blue-700 via-blue-600 to-blue-500 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                            <span className="relative">Ir a votar</span>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -296,6 +321,7 @@ export default async function ComoParticipar() {
               </div>
             </div>
           </section>
+
           {/* View 3 - Preguntas */}
           <section className="flex min-h-[105svh] w-full">
             <div className="container mx-auto grid max-w-[80rem] grid-cols-1 items-center gap-10 px-4 lg:grid-cols-2">
@@ -311,68 +337,30 @@ export default async function ComoParticipar() {
                       <span className="ring-1s inline-flex w-fit items-center rounded-full bg-blue-50 px-2 py-0.5 text-[11px] font-medium text-blue-700">
                         Guía
                       </span>
-                      <h2 className="text-2xl font-bold text-[#0e4194]">
-                        Preguntas
+                      <h2 className="-mt-0.5 text-2xl font-bold text-[#0e4194]">
+                        Preguntas - Mapa Interactivo
                       </h2>
                     </div>
                   </div>
 
-                  {/* PENDING!! */}
                   {/* Cuerpo con descripción e ítems con íconos */}
                   <div className="px-5 py-4">
                     <p className="max-w-xl text-gray-700">
-                      Una vez iniciada la encuesta, te apareceran las preguntas
-                      de a una. En algunas hay un mapa interactivo en la que te
-                      permite seleccionar tu sector.
-                      <span className="font-medium">Clave Única</span>.
+                      Al comenzar, algunas consultas muestran un mapa para
+                      indicar tu sector. Puedes elegir desde las opciones o
+                      tocando directamente el mapa: eso personaliza las
+                      preguntas posteriores.
                     </p>
-                    <ul className="mt-3 space-y-2 text-sm text-gray-700">
-                      <li className="flex items-center gap-2">
-                        <svg
-                          className="h-4 w-4 text-emerald-600"
-                          viewBox="0 0 24 24"
-                          fill="currentColor"
-                        >
-                          <path
-                            fillRule="evenodd"
-                            d="M2 12a10 10 0 1 1 20 0A10 10 0 0 1 2 12Zm14.707-1.293a1 1 0 0 0-1.414-1.414L11 12.586 9.207 10.793a1 1 0 1 0-1.414 1.414l2.5 2.5a1 1 0 0 0 1.414 0l5-5Z"
-                          />
-                        </svg>
-                        Botón {`"Iniciar sesión"`} para participar en la
-                        consulta en caso de no haber iniciado sesión.
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <svg
-                          className="h-4 w-4 text-emerald-600"
-                          viewBox="0 0 24 24"
-                          fill="currentColor"
-                        >
-                          <path
-                            fillRule="evenodd"
-                            d="M2 12a10 10 0 1 1 20 0A10 10 0 0 1 2 12Zm14.707-1.293a1 1 0 0 0-1.414-1.414L11 12.586 9.207 10.793a1 1 0 1 0-1.414 1.414l2.5 2.5a1 1 0 0 0 1.414 0l5-5Z"
-                          />
-                        </svg>
-                        Enlaces {`"Ver documento completo"`} para acceder al
-                        material completo relativo a la consulta.
-                      </li>
-                    </ul>
 
                     {/* Callout que conecta con el placeholder */}
-                    <div className="mt-5 rounded-xl bg-blue-50 px-4 py-3 text-sm text-[#0e4194] ring-1 ring-blue-200">
-                      <span className="font-semibold">Tip:</span> No seras
-                      redirigido inmediatamente a la encuesta una vez iniciada
-                      la sesión, ya que primero debes aceptar los{" "}
-                      <span className="font-semibold">
-                        términos y condiciones de uso de datos
-                      </span>{" "}
-                      y luego presionar el botón de
-                      <span className="font-semibold"> Ir a votar</span> para
-                      iniciar el proceso de consulta.
+                    <div className="mt-4 rounded-xl bg-blue-50 px-4 py-3 text-sm text-[#0e4194] ring-1 ring-blue-200">
+                      <span className="font-semibold">Tip:</span> las siguientes
+                      preguntas pueden variar según el sector seleccionado;
+                      responde de acuerdo con tu realidad.
                     </div>
                   </div>
                 </div>
               </div>
-
               {/* Teléfono - Preguntas */}
               <div className="order-1 flex justify-center lg:order-2">
                 <SurveyParticipationTutorialView>
@@ -389,28 +377,71 @@ export default async function ComoParticipar() {
                     <div className="p-3">
                       {/* Progress Bar */}
                       <div className="mt-2.5 mb-4 flex h-2 gap-1">
-                        <div className="h-full w-full rounded-xs bg-emerald-400 transition-all duration-500" />
-                        <div className="h-full w-full rounded-xs bg-emerald-400 transition-all duration-500" />
+                        <div className="h-full w-full rounded-xs bg-blue-400 transition-all duration-500" />
+                        <div className="h-full w-full rounded-xs bg-gray-200 transition-all duration-500" />
                         <div className="h-full w-full rounded-xs bg-gray-200 transition-all duration-500" />
                       </div>
-                      <div className="question mb-4">
-                        <p className="text-sm font-semibold text-gray-800">
-                          ¿Dónde empezamos?
+                      <div className="question mb-2">
+                        <p className="text-lg font-bold text-[#23396f]">
+                          Selecciona tu Sector
                         </p>
                       </div>
-                      <div className="flex flex-col gap-1 space-y-1">
-                        <div className="flex cursor-pointer items-center gap-2 rounded-lg border border-gray-200 bg-gray-200 px-3 py-3 text-xs">
-                          <span className="emoji">🏛️</span> Plaza de Armas
+
+                      <div className="mb-2 space-y-2">
+                        <div className="relative flex cursor-pointer flex-col rounded-lg border border-[#0F69C4] bg-[#f2f6fe] px-4 py-3 shadow-md select-none">
+                          <div className="absolute top-[50%] right-4 flex size-6 translate-y-[-50%] items-center justify-center rounded-full border-2 border-[#0F69C4] text-[#0F69C4]">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              className="size-4"
+                              viewBox="0 0 20 20"
+                              fill="currentColor"
+                            >
+                              <path
+                                fillRule="evenodd"
+                                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                clipRule="evenodd"
+                              />
+                            </svg>
+                          </div>
+
+                          <div className="flex items-center gap-2 text-slate-600">
+                            <input
+                              type="radio"
+                              defaultChecked={true}
+                              className="size-4 cursor-pointer accent-[#0F69C4]"
+                            />
+                            <h5 className="text-sm font-medium">Opción 1</h5>
+                          </div>
                         </div>
-                        <div className="flex cursor-pointer items-center gap-2 rounded-lg border border-blue-400/80 bg-blue-100/50 px-3 py-3 text-xs">
-                          <span className="emoji">🏖️</span> Playa las Conchitas
+
+                        <div className="relative flex cursor-pointer flex-col rounded-lg border border-gray-200/90 bg-gray-200/30 px-4 py-3 select-none">
+                          <div className="flex items-center gap-2 text-slate-600">
+                            <input
+                              type="radio"
+                              className="size-4 cursor-pointer accent-[#0F69C4]"
+                            />
+                            <h5 className="text-sm font-medium">Opción 2</h5>
+                          </div>
                         </div>
-                        <div className="flex cursor-pointer items-center gap-2 rounded-lg border border-gray-200 bg-gray-200 px-3 py-3 text-xs">
-                          <span className="emoji">🏟️</span> Estadio Municipal
+
+                        <div className="relative flex cursor-pointer flex-col rounded-lg border border-gray-200/90 bg-gray-200/30 px-4 py-3 select-none">
+                          <div className="flex items-center gap-2 text-slate-600">
+                            <input
+                              type="radio"
+                              className="size-4 cursor-pointer accent-[#0F69C4]"
+                            />
+                            <h5 className="text-sm font-medium">Opción 3</h5>
+                          </div>
                         </div>
-                        <div className="flex cursor-pointer items-center gap-2 rounded-lg border border-gray-200 bg-gray-200 px-3 py-3 text-xs">
-                          <span className="emoji">❓</span> Otro lugar
-                        </div>
+                      </div>
+
+                      <div className="overflow-hidden rounded-xl border border-slate-200/80 bg-gradient-to-br from-white via-blue-50/30 to-indigo-50/50">
+                        <Image
+                          src="/map.png"
+                          alt="Mapa de sectores"
+                          width={400}
+                          height={300}
+                        />
                       </div>
                     </div>
                   </div>
@@ -418,6 +449,7 @@ export default async function ComoParticipar() {
               </div>
             </div>
           </section>
+
           {/* View 4 - Sub preguntas */}
           <section className="flex min-h-[105svh] w-full bg-gradient-to-br from-[#0b59a8] via-[#093d8f] to-[#0d2452]">
             <div className="container mx-auto grid max-w-[80rem] grid-cols-1 items-center gap-10 px-4 lg:grid-cols-2">
@@ -427,111 +459,136 @@ export default async function ComoParticipar() {
                   {/* Encabezado con icono y chip */}
                   <div className="flex items-center gap-3 border-b border-slate-200 px-5 py-4">
                     <div className="inline-flex size-10 items-center justify-center rounded-lg bg-blue-600/10 text-lg font-bold text-blue-700 ring-1 ring-blue-200">
-                      3
+                      4
                     </div>
                     <div className="flex flex-col">
                       <span className="ring-1s inline-flex w-fit items-center rounded-full bg-blue-50 px-2 py-0.5 text-[11px] font-medium text-blue-700">
                         Guía
                       </span>
                       <h2 className="text-2xl font-bold text-[#0e4194]">
-                        Preguntas
+                        Preguntas - En General
                       </h2>
                     </div>
                   </div>
 
-                  {/* PENDING!! */}
                   {/* Cuerpo con descripción e ítems con íconos */}
                   <div className="px-5 py-4">
                     <p className="max-w-xl text-gray-700">
-                      Una vez iniciada la encuesta, te apareceran las preguntas
-                      de a una. En algunas hay un mapa interactivo en la que te
-                      permite seleccionar tu sector.
-                      <span className="font-medium">Clave Única</span>.
+                      Las preguntas pueden requerir 1 o más respuestas, fijate
+                      bien antes de continuar con la siguiente pregunta.
                     </p>
                     <ul className="mt-3 space-y-2 text-sm text-gray-700">
                       <li className="flex items-center gap-2">
                         <svg
-                          className="h-4 w-4 text-emerald-600"
-                          viewBox="0 0 24 24"
+                          className="size-4 text-[#0e4194]"
+                          aria-hidden="true"
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
                           fill="currentColor"
+                          viewBox="0 0 24 24"
                         >
                           <path
                             fillRule="evenodd"
-                            d="M2 12a10 10 0 1 1 20 0A10 10 0 0 1 2 12Zm14.707-1.293a1 1 0 0 0-1.414-1.414L11 12.586 9.207 10.793a1 1 0 1 0-1.414 1.414l2.5 2.5a1 1 0 0 0 1.414 0l5-5Z"
+                            d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm9.408-5.5a1 1 0 1 0 0 2h.01a1 1 0 1 0 0-2h-.01ZM10 10a1 1 0 1 0 0 2h1v3h-1a1 1 0 1 0 0 2h4a1 1 0 1 0 0-2h-1v-4a1 1 0 0 0-1-1h-2Z"
+                            clipRule="evenodd"
                           />
                         </svg>
-                        Botón {`"Iniciar sesión"`} para participar en la
-                        consulta en caso de no haber iniciado sesión.
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <svg
-                          className="h-4 w-4 text-emerald-600"
-                          viewBox="0 0 24 24"
-                          fill="currentColor"
-                        >
-                          <path
-                            fillRule="evenodd"
-                            d="M2 12a10 10 0 1 1 20 0A10 10 0 0 1 2 12Zm14.707-1.293a1 1 0 0 0-1.414-1.414L11 12.586 9.207 10.793a1 1 0 1 0-1.414 1.414l2.5 2.5a1 1 0 0 0 1.414 0l5-5Z"
-                          />
-                        </svg>
-                        Enlaces {`"Ver documento completo"`} para acceder al
-                        material completo relativo a la consulta.
+                        Algunas opciones pueden tener sub-opciones.
                       </li>
                     </ul>
 
                     {/* Callout que conecta con el placeholder */}
                     <div className="mt-5 rounded-xl bg-blue-50 px-4 py-3 text-sm text-[#0e4194] ring-1 ring-blue-200">
-                      <span className="font-semibold">Tip:</span> No seras
-                      redirigido inmediatamente a la encuesta una vez iniciada
-                      la sesión, ya que primero debes aceptar los{" "}
-                      <span className="font-semibold">
-                        términos y condiciones de uso de datos
-                      </span>{" "}
-                      y luego presionar el botón de
-                      <span className="font-semibold"> Ir a votar</span> para
-                      iniciar el proceso de consulta.
+                      <span className="font-semibold">Tip: </span> El botón de
+                      <span className="font-semibold"> Continuar</span> solo
+                      estará habilitado si marcas la cantidad requerida de
+                      respuestas.
                     </div>
                   </div>
                 </div>
               </div>
-
               {/* Teléfono - Preguntas */}
               <div className="flex justify-center">
                 <SurveyParticipationTutorialView>
                   {/* Pantalla 4: Tercera pregunta mejorada */}
                   <div className="app-screen active">
-                    <div className="rounded-t-lg bg-gradient-to-r from-blue-50 to-indigo-50 p-3">
-                      <div className="flex items-center justify-between">
-                        <h3 className="flex items-center gap-2 text-sm font-bold text-[#0e4194]">
-                          Actividades
+                    <div className="bg-gradient-to-r from-[#0b5dae] via-[#184998] to-[#0f3379] p-3 text-white">
+                      <div className="flex flex-col items-start justify-between">
+                        <h3 className="flex items-center gap-2 font-bold">
+                          Nombre de la Consulta
                         </h3>
-                        <span className="text-xs text-gray-500">3/3</span>
+                        <p className="text-xs">Termina: 15/09/2025</p>
                       </div>
                     </div>
                     <div className="p-3">
                       {/* Progress Bar */}
                       <div className="mt-2.5 mb-4 flex h-2 gap-1">
-                        <div className="h-full w-full rounded-xs bg-emerald-400 transition-all duration-500" />
-                        <div className="h-full w-full rounded-xs bg-emerald-400 transition-all duration-500" />
-                        <div className="h-full w-full rounded-xs bg-emerald-400 transition-all duration-500" />
+                        <div className="h-full w-full rounded-xs bg-blue-400 transition-all duration-500" />
+                        <div className="h-full w-full rounded-xs bg-blue-400 transition-all duration-500" />
+                        <div className="h-full w-full rounded-xs bg-gray-200 transition-all duration-500" />
                       </div>
-                      <div className="question mb-4">
-                        <p className="text-sm font-semibold text-gray-800">
-                          ¿Qué actividades prefieres?
+                      <div className="question mb-2">
+                        <p className="text-lg font-bold text-[#23396f]">
+                          ¿Que opción te gusta más?
                         </p>
                       </div>
-                      <div className="flex flex-col gap-1 space-y-1">
-                        <div className="flex cursor-pointer items-center gap-2 rounded-lg border border-gray-200 bg-gray-200 px-3 py-3 text-xs">
-                          <span className="emoji">🎭</span> Eventos culturales
+
+                      <div className="mb-2 space-y-2">
+                        <div className="relative flex cursor-pointer flex-col rounded-lg border border-[#0F69C4] bg-[#f2f6fe] px-4 py-3 shadow-md select-none">
+                          <div className="absolute top-[50%] right-4 flex size-6 translate-y-[-50%] items-center justify-center rounded-full border-2 border-[#0F69C4] text-[#0F69C4]">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              className="size-4"
+                              viewBox="0 0 20 20"
+                              fill="currentColor"
+                            >
+                              <path
+                                fillRule="evenodd"
+                                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                clipRule="evenodd"
+                              />
+                            </svg>
+                          </div>
+
+                          <div className="flex items-center gap-2 text-slate-600">
+                            <input
+                              type="radio"
+                              defaultChecked={true}
+                              className="size-4 cursor-pointer accent-[#0F69C4]"
+                            />
+                            <h5 className="text-sm font-medium">Opción 1</h5>
+                          </div>
                         </div>
-                        <div className="flex cursor-pointer items-center gap-2 rounded-lg border border-gray-200 bg-gray-200 px-3 py-3 text-xs">
-                          <span className="emoji">⚽</span> Deportes
+
+                        <div className="relative flex cursor-pointer flex-col rounded-lg border border-gray-200/90 bg-gray-200/30 px-4 py-3 select-none">
+                          <div className="flex items-center gap-2 text-slate-600">
+                            <input
+                              type="radio"
+                              className="size-4 cursor-pointer accent-[#0F69C4]"
+                            />
+                            <h5 className="text-sm font-medium">Opción 2</h5>
+                          </div>
                         </div>
-                        <div className="flex cursor-pointer items-center gap-2 rounded-lg border border-gray-200 bg-gray-200 px-3 py-3 text-xs">
-                          <span className="emoji">🛒</span> Ferias locales
+
+                        <div className="relative flex cursor-pointer flex-col rounded-lg border border-gray-200/90 bg-gray-200/30 px-4 py-3 select-none">
+                          <div className="flex items-center gap-2 text-slate-600">
+                            <input
+                              type="radio"
+                              className="size-4 cursor-pointer accent-[#0F69C4]"
+                            />
+                            <h5 className="text-sm font-medium">Opción 3</h5>
+                          </div>
                         </div>
-                        <div className="flex cursor-pointer items-center gap-2 rounded-lg border border-blue-400/80 bg-blue-100/50 px-3 py-3 text-xs">
-                          <span className="emoji">🐈</span> Más gatitos
+
+                        <div className="relative flex cursor-pointer flex-col rounded-lg border border-gray-200/90 bg-gray-200/30 px-4 py-3 select-none">
+                          <div className="flex items-center gap-2 text-slate-600">
+                            <input
+                              type="radio"
+                              className="size-4 cursor-pointer accent-[#0F69C4]"
+                            />
+                            <h5 className="text-sm font-medium">Opción 4</h5>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -540,27 +597,105 @@ export default async function ComoParticipar() {
               </div>
             </div>
           </section>
+
           {/* View 5 - Confirmación */}
           <section className="flex min-h-[105svh] w-full">
             <div className="container mx-auto grid max-w-[80rem] grid-cols-1 items-center gap-10 px-4 lg:grid-cols-2">
               {/* Panel descriptivo - Confirmación */}
-              <div className="">
-                <h2 className="text-2xl font-semibold text-[#0e4194]">
-                  Confirmación
-                </h2>
-                <p className="mt-2 max-w-xl text-gray-700">
-                  Pantalla final de agradecimiento. Refuerza el cierre del
-                  proceso y permite volver al inicio.
-                </p>
-                <ul className="mt-4 space-y-2 text-sm text-gray-600">
-                  <li> Mensaje de éxito y estado "Completado".</li>
-                  <li> Opción para regresar al inicio.</li>
-                  <li> Animaciones suaves para dar feedback.</li>
-                </ul>
-              </div>
+              <div className="order-2 lg:order-1">
+                <div className="rounded-2xl bg-white shadow-md ring-1 ring-gray-200 backdrop-blur">
+                  {/* Encabezado con icono y chip */}
+                  <div className="flex items-center gap-3 border-b border-slate-200 px-5 py-4">
+                    <div className="inline-flex size-10 items-center justify-center rounded-lg bg-blue-600/10 text-lg font-bold text-blue-700 ring-1 ring-blue-200">
+                      5
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="ring-1s inline-flex w-fit items-center rounded-full bg-blue-50 px-2 py-0.5 text-[11px] font-medium text-blue-700">
+                        Guía
+                      </span>
+                      <h2 className="text-2xl font-bold text-[#0e4194]">
+                        Confirmación
+                      </h2>
+                    </div>
+                  </div>
 
+                  {/* Cuerpo con descripción e ítems con íconos */}
+                  <div className="px-5 py-4">
+                    <p className="max-w-xl text-gray-700">
+                      Último paso antes de guardar tu voto, debes verificar que
+                      has marcado las opciones que consideras correctas.
+                    </p>
+
+                    {/* Callout que conecta con el placeholder */}
+                    <div className="mt-5 rounded-xl bg-blue-50 px-4 py-3 text-sm text-[#0e4194] ring-1 ring-blue-200">
+                      <span className="font-semibold">Tip: </span> El botón de
+                      <span className="font-semibold"> Continuar</span> solo
+                      estará habilitado si marcas la cantidad requerida de
+                      respuestas.
+                    </div>
+                  </div>
+                </div>
+              </div>
               {/* Teléfono - Preguntas */}
-              <div className="flex justify-center">
+              <div className="order-1 flex justify-center lg:order-2">
+                <SurveyParticipationTutorialView>
+                  {/* Pantalla 5: Agradecimiento mejorado */}
+                  <div className="app-screen active">
+                    <div className="bg-gradient-to-r from-[#0b5dae] via-[#184998] to-[#0f3379] p-3 text-white">
+                      <div className="flex flex-col items-start justify-between">
+                        <h3 className="flex items-center gap-2 font-bold">
+                          Nombre de la Consulta
+                        </h3>
+                        <p className="text-xs">Termina: 15/09/2025</p>
+                      </div>
+                    </div>
+
+                    <div className="relative m-3 rounded-2xl bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-800 p-5 text-white shadow-xl">
+                      <div className="absolute inset-0 bg-black/10"></div>
+                      <div className="relative z-10">
+                        <h2 className="text-center text-xl font-bold">
+                          Confirma tu Voto
+                        </h2>
+                      </div>
+                    </div>
+
+                    <div className="flex h-full flex-col items-center justify-center p-6 text-center">
+                      <div className="emoji mb-4 animate-pulse text-5xl">
+                        🎉
+                      </div>
+                      <h3 className="mb-3 text-lg font-bold text-emerald-600">
+                        ¡Gracias!
+                      </h3>
+                      <p className="mb-2 text-sm text-gray-700">
+                        Tu opinión fue registrada
+                      </p>
+                      <p className="mb-6 text-xs text-gray-500">
+                        Juntos transformamos El Quisco
+                      </p>
+                      <div className="mb-4 flex items-center gap-2">
+                        <div className="h-2 w-2 animate-pulse rounded-full bg-emerald-400"></div>
+                        <span className="text-xs font-medium text-emerald-600">
+                          Completado
+                        </span>
+                      </div>
+                      <div className="cursor-pointer rounded-xl bg-gradient-to-r from-blue-500 to-blue-600 px-6 py-3 text-sm font-semibold text-white shadow-lg transition-all hover:shadow-xl">
+                        Volver al inicio
+                      </div>
+                    </div>
+                  </div>
+                </SurveyParticipationTutorialView>
+              </div>
+            </div>
+          </section>
+
+          {/* View 6 - Fin */}
+          <section className="flex min-h-[105svh] w-full bg-gradient-to-br from-[#0b59a8] via-[#093d8f] to-[#0d2452]">
+            <div className="container mx-auto flex flex-col items-center justify-center px-4">
+              <h3 className="text-center text-3xl font-bold text-white">
+                ¡Gracias por Participar!
+              </h3>
+              {/* Teléfono - Fin */}
+              <div className="order-1 flex justify-center py-16 lg:order-2">
                 <SurveyParticipationTutorialView>
                   {/* Pantalla 5: Agradecimiento mejorado */}
                   <div className="app-screen active">

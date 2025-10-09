@@ -20,23 +20,25 @@ export default function Footer() {
         <div className="grid grid-cols-1 gap-7 md:grid-cols-3 lg:grid-cols-4">
           {/* Column 1: Logo and Info */}
           <div className="flex flex-col space-y-4 p-1">
-            <div className="group">
-              <div className="flex items-center justify-center gap-3 rounded-xl border border-slate-700/50 bg-gradient-to-br from-slate-800/50 to-gray-800/30 p-4 backdrop-blur-sm transition-all duration-300 hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-500/15">
-                <div className="hfit flex w-fit flex-shrink-0 items-center justify-center shadow-lg">
-                  <Image
-                    width={24}
-                    loading="lazy"
-                    alt="El Quisco logo"
-                    src={elquiscoImg}
-                    className="brightness-0s inverts object-contain filter"
-                  />
-                </div>
-                <div className="flex flex-col text-sm leading-tight font-black">
-                  <p className="tracking-wide text-blue-400">MUNICIPALIDAD</p>
-                  <p className="-mt-1 text-slate-200">EL QUISCO</p>
-                </div>
+            <Link
+              href={"https://www.elquisco.cl/"}
+              target="_blank"
+              className="group flex items-center justify-center gap-3 rounded-xl border border-slate-700/50 bg-gradient-to-br from-slate-800/50 to-gray-800/30 p-4 backdrop-blur-sm transition-all duration-300 hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-500/15"
+            >
+              <div className="hfit flex w-fit flex-shrink-0 items-center justify-center shadow-lg">
+                <Image
+                  width={24}
+                  loading="lazy"
+                  alt="El Quisco logo"
+                  src={elquiscoImg}
+                  className="brightness-0s inverts object-contain filter"
+                />
               </div>
-            </div>
+              <div className="flex flex-col text-sm leading-tight font-black">
+                <p className="tracking-wide text-blue-500">MUNICIPALIDAD</p>
+                <p className="-mt-1 text-slate-200">EL QUISCO</p>
+              </div>
+            </Link>
 
             <Link
               href={"https://elquisco.cerofilas.gob.cl/"}
