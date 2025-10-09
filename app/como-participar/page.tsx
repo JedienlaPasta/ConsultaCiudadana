@@ -13,10 +13,10 @@ export default async function ComoParticipar() {
       <HowToParticipateHeader />
       <div className="flex flex-col gap-6">
         <div className="relative flex flex-col">
-          {/* View 1 */}
+          {/* View 1 - Inicio */}
           <section className="flex min-h-[105svh] w-full">
             <div className="container mx-auto grid max-w-[80rem] grid-cols-1 items-center gap-10 px-4 lg:grid-cols-2">
-              {/* Panel descriptivo */}
+              {/* Panel descriptivo - Inicio */}
               <div className="order-2 lg:order-1">
                 <div className="rounded-2xl bg-white shadow-md ring-1 ring-gray-200 backdrop-blur">
                   {/* Encabezado con icono y chip */}
@@ -99,7 +99,7 @@ export default async function ComoParticipar() {
                 </div>
               </div>
 
-              {/* Teléfono */}
+              {/* Teléfono - Preguntas */}
               <div className="order-1 flex justify-center lg:order-2">
                 <SurveyParticipationTutorialView>
                   {/* Pantalla 1: Bienvenida mejorada */}
@@ -173,10 +173,10 @@ export default async function ComoParticipar() {
             </div>
           </section>
 
-          {/* View 2 */}
+          {/* View 2 - Detalle de consulta */}
           <section className="flex min-h-[105svh] w-full bg-gradient-to-br from-[#0b59a8] via-[#093d8f] to-[#0d2452]">
             <div className="container mx-auto grid max-w-[80rem] grid-cols-1 items-center gap-10 px-4 lg:grid-cols-2">
-              {/* Panel descriptivo */}
+              {/* Panel descriptivo - Detalle de consulta */}
               <div className="order-2 lg:order-1">
                 <div className="rounded-2xl bg-white shadow-md ring-1 ring-gray-200 backdrop-blur">
                   {/* Encabezado con icono y chip */}
@@ -250,7 +250,7 @@ export default async function ComoParticipar() {
                 </div>
               </div>
 
-              {/* Teléfono */}
+              {/* Teléfono - Preguntas */}
               <div className="flex justify-center">
                 <SurveyParticipationTutorialView>
                   {/* Pantalla 2: Detalle de consulta */}
@@ -296,26 +296,10 @@ export default async function ComoParticipar() {
               </div>
             </div>
           </section>
-          {/* View 3 */}
+          {/* View 3 - Preguntas */}
           <section className="flex min-h-[105svh] w-full">
             <div className="container mx-auto grid max-w-[80rem] grid-cols-1 items-center gap-10 px-4 lg:grid-cols-2">
-              {/* Panel descriptivo */}
-              <div className="">
-                <h2 className="text-2xl font-semibold text-[#0e4194]">
-                  Ubicación
-                </h2>
-                <p className="mt-2 max-w-xl text-gray-700">
-                  Segunda pregunta: escoges el sector o punto de inicio. El
-                  diseño mantiene consistencia de componentes y estados.
-                </p>
-                <ul className="mt-4 space-y-2 text-sm text-gray-600">
-                  <li> Progreso actualizado (2/3).</li>
-                  <li> Opciones con iconos y estados activos.</li>
-                  <li> Enfoque en claridad y legibilidad.</li>
-                </ul>
-              </div>
-
-              {/* Panel descriptivo */}
+              {/* Panel descriptivo - Preguntas */}
               <div className="order-2 lg:order-1">
                 <div className="rounded-2xl bg-white shadow-md ring-1 ring-gray-200 backdrop-blur">
                   {/* Encabezado con icono y chip */}
@@ -389,8 +373,8 @@ export default async function ComoParticipar() {
                 </div>
               </div>
 
-              {/* Teléfono */}
-              <div className="flex justify-center">
+              {/* Teléfono - Preguntas */}
+              <div className="order-1 flex justify-center lg:order-2">
                 <SurveyParticipationTutorialView>
                   {/* Pantalla 3: Segunda pregunta mejorada */}
                   <div className="app-screen active">
@@ -434,24 +418,84 @@ export default async function ComoParticipar() {
               </div>
             </div>
           </section>
-          {/* View 4 */}
+          {/* View 4 - Sub preguntas */}
           <section className="flex min-h-[105svh] w-full bg-gradient-to-br from-[#0b59a8] via-[#093d8f] to-[#0d2452]">
             <div className="container mx-auto grid max-w-[80rem] grid-cols-1 items-center gap-10 px-4 lg:grid-cols-2">
-              {/* Panel descriptivo */}
-              <div className="text-white">
-                <h2 className="text-2xl font-semibold">Actividades</h2>
-                <p className="mt-2 max-w-xl text-blue-100">
-                  Tercera pregunta: escoges las actividades preferidas. El
-                  progreso marca el cierre de la encuesta.
-                </p>
-                <ul className="mt-4 space-y-2 text-sm text-blue-100">
-                  <li> Progreso completo (3/3).</li>
-                  <li> Opciones claras y consistentes.</li>
-                  <li> Resaltado de la elección activa.</li>
-                </ul>
+              {/* Panel descriptivo - Sub preguntas */}
+              <div className="order-2 lg:order-1">
+                <div className="rounded-2xl bg-white shadow-md ring-1 ring-gray-200 backdrop-blur">
+                  {/* Encabezado con icono y chip */}
+                  <div className="flex items-center gap-3 border-b border-slate-200 px-5 py-4">
+                    <div className="inline-flex size-10 items-center justify-center rounded-lg bg-blue-600/10 text-lg font-bold text-blue-700 ring-1 ring-blue-200">
+                      3
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="ring-1s inline-flex w-fit items-center rounded-full bg-blue-50 px-2 py-0.5 text-[11px] font-medium text-blue-700">
+                        Guía
+                      </span>
+                      <h2 className="text-2xl font-bold text-[#0e4194]">
+                        Preguntas
+                      </h2>
+                    </div>
+                  </div>
+
+                  {/* PENDING!! */}
+                  {/* Cuerpo con descripción e ítems con íconos */}
+                  <div className="px-5 py-4">
+                    <p className="max-w-xl text-gray-700">
+                      Una vez iniciada la encuesta, te apareceran las preguntas
+                      de a una. En algunas hay un mapa interactivo en la que te
+                      permite seleccionar tu sector.
+                      <span className="font-medium">Clave Única</span>.
+                    </p>
+                    <ul className="mt-3 space-y-2 text-sm text-gray-700">
+                      <li className="flex items-center gap-2">
+                        <svg
+                          className="h-4 w-4 text-emerald-600"
+                          viewBox="0 0 24 24"
+                          fill="currentColor"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M2 12a10 10 0 1 1 20 0A10 10 0 0 1 2 12Zm14.707-1.293a1 1 0 0 0-1.414-1.414L11 12.586 9.207 10.793a1 1 0 1 0-1.414 1.414l2.5 2.5a1 1 0 0 0 1.414 0l5-5Z"
+                          />
+                        </svg>
+                        Botón {`"Iniciar sesión"`} para participar en la
+                        consulta en caso de no haber iniciado sesión.
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <svg
+                          className="h-4 w-4 text-emerald-600"
+                          viewBox="0 0 24 24"
+                          fill="currentColor"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M2 12a10 10 0 1 1 20 0A10 10 0 0 1 2 12Zm14.707-1.293a1 1 0 0 0-1.414-1.414L11 12.586 9.207 10.793a1 1 0 1 0-1.414 1.414l2.5 2.5a1 1 0 0 0 1.414 0l5-5Z"
+                          />
+                        </svg>
+                        Enlaces {`"Ver documento completo"`} para acceder al
+                        material completo relativo a la consulta.
+                      </li>
+                    </ul>
+
+                    {/* Callout que conecta con el placeholder */}
+                    <div className="mt-5 rounded-xl bg-blue-50 px-4 py-3 text-sm text-[#0e4194] ring-1 ring-blue-200">
+                      <span className="font-semibold">Tip:</span> No seras
+                      redirigido inmediatamente a la encuesta una vez iniciada
+                      la sesión, ya que primero debes aceptar los{" "}
+                      <span className="font-semibold">
+                        términos y condiciones de uso de datos
+                      </span>{" "}
+                      y luego presionar el botón de
+                      <span className="font-semibold"> Ir a votar</span> para
+                      iniciar el proceso de consulta.
+                    </div>
+                  </div>
+                </div>
               </div>
 
-              {/* Teléfono */}
+              {/* Teléfono - Preguntas */}
               <div className="flex justify-center">
                 <SurveyParticipationTutorialView>
                   {/* Pantalla 4: Tercera pregunta mejorada */}
@@ -496,10 +540,10 @@ export default async function ComoParticipar() {
               </div>
             </div>
           </section>
-          {/* View 5 */}
+          {/* View 5 - Confirmación */}
           <section className="flex min-h-[105svh] w-full">
             <div className="container mx-auto grid max-w-[80rem] grid-cols-1 items-center gap-10 px-4 lg:grid-cols-2">
-              {/* Panel descriptivo */}
+              {/* Panel descriptivo - Confirmación */}
               <div className="">
                 <h2 className="text-2xl font-semibold text-[#0e4194]">
                   Confirmación
@@ -515,7 +559,7 @@ export default async function ComoParticipar() {
                 </ul>
               </div>
 
-              {/* Teléfono */}
+              {/* Teléfono - Preguntas */}
               <div className="flex justify-center">
                 <SurveyParticipationTutorialView>
                   {/* Pantalla 5: Agradecimiento mejorado */}
