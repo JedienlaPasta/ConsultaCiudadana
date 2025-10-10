@@ -3,6 +3,7 @@ import HowToParticipateHeader from "../ui/como-participar/HowToParticipateHeader
 import Navbar from "../ui/Navbar";
 import { getSession } from "../lib/actions/auth";
 import Footer from "../ui/Footer";
+import StepsSlider from "../ui/como-participar/StepsSlider";
 
 export default async function ComoParticipar() {
   const session = await getSession();
@@ -11,6 +12,7 @@ export default async function ComoParticipar() {
     <div className="flex min-h-dvh snap-y snap-mandatory flex-col bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/20">
       <Navbar isLoggedIn={session !== null} />
       <HowToParticipateHeader />
+      <StepsSlider />
       <div className="flex flex-col gap-6">
         <div className="relative flex flex-col">
           {/* View 1 - Inicio */}
@@ -651,7 +653,7 @@ export default async function ComoParticipar() {
                     </div>
 
                     <div className="relative m-3 rounded-2xl bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-800 p-5 text-white shadow-xl">
-                      <div className="absolute inset-0 bg-black/10"></div>
+                      <div className="absolute inset-0 rounded-2xl bg-black/10"></div>
                       <div className="relative z-10">
                         <h2 className="text-center text-xl font-bold">
                           Confirma tu Voto
