@@ -16,7 +16,10 @@ export default async function ComoParticipar() {
       <div className="flex flex-col gap-6">
         <div className="relative flex flex-col">
           {/* View 1 - Inicio */}
-          <section className="flex min-h-[100svh] w-full snap-start py-16">
+          <section
+            data-step="inicio"
+            className="flex min-h-[105svh] w-full snap-start py-16"
+          >
             <div className="container mx-auto grid max-w-[80rem] grid-cols-1 items-center gap-10 px-6 lg:grid-cols-2 lg:gap-16">
               {/* Panel descriptivo - Inicio */}
               <div className="order-2 lg:order-1">
@@ -105,18 +108,72 @@ export default async function ComoParticipar() {
                 <SurveyParticipationTutorialView>
                   {/* Pantalla 1: Bienvenida mejorada */}
                   <div className="app-screen active">
-                    <div className="flex h-full flex-col items-center justify-center p-4 text-center">
+                    <div className="absolute bottom-[56%] left-0 h-[285%] w-full scale-x-160">
+                      <div
+                        className="absolute inset-0 scale-x-200 scale-y-102 bg-gradient-to-br from-blue-900/90 via-blue-600/20 to-slate-900/10"
+                        style={{
+                          clipPath: "ellipse(65% 39.5% at 63% 57%)",
+                        }}
+                      />
+                      <div
+                        className="absolute inset-0 scale-x-200 bg-gradient-to-br from-[#0f69c4] via-[#0e4194] to-[#0b1934]"
+                        style={{
+                          clipPath: "ellipse(93% 94% at 39% 4.8%)",
+                        }}
+                      />
+                      <div
+                        className="absolute inset-0 scale-x-200 bg-gradient-to-br from-blue-500/70 via-[#0e4194]/30 to-[#0b1934]/40"
+                        style={{
+                          clipPath: "ellipse(73% 70.5% at 42% 28%)",
+                        }}
+                      />
+                    </div>
+
+                    <div className="mt-2 flex h-full flex-col items-center justify-start p-4 text-center">
                       <div className="w-full space-y-3">
-                        <div className="flex h-11 cursor-pointer items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-blue-500 to-blue-600 px-4 text-sm font-semibold text-white shadow-lg transition-all hover:shadow-xl">
-                          <span>Quiero Participar</span>
+                        {/* Quiero Participar btn */}
+                        <div className="group relative cursor-pointer overflow-hidden rounded-full bg-gradient-to-br from-blue-500 via-blue-600 to-blue-700 px-6 py-4 text-white shadow-2xl">
+                          <div className="relative flex items-center justify-center gap-2 text-sm font-bold">
+                            <svg
+                              className="h-5 w-5"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M13 7l5 5m0 0l-5 5m5-5H6"
+                              />
+                            </svg>
+                            <span>Quiero Participar</span>
+                          </div>
                         </div>
-                        <div className="flex h-11 cursor-pointer items-center justify-center gap-2 rounded-xl bg-gray-200 px-4 text-sm font-semibold text-gray-600 transition-all hover:bg-gray-200">
-                          <span>Ver resultados</span>
+
+                        {/* Como Participar btn */}
+                        <div className="group relative cursor-pointer overflow-hidden rounded-full border-2 border-white/30 bg-white/10 px-6 py-4 text-white shadow-xl backdrop-blur-sm">
+                          <div className="relative flex items-center justify-center gap-2 text-sm font-bold">
+                            <svg
+                              className="h-5 w-5"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+                              />
+                            </svg>
+                            <span>Cómo Participar</span>
+                          </div>
                         </div>
                       </div>
 
                       {/* Placeholder: Tarjeta de consulta */}
-                      <div className="mt-8 flex w-full flex-col justify-center gap-2 text-left">
+                      <div className="mt-22 flex w-full flex-col justify-center gap-2 text-left">
                         <h2 className="grow text-xl font-bold text-[#23396f]">
                           Últimas Consultas
                         </h2>
@@ -124,11 +181,9 @@ export default async function ComoParticipar() {
                           {/* Header */}
                           <div className="flex flex-col items-start justify-between gap-1 px-4 pt-3">
                             <h3 className="font-bold text-slate-700">
-                              Nombre de Consulta
+                              Nombre de la Consulta
                             </h3>
-                            <div
-                              className={`inline-flex items-center gap-1.5 rounded-md bg-emerald-200/50 py-1 pr-2.5 pl-2 text-xs font-medium text-emerald-600 backdrop-blur-sm`}
-                            >
+                            <div className="inline-flex items-center gap-1.5 rounded-md bg-emerald-200/50 py-1 pr-2.5 pl-2 text-xs font-medium text-emerald-600">
                               <svg
                                 className="size-3"
                                 aria-hidden="true"
@@ -150,7 +205,7 @@ export default async function ComoParticipar() {
 
                           {/* Body */}
                           <div className="px-4 py-2">
-                            <p className="text-left text-xs leading-relaxed text-slate-600">
+                            <p className="text-left text-xs text-slate-600">
                               Breve descripción de la consulta ciudadana para
                               ejemplificar el contenido de este elemento.
                             </p>
@@ -175,7 +230,10 @@ export default async function ComoParticipar() {
           </section>
 
           {/* View 2 - Detalle de consulta */}
-          <section className="flex min-h-[100svh] w-full snap-start bg-gradient-to-br from-[#0b59a8] via-[#093d8f] to-[#0d2452] py-16">
+          <section
+            data-step="detalle"
+            className="flex min-h-[105svh] w-full snap-start bg-gradient-to-br from-[#0b59a8] via-[#093d8f] to-[#0d2452] py-16"
+          >
             <div className="container mx-auto grid max-w-[80rem] grid-cols-1 items-center gap-10 px-6 lg:grid-cols-2 lg:gap-16">
               {/* Panel descriptivo - Detalle de consulta */}
               <div className="order-2 lg:order-1">
@@ -532,7 +590,7 @@ export default async function ComoParticipar() {
                       </div>
                       <div className="question mb-2">
                         <p className="text-lg font-bold text-[#23396f]">
-                          ¿Que opción te gusta más?
+                          ¿Qué opción te gusta más?
                         </p>
                       </div>
 
@@ -652,36 +710,168 @@ export default async function ComoParticipar() {
                       </div>
                     </div>
 
-                    <div className="relative m-3 rounded-2xl bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-800 p-5 text-white shadow-xl">
-                      <div className="absolute inset-0 rounded-2xl bg-black/10"></div>
-                      <div className="relative z-10">
-                        <h2 className="text-center text-xl font-bold">
-                          Confirma tu Voto
-                        </h2>
+                    <div className="p-3">
+                      {/* Progress Bar */}
+                      <div className="mt-2.5 mb-4 flex h-2 gap-1">
+                        <div className="h-full w-full rounded-xs bg-blue-400 transition-all duration-500" />
+                        <div className="h-full w-full rounded-xs bg-blue-400 transition-all duration-500" />
+                        <div className="h-full w-full rounded-xs bg-blue-400 transition-all duration-500" />
                       </div>
-                    </div>
 
-                    <div className="flex h-full flex-col items-center justify-center p-6 text-center">
-                      <div className="emoji mb-4 animate-pulse text-5xl">
-                        🎉
+                      <div className="relative mb-2 rounded-2xl bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-800 py-4 text-white shadow-xl">
+                        <div className="absolute inset-0 rounded-2xl bg-black/10"></div>
+                        <div className="relative z-10">
+                          <h2 className="text-center text-xl font-bold">
+                            Confirma tu Voto
+                          </h2>
+                        </div>
                       </div>
-                      <h3 className="mb-3 text-lg font-bold text-emerald-600">
-                        ¡Gracias!
-                      </h3>
-                      <p className="mb-2 text-sm text-gray-700">
-                        Tu opinión fue registrada
-                      </p>
-                      <p className="mb-6 text-xs text-gray-500">
-                        Juntos transformamos El Quisco
-                      </p>
-                      <div className="mb-4 flex items-center gap-2">
-                        <div className="h-2 w-2 animate-pulse rounded-full bg-emerald-400"></div>
-                        <span className="text-xs font-medium text-emerald-600">
-                          Completado
-                        </span>
-                      </div>
-                      <div className="cursor-pointer rounded-xl bg-gradient-to-r from-blue-500 to-blue-600 px-6 py-3 text-sm font-semibold text-white shadow-lg transition-all hover:shadow-xl">
-                        Volver al inicio
+
+                      <div className="flex flex-col items-center justify-center gap-2 text-center">
+                        {/* Sector seleccionado */}
+                        <div className="group relative w-full overflow-hidden rounded-2xl border border-slate-200/80 bg-gradient-to-br from-white via-blue-50/50 to-indigo-50/70 p-3 shadow-lg transition-all duration-300 hover:shadow-xl">
+                          <div className="relative z-10">
+                            <div className="mb-2 flex items-center gap-2.5">
+                              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 shadow-lg">
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  className="h-5 w-5 text-white"
+                                  viewBox="0 0 20 20"
+                                  fill="currentColor"
+                                >
+                                  <path
+                                    fillRule="evenodd"
+                                    d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
+                                    clipRule="evenodd"
+                                  />
+                                </svg>
+                              </div>
+                              <div className="text-left">
+                                <h3 className="-mb-1 font-bold text-slate-800">
+                                  Sector de Votación
+                                </h3>
+                                <p className="text-xs text-slate-600">
+                                  Sector seleccionado
+                                </p>
+                              </div>
+                            </div>
+
+                            <div className="relative overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition-all duration-300 hover:scale-[1.01] hover:shadow-md">
+                              <div className="flex items-center">
+                                <div className="rounded-l-xls flex h-14 w-11 flex-shrink-0 items-center justify-center bg-gradient-to-br from-blue-500 to-blue-600 font-bold text-white shadow-lg">
+                                  1
+                                </div>
+                                <div className="ml-2.5 text-left">
+                                  <h4 className="font-semibold text-slate-800">
+                                    Mi Sector
+                                  </h4>
+                                  <div className="flex flex-wrap gap-3">
+                                    <div className="flex items-center gap-1 rounded-lg">
+                                      <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        strokeWidth={2}
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        className="size-4 text-slate-600"
+                                      >
+                                        <path
+                                          stroke="none"
+                                          d="M0 0h24v24H0z"
+                                          fill="none"
+                                        />
+                                        <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" />
+                                        <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+                                      </svg>
+                                      <span className="text-xs font-medium text-slate-600">
+                                        2000 hab.
+                                      </span>
+                                    </div>
+                                    <div className="py-0.5s flex items-center gap-1 rounded-lg">
+                                      <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        strokeWidth={2}
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        className="size-4 text-slate-600"
+                                      >
+                                        <path
+                                          stroke="none"
+                                          d="M0 0h24v24H0z"
+                                          fill="none"
+                                        />
+                                        <path d="M3 7l6 -3l6 3l6 -3v13l-6 3l-6 -3l-6 3v-13" />
+                                        <path d="M9 4v13" />
+                                        <path d="M15 7v13" />
+                                      </svg>
+                                      <span className="text-xs font-medium text-slate-600">
+                                        10.0 km²
+                                      </span>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Opcion seleccionada */}
+                        <div className="group relative w-full overflow-hidden rounded-2xl border border-slate-200/80 bg-gradient-to-br from-white via-blue-50/50 to-indigo-50/70 p-3 shadow-lg transition-all duration-300 hover:shadow-xl">
+                          <div className="absolute inset-0 bg-gradient-to-br from-white/50 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
+                          <div className="relative z-10">
+                            <div className="mb-2 flex items-center gap-2.5">
+                              <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-500 to-emerald-600 shadow-lg">
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  className="h-5 w-5 text-white"
+                                  viewBox="0 0 20 20"
+                                  fill="currentColor"
+                                >
+                                  <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z" />
+                                </svg>
+                              </div>
+                              <div className="text-left">
+                                <h3 className="-mb-1 font-bold text-slate-800">
+                                  Pregunta 1
+                                </h3>
+                                <p className="text-xs text-slate-600">
+                                  Tus opciones seleccionadas
+                                </p>
+                              </div>
+                            </div>
+
+                            <div className="relative overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition-all duration-300 hover:scale-[1.01] hover:shadow-md">
+                              <div className="flex items-center">
+                                <div className="rounded-l-xls flex h-14 w-11 flex-shrink-0 items-center justify-center bg-gradient-to-br from-emerald-500 to-emerald-600 font-bold text-white shadow-lg">
+                                  1
+                                </div>
+                                <div className="ml-2.5 text-left">
+                                  <h4 className="font-semibold text-slate-800">
+                                    Opción 1
+                                  </h4>
+                                  <p className="text-xs text-slate-600">
+                                    Esta es la opción seleccionada.
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Boton de enviar voto */}
+                        <button className="group relative w-full cursor-pointer overflow-hidden rounded-xl bg-gradient-to-br from-blue-500 via-blue-600 to-blue-700 py-3 text-white shadow-lg">
+                          <div className="absolute inset-0 bg-gradient-to-tr from-blue-700 via-blue-600 to-blue-500 opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-disabled:!opacity-0" />
+                          <div className="flex items-center justify-center gap-2 text-sm">
+                            <span className="z-10 font-semibold">
+                              Enviar Voto
+                            </span>
+                          </div>
+                        </button>
                       </div>
                     </div>
                   </div>
@@ -693,7 +883,7 @@ export default async function ComoParticipar() {
           {/* View 6 - Fin */}
           <section className="flex min-h-[105svh] w-full bg-gradient-to-br from-[#0b59a8] via-[#093d8f] to-[#0d2452]">
             <div className="container mx-auto flex flex-col items-center justify-center px-4">
-              <h3 className="text-center text-3xl font-bold text-white">
+              <h3 className="text-center text-4xl font-bold text-white">
                 ¡Gracias por Participar!
               </h3>
               {/* Teléfono - Fin */}
@@ -711,8 +901,11 @@ export default async function ComoParticipar() {
                       <p className="mb-2 text-sm text-gray-700">
                         Tu opinión fue registrada
                       </p>
-                      <p className="mb-6 text-xs text-gray-500">
+                      {/* <p className="mb-6 text-xs text-gray-500">
                         Juntos transformamos El Quisco
+                      </p> */}
+                      <p className="mb-6 text-xs text-gray-500">
+                        Juntos traeremos más gatitos al Quisco
                       </p>
                       <div className="mb-4 flex items-center gap-2">
                         <div className="h-2 w-2 animate-pulse rounded-full bg-emerald-400"></div>
@@ -732,7 +925,9 @@ export default async function ComoParticipar() {
         </div>
       </div>
 
-      <Footer />
+      <section data-step="footer">
+        <Footer />
+      </section>
     </div>
   );
 }

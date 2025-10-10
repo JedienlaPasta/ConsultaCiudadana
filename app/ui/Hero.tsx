@@ -125,7 +125,7 @@ export default function Hero() {
 
             <Link
               href="/consultas"
-              className="group relative overflow-hidden rounded-full border-2 border-white/30 bg-white/10 px-6 py-4 text-lg font-black text-white shadow-xl backdrop-blur-sm transition-all duration-300 hover:scale-103 hover:border-white/50 hover:bg-white/15 hover:shadow-white/5 active:scale-95 md:px-10"
+              className="group relative cursor-pointer overflow-hidden rounded-full border-2 border-white/30 bg-white/10 px-6 py-4 text-lg font-black text-white shadow-xl backdrop-blur-sm transition-all duration-300 hover:scale-103 hover:border-white/50 hover:bg-white/15 hover:shadow-white/5 active:scale-95 md:px-10"
             >
               <div className="absolute inset-0 bg-gradient-to-r from-white/10 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
               <div className="relative flex items-center justify-center gap-2">
@@ -142,7 +142,7 @@ export default function Hero() {
                     d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
                   />
                 </svg>
-                <span>Ver Consultas</span>
+                <span>Cómo Participar</span>
               </div>
             </Link>
           </div>
