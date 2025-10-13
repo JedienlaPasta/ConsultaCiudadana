@@ -99,6 +99,16 @@ ul {
   padding: 10px;
 }
 
+.hero-phone {
+  position: relative;
+  width: 280px;
+  height: 540px;
+  background: #252627;
+  border-radius: 40px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+  padding: 10px;
+}
+
 .test {
   backface-visibility: hidden;
   perspective: 1000px;

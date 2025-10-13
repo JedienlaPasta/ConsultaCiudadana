@@ -12,7 +12,7 @@ export default function HeroPhoneAnimation({
         <div className="w-50s relative z-10 w-72 drop-shadow-2xl transition-transform duration-1000 hover:scale-105">
           {/* Phone container */}
           <div className="phone-container scale-90 xl:scale-110">
-            <div className="phone">
+            <div className="hero-phone">
               {/* Phone Side Buttons */}
               <div className="absolute top-[100px] right-[-3px] h-10 w-[3px] bg-[#444]"></div>
               <div className="absolute top-[160px] right-[-3px] h-15 w-[3px] bg-[#444]"></div>

@@ -8,8 +8,6 @@ export default function StepsSlider() {
   const [currentStep, setCurrentStep] = useState(0);
   const snappingRef = useRef<boolean>(false);
 
-  console.log(sections);
-
   useEffect(() => {
     // Selecciona explícitamente los pasos por data-step (header, secciones y footer)
     const nodes = Array.from(
@@ -65,13 +63,6 @@ export default function StepsSlider() {
       window.removeEventListener("wheel", onWheel);
     };
   }, [currentStep]);
-
-  const scrollToStep = (idx: number) => {
-    sectionsRef.current[idx]?.scrollIntoView({
-      behavior: "smooth",
-      block: "start",
-    });
-  };
 
   const goTo = useCallback((idx: number) => {
     const els = sectionsRef.current;
@@ -156,8 +147,12 @@ export default function StepsSlider() {
     };
   }, [currentStep]);
 
+  const isLastStep = currentStep === sectionsRef.current.length - 1;
+
   return (
-    <div className="fixed bottom-6 left-1/2 z-50 -translate-x-1/2">
+    <div
+      className={`fixed bottom-6 left-1/2 z-50 -translate-x-1/2 transition-transform duration-300 ${isLastStep ? "-translate-y-90" : ""}`}
+    >
       <div className="flex items-center gap-3 rounded-full bg-slate-900/80 px-3 py-2 text-white shadow-lg ring-1 ring-slate-700 backdrop-blur-md">
         <button
           className={`flex items-center gap-1 rounded rounded-l-3xl bg-white/90 px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-white ${currentStep === 0 ? "pointer-events-none opacity-50" : ""}`}

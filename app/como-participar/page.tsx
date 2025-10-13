@@ -26,7 +26,7 @@ export default async function ComoParticipar() {
                 <div className="rounded-2xl bg-white shadow-md ring-1 ring-gray-200 backdrop-blur">
                   {/* Encabezado con icono y chip */}
                   <div className="flex items-center gap-3 border-b border-slate-200 px-5 py-4">
-                    <div className="inline-flex size-10 items-center justify-center rounded-lg bg-blue-600/10 text-lg font-bold text-blue-700 ring-1 ring-blue-200">
+                    <div className="inline-flex size-10 items-center justify-center rounded-lg bg-blue-400/10 text-lg font-bold text-blue-700 ring-1 ring-blue-200">
                       1
                     </div>
                     <div className="flex flex-col">
@@ -240,7 +240,7 @@ export default async function ComoParticipar() {
                 <div className="rounded-2xl bg-white shadow-md ring-1 ring-gray-200 backdrop-blur">
                   {/* Encabezado con icono y chip */}
                   <div className="flex items-center gap-3 border-b border-slate-200 px-5 py-4">
-                    <div className="inline-flex size-10 items-center justify-center rounded-lg bg-blue-600/10 text-lg font-bold text-blue-700 ring-1 ring-blue-200">
+                    <div className="inline-flex size-10 items-center justify-center rounded-lg bg-blue-400/10 text-lg font-bold text-blue-700 ring-1 ring-blue-200">
                       2
                     </div>
                     <div className="flex flex-col">
@@ -390,7 +390,7 @@ export default async function ComoParticipar() {
                 <div className="rounded-2xl bg-white shadow-md ring-1 ring-gray-200 backdrop-blur">
                   {/* Encabezado con icono y chip */}
                   <div className="flex items-center gap-3 border-b border-slate-200 px-5 py-4">
-                    <div className="inline-flex size-10 items-center justify-center rounded-lg bg-blue-600/10 text-lg font-bold text-blue-700 ring-1 ring-blue-200">
+                    <div className="inline-flex size-10 items-center justify-center rounded-lg bg-blue-400/10 text-lg font-bold text-blue-700 ring-1 ring-blue-200">
                       3
                     </div>
                     <div className="flex flex-col">
@@ -518,7 +518,7 @@ export default async function ComoParticipar() {
                 <div className="rounded-2xl bg-white shadow-md ring-1 ring-gray-200 backdrop-blur">
                   {/* Encabezado con icono y chip */}
                   <div className="flex items-center gap-3 border-b border-slate-200 px-5 py-4">
-                    <div className="inline-flex size-10 items-center justify-center rounded-lg bg-blue-600/10 text-lg font-bold text-blue-700 ring-1 ring-blue-200">
+                    <div className="inline-flex size-10 items-center justify-center rounded-lg bg-blue-400/10 text-lg font-bold text-blue-700 ring-1 ring-blue-200">
                       4
                     </div>
                     <div className="flex flex-col">
@@ -666,7 +666,7 @@ export default async function ComoParticipar() {
                 <div className="rounded-2xl bg-white shadow-md ring-1 ring-gray-200 backdrop-blur">
                   {/* Encabezado con icono y chip */}
                   <div className="flex items-center gap-3 border-b border-slate-200 px-5 py-4">
-                    <div className="inline-flex size-10 items-center justify-center rounded-lg bg-blue-600/10 text-lg font-bold text-blue-700 ring-1 ring-blue-200">
+                    <div className="inline-flex size-10 items-center justify-center rounded-lg bg-blue-400/10 text-lg font-bold text-blue-700 ring-1 ring-blue-200">
                       5
                     </div>
                     <div className="flex flex-col">
