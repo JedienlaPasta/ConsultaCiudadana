@@ -11,15 +11,26 @@ import { redirect } from "next/navigation";
 
 export default async function Dashboard() {
   const session = await getSession();
-  const allowed = ["administrador", "encuestador"];
+  const allowed = ["admin", "encuestador"];
 
   if (!session || !allowed.includes(session.role as string)) {
+    console.log(
+      "sub:",
+      session?.sub,
+      ", role:",
+      session?.role,
+      "not allowed on /dashboard",
+    );
     redirect("/");
   }
   const surveys = await getSurveysListByAccess(
-    session?.sub || "19973725",
-    session?.dv || "2",
+    session?.sub || "",
+    session?.dv || "",
   );
+  // const surveys = await getSurveysListByAccess(
+  //   session?.sub || "19973725",
+  //   session?.dv || "2",
+  // );
 
   // Calculate analytics
   const totalSurveys = surveys?.length;
