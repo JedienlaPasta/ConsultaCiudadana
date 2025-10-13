@@ -3,6 +3,7 @@ import "./globals.css";
 import { geist } from "./ui/fonts";
 import { Toaster } from "sonner";
 import Script from "next/script";
+import CanonicalUrl from "./CanonicalUrl";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://participacion.munielquisco.gob.cl/"),
@@ -74,9 +75,6 @@ export const metadata: Metadata = {
       },
     ],
   },
-  alternates: {
-    canonical: "https://participacion.munielquisco.gob.cl/",
-  },
 };
 
 export default function RootLayout({
@@ -91,6 +89,10 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=Noto+Color+Emoji"
           rel="stylesheet"
         />
+
+        <CanonicalUrl />
+        <meta name="theme-color" content="#0e4194" />
+
         <Script
           id="org-jsonld"
           type="application/ld+json"
@@ -143,7 +145,6 @@ export default function RootLayout({
           rel="canonical"
           href="https://participacion.munielquisco.gob.cl/"
         />
-        <meta name="theme-color" content="#0e4194" />
       </head>
       <body className={`${geist.className} antialiased`}>
         <Toaster position="top-center" />
