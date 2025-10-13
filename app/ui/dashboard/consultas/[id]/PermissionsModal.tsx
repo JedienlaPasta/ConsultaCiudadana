@@ -146,7 +146,7 @@ export default function PermissionsModal({
           <div className="mb-2 flex items-center gap-1">
             <div>
               <h3 className="text-lg font-bold text-gray-900">
-                Compartir consulta
+                Gestionar Acceso
               </h3>
               <p className="mt-1 text-sm leading-4.5 text-gray-600/80">
                 Puedes compartir la consulta con tu equipo para que puedan verla
