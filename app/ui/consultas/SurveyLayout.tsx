@@ -63,8 +63,9 @@ export default function SurveyLayout({
       router.replace("/");
       return;
     }
-
+    console.log("Si se encontro el rut (66)...");
     if (hasParticipated) {
+      console.log("Ya ha participado (68)...");
       setShouldRender(false);
       toast.error("Ya has participado de esta encuesta");
       // Usar replace para no agregar al historial
@@ -77,6 +78,7 @@ export default function SurveyLayout({
   useEffect(() => {
     const handleVisibilityChange = () => {
       if (hasVoted && document.visibilityState === "visible") {
+        console.log("La página se volvió visible después de votar (81)...");
         // Si ya votó y la página se vuelve visible, redirigir
         router.replace("/");
       }
@@ -94,8 +96,9 @@ export default function SurveyLayout({
       const hasVotedInSession =
         sessionStorage.getItem(`voted_${publicId}_${sub}_${dv}`) === "true";
       if (hasVoted || hasParticipated || hasVotedInSession) {
-        router.replace("/");
+        console.log("Ya ha participado de esta encuesta (99)...");
         toast.error("Ya has participado de esta encuesta");
+        router.replace("/");
       }
     };
 
