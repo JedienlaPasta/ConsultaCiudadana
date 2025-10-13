@@ -16,7 +16,7 @@ export default async function Home() {
       <Suspense fallback={null}>
         <AuthErrorHandler />
       </Suspense>
-      <Navbar isLoggedIn={session !== null} />
+      <Navbar session={session} />
       {/* Navbar placeholder */}
       {/* <div className="h-18 bg-transparent"></div> */}
       <div className="relative">

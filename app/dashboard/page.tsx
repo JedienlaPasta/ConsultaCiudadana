@@ -7,9 +7,15 @@ import Link from "next/link";
 import AnalyticsCard from "../ui/dashboard/AnalyticsCard";
 import Navbar from "../ui/Navbar";
 import DashboardSurveysList from "../ui/dashboard/SurveysList";
+import { redirect } from "next/navigation";
 
 export default async function Dashboard() {
   const session = await getSession();
+  const allowed = ["administrador", "encuestador"];
+
+  if (!session || !allowed.includes(session.role as string)) {
+    redirect("/");
+  }
   const surveys = await getSurveysListByAccess(
     session?.sub || "19973725",
     session?.dv || "2",
@@ -29,7 +35,7 @@ export default async function Dashboard() {
 
   return (
     <div className="flex min-h-dvh flex-col bg-gradient-to-br from-slate-50 via-blue-50/30 to-slate-100">
-      <Navbar isLoggedIn={session !== null} />
+      <Navbar session={session} />
       <Header />
 
       <div className="container mx-auto max-w-[80rem] flex-1 px-4 py-8 md:px-8">

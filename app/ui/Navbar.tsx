@@ -4,10 +4,17 @@ import Link from "next/link";
 import React, { useState, useEffect } from "react";
 import ClaveUnicaBtn from "./ClaveUnicaBtn";
 import Image from "next/image";
+import { JwtPayload } from "jsonwebtoken";
 
-export default function Navbar({ isLoggedIn }: { isLoggedIn: boolean }) {
+type NavbarProps = {
+  session: JwtPayload | null;
+};
+
+export default function Navbar({ session }: NavbarProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [hasScrolled, setHasScrolled] = useState(false);
+
+  const isLoggedIn = session !== null;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -138,13 +145,17 @@ export default function Navbar({ isLoggedIn }: { isLoggedIn: boolean }) {
               </Link>
             </li>
             <li className="max-[850px]:hidden">
-              <Link
-                href="/dashboard"
-                id="gestion-link"
-                className="flex min-h-11 items-center rounded-sm px-4 text-white transition-colors hover:bg-[#0f69c4]"
-              >
-                Dashboard
-              </Link>
+              {["administrador", "encuestador"].includes(session?.role ?? "") && (
+                <Link
+                  href="/dashboard"
+                  className="block w-full text-white transition-colors hover:bg-[#0540a6]"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  <div className="flex items-center px-6 py-4">
+                    <span className="text-sm font-medium">Dashboard</span>
+                  </div>
+                </Link>
+              )}
             </li>
             <li>
               <ClaveUnicaBtn isLoggedIn={isLoggedIn} />

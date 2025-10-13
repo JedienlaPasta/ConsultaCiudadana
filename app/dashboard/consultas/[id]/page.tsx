@@ -82,7 +82,7 @@ export default async function SurveyDetailsOverview({
 
   return (
     <div className="flex min-h-dvh flex-col bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/50">
-      <Navbar isLoggedIn={session !== null} />
+      <Navbar session={session} />
       <Header />
 
       {permissions === "true" && (

@@ -19,7 +19,7 @@ export default async function SurveysPage(props: PageProps) {
 
   return (
     <div className="flex min-h-dvh flex-col">
-      <Navbar isLoggedIn={session !== null} />
+      <Navbar session={session} />
       <Header />
       <div className="container mx-auto max-w-[80rem] flex-1 space-y-6 px-4 pt-6 pb-12 md:px-8 md:pt-8">
         <SurveyFilter defaultFilter="todas" />

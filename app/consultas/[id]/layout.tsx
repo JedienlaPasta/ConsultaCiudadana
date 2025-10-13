@@ -18,7 +18,7 @@ export default async function Layout(props: SurveyDetailsProps) {
 
   return (
     <div>
-      <Navbar isLoggedIn={session !== null} />
+      <Navbar session={session} />
       <SurveyHeader survey={survey} />
       {props.children}
     </div>

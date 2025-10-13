@@ -11,7 +11,7 @@ export default async function NewSurveyPage() {
   return (
     <div className="min-h-screen">
       {/* Enhanced Header */}
-      <Navbar isLoggedIn={session !== null} />
+      <Navbar session={session} />
       <Header />
       <NewSurveyContentLayout
         sectors={sectors}
