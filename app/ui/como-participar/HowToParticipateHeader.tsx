@@ -1,4 +1,27 @@
+"use client";
+import Link from "next/link";
+import { useCallback } from "react";
+
 export default function HowToParticipateHeader() {
+  const goToNextSection = useCallback(() => {
+    const steps = Array.from(
+      document.querySelectorAll<HTMLElement>("[data-step]"),
+    );
+    if (!steps.length) return;
+
+    // Primer [data-step] por debajo del header
+    const next =
+      steps.find((el) => el.getBoundingClientRect().top > 0) ?? steps[0];
+
+    const prefersReducedMotion =
+      window.matchMedia &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    next.scrollIntoView({
+      behavior: prefersReducedMotion ? "auto" : "smooth",
+      block: "start",
+    });
+  }, []);
   return (
     <div
       data-step="header"
@@ -8,10 +31,19 @@ export default function HowToParticipateHeader() {
       <div className="h-[72px]"></div>
 
       {/* Elementos decorativos */}
-      <div className="absolute top-0 left-0 h-full w-full">
-        <div className="absolute top-10 left-10 h-32 w-32 rounded-full bg-blue-400/10 blur-xl"></div>
-        <div className="absolute top-20 right-20 h-48 w-48 rounded-full bg-indigo-400/10 blur-2xl"></div>
-        <div className="absolute bottom-10 left-1/3 h-24 w-24 rounded-full bg-blue-300/10 blur-lg"></div>
+      <div className="absolute top-0 left-0 h-full w-full" aria-hidden="true">
+        <div
+          className="absolute top-10 left-10 size-32 rounded-full bg-blue-400/10 blur-xl md:size-64"
+          aria-hidden="true"
+        ></div>
+        <div
+          className="absolute top-20 right-20 size-48 rounded-full bg-indigo-400/10 blur-2xl md:size-96"
+          aria-hidden="true"
+        ></div>
+        <div
+          className="absolute bottom-10 left-1/3 size-24 rounded-full bg-blue-400/10 blur-xl md:size-48"
+          aria-hidden="true"
+        ></div>
       </div>
 
       <div className="absolute inset-0 bg-gradient-to-br from-blue-800/20 via-[#0e4194]/20 to-[#0b1934]/30" />
@@ -23,17 +55,17 @@ export default function HowToParticipateHeader() {
               ¿Cómo Participar?
             </h1>
             <p className="mb-6 leading-relaxed text-blue-100 md:text-lg">
-              Te guiamos paso a paso para que puedas informarte, opinar y
-              contribuir a tu comuna en minutos.
+              Te guiamos paso a paso para que puedas informarte sobre como
+              contribuir a la comuna.
             </p>
 
             {/* Chips contextuales */}
             <div className="mb-6 flex flex-wrap justify-center gap-2">
               <span className="inline-flex items-center rounded-full bg-white/10 px-3 py-1 text-xs font-medium text-blue-100 ring-1 ring-white/20">
-                Consulta Activa
+                Privacidad protegida
               </span>
               <span className="inline-flex items-center rounded-full bg-white/10 px-3 py-1 text-xs font-medium text-blue-100 ring-1 ring-white/20">
-                Resultados Transparentes
+                Transparencia
               </span>
               <span className="inline-flex items-center rounded-full bg-white/10 px-3 py-1 text-xs font-medium text-blue-100 ring-1 ring-white/20">
                 Clave Única
@@ -83,23 +115,25 @@ export default function HowToParticipateHeader() {
 
           {/* Acciones */}
           <div className="flex flex-wrap justify-center gap-3">
-            <a
+            <Link
               href="/consultas"
               className="inline-flex h-11 items-center justify-center rounded-xl bg-gradient-to-r from-blue-500 to-blue-600 px-6 text-sm font-semibold text-white shadow-lg transition hover:shadow-xl"
             >
               Ver Consultas
-            </a>
-            <a
-              href="#"
+            </Link>
+            <button
+              type="button"
+              onClick={goToNextSection}
+              aria-label="Ir a la siguiente sección de la guía"
               className="inline-flex h-11 items-center justify-center rounded-xl bg-white/90 px-6 text-sm font-semibold text-slate-800 ring-1 ring-white/50 transition hover:bg-white"
             >
               Conoce cómo funciona
-            </a>
+            </button>
           </div>
 
           {/* Texto auxiliar */}
           <p className="max-w-xl text-xs text-blue-100/80">
-            Sin costo, sin registro de correo. Para validar identidad usamos{" "}
+            Sin registro de correo. Para validar tu identidad usamos{" "}
             <span className="font-medium">Clave Única</span>.
           </p>
         </div>

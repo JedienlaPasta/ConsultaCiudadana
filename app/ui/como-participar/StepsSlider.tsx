@@ -151,7 +151,7 @@ export default function StepsSlider() {
 
   return (
     <div
-      className={`fixed bottom-6 left-1/2 z-50 -translate-x-1/2 transition-transform duration-300 ${isLastStep ? "-translate-y-90" : ""}`}
+      className={`fixed bottom-6 left-1/2 z-50 hidden -translate-x-1/2 transition-transform duration-300 md:block ${isLastStep ? "-translate-y-90" : ""}`}
     >
       <div className="flex items-center gap-3 rounded-full bg-slate-900/80 px-3 py-2 text-white shadow-lg ring-1 ring-slate-700 backdrop-blur-md">
         <button

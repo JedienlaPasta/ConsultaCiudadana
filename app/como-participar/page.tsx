@@ -18,11 +18,11 @@ export default async function ComoParticipar() {
           {/* View 1 - Inicio */}
           <section
             data-step="inicio"
-            className="flex min-h-[105svh] w-full snap-start py-16"
+            className="flex min-h-[105svh] w-full snap-start"
           >
-            <div className="container mx-auto grid max-w-[80rem] grid-cols-1 items-center gap-10 px-6 lg:grid-cols-2 lg:gap-16">
+            <div className="container mx-auto flex max-w-[80rem] grid-cols-1 flex-col items-center justify-center gap-10 px-6 lg:grid lg:grid-cols-2 lg:gap-16">
               {/* Panel descriptivo - Inicio */}
-              <div className="order-2 lg:order-1">
+              <div className="order-1">
                 <div className="rounded-2xl bg-white shadow-md ring-1 ring-gray-200 backdrop-blur">
                   {/* Encabezado con icono y chip */}
                   <div className="flex items-center gap-3 border-b border-slate-200 px-5 py-4">
@@ -104,7 +104,7 @@ export default async function ComoParticipar() {
                 </div>
               </div>
               {/* Teléfono - Preguntas */}
-              <div className="order-1 flex justify-center lg:top-24 lg:order-2">
+              <div className="order-2 flex justify-center">
                 <SurveyParticipationTutorialView>
                   {/* Pantalla 1: Bienvenida mejorada */}
                   <div className="app-screen active">
@@ -232,11 +232,11 @@ export default async function ComoParticipar() {
           {/* View 2 - Detalle de consulta */}
           <section
             data-step="detalle"
-            className="flex min-h-[105svh] w-full snap-start bg-gradient-to-br from-[#0b59a8] via-[#093d8f] to-[#0d2452] py-16"
+            className="flex min-h-[105svh] w-full snap-start bg-gradient-to-br from-[#0b59a8] via-[#093d8f] to-[#0d2452]"
           >
-            <div className="container mx-auto grid max-w-[80rem] grid-cols-1 items-center gap-10 px-6 lg:grid-cols-2 lg:gap-16">
+            <div className="container mx-auto flex max-w-[80rem] grid-cols-1 flex-col items-center justify-center gap-10 px-6 lg:grid lg:grid-cols-2 lg:gap-16">
               {/* Panel descriptivo - Detalle de consulta */}
-              <div className="order-2 lg:order-1">
+              <div className="order-1 lg:order-2">
                 <div className="rounded-2xl bg-white shadow-md ring-1 ring-gray-200 backdrop-blur">
                   {/* Encabezado con icono y chip */}
                   <div className="flex items-center gap-3 border-b border-slate-200 px-5 py-4">
@@ -307,7 +307,7 @@ export default async function ComoParticipar() {
                 </div>
               </div>
               {/* Teléfono - Preguntas */}
-              <div className="flex justify-center lg:top-24">
+              <div className="order-2 flex justify-center lg:order-1">
                 <SurveyParticipationTutorialView>
                   {/* Pantalla 2: Detalle de consulta */}
                   <div className="app-screen active">
@@ -383,10 +383,13 @@ export default async function ComoParticipar() {
           </section>
 
           {/* View 3 - Preguntas */}
-          <section className="flex min-h-[105svh] w-full">
-            <div className="container mx-auto grid max-w-[80rem] grid-cols-1 items-center gap-10 px-4 lg:grid-cols-2">
+          <section
+            data-step="preguntas-mapa"
+            className="flex min-h-[105svh] w-full"
+          >
+            <div className="container mx-auto flex max-w-[80rem] grid-cols-1 flex-col items-center justify-center gap-10 px-6 lg:grid lg:grid-cols-2 lg:gap-16">
               {/* Panel descriptivo - Preguntas */}
-              <div className="order-2 lg:order-1">
+              <div className="order-1">
                 <div className="rounded-2xl bg-white shadow-md ring-1 ring-gray-200 backdrop-blur">
                   {/* Encabezado con icono y chip */}
                   <div className="flex items-center gap-3 border-b border-slate-200 px-5 py-4">
@@ -422,7 +425,7 @@ export default async function ComoParticipar() {
                 </div>
               </div>
               {/* Teléfono - Preguntas */}
-              <div className="order-1 flex justify-center lg:order-2">
+              <div className="order-2 flex justify-center">
                 <SurveyParticipationTutorialView>
                   {/* Pantalla 3: Segunda pregunta mejorada */}
                   <div className="app-screen active">
@@ -511,10 +514,13 @@ export default async function ComoParticipar() {
           </section>
 
           {/* View 4 - Sub preguntas */}
-          <section className="flex min-h-[105svh] w-full bg-gradient-to-br from-[#0b59a8] via-[#093d8f] to-[#0d2452]">
-            <div className="container mx-auto grid max-w-[80rem] grid-cols-1 items-center gap-10 px-4 lg:grid-cols-2">
+          <section
+            data-step="preguntas"
+            className="flex min-h-[105svh] w-full bg-gradient-to-br from-[#0b59a8] via-[#093d8f] to-[#0d2452]"
+          >
+            <div className="container mx-auto flex max-w-[80rem] grid-cols-1 flex-col items-center justify-center gap-10 px-6 lg:grid lg:grid-cols-2 lg:gap-16">
               {/* Panel descriptivo - Sub preguntas */}
-              <div className="order-2 lg:order-1">
+              <div className="order-1 lg:order-2">
                 <div className="rounded-2xl bg-white shadow-md ring-1 ring-gray-200 backdrop-blur">
                   {/* Encabezado con icono y chip */}
                   <div className="flex items-center gap-3 border-b border-slate-200 px-5 py-4">
@@ -569,7 +575,7 @@ export default async function ComoParticipar() {
                 </div>
               </div>
               {/* Teléfono - Preguntas */}
-              <div className="flex justify-center">
+              <div className="order-2 flex justify-center lg:order-1">
                 <SurveyParticipationTutorialView>
                   {/* Pantalla 4: Tercera pregunta mejorada */}
                   <div className="app-screen active">
@@ -659,10 +665,13 @@ export default async function ComoParticipar() {
           </section>
 
           {/* View 5 - Confirmación */}
-          <section className="flex min-h-[105svh] w-full">
-            <div className="container mx-auto grid max-w-[80rem] grid-cols-1 items-center gap-10 px-4 lg:grid-cols-2">
+          <section
+            data-step="confirmacion"
+            className="flex min-h-[105svh] w-full"
+          >
+            <div className="container mx-auto flex max-w-[80rem] grid-cols-1 flex-col items-center justify-center gap-10 px-6 lg:grid lg:grid-cols-2 lg:gap-16">
               {/* Panel descriptivo - Confirmación */}
-              <div className="order-2 lg:order-1">
+              <div className="order-1">
                 <div className="rounded-2xl bg-white shadow-md ring-1 ring-gray-200 backdrop-blur">
                   {/* Encabezado con icono y chip */}
                   <div className="flex items-center gap-3 border-b border-slate-200 px-5 py-4">
@@ -697,7 +706,7 @@ export default async function ComoParticipar() {
                 </div>
               </div>
               {/* Teléfono - Preguntas */}
-              <div className="order-1 flex justify-center lg:order-2">
+              <div className="order-2 flex justify-center">
                 <SurveyParticipationTutorialView>
                   {/* Pantalla 5: Agradecimiento mejorado */}
                   <div className="app-screen active">
@@ -881,7 +890,10 @@ export default async function ComoParticipar() {
           </section>
 
           {/* View 6 - Fin */}
-          <section className="flex min-h-[105svh] w-full bg-gradient-to-br from-[#0b59a8] via-[#093d8f] to-[#0d2452]">
+          <section
+            data-step="fin"
+            className="flex min-h-[105svh] w-full bg-gradient-to-br from-[#0b59a8] via-[#093d8f] to-[#0d2452]"
+          >
             <div className="container mx-auto flex flex-col items-center justify-center px-4">
               <h3 className="text-center text-4xl font-bold text-white">
                 ¡Gracias por Participar!
