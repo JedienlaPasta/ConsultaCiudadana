@@ -135,17 +135,20 @@ export default function Navbar({ session }: NavbarProps) {
                 Contacto
               </button>
             </li>
-            <li className="max-[950px]:hidden">
-              <Link
-                href="/como-participar"
-                id="gestion-link"
-                className="flex min-h-11 items-center rounded-sm px-4 text-white transition-colors hover:bg-[#0f69c4]"
-              >
-                Cómo Participar
-              </Link>
+            <li className="max-[850px]:hidden">
+              {/* Si role !== admin y encuestador */}
+              {!["admin", "encuestador"].includes(session?.role ?? "") && (
+                <Link
+                  href="/como-participar"
+                  id="gestion-link"
+                  className="flex min-h-11 items-center rounded-sm px-4 text-white transition-colors hover:bg-[#0f69c4]"
+                >
+                  Cómo Participar
+                </Link>
+              )}
             </li>
             <li className="max-[850px]:hidden">
-              {["administrador", "encuestador"].includes(session?.role ?? "") && (
+              {["admin", "encuestador"].includes(session?.role ?? "") && (
                 <Link
                   href="/dashboard"
                   className="block w-full text-white transition-colors hover:bg-[#0540a6]"
@@ -170,15 +173,17 @@ export default function Navbar({ session }: NavbarProps) {
       >
         <ul className="!ml-0 flex !list-none flex-col divide-y divide-[#0A4581]/30">
           <li>
-            <Link
-              href="/dashboard"
-              className="block w-full text-white transition-colors hover:bg-[#0540a6]"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              <div className="flex items-center px-6 py-4">
-                <span className="text-sm font-medium">Dashboard</span>
-              </div>
-            </Link>
+            {["admin", "encuestador"].includes(session?.role ?? "") && (
+              <Link
+                href="/dashboard"
+                className="block w-full text-white transition-colors hover:bg-[#0540a6]"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                <div className="flex items-center px-6 py-4">
+                  <span className="text-sm font-medium">Dashboard</span>
+                </div>
+              </Link>
+            )}
           </li>
           <li>
             <Link
