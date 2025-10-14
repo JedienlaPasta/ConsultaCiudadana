@@ -151,12 +151,10 @@ export default function Navbar({ session }: NavbarProps) {
               {["admin", "encuestador"].includes(session?.role ?? "") && (
                 <Link
                   href="/dashboard"
-                  className="block w-full text-white transition-colors hover:bg-[#0540a6]"
+                  className="flex min-h-11 items-center rounded-sm px-4 text-white transition-colors hover:bg-[#0f69c4]"
                   onClick={() => setIsMenuOpen(false)}
                 >
-                  <div className="flex items-center px-6 py-4">
-                    <span className="text-sm font-medium">Dashboard</span>
-                  </div>
+                  Dashboard
                 </Link>
               )}
             </li>
@@ -187,12 +185,12 @@ export default function Navbar({ session }: NavbarProps) {
           </li>
           <li>
             <Link
-              href="/como-participar"
+              href="/"
               className="block w-full text-white transition-colors hover:bg-[#0540a6]"
               onClick={() => setIsMenuOpen(false)}
             >
               <div className="flex items-center px-6 py-4">
-                <span className="text-sm font-medium">Cómo Participar</span>
+                <span className="text-sm font-medium">Inicio</span>
               </div>
             </Link>
           </li>
@@ -208,17 +206,6 @@ export default function Navbar({ session }: NavbarProps) {
             </Link>
           </li>
           <li>
-            <Link
-              href="/#"
-              className="block w-full text-white transition-colors hover:bg-[#0540a6]"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              <div className="flex items-center px-6 py-4">
-                <span className="text-sm font-medium">Resultados</span>
-              </div>
-            </Link>
-          </li>
-          <li>
             <button
               onClick={(e) => {
                 handleContactBtn(e);
@@ -230,6 +217,17 @@ export default function Navbar({ session }: NavbarProps) {
                 <span className="text-sm font-medium">Contacto</span>
               </div>
             </button>
+          </li>
+          <li>
+            <Link
+              href="/como-participar"
+              className="block w-full text-white transition-colors hover:bg-[#0540a6]"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              <div className="flex items-center px-6 py-4">
+                <span className="text-sm font-medium">Cómo Participar</span>
+              </div>
+            </Link>
           </li>
           <li className="p-4">
             <ClaveUnicaBtn isLoggedIn={isLoggedIn} />
