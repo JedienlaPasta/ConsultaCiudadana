@@ -18,7 +18,7 @@ export default async function ComoParticipar() {
           {/* View 1 - Inicio */}
           <section
             data-step="inicio"
-            className="flex min-h-[105svh] w-full snap-start py-10"
+            className="flex min-h-[105svh] w-full snap-start py-16 md:py-0"
           >
             <div className="container mx-auto flex max-w-[80rem] grid-cols-1 flex-col items-center justify-center gap-10 px-6 lg:grid lg:grid-cols-2 lg:gap-16">
               {/* Panel descriptivo - Inicio */}
@@ -232,7 +232,7 @@ export default async function ComoParticipar() {
           {/* View 2 - Detalle de consulta */}
           <section
             data-step="detalle"
-            className="flex min-h-[105svh] w-full snap-start bg-gradient-to-br from-[#0b59a8] via-[#093d8f] to-[#0d2452] py-10"
+            className="flex min-h-[105svh] w-full snap-start bg-gradient-to-br from-[#0b59a8] via-[#093d8f] to-[#0d2452] py-16 md:py-0"
           >
             <div className="container mx-auto flex max-w-[80rem] grid-cols-1 flex-col items-center justify-center gap-10 px-6 lg:grid lg:grid-cols-2 lg:gap-16">
               {/* Panel descriptivo - Detalle de consulta */}
@@ -385,7 +385,7 @@ export default async function ComoParticipar() {
           {/* View 3 - Preguntas */}
           <section
             data-step="preguntas-mapa"
-            className="flex min-h-[105svh] w-full py-10"
+            className="flex min-h-[105svh] w-full py-16 md:py-0"
           >
             <div className="container mx-auto flex max-w-[80rem] grid-cols-1 flex-col items-center justify-center gap-10 px-6 lg:grid lg:grid-cols-2 lg:gap-16">
               {/* Panel descriptivo - Preguntas */}
@@ -516,7 +516,7 @@ export default async function ComoParticipar() {
           {/* View 4 - Sub preguntas */}
           <section
             data-step="preguntas"
-            className="flex min-h-[105svh] w-full bg-gradient-to-br from-[#0b59a8] via-[#093d8f] to-[#0d2452] py-10"
+            className="flex min-h-[105svh] w-full bg-gradient-to-br from-[#0b59a8] via-[#093d8f] to-[#0d2452] py-16 md:py-0"
           >
             <div className="container mx-auto flex max-w-[80rem] grid-cols-1 flex-col items-center justify-center gap-10 px-6 lg:grid lg:grid-cols-2 lg:gap-16">
               {/* Panel descriptivo - Sub preguntas */}
@@ -667,7 +667,7 @@ export default async function ComoParticipar() {
           {/* View 5 - Confirmación */}
           <section
             data-step="confirmacion"
-            className="flex min-h-[105svh] w-full py-10"
+            className="flex min-h-[105svh] w-full py-16 md:py-0"
           >
             <div className="container mx-auto flex max-w-[80rem] grid-cols-1 flex-col items-center justify-center gap-10 px-6 lg:grid lg:grid-cols-2 lg:gap-16">
               {/* Panel descriptivo - Confirmación */}
@@ -892,7 +892,7 @@ export default async function ComoParticipar() {
           {/* View 6 - Fin */}
           <section
             data-step="fin"
-            className="flex min-h-[105svh] w-full bg-gradient-to-br from-[#0b59a8] via-[#093d8f] to-[#0d2452] py-10"
+            className="flex min-h-[105svh] w-full bg-gradient-to-br from-[#0b59a8] via-[#093d8f] to-[#0d2452] py-16 md:py-0"
           >
             <div className="container mx-auto flex flex-col items-center justify-center px-4">
               <h3 className="text-center text-4xl font-bold text-white">
