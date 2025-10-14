@@ -8,7 +8,6 @@ import StepsSlider from "../ui/como-participar/StepsSlider";
 export default async function ComoParticipar() {
   const session = await getSession();
   return (
-    // <div className="container mx-auto max-w-[80rem]">
     <div className="flex min-h-dvh snap-y snap-mandatory flex-col bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/20">
       <Navbar session={session} />
       <HowToParticipateHeader />

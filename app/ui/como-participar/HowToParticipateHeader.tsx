@@ -3,23 +3,30 @@ import Link from "next/link";
 import { useCallback } from "react";
 
 export default function HowToParticipateHeader() {
+  const NAVBAR_OFFSET = 66;
+
   const goToNextSection = useCallback(() => {
     const steps = Array.from(
       document.querySelectorAll<HTMLElement>("[data-step]"),
     );
     if (!steps.length) return;
 
-    // Primer [data-step] por debajo del header
+    // Primer [data-step] que aparece bajo el navbar
     const next =
-      steps.find((el) => el.getBoundingClientRect().top > 0) ?? steps[0];
+      steps.find((el) => el.getBoundingClientRect().top - NAVBAR_OFFSET > 0) ??
+      steps[0];
 
     const prefersReducedMotion =
-      window.matchMedia &&
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      typeof window !== "undefined" &&
+      window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
 
-    next.scrollIntoView({
+    // Desplaza la ventana, no el elemento
+    const targetTop =
+      window.scrollY + next.getBoundingClientRect().top - NAVBAR_OFFSET;
+
+    window.scrollTo({
+      top: targetTop,
       behavior: prefersReducedMotion ? "auto" : "smooth",
-      block: "start",
     });
   }, []);
   return (
@@ -133,12 +140,20 @@ export default function HowToParticipateHeader() {
               aria-label="Ir a la siguiente sección de la guía"
               className="inline-flex h-11 w-full items-center justify-center rounded-xl bg-white/90 px-6 text-sm font-semibold text-slate-800 ring-1 ring-white/50 transition hover:bg-white md:w-fit"
             >
-              Conoce cómo funciona
+              <div
+                className="flex cursor-pointer flex-wrap justify-center gap-3"
+                onClick={(e) => {
+                  e.preventDefault();
+                  goToNextSection();
+                }}
+              >
+                Conoce cómo funciona
+              </div>
             </button>
           </div>
 
           {/* Texto auxiliar */}
-          <p className="max-w-xl pt-2 pb-8 text-xs text-blue-100/80 md:pt-0 md:pb-0">
+          <p className="max-w-xl pt-2 pb-12 text-xs text-blue-100/80 md:pt-0 md:pb-0">
             Sin registro de correo. Para validar tu identidad usamos{" "}
             <span className="font-medium">Clave Única</span>.
           </p>
