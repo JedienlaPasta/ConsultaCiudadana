@@ -339,34 +339,38 @@ export default async function ComoParticipar() {
 
                       <div className="mt-3 overflow-hidden border-t border-slate-200/80 bg-gradient-to-br from-white via-blue-50/30 to-indigo-50/50 md:mb-8 md:rounded-xl md:border md:shadow md:shadow-gray-200/80">
                         <div className="mt-3 space-y-3 px-3 pb-3">
-                          <div className="rounded-xl border border-gray-200 bg-gray-50/50 p-4 transition-colors duration-200 hover:bg-gray-50">
-                            <div className="flex items-center justify-between">
-                              <div className="flex items-center">
-                                <div>
-                                  <p className="text-sm font-medium text-gray-900">
-                                    Políticas de Privacidad
-                                  </p>
-                                  <p className="text-xs text-gray-500">
-                                    Conoce cómo usamos tus datos
-                                  </p>
-                                </div>
+                          <div className="group rounded-xl border border-gray-200 bg-gray-50 select-none">
+                            <label
+                              className={`group flex cursor-pointer items-start gap-2 rounded-lg px-3.5 py-3 text-white ring-2 ring-blue-500 ring-offset-0`}
+                            >
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="24"
+                                height="24"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                className="text-blue-600"
+                              >
+                                <path
+                                  stroke="none"
+                                  d="M0 0h24v24H0z"
+                                  fill="none"
+                                />
+                                <path d="M9 11l3 3l8 -8" />
+                                <path d="M20 12v6a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h9" />
+                              </svg>
+                              <div className="flex-1">
+                                <p className="text-sm font-medium text-gray-700">
+                                  Confirmo que he leído la documentación de esta
+                                  encuesta y acepto las políticas de privacidad
+                                  y uso de datos.
+                                </p>
                               </div>
-                              <div className="inline-flex items-center rounded-lg border border-gray-200 bg-white px-2 py-1 text-sm font-medium text-gray-700 shadow-sm">
-                                Ver
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  className="ml-1 h-3 w-3"
-                                  viewBox="0 0 20 20"
-                                  fill="currentColor"
-                                >
-                                  <path
-                                    fillRule="evenodd"
-                                    d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                                    clipRule="evenodd"
-                                  />
-                                </svg>
-                              </div>
-                            </div>
+                            </label>
                           </div>
 
                           <div className="group relative flex min-h-11 w-full grow items-center justify-center gap-0.5 overflow-hidden rounded-lg bg-gradient-to-br from-blue-500 via-blue-600 to-blue-700 py-[8px] pr-5 pl-4 text-center text-white transition-all select-none hover:bg-[#2275C9] active:scale-95">
