@@ -120,7 +120,7 @@ export default function HowToParticipateHeader() {
           </div>
 
           {/* Acciones */}
-          <div className="mt-3 flex flex-wrap justify-center gap-3 md:mt-0">
+          <div className="mt-3 flex w-full flex-wrap justify-center gap-3 md:mt-0">
             <Link
               href="/consultas"
               className="inline-flex h-11 w-full items-center justify-center rounded-xl bg-gradient-to-r from-blue-500 to-blue-600 px-6 text-sm font-semibold text-white shadow-lg transition hover:shadow-xl md:w-fit"
