@@ -49,7 +49,7 @@ export default function HowToParticipateHeader() {
       <div className="absolute inset-0 bg-gradient-to-br from-blue-800/20 via-[#0e4194]/20 to-[#0b1934]/30" />
 
       <div className="relative z-10 container mx-auto max-w-[56rem] px-4 md:px-8">
-        <div className="mx-auto flex min-h-[calc(100svh-72px)] flex-col items-center justify-center gap-8 text-center">
+        <div className="mx-auto flex min-h-[calc(100svh-72px)] flex-col items-center justify-center gap-2 text-center md:gap-8">
           <div className="max-w-4xl">
             <h1 className="mb-3 text-3xl leading-tight font-bold md:text-5xl">
               ¿Cómo Participar?
@@ -74,30 +74,36 @@ export default function HowToParticipateHeader() {
           </div>
 
           {/* Grid de pasos resumidos */}
-          <div className="grid w-full grid-cols-1 gap-4 text-left sm:grid-cols-3">
+          <div className="grid w-full grid-cols-1 gap-2 text-left sm:grid-cols-3 md:gap-4">
             <div className="rounded-2xl bg-white/10 p-4 ring-1 ring-white/20 backdrop-blur">
-              <div className="mb-2 inline-flex size-9 items-center justify-center rounded-lg bg-blue-600/20 text-blue-100 ring-1 ring-white/20">
-                1
-              </div>
-              <h3 className="text-lg font-semibold">Explora</h3>
+              <span className="flex h-fit items-center gap-2.5">
+                <div className="flex size-9 items-center justify-center rounded-lg bg-blue-600/20 text-blue-100 ring-1 ring-white/20">
+                  1
+                </div>
+                <h3 className="text-lg font-semibold">Explora</h3>
+              </span>
               <p className="mt-1 text-sm text-blue-100/90">
                 Revisa las consultas activas y su objetivo.
               </p>
             </div>
             <div className="rounded-2xl bg-white/10 p-4 ring-1 ring-white/20 backdrop-blur">
-              <div className="mb-2 inline-flex size-9 items-center justify-center rounded-lg bg-blue-600/20 text-blue-100 ring-1 ring-white/20">
-                2
-              </div>
-              <h3 className="text-lg font-semibold">Infórmate</h3>
+              <span className="flex h-fit items-center gap-2.5">
+                <div className="flex size-9 items-center justify-center rounded-lg bg-blue-600/20 text-blue-100 ring-1 ring-white/20">
+                  2
+                </div>
+                <h3 className="text-lg font-semibold">Infórmate</h3>
+              </span>
               <p className="mt-1 text-sm text-blue-100/90">
                 Lee el detalle, etapas y documentos relacionados.
               </p>
             </div>
             <div className="rounded-2xl bg-white/10 p-4 ring-1 ring-white/20 backdrop-blur">
-              <div className="mb-2 inline-flex size-9 items-center justify-center rounded-lg bg-blue-600/20 text-blue-100 ring-1 ring-white/20">
-                3
-              </div>
-              <h3 className="text-lg font-semibold">Participa</h3>
+              <span className="flex h-fit items-center gap-2.5">
+                <div className="flex size-9 items-center justify-center rounded-lg bg-blue-600/20 text-blue-100 ring-1 ring-white/20">
+                  3
+                </div>
+                <h3 className="text-lg font-semibold">Participa</h3>
+              </span>
               <p className="mt-1 text-sm text-blue-100/90">
                 Inicia sesión con Clave Única y vota.
               </p>
@@ -114,10 +120,10 @@ export default function HowToParticipateHeader() {
           </div>
 
           {/* Acciones */}
-          <div className="flex flex-wrap justify-center gap-3">
+          <div className="mt-3 flex flex-wrap justify-center gap-3 md:mt-0">
             <Link
               href="/consultas"
-              className="inline-flex h-11 items-center justify-center rounded-xl bg-gradient-to-r from-blue-500 to-blue-600 px-6 text-sm font-semibold text-white shadow-lg transition hover:shadow-xl"
+              className="inline-flex h-11 w-full items-center justify-center rounded-xl bg-gradient-to-r from-blue-500 to-blue-600 px-6 text-sm font-semibold text-white shadow-lg transition hover:shadow-xl md:w-fit"
             >
               Ver Consultas
             </Link>
@@ -125,14 +131,14 @@ export default function HowToParticipateHeader() {
               type="button"
               onClick={goToNextSection}
               aria-label="Ir a la siguiente sección de la guía"
-              className="inline-flex h-11 items-center justify-center rounded-xl bg-white/90 px-6 text-sm font-semibold text-slate-800 ring-1 ring-white/50 transition hover:bg-white"
+              className="inline-flex h-11 w-full items-center justify-center rounded-xl bg-white/90 px-6 text-sm font-semibold text-slate-800 ring-1 ring-white/50 transition hover:bg-white md:w-fit"
             >
               Conoce cómo funciona
             </button>
           </div>
 
           {/* Texto auxiliar */}
-          <p className="max-w-xl text-xs text-blue-100/80">
+          <p className="max-w-xl pt-2 pb-8 text-xs text-blue-100/80 md:pt-0 md:pb-0">
             Sin registro de correo. Para validar tu identidad usamos{" "}
             <span className="font-medium">Clave Única</span>.
           </p>
