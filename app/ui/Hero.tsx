@@ -124,7 +124,7 @@ export default function Hero() {
             </button>
 
             <Link
-              href="/consultas"
+              href="/como-participar"
               className="group relative cursor-pointer overflow-hidden rounded-full border-2 border-white/30 bg-white/10 px-6 py-4 text-lg font-black text-white shadow-xl backdrop-blur-sm transition-all duration-300 hover:scale-103 hover:border-white/50 hover:bg-white/15 hover:shadow-white/5 active:scale-95 md:px-10"
             >
               <div className="absolute inset-0 bg-gradient-to-r from-white/10 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
