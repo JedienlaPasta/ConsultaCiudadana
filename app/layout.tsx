@@ -53,7 +53,7 @@ export const metadata: Metadata = {
     siteName: "Participa — Consultas Ciudadanas El Quisco",
     images: [
       {
-        url: "https://participacion.munielquisco.gob.cl/og-image.png",
+        url: "https://participacion.munielquisco.gob.cl/share-image.png",
         width: 1200,
         height: 630,
         alt: "Consultas Ciudadanas El Quisco",
@@ -68,7 +68,7 @@ export const metadata: Metadata = {
     description: "Participa en las consultas ciudadanas de El Quisco",
     images: [
       {
-        url: "https://participacion.munielquisco.gob.cl/og-image.png",
+        url: "https://participacion.munielquisco.gob.cl/share-image.png",
         width: 1200,
         height: 630,
         alt: "Consultas Ciudadanas El Quisco",
