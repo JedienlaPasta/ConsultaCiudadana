@@ -17,7 +17,7 @@ export default async function SurveyPage(props: SurveyDetailsProps) {
   const sub = session?.sub || "";
   const dv = session?.dv || "";
 
-  const hasParticipated = await verifyParticipation(publicId, "19973725", "2");
+  const hasParticipated = await verifyParticipation(publicId, sub, dv);
 
   const surveyQuestions = await getSurveyQuestions(publicId);
   if (surveyQuestions.length === 0) {
