@@ -68,7 +68,7 @@ export default function ClaveUnicaBtn({
       <form action={logout} className="flex w-full">
         <button
           type="submit"
-          aria-label="Iniciar sesión con ClaveÚnica"
+          aria-label="Cerrar sesión"
           className={`${roboto.className} flex min-h-[48px] grow cursor-pointer items-center justify-center gap-1 rounded-sm border-transparent bg-[#0f69c4] py-[8px] pr-5 pl-5 text-center font-bold text-white outline-4 outline-transparent transition-all outline-solid select-none hover:bg-[#07305a] focus:outline-[#ffbe5c]`}
         >
           <Image
@@ -92,6 +92,13 @@ export default function ClaveUnicaBtn({
       <button
         type="submit"
         aria-label="Iniciar sesión con ClaveÚnica"
+        onClick={() => {
+          if (!isNavbarBtn) {
+            try {
+              sessionStorage.setItem("scrollToVote", "1");
+            } catch {}
+          }
+        }}
         className={`${roboto.className} flex min-h-[48px] grow cursor-pointer items-center justify-center gap-1 rounded-sm border-transparent bg-[#0f69c4] py-[8px] pr-5 pl-5 text-center font-bold text-white outline-4 outline-transparent transition-all outline-solid select-none hover:bg-[#07305a] focus:outline-[#ffbe5c]`}
       >
         <Image

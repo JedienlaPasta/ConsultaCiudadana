@@ -12,6 +12,7 @@ import { formatDateToSpanish } from "@/app/lib/utils/format";
 import { redirect } from "next/navigation";
 import DOMPurify from "dompurify";
 import VoteBtn from "@/app/ui/consultas/[id]/VoteBtn";
+import ScrollToVoteOnLogin from "@/app/ui/consultas/ScrollToVoteOnLogin";
 
 type SurveyDetailsProps = {
   params: Promise<{ id: string }>;
@@ -409,7 +410,16 @@ export default async function SurveyDetail(props: SurveyDetailsProps) {
                       </Link>
                     </div>
                   </div>
-                  <VoteBtn id={id} surveyState={surveyState()} />
+                  {/* <VoteBtn id={id} surveyState={surveyState()} /> */}
+                  <div
+                    id="vote-section"
+                    className="mt-5 scroll-mt-[72px] space-y-5 px-5 pb-5 md:mt-6"
+                  >
+                    <VoteBtn id={id} surveyState={surveyState()} />
+                  </div>
+
+                  {/* Inserta el detector de retorno al login */}
+                  <ScrollToVoteOnLogin />
                 </div>
               ) : (
                 <div className="px-5 pb-5">

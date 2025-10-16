@@ -40,12 +40,11 @@ export async function GET(request: Request) {
       await checkUserRecord(response.userData.sub, response.userData.dv);
     }
 
-    returnTo = cookieStore.get("claveunica_return_to")?.value || "/";
-    console.log("value:", cookieStore.get("claveunica_return_to")?.value);
-    console.log(
-      "parsed:",
-      JSON.parse(cookieStore.get("claveunica_return_to")?.value || "{}"),
+    const returnToParsedValues = JSON.parse(
+      cookieStore.get("claveunica_return_to")?.value || "/",
     );
+    returnTo = returnToParsedValues.returnTo;
+
     cookieStore.delete("claveunica_return_to");
 
     // Add success parameter to trigger welcome toast
