@@ -357,64 +357,64 @@ export default async function SurveyDetail(props: SurveyDetailsProps) {
               )}
             </div>
 
-            <div className="sticky top-23 overflow-hidden border-t border-slate-200/80 bg-gradient-to-br from-white via-blue-50/30 to-indigo-50/50 md:mb-8 md:rounded-xl md:border md:shadow md:shadow-gray-200/80">
+            <div className="sticky top-23 overflow-hidden border-t border-slate-200/80 from-white via-blue-50/30 to-indigo-50/50 md:mb-8 md:rounded-xl md:border md:bg-gradient-to-br md:shadow md:shadow-gray-200/80">
               {surveyState() === "Cerrada" ? (
                 <div className="px-5 pb-5">
                   <VoteBtn id={id} surveyState={surveyState()} />
                 </div>
-              ) : isLoggedIn ? (
-                <div className="mt-5 space-y-5 px-5 pb-5 md:mt-6">
-                  <div className="rounded-xl border border-gray-200 bg-gray-50/50 p-4 transition-colors duration-200 hover:bg-gray-50">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center">
-                        <div className="mr-3 rounded-full bg-blue-100 p-2">
+              ) : !isLoggedIn ? (
+                <div className="space-y-5 px-5 pb-5 md:mt-6">
+                  {/* <VoteBtn id={id} surveyState={surveyState()} /> */}
+                  <div
+                    id="vote-section"
+                    className="mt-5 scroll-mt-[120px] space-y-5 pb-3"
+                  >
+                    <div className="rounded-xl border border-gray-200 bg-gray-50/50 p-4 transition-colors duration-200 hover:bg-gray-50">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center">
+                          <div className="mr-3 rounded-full bg-blue-100 p-2">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              className="h-4 w-4 text-blue-600"
+                              viewBox="0 0 20 20"
+                              fill="currentColor"
+                            >
+                              <path
+                                fillRule="evenodd"
+                                d="M18 8A6 6 0 006 8v1H5a3 3 0 00-3 3v4a3 3 0 003 3h10a3 3 0 003-3v-4a3 3 0 00-3-3h-1V8zM8 8a4 4 0 118 0v1H8V8z"
+                                clipRule="evenodd"
+                              />
+                            </svg>
+                          </div>
+                          <div>
+                            <p className="text-sm font-medium text-gray-900">
+                              Políticas de Privacidad
+                            </p>
+                            <p className="text-xs text-gray-500">
+                              Conoce cómo usamos tus datos
+                            </p>
+                          </div>
+                        </div>
+                        <Link
+                          href="/privacidad"
+                          className="inline-flex items-center rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-gray-700 shadow-sm transition-all duration-200 hover:bg-gray-50 hover:text-blue-600"
+                        >
+                          Ver
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
-                            className="h-4 w-4 text-blue-600"
+                            className="ml-1 h-3 w-3"
                             viewBox="0 0 20 20"
                             fill="currentColor"
                           >
                             <path
                               fillRule="evenodd"
-                              d="M18 8A6 6 0 006 8v1H5a3 3 0 00-3 3v4a3 3 0 003 3h10a3 3 0 003-3v-4a3 3 0 00-3-3h-1V8zM8 8a4 4 0 118 0v1H8V8z"
+                              d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
                               clipRule="evenodd"
                             />
                           </svg>
-                        </div>
-                        <div>
-                          <p className="text-sm font-medium text-gray-900">
-                            Políticas de Privacidad
-                          </p>
-                          <p className="text-xs text-gray-500">
-                            Conoce cómo usamos tus datos
-                          </p>
-                        </div>
+                        </Link>
                       </div>
-                      <Link
-                        href="/privacidad"
-                        className="inline-flex items-center rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-gray-700 shadow-sm transition-all duration-200 hover:bg-gray-50 hover:text-blue-600"
-                      >
-                        Ver
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="ml-1 h-3 w-3"
-                          viewBox="0 0 20 20"
-                          fill="currentColor"
-                        >
-                          <path
-                            fillRule="evenodd"
-                            d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                            clipRule="evenodd"
-                          />
-                        </svg>
-                      </Link>
                     </div>
-                  </div>
-                  {/* <VoteBtn id={id} surveyState={surveyState()} /> */}
-                  <div
-                    id="vote-section"
-                    className="mt-5 scroll-mt-[120px] space-y-5 px-5 pb-5 md:mt-6"
-                  >
                     <VoteBtn id={id} surveyState={surveyState()} />
                   </div>
 
