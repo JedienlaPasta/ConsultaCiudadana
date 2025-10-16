@@ -236,94 +236,76 @@ const SurveySchema = z.object({
     }),
   ),
   questions: z.array(
-    z
-      .object({
+    z.discriminatedUnion("isMapQuestion", [
+      // Variante 1: Pregunta tipo mapa (solo requiere el ID de pregunta existente)
+      z.object({
         id: z.number(),
-        questionId: z.number(),
-        question_description: z.string().optional(),
-        step: z.string().min(5, {
-          message:
-            "Contenido Consulta: El nombre del paso debe tener al menos 5 caracteres",
+        isMapQuestion: z.literal(true),
+        questionId: z.number().refine((val) => val !== 0, {
+          message: "questionId inválido para pregunta tipo mapa",
         }),
-        step_description: z.string().min(10, {
-          message:
-            "Contenido Consulta: La descripción del paso debe tener al menos 10 caracteres",
-        }),
-        isMapQuestion: z.boolean(),
-        minOptions: z.coerce.number(),
-        maxOptions: z.coerce.number(),
-      })
-      .and(
-        z.discriminatedUnion("isMapQuestion", [
-          // Case 1: Map question with questionId !== 0
-          z.object({
-            isMapQuestion: z.literal(true),
-            questionId: z.number().refine((val) => val !== 0, {
-              message: "questionId inválido para pregunta tipo mapa",
-            }),
-            question: z.string().optional(),
-            options: z.array(z.any()).optional(),
+      }),
+
+      // Variante 2: Pregunta normal (requiere todos los campos)
+      z
+        .object({
+          id: z.number(),
+          isMapQuestion: z.literal(false),
+          questionId: z.literal(0),
+          question: z.string().min(10, {
+            message:
+              "Contenido Consulta: La pregunta debe tener al menos 10 caracteres",
           }),
-          // Case 2: Regular question with questionId === 0
-          z
-            .object({
-              isMapQuestion: z.literal(false),
-              questionId: z.literal(0),
-              question: z.string().min(10, {
+          question_description: z.string().optional(),
+          step: z.string().min(5, {
+            message:
+              "Contenido Consulta: El nombre del paso debe tener al menos 5 caracteres",
+          }),
+          step_description: z.string().min(10, {
+            message:
+              "Contenido Consulta: La descripción del paso debe tener al menos 10 caracteres",
+          }),
+          minOptions: z.coerce.number().min(1, {
+            message:
+              "Contenido Consulta: El mínimo de opciones debe ser al menos 1",
+          }),
+          maxOptions: z.coerce.number().min(1, {
+            message:
+              "Contenido Consulta: El máximo de opciones debe ser al menos 1",
+          }),
+          options: z.array(
+            z.object({
+              id: z.number(),
+              option_name: z.string().min(1, {
                 message:
-                  "Contenido Consulta: La pregunta debe tener al menos 10 caracteres",
+                  "Contenido Consulta: La opción debe tener al menos 2 caracteres",
               }),
-              question_description: z.string().optional(),
-              step: z.string().min(5, {
-                message:
-                  "Contenido Consulta: El nombre del paso debe tener al menos 5 caracteres",
-              }),
-              step_description: z.string().min(10, {
-                message:
-                  "Contenido Consulta: La descripción del paso debe tener al menos 10 caracteres",
-              }),
-              minOptions: z.coerce.number().min(1, {
-                message:
-                  "Contenido Consulta: El mínimo de opciones debe ser al menos 1",
-              }),
-              maxOptions: z.coerce.number().min(1, {
-                message:
-                  "Contenido Consulta: El máximo de opciones debe ser al menos 1",
-              }),
-              options: z.array(
-                z.object({
-                  id: z.number(),
-                  option_name: z.string().min(1, {
-                    message:
-                      "Contenido Consulta: La opción debe tener al menos 2 caracteres",
+              option_description: z.string().optional(),
+              hasSubQuestion: z.boolean(),
+              subQuestion: z.string().optional(),
+              subQuestionDescription: z.string().optional(),
+              subOptions: z
+                .array(
+                  z.object({
+                    id: z.number(),
+                    option_name: z.string().min(1, {
+                      message:
+                        "Contenido Consulta: La opción debe tener al menos 2 caracteres",
+                    }),
+                    option_description: z.string().optional(),
+                    sector_id: z.string().optional(),
                   }),
-                  option_description: z.string().optional(),
-                  hasSubQuestion: z.boolean(),
-                  subQuestion: z.string().optional(),
-                  subQuestionDescription: z.string().optional(),
-                  subOptions: z
-                    .array(
-                      z.object({
-                        id: z.number(),
-                        option_name: z.string().min(1, {
-                          message:
-                            "Contenido Consulta: La opción debe tener al menos 2 caracteres",
-                        }),
-                        option_description: z.string().optional(),
-                        sector_id: z.string().optional(),
-                      }),
-                    )
-                    .optional(),
-                }),
-              ),
-            })
-            .refine((data) => data.maxOptions >= data.minOptions, {
-              message:
-                "El número máximo de opciones a elegir debe ser mayor o igual al mínimo",
-              path: ["maxOptions"],
+                )
+                .optional(),
             }),
-        ]),
-      ),
+          ),
+        })
+        .refine((data) => data.maxOptions >= data.minOptions, {
+          message:
+            "El número máximo de opciones a elegir debe ser mayor o igual al mínimo",
+          path: ["maxOptions"],
+        }),
+    ]),
   ),
 });
 
@@ -708,10 +690,10 @@ export async function createSurvey(
               `La pregunta con ID ${question.questionId} no es reutilizable`,
             );
           }
-        } else {
+        } else if (!question.isMapQuestion) {
           // const questionDescription = question?.question_description || null;
           const questionDescription = question.question_description || null;
-          const questionType = question.isMapQuestion ? "mapa" : "normal";
+          const questionType = "normal";
           // Si questionId === 0, insertar nueva pregunta
           const preguntaRequest = new sql.Request(transaction);
           const preguntaResult = await preguntaRequest
@@ -729,6 +711,8 @@ export async function createSurvey(
             `);
 
           questionId = preguntaResult.recordset[0].id;
+        } else {
+          continue;
         }
 
         // Asociar pregunta a la encuesta
@@ -742,20 +726,29 @@ export async function createSurvey(
           `);
 
         // Insertar opciones de la pregunta (subpreguntas y subopciones tambien)
-        if (!question.questionId || question.questionId <= 0) {
-          if (question.options && question.options.length > 0) {
+        if (
+          (!question.questionId || question.questionId <= 0) &&
+          !question.isMapQuestion
+        ) {
+          if (Array.isArray(question.options) && question.options.length > 0) {
             for (let j = 0; j < question.options.length; j++) {
               const option = question.options[j];
               let subQuestionId: number | null = null;
 
-              if (
+              const hasSubQuestion =
                 option.hasSubQuestion &&
-                option.subQuestion?.trim() &&
+                typeof option.subQuestion === "string" &&
+                option.subQuestion.trim().length > 0;
+
+              const hasValidSubOptions =
+                Array.isArray(option.subOptions) &&
                 option.subOptions.some(
-                  (subOption: SubOption) =>
-                    subOption?.option_name?.trim().length > 0,
-                )
-              ) {
+                  (subOption) =>
+                    typeof subOption.option_name === "string" &&
+                    subOption.option_name.trim().length > 0,
+                );
+
+              if (hasSubQuestion && hasValidSubOptions) {
                 const subQuestionDescription =
                   option.subQuestionDescription || null;
                 const subPreguntaRequest = new sql.Request(transaction);
