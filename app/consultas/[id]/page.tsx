@@ -362,7 +362,7 @@ export default async function SurveyDetail(props: SurveyDetailsProps) {
                 <div className="px-5 pb-5">
                   <VoteBtn id={id} surveyState={surveyState()} />
                 </div>
-              ) : !isLoggedIn ? (
+              ) : isLoggedIn ? (
                 <div className="space-y-5 px-5 pb-5 md:mt-6">
                   {/* <VoteBtn id={id} surveyState={surveyState()} /> */}
                   <div
