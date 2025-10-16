@@ -159,7 +159,7 @@ export default function Navbar({ session }: NavbarProps) {
               )}
             </li>
             <li>
-              <ClaveUnicaBtn isLoggedIn={isLoggedIn} />
+              <ClaveUnicaBtn isLoggedIn={isLoggedIn} isNavbarBtn={true} />
             </li>
           </ul>
         </nav>
@@ -230,7 +230,7 @@ export default function Navbar({ session }: NavbarProps) {
             </Link>
           </li>
           <li className="p-4">
-            <ClaveUnicaBtn isLoggedIn={isLoggedIn} />
+            <ClaveUnicaBtn isLoggedIn={isLoggedIn} isNavbarBtn={true} />
           </li>
         </ul>
       </div>

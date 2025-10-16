@@ -435,7 +435,10 @@ export default async function SurveyDetail(props: SurveyDetailsProps) {
                       Necesitas iniciar sesión para participar en esta consulta.
                     </p>
                     <span className="flex">
-                      <ClaveUnicaBtn isLoggedIn={session !== null} />
+                      <ClaveUnicaBtn
+                        isLoggedIn={session !== null}
+                        isNavbarBtn={false}
+                      />
                     </span>
                   </div>
                 </div>
