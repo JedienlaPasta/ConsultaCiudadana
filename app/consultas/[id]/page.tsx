@@ -413,7 +413,7 @@ export default async function SurveyDetail(props: SurveyDetailsProps) {
                   {/* <VoteBtn id={id} surveyState={surveyState()} /> */}
                   <div
                     id="vote-section"
-                    className="mt-5 scroll-mt-[72px] space-y-5 px-5 pb-5 md:mt-6"
+                    className="mt-5 scroll-mt-[120px] space-y-5 px-5 pb-5 md:mt-6"
                   >
                     <VoteBtn id={id} surveyState={surveyState()} />
                   </div>

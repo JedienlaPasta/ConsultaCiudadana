@@ -8,10 +8,9 @@ export default function ScrollToVoteOnLogin() {
       const flag = sessionStorage.getItem("scrollToVote");
       if (flag !== "1") return;
 
-      // Limpia el flag para que el scroll ocurra solo una vez
+      // Limpiar el flag para que el scroll ocurra solo una vez
       sessionStorage.removeItem("scrollToVote");
 
-      // Solo en mobile
       const isMobile = window.matchMedia("(max-width: 768px)").matches;
       if (!isMobile) return;
 
@@ -20,9 +19,7 @@ export default function ScrollToVoteOnLogin() {
 
       // Usa scrollIntoView; el offset del navbar se maneja con scroll-mt en el target
       target.scrollIntoView({ behavior: "smooth", block: "start" });
-    } catch {
-      // Si algo falla, no rompemos la UI
-    }
+    } catch {}
   }, []);
 
   return null;
