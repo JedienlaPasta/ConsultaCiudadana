@@ -214,7 +214,7 @@ export default async function SurveyDetail(props: SurveyDetailsProps) {
 
           {/* Right Column - Participation */}
           <div className="lg:col-span-1">
-            <div className="overflow-hidden border-t border-slate-200/80 bg-gradient-to-br from-white via-blue-50/30 to-indigo-50/50 md:mb-5 md:rounded-xl md:border md:shadow md:shadow-gray-200/80">
+            <div className="overflow-hidden border-t border-slate-200/80 from-white via-blue-50/30 to-indigo-50/50 md:mb-5 md:rounded-xl md:border md:bg-gradient-to-br md:shadow md:shadow-gray-200/80">
               <div className="space-y-3 px-5 py-6">
                 <h2 className="mb-4 text-xl font-bold text-[#23396f]">
                   Detalles de la Consulta
@@ -362,12 +362,12 @@ export default async function SurveyDetail(props: SurveyDetailsProps) {
                 <div className="px-5 pb-5">
                   <VoteBtn id={id} surveyState={surveyState()} />
                 </div>
-              ) : isLoggedIn ? (
+              ) : !isLoggedIn ? (
                 <div className="space-y-5 px-5 pb-5 md:mt-6">
                   {/* <VoteBtn id={id} surveyState={surveyState()} /> */}
                   <div
                     id="vote-section"
-                    className="mt-5 scroll-mt-[120px] space-y-5 pb-3"
+                    className="mt-5 scroll-mt-[420px] space-y-5 pb-3"
                   >
                     <div className="rounded-xl border border-gray-200 bg-gray-50/50 p-4 transition-colors duration-200 hover:bg-gray-50">
                       <div className="flex items-center justify-between">
