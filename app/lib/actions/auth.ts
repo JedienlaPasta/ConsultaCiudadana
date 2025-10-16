@@ -7,9 +7,17 @@ import jwt, { JwtPayload } from "jsonwebtoken";
 import { getUserRole } from "../data/usuarios";
 
 // Login ============================================================
-export async function signInWithClaveUnica(returnTo: string) {
+export async function signInWithClaveUnica(
+  returnTo: string,
+  isNavbarBtn: boolean,
+) {
   const state = crypto.randomBytes(16).toString("hex");
   const cookieStore = await cookies();
+
+  const returnToValues = {
+    returnTo,
+    isNavbarBtn,
+  };
 
   cookieStore.set("claveunica_state", state, {
     httpOnly: true,
@@ -19,7 +27,7 @@ export async function signInWithClaveUnica(returnTo: string) {
     sameSite: "lax",
   });
 
-  cookieStore.set("claveunica_return_to", returnTo, {
+  cookieStore.set("claveunica_return_to", JSON.stringify(returnToValues), {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     path: "/",

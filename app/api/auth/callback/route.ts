@@ -41,6 +41,11 @@ export async function GET(request: Request) {
     }
 
     returnTo = cookieStore.get("claveunica_return_to")?.value || "/";
+    console.log("value:", cookieStore.get("claveunica_return_to")?.value);
+    console.log(
+      "parsed:",
+      JSON.parse(cookieStore.get("claveunica_return_to")?.value || "{}"),
+    );
     cookieStore.delete("claveunica_return_to");
 
     // Add success parameter to trigger welcome toast

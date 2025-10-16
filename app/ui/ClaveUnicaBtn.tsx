@@ -6,7 +6,15 @@ import { signInWithClaveUnica, signOutClaveUnica } from "../lib/actions/auth";
 import { toast } from "sonner";
 import { usePathname, useSearchParams } from "next/navigation";
 
-export default function ClaveUnicaBtn({ isLoggedIn }: { isLoggedIn: boolean }) {
+type ClaveUnicaBtnProps = {
+  isLoggedIn: boolean;
+  isNavbarBtn: boolean;
+};
+
+export default function ClaveUnicaBtn({
+  isLoggedIn,
+  isNavbarBtn,
+}: ClaveUnicaBtnProps) {
   const pathname = usePathname();
   const [isUserLoggedIn, setIsUserLoggedIn] = useState<boolean>(isLoggedIn);
   const searchParams = useSearchParams();
@@ -77,7 +85,10 @@ export default function ClaveUnicaBtn({ isLoggedIn }: { isLoggedIn: boolean }) {
   }
 
   return (
-    <form action={() => signInWithClaveUnica(pathname)} className="flex w-full">
+    <form
+      action={() => signInWithClaveUnica(pathname, isNavbarBtn)}
+      className="flex w-full"
+    >
       <button
         type="submit"
         aria-label="Iniciar sesión con ClaveÚnica"
