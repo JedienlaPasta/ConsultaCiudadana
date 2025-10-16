@@ -16,7 +16,7 @@ export default function ScrollToVoteOnLogin() {
       const target = document.getElementById("vote-section");
       if (!target) return;
 
-      const NAVBAR_OFFSET = 90;
+      const NAVBAR_OFFSET = 120;
       const rect = target.getBoundingClientRect();
       const absoluteTop = window.pageYOffset + rect.top;
       const y = Math.max(0, absoluteTop - NAVBAR_OFFSET);
