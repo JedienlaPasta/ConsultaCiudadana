@@ -8,7 +8,6 @@ export default function ScrollToVoteOnLogin() {
       const flag = sessionStorage.getItem("scrollToVote");
       if (flag !== "1") return;
 
-      // Limpiar el flag para que el scroll ocurra solo una vez
       sessionStorage.removeItem("scrollToVote");
 
       const isMobile = window.matchMedia("(max-width: 768px)").matches;
@@ -17,9 +16,17 @@ export default function ScrollToVoteOnLogin() {
       const target = document.getElementById("vote-section");
       if (!target) return;
 
-      // Usa scrollIntoView; el offset del navbar se maneja con scroll-mt en el target
-      target.scrollIntoView({ behavior: "smooth", block: "start" });
-    } catch {}
+      const NAVBAR_OFFSET = 66;
+      const rect = target.getBoundingClientRect();
+      const absoluteTop = window.pageYOffset + rect.top;
+      const y = Math.max(0, absoluteTop - NAVBAR_OFFSET);
+
+      window.scrollTo({ top: y, behavior: "smooth" });
+    } catch {
+      // Fallback suave si algo falla en el cálculo
+      const target = document.getElementById("vote-section");
+      target?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
   }, []);
 
   return null;
