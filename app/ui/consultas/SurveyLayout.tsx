@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useTransition } from "react";
 import OptionSelectionList from "./OptionSelectionList";
 import VoteConfirmationOverview from "./VoteConfirmationOverview";
 import { useRouter } from "next/navigation";
@@ -126,6 +126,8 @@ export default function SurveyLayout({
     return null;
   }
 
+  const [isPending, startTransition] = useTransition();
+
   const formAction = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log("Iniciando guardado de voto (1)...");
@@ -146,51 +148,52 @@ export default function SurveyLayout({
       "Sesión inválida o expirada. Por favor, vuelve a iniciar sesión.";
 
     console.log("Iniciando guardado de voto (2), llamando server action...");
-    try {
-      const response = await registerVote(surveyAnswers);
-      if (!response.success) {
-        throw new Error(response.message);
-      }
 
-      setHasVoted(true);
-      // Guardar en sessionStorage inmediatamente
-      sessionStorage.setItem(`voted_${publicId}_${sub}_${dv}`, "true");
+    startTransition(async () => {
+      try {
+        const response = await registerVote(surveyAnswers);
+        if (!response.success) {
+          throw new Error(response.message);
+        }
 
-      // Limpiar el historial del navegador
-      if (window.history.length > 1) {
-        window.history.replaceState(null, "", "/");
-      }
+        setHasVoted(true);
+        sessionStorage.setItem(`voted_${publicId}_${sub}_${dv}`, "true");
 
-      setTimeout(() => {
-        setResponse({
-          success: true,
-          message: response.message,
-        });
-      }, 3000);
-    } catch (error) {
-      const message =
-        error instanceof Error
-          ? error.message
-          : "No se pudo registrar el voto, intente nuevamente";
-      console.log(message);
-      if (message === expiredSession) {
-        setTimeout(() => {
-          router.replace(`/consultas/${publicId}`);
-          toast.error(message);
-        }, 2000);
-      } else {
+        if (window.history.length > 1) {
+          window.history.replaceState(null, "", "/");
+        }
+
         setTimeout(() => {
           setResponse({
-            success: false,
-            message: message,
+            success: true,
+            message: response.message,
           });
-        }, 2000);
+        }, 3000);
+      } catch (error) {
+        const message =
+          error instanceof Error
+            ? error.message
+            : "No se pudo registrar el voto, intente nuevamente";
+        console.log(message);
+        if (message === expiredSession) {
+          setTimeout(() => {
+            router.replace(`/consultas/${publicId}`);
+            toast.error(message);
+          }, 2000);
+        } else {
+          setTimeout(() => {
+            setResponse({
+              success: false,
+              message: message,
+            });
+          }, 2000);
+        }
+      } finally {
+        setTimeout(() => {
+          setIsLoadingResponse(false);
+        }, 3000);
       }
-    } finally {
-      setTimeout(() => {
-        setIsLoadingResponse(false);
-      }, 3000);
-    }
+    });
   };
 
   // Modal de respuesta exitosa
@@ -414,11 +417,9 @@ export default function SurveyLayout({
                         ? "submit"
                         : "button"
                     }
-                    onClick={() =>
-                      handleQuestionChange(currentQuestionIndex + 1)
-                    }
-                    // disabled={!checkSelectedOptions(true)}
-                    className="group relative cursor-pointer overflow-hidden rounded-xl bg-gradient-to-br from-blue-500 via-blue-600 to-blue-700 px-12 py-4 text-white shadow-lg transition-all duration-300 hover:shadow-xl active:scale-95 disabled:cursor-not-allowed disabled:opacity-70 disabled:shadow-md sm:max-w-80"
+                    onClick={() => handleQuestionChange(currentQuestionIndex + 1)}
+                    disabled={isPending}
+                    className="group relative cursor-pointer overflow-hidden rounded-xl bg-gradient-to-br from-blue-500 via-blue-600 to-blue-700 px-12 py-4 text-white shadow-lg transition-all duration-300 hover:shadow-xl active:scale-95 disabled:cursor-not-allowed disabled:opacity-70 disabled:shadow..."
                   >
                     {/* <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-disabled:opacity-0"></div> */}
                     <div className="absolute inset-0 bg-gradient-to-tr from-blue-700 via-blue-600 to-blue-500 opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-disabled:!opacity-0" />
