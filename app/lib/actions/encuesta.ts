@@ -3,7 +3,7 @@
 import z from "zod";
 import { connectToDB } from "../utils/db-connection";
 import sql from "mssql";
-import { SubOption, SurveyAnswers } from "../definitions/encuesta";
+import { SurveyAnswers } from "../definitions/encuesta";
 import sanitizeHtml from "sanitize-html";
 import { revalidatePath } from "next/cache";
 import { generateUserHash } from "../utils/userHash";
@@ -16,6 +16,9 @@ export async function registerVote(surveyAnswers: SurveyAnswers) {
   const dv = session?.user?.dv || "";
 
   if (!sub || !dv) {
+    console.log(
+      "Sesión inválida o expirada. Por favor, vuelve a iniciar sesión.",
+    );
     return {
       success: false,
       message:
