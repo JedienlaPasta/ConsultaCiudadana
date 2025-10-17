@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef, useState, useTransition } from "react";
+import { useEffect, useRef, useState } from "react";
 import OptionSelectionList from "./OptionSelectionList";
 import VoteConfirmationOverview from "./VoteConfirmationOverview";
 import { useRouter } from "next/navigation";
@@ -122,7 +122,10 @@ export default function SurveyLayout({
     };
   }, [hasVoted, hasParticipated, router, publicId, sub, dv]);
 
-  const [isPending, startTransition] = useTransition();
+  if (!shouldRender || hasParticipated) {
+    return null;
+  }
+
   const formAction = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log("Iniciando guardado de voto (1)...");
@@ -132,7 +135,10 @@ export default function SurveyLayout({
       return;
     }
 
-    setResponse({ success: false, message: "Verificando..." });
+    setResponse({
+      success: false,
+      message: "Verificando...",
+    });
     setIsLoadingResponse(true);
     setShowResponseModal(true);
 
@@ -140,46 +146,51 @@ export default function SurveyLayout({
       "Sesión inválida o expirada. Por favor, vuelve a iniciar sesión.";
 
     console.log("Iniciando guardado de voto (2), llamando server action...");
-
-    startTransition(async () => {
-      try {
-        const response = await registerVote(surveyAnswers);
-        if (!response.success) {
-          throw new Error(response.message);
-        }
-
-        setHasVoted(true);
-        sessionStorage.setItem(`voted_${publicId}_${sub}_${dv}`, "true");
-
-        if (window.history.length > 1) {
-          window.history.replaceState(null, "", "/");
-        }
-
-        setTimeout(() => {
-          setResponse({ success: true, message: response.message });
-        }, 3000);
-      } catch (error) {
-        const message =
-          error instanceof Error
-            ? error.message
-            : "No se pudo registrar el voto, intente nuevamente";
-        console.log(message);
-        if (message === expiredSession) {
-          setTimeout(() => {
-            router.replace(`/consultas/${publicId}`);
-            toast.error(message);
-          }, 2000);
-        } else {
-          setTimeout(() => {
-            setResponse({ success: false, message });
-          }, 2000);
-        }
-      } finally {
-        setTimeout(() => {
-          setIsLoadingResponse(false);
-        }, 3000);
+    try {
+      const response = await registerVote(surveyAnswers);
+      if (!response.success) {
+        throw new Error(response.message);
       }
-    });
+
+      setHasVoted(true);
+      // Guardar en sessionStorage inmediatamente
+      sessionStorage.setItem(`voted_${publicId}_${sub}_${dv}`, "true");
+
+      // Limpiar el historial del navegador
+      if (window.history.length > 1) {
+        window.history.replaceState(null, "", "/");
+      }
+
+      setTimeout(() => {
+        setResponse({
+          success: true,
+          message: response.message,
+        });
+      }, 3000);
+    } catch (error) {
+      const message =
+        error instanceof Error
+          ? error.message
+          : "No se pudo registrar el voto, intente nuevamente";
+      console.log(message);
+      if (message === expiredSession) {
+        setTimeout(() => {
+          router.replace(`/consultas/${publicId}`);
+          toast.error(message);
+        }, 2000);
+      } else {
+        setTimeout(() => {
+          setResponse({
+            success: false,
+            message: message,
+          });
+        }, 2000);
+      }
+    } finally {
+      setTimeout(() => {
+        setIsLoadingResponse(false);
+      }, 3000);
+    }
   };
 
   // Modal de respuesta exitosa

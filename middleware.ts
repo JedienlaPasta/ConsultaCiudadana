@@ -6,6 +6,12 @@ export async function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
   const jwtSecret = process.env.NEXTAUTH_SECRET;
 
+  // Permitir que las peticiones de Server Actions pasen sin bloqueo
+  const isServerActionRequest = request.headers.get("Next-Action");
+  if (isServerActionRequest) {
+    return NextResponse.next();
+  }
+
   // Validar que existe la variable de entorno
   if (!jwtSecret) {
     console.error("NEXTAUTH_SECRET no está configurado");
