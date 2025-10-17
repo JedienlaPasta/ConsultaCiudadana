@@ -365,10 +365,7 @@ export default async function SurveyDetail(props: SurveyDetailsProps) {
               ) : isLoggedIn ? (
                 <div className="space-y-5 px-5 pb-5 md:mt-6">
                   {/* <VoteBtn id={id} surveyState={surveyState()} /> */}
-                  <div
-                    id="vote-section"
-                    className="mt-5 scroll-mt-[420px] space-y-5 pb-3"
-                  >
+                  <div id="vote-section" className="mt-5 space-y-5 pb-3">
                     <div className="rounded-xl border border-gray-200 bg-gray-50/50 p-4 transition-colors duration-200 hover:bg-gray-50">
                       <div className="flex items-center justify-between">
                         <div className="flex items-center">
