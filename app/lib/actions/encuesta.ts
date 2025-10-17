@@ -28,6 +28,9 @@ export async function registerVote(
     const transaction = new sql.Transaction(pool);
     await transaction.begin();
     console.log("Guardando voto...");
+    if (!sub || !dv) {
+      throw new Error("Sesión vencida o inválida.");
+    }
 
     try {
       // Obtener ID de la encuesta
