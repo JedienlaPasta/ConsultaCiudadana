@@ -128,7 +128,7 @@ export default function SurveyLayout({
 
   const formAction = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("Iniciando guardado de voto...");
+    console.log("Iniciando guardado de voto (1)...");
 
     if (hasVoted) {
       toast.error("Ya has enviado tu voto");
@@ -145,6 +145,7 @@ export default function SurveyLayout({
     const expiredSession =
       "Sesión inválida o expirada. Por favor, vuelve a iniciar sesión.";
 
+    console.log("Iniciando guardado de voto (2), llamando server action...");
     try {
       const response = await registerVote(surveyAnswers);
       if (!response.success) {
