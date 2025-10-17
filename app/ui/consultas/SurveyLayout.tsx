@@ -128,6 +128,7 @@ export default function SurveyLayout({
 
   const formAction = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    console.log("Iniciando guardado de voto...");
 
     if (hasVoted) {
       toast.error("Ya has enviado tu voto");
