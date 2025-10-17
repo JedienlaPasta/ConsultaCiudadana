@@ -122,12 +122,7 @@ export default function SurveyLayout({
     };
   }, [hasVoted, hasParticipated, router, publicId, sub, dv]);
 
-  if (!shouldRender || hasParticipated) {
-    return null;
-  }
-
   const [isPending, startTransition] = useTransition();
-
   const formAction = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log("Iniciando guardado de voto (1)...");
@@ -137,10 +132,7 @@ export default function SurveyLayout({
       return;
     }
 
-    setResponse({
-      success: false,
-      message: "Verificando...",
-    });
+    setResponse({ success: false, message: "Verificando..." });
     setIsLoadingResponse(true);
     setShowResponseModal(true);
 
@@ -164,10 +156,7 @@ export default function SurveyLayout({
         }
 
         setTimeout(() => {
-          setResponse({
-            success: true,
-            message: response.message,
-          });
+          setResponse({ success: true, message: response.message });
         }, 3000);
       } catch (error) {
         const message =
@@ -182,10 +171,7 @@ export default function SurveyLayout({
           }, 2000);
         } else {
           setTimeout(() => {
-            setResponse({
-              success: false,
-              message: message,
-            });
+            setResponse({ success: false, message });
           }, 2000);
         }
       } finally {
@@ -417,9 +403,11 @@ export default function SurveyLayout({
                         ? "submit"
                         : "button"
                     }
-                    onClick={() => handleQuestionChange(currentQuestionIndex + 1)}
-                    disabled={isPending}
-                    className="group relative cursor-pointer overflow-hidden rounded-xl bg-gradient-to-br from-blue-500 via-blue-600 to-blue-700 px-12 py-4 text-white shadow-lg transition-all duration-300 hover:shadow-xl active:scale-95 disabled:cursor-not-allowed disabled:opacity-70 disabled:shadow..."
+                    onClick={() =>
+                      handleQuestionChange(currentQuestionIndex + 1)
+                    }
+                    // disabled={!checkSelectedOptions(true)}
+                    className="group relative cursor-pointer overflow-hidden rounded-xl bg-gradient-to-br from-blue-500 via-blue-600 to-blue-700 px-12 py-4 text-white shadow-lg transition-all duration-300 hover:shadow-xl active:scale-95 disabled:cursor-not-allowed disabled:opacity-70 disabled:shadow-md sm:max-w-80"
                   >
                     {/* <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-disabled:opacity-0"></div> */}
                     <div className="absolute inset-0 bg-gradient-to-tr from-blue-700 via-blue-600 to-blue-500 opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-disabled:!opacity-0" />
