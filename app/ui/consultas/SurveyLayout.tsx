@@ -60,7 +60,7 @@ export default function SurveyLayout({
   useEffect(() => {
     if (!sub || !dv) {
       toast.error("No se ha encontrado el RUT del usuario");
-      // router.replace("/");
+      router.replace(`/consultas/${publicId}`);
       return;
     }
     console.log("Si se encontro el rut (66)...");
@@ -69,7 +69,7 @@ export default function SurveyLayout({
       setShouldRender(false);
       toast.error("Ya has participado de esta encuesta");
       // Usar replace para no agregar al historial
-      router.replace("/");
+      router.replace(`/consultas/${publicId}`);
       return;
     }
   }, [hasParticipated, router, sub, dv]);
@@ -78,9 +78,9 @@ export default function SurveyLayout({
   useEffect(() => {
     const handleVisibilityChange = () => {
       if (hasVoted && document.visibilityState === "visible") {
-        console.log("La página se volvió visible después de votar (81)...");
+        console.log("La página se volvió visible después de votar...");
         // Si ya votó y la página se vuelve visible, redirigir
-        router.replace("/");
+        router.replace(`/consultas/${publicId}`);
       }
     };
 
@@ -98,7 +98,7 @@ export default function SurveyLayout({
       if (hasVoted || hasParticipated || hasVotedInSession) {
         console.log("Ya ha participado de esta encuesta (99)...");
         toast.error("Ya has participado de esta encuesta");
-        router.replace("/");
+        router.replace(`/consultas/${publicId}`);
       }
     };
 
@@ -107,7 +107,7 @@ export default function SurveyLayout({
       sessionStorage.getItem(`voted_${publicId}_${sub}_${dv}`) === "true";
     if (hasVotedInSession && !hasVoted) {
       setHasVoted(true);
-      router.replace("/");
+      router.replace(`/consultas/${publicId}`);
       return;
     }
 
@@ -128,8 +128,6 @@ export default function SurveyLayout({
 
   const formAction = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("Sub:", sub);
-    console.log("DV:", dv);
 
     if (hasVoted) {
       toast.error("Ya has enviado tu voto");
@@ -143,8 +141,11 @@ export default function SurveyLayout({
     setIsLoadingResponse(true);
     setShowResponseModal(true);
 
+    const expiredSession =
+      "Sesión inválida o expirada. Por favor, vuelve a iniciar sesión.";
+
     try {
-      const response = await registerVote(surveyAnswers, sub, dv);
+      const response = await registerVote(surveyAnswers);
       if (!response.success) {
         throw new Error(response.message);
       }
@@ -165,18 +166,24 @@ export default function SurveyLayout({
         });
       }, 3000);
     } catch (error) {
-      console.log(error instanceof Error ? error.message : "Error desconocido");
       const message =
         error instanceof Error
           ? error.message
           : "No se pudo registrar el voto, intente nuevamente";
-
-      setTimeout(() => {
-        setResponse({
-          success: false,
-          message: message,
-        });
-      }, 3000);
+      console.log(message);
+      if (message === expiredSession) {
+        setTimeout(() => {
+          router.replace(`/consultas/${publicId}`);
+          toast.error(message);
+        }, 2000);
+      } else {
+        setTimeout(() => {
+          setResponse({
+            success: false,
+            message: message,
+          });
+        }, 2000);
+      }
     } finally {
       setTimeout(() => {
         setIsLoadingResponse(false);

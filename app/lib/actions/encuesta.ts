@@ -8,12 +8,21 @@ import sanitizeHtml from "sanitize-html";
 import { revalidatePath } from "next/cache";
 import { generateUserHash } from "../utils/userHash";
 import { customAlphabet } from "nanoid";
+import { getSession } from "./auth";
 
-export async function registerVote(
-  surveyAnswers: SurveyAnswers,
-  sub: string,
-  dv: string,
-) {
+export async function registerVote(surveyAnswers: SurveyAnswers) {
+  const session = await getSession();
+  const sub = session?.user?.sub || "";
+  const dv = session?.user?.dv || "";
+
+  if (!sub || !dv) {
+    return {
+      success: false,
+      message:
+        "Sesión inválida o expirada. Por favor, vuelve a iniciar sesión.",
+    };
+  }
+
   try {
     const pool = await connectToDB();
     if (!pool) {
