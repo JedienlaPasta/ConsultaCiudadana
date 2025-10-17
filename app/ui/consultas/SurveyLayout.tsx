@@ -60,7 +60,7 @@ export default function SurveyLayout({
   useEffect(() => {
     if (!sub || !dv) {
       toast.error("No se ha encontrado el RUT del usuario");
-      router.replace("/");
+      // router.replace("/");
       return;
     }
     console.log("Si se encontro el rut (66)...");
@@ -231,13 +231,35 @@ export default function SurveyLayout({
     const currentAnswer = getQuestionAnswer(currentQuestion.id);
 
     if (currentQuestion.isMapQuestion) {
-      return !!currentAnswer?.sector_id;
+      // return !!currentAnswer?.sector_id;
+      if (!currentAnswer?.sector_id) {
+        toast.error(
+          <span>
+            No has seleccionado la opción requerida en:{" "}
+            <strong className="font-semibold text-[#0c4696]">
+              {currentQuestion.question ||
+                `Pregunta ${currentQuestionIndex + 1}`}
+            </strong>
+          </span>,
+        );
+        return false;
+      }
+      return true;
     }
 
     const selectedOptionsCount = currentAnswer?.selected_options?.length || 0;
 
     // Check if minimum options requirement is met
     if (selectedOptionsCount < currentQuestion.minOptions) {
+      toast.error(
+        <span>
+          Haz marcado {selectedOptionsCount} de las {currentQuestion.minOptions}{" "}
+          opciones requeridas en:{" "}
+          <strong className="font-semibold text-[#0c4696]">
+            {currentQuestion.question || `Pregunta ${currentQuestionIndex + 1}`}
+          </strong>
+        </span>,
+      );
       return false;
     }
 
@@ -250,6 +272,14 @@ export default function SurveyLayout({
       );
       // If the option has a sub-question but no sub-option is selected, validation fails
       if (optionDefinition?.hasSubQuestion && !selectedOption.sub_option_id) {
+        toast.error(
+          <span>
+            No has seleccionado la opción requerida en:{" "}
+            <strong className="font-semibold text-[#0c4696]">
+              {optionDefinition.subQuestion}
+            </strong>
+          </span>,
+        );
         return false;
       }
     }
@@ -339,6 +369,7 @@ export default function SurveyLayout({
                 <div className="flex w-full flex-col gap-4 sm:flex-row sm:justify-between">
                   {/* Botón Volver */}
                   <button
+                    type="button"
                     onClick={() =>
                       handleQuestionChange(currentQuestionIndex - 1)
                     }
@@ -367,10 +398,15 @@ export default function SurveyLayout({
 
                   {/* Botón Continuar/Enviar */}
                   <button
+                    type={
+                      currentQuestionIndex === surveyQuestions.flat().length - 1
+                        ? "submit"
+                        : "button"
+                    }
                     onClick={() =>
                       handleQuestionChange(currentQuestionIndex + 1)
                     }
-                    disabled={!checkSelectedOptions()}
+                    // disabled={!checkSelectedOptions(true)}
                     className="group relative cursor-pointer overflow-hidden rounded-xl bg-gradient-to-br from-blue-500 via-blue-600 to-blue-700 px-12 py-4 text-white shadow-lg transition-all duration-300 hover:shadow-xl active:scale-95 disabled:cursor-not-allowed disabled:opacity-70 disabled:shadow-md sm:max-w-80"
                   >
                     {/* <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-disabled:opacity-0"></div> */}
