@@ -14,8 +14,8 @@ export async function registerVote(surveyAnswers: SurveyAnswers) {
   console.log("Iniciando guardado de voto (3), iniciando server action...");
 
   const session = await getSession();
-  const sub = session?.user?.sub || "";
-  const dv = session?.user?.dv || "";
+  const sub = session?.sub || "";
+  const dv = session?.dv || "";
 
   if (!sub || !dv) {
     console.log(
