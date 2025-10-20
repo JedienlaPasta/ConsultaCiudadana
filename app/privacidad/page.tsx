@@ -258,13 +258,16 @@ export default async function PrivacyPage() {
               <div className="space-y-4">
                 {[
                   {
-                    text: "No se almacenan contraseñas ni credenciales de ClaveÚnica.",
+                    text: "No almacenamos contraseñas ni credenciales de ClaveÚnica.",
                   },
                   {
-                    text: "No se guardan direcciones IP ni datos de geolocalización.",
+                    text: "No utilizamos ni almacenamos direcciones IP ni datos de geolocalización.",
                   },
                   {
-                    text: "Las respuestas a las consultas son anónimas y no se asocian directamente al RUT del participante.",
+                    text: "Tus respuestas son anónimas y no se asocian directamente a ti..",
+                  },
+                  {
+                    text: "No almacenamos tu RUT en texto claro. Generamos y guardamos un hash criptográfico irreversible derivado de tu RUT.",
                   },
                 ].map((item, index) => (
                   <div
@@ -370,7 +373,7 @@ export default async function PrivacyPage() {
                     </h4>
                     <p className="text-gray-700">
                       Los datos personales se almacenan por un período de{" "}
-                      <strong>12 meses</strong>, a partir de la fecha de término
+                      <strong>6 meses</strong>, a partir de la fecha de término
                       de la consulta, con el fin de validar su participación.
                       Una vez transcurrido este período, todos los datos
                       personales son eliminados, mientras que los datos de
@@ -567,7 +570,7 @@ export default async function PrivacyPage() {
                     clipRule="evenodd"
                   />
                 </svg>
-                Última actualización: 30-09-2025
+                Última actualización: 20-10-2025
                 {/* Última actualización: {new Date().toLocaleDateString("es-CL")} */}
               </div>
               <p className="mx-auto max-w-2xl text-sm text-gray-600">
