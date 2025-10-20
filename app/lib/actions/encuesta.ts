@@ -11,8 +11,6 @@ import { customAlphabet } from "nanoid";
 import { getSession } from "./auth";
 
 export async function registerVote(surveyAnswers: SurveyAnswers) {
-  console.log("Iniciando guardado de voto (3), iniciando server action...");
-
   const session = await getSession();
   const sub = session?.sub || "";
   const dv = session?.dv || "";
@@ -103,7 +101,7 @@ export async function registerVote(surveyAnswers: SurveyAnswers) {
           VALUES (@survey_id, @participation_id)
         `);
 
-      console.log("Detalle de participación registrado");
+      console.log("Detalle de participación guardado");
       // Registrar voto (mapa)
       if (surveyAnswers.answers[0].sector_id) {
         const sector = surveyAnswers.answers[0].sector_id;
@@ -127,7 +125,7 @@ export async function registerVote(surveyAnswers: SurveyAnswers) {
             INSERT INTO votos (survey_id, question_id, option_id) 
             VALUES (@survey_id, @question_id, @option_id)
           `);
-        console.log("Registrado voto mapa:", sectorOptionId);
+        // console.log("Registrado voto mapa:", sectorOptionId);
       }
 
       // Registrar votos
@@ -158,17 +156,15 @@ export async function registerVote(surveyAnswers: SurveyAnswers) {
                 VALUES (@survey_id, @question_id, @option_id)
               `);
           }
-          console.log("Registrado voto:", selectedOption.option_id);
+          // console.log("Registrado voto:", selectedOption.option_id);
         }
       }
 
       await transaction.commit();
 
-      // setTimeout(() => {
       revalidatePath(`/consultas/${surveyId}`);
       revalidatePath(`/consultas/${surveyId}/resultados`);
       revalidatePath("/consultas");
-      // }, 6000);
 
       return {
         success: true,

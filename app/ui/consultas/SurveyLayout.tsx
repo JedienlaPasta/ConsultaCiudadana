@@ -63,12 +63,11 @@ export default function SurveyLayout({
       router.replace(`/consultas/${publicId}`);
       return;
     }
-    console.log("Si se encontro el rut (66)...");
+
     if (hasParticipated) {
-      console.log("Ya ha participado (68)...");
       setShouldRender(false);
       toast.error("Ya has participado de esta encuesta");
-      // Usar replace para no agregar al historial
+      // replace para no agregar al historial
       router.replace(`/consultas/${publicId}`);
       return;
     }
@@ -78,7 +77,7 @@ export default function SurveyLayout({
   useEffect(() => {
     const handleVisibilityChange = () => {
       if (hasVoted && document.visibilityState === "visible") {
-        console.log("La página se volvió visible después de votar...");
+        // console.log("La página se volvió visible después de votar...");
         // Si ya votó y la página se vuelve visible, redirigir
         router.replace(`/consultas/${publicId}`);
       }
@@ -96,7 +95,6 @@ export default function SurveyLayout({
       const hasVotedInSession =
         sessionStorage.getItem(`voted_${publicId}_${sub}_${dv}`) === "true";
       if (hasVoted || hasParticipated || hasVotedInSession) {
-        console.log("Ya ha participado de esta encuesta (99)...");
         toast.error("Ya has participado de esta encuesta");
         router.replace(`/consultas/${publicId}`);
       }
@@ -128,7 +126,6 @@ export default function SurveyLayout({
 
   const formAction = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("Iniciando guardado de voto (1)...");
 
     if (hasVoted) {
       toast.error("Ya has enviado tu voto");
@@ -145,7 +142,6 @@ export default function SurveyLayout({
     const expiredSession =
       "Sesión inválida o expirada. Por favor, vuelve a iniciar sesión.";
 
-    console.log("Iniciando guardado de voto (2), llamando server action...");
     try {
       const response = await registerVote(surveyAnswers);
       if (!response.success) {
