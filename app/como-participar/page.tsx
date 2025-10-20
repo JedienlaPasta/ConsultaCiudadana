@@ -699,11 +699,16 @@ export default async function ComoParticipar() {
                     </p>
 
                     {/* Callout que conecta con el placeholder */}
-                    <div className="mt-5 rounded-xl bg-blue-50 px-4 py-3 text-sm text-[#0e4194] ring-1 ring-blue-200">
-                      <span className="font-semibold">Tip: </span> El botón de
-                      <span className="font-semibold"> Continuar</span> solo
-                      estará habilitado si marcas la cantidad requerida de
-                      respuestas.
+                    <div
+                      className="mt-5 rounded-xl bg-blue-50 px-4 py-3 text-sm text-[#0e4194] ring-1 ring-blue-200"
+                      role="note"
+                    >
+                      <span className="font-semibold">Consejo: </span>
+                      <span className="font-semibold">
+                        Tu voto es definitivo.
+                      </span>{" "}
+                      Revisa tus respuestas antes de enviarlas; una vez enviado,
+                      no podrás participar nuevamente en esta consulta.
                     </div>
                   </div>
                 </div>

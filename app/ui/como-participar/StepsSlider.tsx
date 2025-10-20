@@ -178,7 +178,13 @@ export default function StepsSlider() {
 
         <div className="flex items-center gap-2 px-2">
           <span className="rounded bg-white/90 px-2 py-1 text-xs font-medium text-slate-700">
-            {sections.length ? currentStep + 1 : 0}/{sections.length || 0}
+            {sections.length
+              ? // No se incluye el último section porque este corresponde al footer
+                currentStep === sections.length - 1
+                ? currentStep - 1
+                : currentStep
+              : 0}
+            /{sections.length - 2 || 0}
           </span>
           <div className="flex items-center gap-1">
             {sections.map((_, i) => (
