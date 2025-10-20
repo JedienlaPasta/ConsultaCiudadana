@@ -346,7 +346,7 @@ export default function OptionSelectionList({
 
       {question.question === "Seleccione tres Componentes" && (
         <div className="order-3 md:order-1">
-          {error && (
+          {error ? (
             <div className="rounded-lg bg-red-50 p-6 shadow-md">
               <div className="flex items-center">
                 <svg
@@ -369,8 +369,7 @@ export default function OptionSelectionList({
                 </p>
               </div>
             </div>
-          )}
-          {!loading &&
+          ) : !loading &&
             !error &&
             sectores &&
             comuna &&
@@ -378,30 +377,41 @@ export default function OptionSelectionList({
             area &&
             routes &&
             routes_lines &&
-            routes_area && (
-              <div className="relative aspect-[4/3] h-fit overflow-hidden rounded-lg bg-gray-100 shadow-md shadow-gray-200/80 md:aspect-[16/8]">
-                <div className="absolute top-2 right-2 z-[1000] flex flex-col rounded-md bg-white px-2 py-1.5 shadow-lg md:top-5 md:right-5 md:space-y-1">
-                  {/* <h5 className="text-xs md:text-sm">Leyenda</h5> */}
-                  <div className="flex items-center gap-1">
-                    <span className="size-3.5 rounded bg-[#357bf0]"></span>
-                    <p className="text-[10px] text-gray-500 md:text-xs">
-                      Sector seleccionado
-                    </p>
-                  </div>
+            routes_area ? (
+            <div className="relative aspect-[4/3] h-fit overflow-hidden rounded-lg bg-gray-100 shadow-md shadow-gray-200/80 md:aspect-[16/8]">
+              <div className="absolute top-2 right-2 z-[1000] flex flex-col rounded-md bg-white px-2 py-1.5 shadow-lg md:top-5 md:right-5 md:space-y-1">
+                {/* <h5 className="text-xs md:text-sm">Leyenda</h5> */}
+                <div className="flex items-center gap-1">
+                  <span className="size-3.5 rounded bg-[#357bf0]"></span>
+                  <p className="text-[10px] text-gray-500 md:text-xs">
+                    Sector seleccionado
+                  </p>
                 </div>
-                <DynamicMapComponent
-                  geojsonData={sectores}
-                  boundaryData={comuna}
-                  linesData={lines}
-                  areasData={area}
-                  routesData={routes}
-                  routes_linesData={routes_lines}
-                  routes_areasData={routes_area}
-                  selectedSector={selectedSectorId}
-                  selectedComponent={selectedComponent}
-                />
               </div>
-            )}
+              <DynamicMapComponent
+                geojsonData={sectores}
+                boundaryData={comuna}
+                linesData={lines}
+                areasData={area}
+                routesData={routes}
+                routes_linesData={routes_lines}
+                routes_areasData={routes_area}
+                selectedSector={selectedSectorId}
+                selectedComponent={selectedComponent}
+              />
+            </div>
+          ) : (
+            <div className="shadow-mds flex aspect-[4/3] items-center justify-center rounded-lg bg-gray-100 p-4 md:aspect-[16/8]">
+              <div className="flex h-full w-full flex-col items-center justify-center rounded-lg bg-gray-200">
+                <div className="flex flex-col items-center gap-1 rounded-lg bg-white px-4 py-5 md:gap-2 md:px-10 md:py-8">
+                  <RexLoader />
+                  <p className="animate-pulse text-sm text-slate-500">
+                    Cargando mapa y sectores...
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       )}
 
