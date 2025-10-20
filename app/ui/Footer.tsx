@@ -81,8 +81,8 @@ export default function Footer() {
                   href="/privacidad"
                   className="group flex items-center gap-2 rounded-lg p-2 pl-3 transition-all duration-200 hover:translate-x-1 hover:bg-slate-800/50"
                 >
-                  <div className="h-1.5 w-1.5 rounded-full bg-sky-500 opacity-0 transition-opacity group-hover:opacity-100"></div>
-                  <span className="text-gray-400 transition-colors group-hover:text-sky-500">
+                  <div className="h-1.5 w-1.5 rounded-full bg-blue-400 opacity-0 transition-opacity group-hover:opacity-100"></div>
+                  <span className="text-gray-400 transition-colors group-hover:text-blue-400">
                     Privacidad
                   </span>
                 </Link>
@@ -92,8 +92,8 @@ export default function Footer() {
                   href="/consultas"
                   className="group flex items-center gap-2 rounded-lg p-2 pl-3 transition-all duration-200 hover:translate-x-1 hover:bg-slate-800/50"
                 >
-                  <div className="h-1.5 w-1.5 rounded-full bg-sky-500 opacity-0 transition-opacity group-hover:opacity-100"></div>
-                  <span className="text-gray-400 transition-colors group-hover:text-sky-500">
+                  <div className="h-1.5 w-1.5 rounded-full bg-blue-400 opacity-0 transition-opacity group-hover:opacity-100"></div>
+                  <span className="text-gray-400 transition-colors group-hover:text-blue-400">
                     Consultas
                   </span>
                 </Link>
@@ -104,8 +104,8 @@ export default function Footer() {
                   target="_blank"
                   className="group flex items-center gap-2 rounded-lg p-2 pl-3 transition-all duration-200 hover:translate-x-1 hover:bg-slate-800/50"
                 >
-                  <div className="h-1.5 w-1.5 rounded-full bg-sky-500 opacity-0 transition-opacity group-hover:opacity-100"></div>
-                  <span className="text-gray-400 transition-colors group-hover:text-sky-500">
+                  <div className="h-1.5 w-1.5 rounded-full bg-blue-400 opacity-0 transition-opacity group-hover:opacity-100"></div>
+                  <span className="text-gray-400 transition-colors group-hover:text-blue-400">
                     ClaveÚnica
                   </span>
                 </Link>
