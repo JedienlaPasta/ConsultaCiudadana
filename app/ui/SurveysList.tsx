@@ -142,8 +142,8 @@ function Survey({ survey }: { survey: SurveyGeneralData }) {
       className="group flex transform transition-all duration-300 hover:translate-y-[-4px]"
     >
       <div className="flex grow">
-        <div className="col-span-10 flex grow flex-col rounded-l-2xl border border-r-8 border-slate-200/80 border-r-gray-300 bg-slate-100/80 shadow-md shadow-gray-200/80 transition-all group-hover:shadow-lg">
-          <div className="pt-5s flex h-full grow flex-col p-4 pb-3 sm:p-6.5 sm:pb-4 md:gap-1 md:p-7 md:pb-5">
+        <div className="col-span-10 flex grow flex-col rounded-2xl border border-slate-200/80 bg-slate-100/80 shadow-md shadow-gray-200/80 transition-all group-hover:shadow-lg md:rounded-l-2xl md:rounded-r-none md:border-r-8 md:border-r-gray-300">
+          <div className="flex h-full grow flex-col p-4 pb-3 sm:p-6.5 sm:pb-4 md:gap-1 md:p-7 md:pb-5">
             <div>
               <div className="mb-1.5 flex flex-wrap items-center justify-between gap-x-6 gap-y-1">
                 <h1 className="text-lg font-bold text-slate-700 transition-colors group-hover:text-[#03529c] sm:text-xl lg:text-2xl">
@@ -255,8 +255,8 @@ function Survey({ survey }: { survey: SurveyGeneralData }) {
               {survey.survey_short_description}
             </p>
           </div>
-          <div className="relative flex w-full justify-between rounded-b-lg border-t border-gray-200 px-6 py-3 text-sm font-medium text-slate-600 md:px-8">
-            <p className="flex items-center gap-1.5">
+          <div className="relative flex w-full flex-col justify-between gap-2 rounded-b-lg border-t border-gray-200 px-4 py-3 text-sm font-medium text-slate-600 md:flex-row md:px-8">
+            <p className="flex items-center gap-1.5 rounded-lg border border-slate-300/70 px-4 py-2 md:border-0 md:px-0 md:py-0">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-4 w-4 text-slate-500"
@@ -279,7 +279,7 @@ function Survey({ survey }: { survey: SurveyGeneralData }) {
               </span>
             </p>
             <span
-              className={`text-slate-600 transition-colors group-hover:text-[#03529c]`}
+              className={`rounded-lg bg-gradient-to-br from-blue-700 via-blue-600 to-blue-500 px-4 py-2 text-slate-200 transition-colors group-hover:text-white md:bg-none md:px-0 md:py-0 md:text-slate-600 md:group-hover:text-[#03529c]`}
             >
               Ver Detalle →
             </span>
