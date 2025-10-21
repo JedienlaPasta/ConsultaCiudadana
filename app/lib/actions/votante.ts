@@ -16,6 +16,16 @@ export async function checkUserRecord(sub: string, dv: string) {
       };
     }
 
+    // Validate DV
+    if (!dv || getDV(sub) !== dv) {
+      console.warn("DV incorrecto.");
+
+      return {
+        success: false,
+        message: "DV incorrecto.",
+      };
+    }
+
     const userHash = generateUserHash(sub, dv);
 
     const checkUserRequest = pool.request();
@@ -27,41 +37,17 @@ export async function checkUserRecord(sub: string, dv: string) {
         SELECT user_hash FROM usuarios WHERE user_hash = @user_hash
         `);
 
-    if (result.recordset.length > 0) {
-      console.log("Registro encontrado en la base de datos.");
-      return {
-        success: true,
-        message: "Registro encontrado en la base de datos.",
-      };
-    }
-
-    // Validate DV
-    if (!dv || getDV(sub) !== dv) {
-      console.warn("DV incorrecto.");
-
+    if (result.recordset.length === 0) {
+      console.log("Registro no encontrado en la base de datos.");
       return {
         success: false,
-        message: "DV incorrecto.",
+        message: "Registro no encontrado en la base de datos.",
       };
     }
 
-    // Asign expiring date for temp users
-    const expiresAt = new Date();
-    expiresAt.setDate(expiresAt.getDate() + 180);
-
-    // Insert new temp user
-    const insertUserRequest = pool.request();
-    await insertUserRequest
-      .input("user_hash", sql.Char(64), userHash)
-      .input("expires_at", sql.DateTime2, expiresAt).query(`
-        INSERT INTO usuarios (user_hash, user_role, expires_at) 
-        VALUES (@user_hash, 'votante', @expires_at)
-      `);
-
-    console.log("Registro insertado en la base de datos.");
     return {
       success: true,
-      message: "Registro insertado en la base de datos.",
+      message: "Registro encontrado en la base de datos.",
     };
   } catch (error) {
     console.error("Error al ingresar el registro:", error);

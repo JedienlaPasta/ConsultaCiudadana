@@ -43,6 +43,24 @@ export async function registerVote(surveyAnswers: SurveyAnswers) {
     if (!sub || !dv) {
       throw new Error("Sesión vencida o inválida.");
     }
+  
+  // Upsert de usuario temporal dentro de la transacción
+  const expiresAt = new Date();
+  expiresAt.setDate(expiresAt.getDate() + 180);
+  
+  const upsertUserRequest = new sql.Request(transaction);
+  await upsertUserRequest
+    .input("user_hash", sql.Char(64), userHash)
+    .input("expires_at", sql.DateTime2, expiresAt).query(`
+      IF NOT EXISTS (
+        SELECT 1 FROM usuarios WITH (UPDLOCK, HOLDLOCK)
+        WHERE user_hash = @user_hash
+      )
+      BEGIN
+        INSERT INTO usuarios (user_hash, user_role, expires_at)
+        VALUES (@user_hash, 'votante', @expires_at)
+      END
+    `);
 
     try {
       // Obtener ID de la encuesta
