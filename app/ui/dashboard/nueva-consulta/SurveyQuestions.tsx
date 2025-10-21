@@ -148,12 +148,12 @@ export default function SurveyQuestions({
   return (
     <div className="space-y-6">
       <div className="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
-        <div className="px-8">
-          <h2 className="border-b border-gray-200/80 pt-7 pb-5 text-xl font-bold text-slate-700">
+        <div className="px-5 md:px-8">
+          <h2 className="border-b border-gray-200/80 pt-5 pb-4 text-xl font-bold text-slate-700 md:pt-7 md:pb-5">
             Preguntas de la Consulta
           </h2>
         </div>
-        <div className="p-8 py-6">
+        <div className="p-5 py-4 md:p-8 md:py-6">
           <p className="text-sm font-semibold text-slate-700">
             Define las preguntas y respuestas que tendrá tu consulta.
           </p>
@@ -172,7 +172,7 @@ export default function SurveyQuestions({
             className="overflow-hidden rounded-xl bg-gray-100/80 shadow-sm"
           >
             {/* Question Header */}
-            <div className="flex items-center bg-[#06539b] px-8 py-4">
+            <div className="flex items-center bg-[#06539b] px-5 py-4 md:px-8">
               <div className="flex-1">
                 <h3 className="text-xl font-semibold text-gray-100">
                   Pregunta {questionIndex + 1}
@@ -226,7 +226,7 @@ export default function SurveyQuestions({
                 </button>
               )}
             </div>
-            <div className="rounded-b-xl border border-t-0 border-gray-200 px-8 pt-6 pb-2">
+            <div className="rounded-b-xl border border-t-0 border-gray-200 px-5 pt-4 pb-2 md:px-8 md:pt-6">
               {questionIndex === 0 && (
                 <div className="flex- mb-4 flex items-center justify-center lg:justify-start">
                   <label className="flex w-full cursor-pointer items-center space-x-3 rounded-lg border border-blue-200 bg-blue-50 px-4 py-3 transition-all duration-200 hover:bg-blue-100">
@@ -294,7 +294,7 @@ export default function SurveyQuestions({
                         }
                       />
                     </div>
-                    <div className="mb-4 flex gap-4">
+                    <div className="mb-4 flex flex-col gap-4 md:flex-row">
                       <div className="flex-1">
                         <label className="mb-2 flex items-center text-sm font-semibold text-gray-700">
                           Nombre del Paso
@@ -416,7 +416,7 @@ export default function SurveyQuestions({
                       <h4 className="flex items-center text-lg font-semibold text-gray-800">
                         Opciones de Respuesta
                       </h4>
-                      <span className="rounded-full bg-gray-200 px-3 py-1 text-sm font-medium text-gray-700">
+                      <span className="hidden rounded-full bg-gray-200 px-3 py-1 text-sm font-medium text-gray-700 md:block">
                         {
                           question.options.filter(
                             (option) =>
@@ -432,7 +432,7 @@ export default function SurveyQuestions({
                       {question.options.map((option, optionIndex) => (
                         <div
                           key={optionIndex}
-                          className="relative rounded-xl border border-gray-200 bg-gray-50 p-5 transition-all duration-200 hover:shadow-sm"
+                          className="relative transition-all duration-200 md:rounded-xl md:border md:border-gray-200 md:bg-gray-50 md:p-5 md:hover:shadow-sm"
                         >
                           {/* Option Header */}
                           <div className="mb-3 flex items-center justify-between">
@@ -486,9 +486,9 @@ export default function SurveyQuestions({
                               )}
                           </div>
 
-                          <div className="flex items-end gap-3">
+                          <div className="flex flex-col gap-3 md:flex-row md:items-end">
                             {/* Option Text */}
-                            <div className="mb-4s flex-1">
+                            <div className="flex-1">
                               <label className="mb-2 flex items-center text-sm font-semibold text-gray-700">
                                 Texto de la Opción
                                 <span className="ml-1 text-red-500">*</span>
@@ -612,7 +612,7 @@ export default function SurveyQuestions({
                                     Sub-opciones de Respuesta
                                     <span className="ml-1 text-red-500">*</span>
                                   </label>
-                                  <span className="rounded-full bg-emerald-100 px-2 py-1 text-xs font-medium text-emerald-700">
+                                  <span className="hidden rounded-full bg-emerald-100 px-2 py-1 text-xs font-medium text-emerald-700 md:block">
                                     {
                                       option.subOptions.filter(
                                         (subOption) =>

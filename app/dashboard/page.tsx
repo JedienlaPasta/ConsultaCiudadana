@@ -27,10 +27,6 @@ export default async function Dashboard() {
     session?.sub || "",
     session?.dv || "",
   );
-  // const surveys = await getSurveysListByAccess(
-  //   session?.sub || "19973725",
-  //   session?.dv || "2",
-  // );
 
   // Calculate analytics
   const totalSurveys = surveys?.length;
@@ -64,14 +60,16 @@ export default async function Dashboard() {
             </div>
             <Link
               href="/dashboard/nueva-consulta"
-              className="group flex items-center gap-4 rounded-xl bg-gradient-to-r from-blue-500 to-blue-600 px-6 py-4 text-white shadow-lg shadow-blue-600/25 transition-all duration-200 hover:-translate-y-0.5 hover:from-blue-700 hover:to-blue-800 hover:shadow-xl hover:shadow-blue-600/30"
+              aria-label="Crear nueva consulta"
+              className="group relative inline-flex items-center gap-3 rounded-xl bg-gradient-to-r from-blue-600 to-blue-500 px-5 py-4 text-white shadow-lg ring-1 ring-white/10 transition-all duration-300 hover:-translate-y-0.5 hover:from-blue-700 hover:to-blue-600 hover:shadow-xl focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:outline-none"
             >
-              <div className="rounded-lg bg-white/20 p-2">
+              <div className="flex items-center justify-center rounded-lg bg-white/15 p-3">
                 <svg
                   className="h-5 w-5"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
+                  aria-hidden="true"
                 >
                   <path
                     strokeLinecap="round"
@@ -81,12 +79,27 @@ export default async function Dashboard() {
                   />
                 </svg>
               </div>
-              <div>
-                <h3 className="font-semibold">Nueva Consulta</h3>
-                <p className="text-sm text-blue-100">
-                  Crear consulta ciudadana
+              <div className="flex flex-col leading-tight">
+                <h3 className="font-semibold">Crear consulta</h3>
+                <p className="text-xs text-white/85">
+                  Inicia una nueva participación
                 </p>
               </div>
+              <svg
+                className="ml-auto h-5 w-5 opacity-90 transition-transform duration-300 group-hover:translate-x-0.5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 5l7 7-7 7"
+                />
+              </svg>
+              <span className="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-black/5" />
             </Link>
           </div>
         </div>
@@ -96,9 +109,9 @@ export default async function Dashboard() {
           <AnalyticsCard
             title="Total Consultas"
             value={totalSurveys}
-            textColor="text-slate-700"
+            textColor="text-slate-600"
             icon={
-              <div className="rounded-xl bg-gradient-to-br from-blue-100 to-blue-200 p-3 shadow-sm">
+              <div className="rounded-xl bg-gradient-to-br from-blue-50 to-blue-200 p-3 shadow-sm">
                 <svg
                   className="h-6 w-6 text-blue-600"
                   fill="none"
@@ -119,9 +132,9 @@ export default async function Dashboard() {
           <AnalyticsCard
             title="Consultas Activas"
             value={activeSurveys}
-            textColor="text-emerald-700"
+            textColor="text-emerald-600"
             icon={
-              <div className="rounded-xl bg-gradient-to-br from-emerald-100 to-emerald-200 p-3 shadow-sm">
+              <div className="rounded-xl bg-gradient-to-br from-emerald-50 to-emerald-200 p-3 shadow-sm">
                 <svg
                   className="h-6 w-6 text-emerald-600"
                   fill="none"
@@ -142,11 +155,11 @@ export default async function Dashboard() {
           <AnalyticsCard
             title="Consultas Pendientes"
             value={pendingSurveys}
-            textColor="text-orange-700"
+            textColor="text-rose-600"
             icon={
-              <div className="rounded-xl bg-gradient-to-br from-orange-100 to-orange-200 p-3 shadow-sm">
+              <div className="rounded-xl bg-gradient-to-br from-rose-50 to-rose-200 p-3 shadow-sm">
                 <svg
-                  className="h-6 w-6 text-orange-600"
+                  className="h-6 w-6 text-rose-600"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -165,9 +178,9 @@ export default async function Dashboard() {
           <AnalyticsCard
             title="Consultas Finalizadas"
             value={completedSurveys}
-            textColor="text-slate-700"
+            textColor="text-slate-600"
             icon={
-              <div className="rounded-xl bg-gradient-to-br from-slate-100 to-slate-200 p-3 shadow-sm">
+              <div className="rounded-xl bg-gradient-to-br from-slate-50 to-slate-200 p-3 shadow-sm">
                 <svg
                   className="h-6 w-6 text-slate-600"
                   fill="none"
@@ -197,22 +210,6 @@ export default async function Dashboard() {
                 <p className="text-slate-600">
                   Gestiona y monitorea tus consultas ciudadanas
                 </p>
-              </div>
-              <div className="flex items-center gap-2 rounded-lg bg-slate-100 px-3 py-2 text-sm text-slate-600">
-                <svg
-                  className="h-4 w-4"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                  />
-                </svg>
-                Buscar
               </div>
             </div>
           </div>

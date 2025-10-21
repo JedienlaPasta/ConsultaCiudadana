@@ -36,6 +36,14 @@ export default function NewSurveyContentLayout({
   const [isInitialized, setIsInitialized] = useState(false);
   const router = useRouter();
 
+  const stepsList = [
+    { id: 1, label: "Información General" },
+    { id: 2, label: "Objetivos y Cronograma" },
+    { id: 3, label: "Conceptos y FAQ" },
+    { id: 4, label: "Contenido Consulta" },
+    { id: 5, label: "Vista Previa" },
+  ];
+
   // Load data from localStorage on component mount
   useEffect(() => {
     const savedData = localStorage.getItem(STORAGE_KEY);
@@ -360,50 +368,102 @@ export default function NewSurveyContentLayout({
   return (
     <div className="container mx-auto max-w-[80rem] space-y-2 px-4 py-6 md:px-8 md:py-8">
       {/* Enhanced Tab Navigation */}
-      <div className="space-y-5s flex gap-5">
+      <div className="flex flex-col gap-4 md:flex-row md:gap-5">
         {/* <button onClick={resetForm} className="cursor-pointer">
           Reset
         </button> */}
-        <div className="flex w-80 flex-col overflow-hidden rounded-xl border border-gray-200 bg-white shadow-lg">
-          <TabBtn
-            currentStep={currentStep}
-            index={1}
-            onClick={() => setCurrentStep(1)}
-          >
-            Información General
-          </TabBtn>
-          <TabBtn
-            currentStep={currentStep}
-            index={2}
-            onClick={() => setCurrentStep(2)}
-          >
-            Objetivos y Cronograma
-          </TabBtn>
-          <TabBtn
-            currentStep={currentStep}
-            index={3}
-            onClick={() => setCurrentStep(3)}
-          >
-            Conceptos y FAQ
-          </TabBtn>
-          <TabBtn
-            currentStep={currentStep}
-            index={4}
-            onClick={() => setCurrentStep(4)}
-          >
-            Contenido Consulta
-          </TabBtn>
-          <TabBtn
-            currentStep={currentStep}
-            index={5}
-            onClick={() => setCurrentStep(5)}
-          >
-            Vista Previa
-          </TabBtn>
+        {/* Desktop View */}
+        <div
+          role="tablist"
+          aria-label="Pasos de creación"
+          className="hidden w-full flex-col rounded-xl border border-gray-200 bg-white shadow-lg md:sticky md:top-24 md:flex md:w-80"
+        >
+          {stepsList.map((step) => (
+            <TabBtn
+              key={step.id}
+              currentStep={currentStep}
+              index={step.id}
+              onClick={() => setCurrentStep(step.id)}
+            >
+              {step.label}
+            </TabBtn>
+          ))}
+        </div>
+        {/* Mobile View */}
+        <div
+          role="tablist"
+          aria-label="Pasos de creación"
+          className="relative flex w-full flex-col overflow-hidden rounded-xl border border-gray-200 bg-white shadow-lg md:hidden"
+        >
+          {/* Scrollable segmented control */}
+          <div className="relative">
+            <div className="overflow-x-autos flex snap-x snap-mandatory gap-1 scroll-smooth px-2 py-2">
+              {stepsList.map((step) => {
+                const isActive = currentStep === step.id;
+                const isCompleted = currentStep > step.id;
+                return (
+                  <button
+                    key={step.id}
+                    type="button"
+                    role="tab"
+                    aria-selected={isActive}
+                    aria-controls={`step-panel-${step.id}`}
+                    onClick={() => setCurrentStep(step.id)}
+                    className={`group flex-1 shrink-0 snap-center rounded-lg px-4 py-3 text-sm font-semibold ring-1 transition-all duration-300 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:outline-none ${
+                      isActive
+                        ? "bg-blue-50 text-[#06539b] ring-blue-200"
+                        : isCompleted
+                          ? "bg-emerald-50 text-emerald-700 ring-emerald-200"
+                          : "bg-white text-slate-700 ring-slate-200 hover:bg-gray-50"
+                    }`}
+                  >
+                    <span className="flex items-center justify-center">
+                      {isCompleted ? (
+                        <svg
+                          className="h-4 w-4"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          aria-hidden="true"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M5 13l4 4L19 7"
+                          />
+                        </svg>
+                      ) : (
+                        step.id
+                      )}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Indicador de progreso */}
+          <div className="mx-3 mt-1 h-1 rounded-full bg-slate-200">
+            <div
+              className="h-full rounded-full bg-blue-500 transition-all"
+              style={{ width: `${(currentStep / stepsList.length) * 100}%` }}
+            />
+          </div>
+
+          {/* Contexto del paso actual */}
+          <div className="flex items-center justify-between px-4 pt-2 pb-3">
+            <span className="text-xs font-medium text-slate-600">
+              Paso {currentStep} de {stepsList.length}
+            </span>
+            <h3 className="text-sm font-semibold text-slate-800">
+              {stepsList[currentStep - 1].label}
+            </h3>
+          </div>
         </div>
 
         {/* Enhanced Content Area */}
-        <div className="flex-1">
+        <div className="w-full flex-1">
           {currentStep === 1 ? (
             <SurveyGeneralInfo
               formData={formData}

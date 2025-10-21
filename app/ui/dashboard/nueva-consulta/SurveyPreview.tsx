@@ -49,12 +49,12 @@ export default function SurveyPreview({
     <div className="space-y-8">
       {/* Survey Overview Card */}
       <div className="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
-        <div className="px-8">
-          <h2 className="border-b border-gray-200/80 pt-7 pb-5 text-xl font-bold text-slate-700">
+        <div className="px-5 md:px-8">
+          <h2 className="border-b border-gray-200/80 pt-5 pb-4 text-xl font-bold text-slate-700 md:pt-7 md:pb-5">
             Vista Previa de la Consulta
           </h2>
         </div>
-        <div className="p-8 py-6">
+        <div className="p-5 py-4 md:p-8 md:py-6">
           <p className="text-sm font-semibold text-slate-700">
             Verifica que la información de tu consulta sea correcta.
           </p>
@@ -64,7 +64,7 @@ export default function SurveyPreview({
           </p>
         </div>
 
-        <div className="px-8 pt-2 pb-6">
+        <div className="px-5 pt-2 pb-6 md:px-8">
           <div className="grid grid-cols-1 gap-6">
             <div className="group">
               <div className="mb-2 flex items-center">

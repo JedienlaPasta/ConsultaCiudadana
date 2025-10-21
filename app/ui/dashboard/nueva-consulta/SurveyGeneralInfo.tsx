@@ -110,12 +110,12 @@ export default function SurveyGeneralInfo({
     <div className="space-y-5">
       {/* Información General */}
       <div className="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
-        <div className="px-8">
-          <h2 className="border-b border-gray-200/80 pt-7 pb-5 text-xl font-bold text-slate-700">
+        <div className="px-5 md:px-8">
+          <h2 className="border-b border-gray-200/80 pt-5 pb-4 text-xl font-bold text-slate-700 md:pt-7 md:pb-5">
             Información General
           </h2>
         </div>
-        <div className="p-8 pt-6 pb-0">
+        <div className="p-5 pt-4 pb-0 md:p-8 md:pt-6 md:pb-0">
           <p className="text-sm font-semibold text-slate-700">
             Especifica los datos principales de tu consulta.
           </p>
@@ -125,9 +125,9 @@ export default function SurveyGeneralInfo({
           </p>
         </div>
 
-        <div className="p-8 pt-6">
-          <div className="space-y-6">
-            <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+        <div className="p-5 pt-4 md:p-8 md:pt-6">
+          <div className="space-y-4 md:space-y-6">
+            <div className="grid grid-cols-1 gap-4 md:gap-6 lg:grid-cols-2">
               <div className="space-y-2">
                 <label className="flex items-center text-sm font-semibold text-gray-700">
                   Nombre de la Consulta
@@ -386,14 +386,14 @@ export default function SurveyGeneralInfo({
               </h3>
             </div>
             <ul className="space-y-1 text-sm text-slate-600">
-              <li>• Usa un nombre descriptivo y claro para la consulta</li>
-              <li>• La descripción corta debe resumir el objetivo principal</li>
+              <li>Usa un nombre descriptivo y claro para la consulta</li>
+              <li>La descripción corta debe resumir el objetivo principal</li>
               <li>
-                • La descripción detallada debe explicar el contexto y la
+                La descripción detallada debe explicar el contexto y la
                 importancia
               </li>
               <li>
-                • Asegúrate de que las fechas permitan suficiente tiempo para la
+                Asegúrate de que las fechas permitan suficiente tiempo para la
                 participación
               </li>
             </ul>

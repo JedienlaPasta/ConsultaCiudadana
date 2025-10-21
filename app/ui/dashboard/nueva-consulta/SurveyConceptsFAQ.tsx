@@ -35,16 +35,16 @@ export default function SurveyConceptsFAQ({
     <div className="space-y-8">
       {/* Survey Options Definitions Section */}
       <div className="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
-        <div className="relative px-8">
-          <h2 className="border-b border-gray-200/80 pt-7 pb-5 text-xl font-bold text-slate-700">
+        <div className="relative px-5 md:px-8">
+          <h2 className="border-b border-gray-200/80 pt-5 pb-4 text-xl font-bold text-slate-700 md:pt-7 md:pb-5">
             Conceptos Técnicos
           </h2>
-          <span className="absolute top-7 right-8 rounded-full bg-gray-100 px-3 py-1 text-sm font-medium text-gray-700">
+          <span className="absolute top-5 right-8 hidden rounded-full bg-gray-100 px-3 py-1 text-sm font-medium text-gray-700 md:top-7 md:block">
             {formData.survey_concepts_name.length} conceptos
           </span>
         </div>
 
-        <div className="p-8 pt-6 pb-0">
+        <div className="p-5 pt-4 pb-0 md:p-8 md:pt-6">
           <p className="text-sm font-semibold text-slate-700">
             Descripcion y enlace para acceder a recursos relacionados.
           </p>
@@ -55,7 +55,7 @@ export default function SurveyConceptsFAQ({
         </div>
 
         {/* Descripcion */}
-        <div className="p-8 pt-4 pb-0">
+        <div className="p-5 pt-4 pb-0 md:p-8">
           <label className="flex items-center text-sm font-semibold text-gray-700">
             Descripción
             <span className="ml-1.5 text-sm font-light text-gray-500">
@@ -97,7 +97,7 @@ export default function SurveyConceptsFAQ({
         </div>
 
         {/* Listado conceptos */}
-        <div className="p-8 pt-6 pb-0">
+        <div className="p-5 pt-4 pb-0 md:p-8 md:pt-6">
           <p className="text-sm font-semibold text-slate-700">
             Lista todos los términos técnicos utilizados en la consulta.
           </p>
@@ -107,14 +107,14 @@ export default function SurveyConceptsFAQ({
           </p>
         </div>
 
-        <div className="p-6">
+        <div className="p-4 md:p-6">
           <div className="space-y-4">
             {formData.survey_concepts_name.map((definition, index) => (
               <div
                 key={index}
                 className="relative overflow-hidden rounded-lg border border-gray-200 bg-gray-50 transition-all duration-200 hover:shadow-md"
               >
-                <div className="flex items-center justify-between bg-[#06539b] px-8 py-4">
+                <div className="flex items-center justify-between bg-[#06539b] px-5 py-4 md:px-8">
                   <div className="flex-1">
                     <h4 className="text-lg font-semibold text-gray-100">
                       Concepto {index + 1}
@@ -157,7 +157,7 @@ export default function SurveyConceptsFAQ({
                     </button>
                   )}
                 </div>
-                <div className="px-8 py-6">
+                <div className="px-5 py-4 md:px-8 md:py-6">
                   <div className="flex-1 space-y-2">
                     <label className="flex items-center text-sm font-semibold text-gray-700">
                       Concepto
@@ -215,15 +215,15 @@ export default function SurveyConceptsFAQ({
 
       {/* FAQ Section */}
       <div className="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
-        <div className="relative px-8">
-          <h2 className="border-b border-gray-200/80 pt-7 pb-5 text-xl font-bold text-slate-700">
+        <div className="relative px-5 md:px-8">
+          <h2 className="border-b border-gray-200/80 pt-5 pb-4 text-xl font-bold text-slate-700 md:pt-7 md:pb-5">
             Preguntas Frecuentes
           </h2>
-          <span className="absolute top-7 right-8 rounded-full bg-gray-100 px-3 py-1 text-sm font-medium text-gray-700">
+          <span className="absolute top-7 right-8 hidden rounded-full bg-gray-100 px-3 py-1 text-sm font-medium text-gray-700 md:block">
             {formData.frequently_asked_questions.length} preguntas
           </span>
         </div>
-        <div className="p-8 pt-6 pb-0">
+        <div className="p-5 pt-4 pb-0 md:p-8 md:pt-6">
           <p className="text-sm font-semibold text-slate-700">
             Lista de preguntas frecuentes referentes a tu consulta.
           </p>
@@ -233,7 +233,7 @@ export default function SurveyConceptsFAQ({
           </p>
         </div>
 
-        <div className="p-6">
+        <div className="p-4 md:p-6">
           <div className="space-y-6">
             {formData.frequently_asked_questions.map((faq, index) => (
               <div
@@ -284,7 +284,7 @@ export default function SurveyConceptsFAQ({
                   )}
                 </div>
 
-                <div className="px-8 py-6">
+                <div className="px-5 py-4 md:px-8 md:py-6">
                   <div className="space-y-4">
                     <div className="space-y-2">
                       <label className="flex items-center text-sm font-semibold text-gray-700">

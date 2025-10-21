@@ -33,12 +33,12 @@ export default function SurveyContent({
     <div className="space-y-8">
       {/* Objectives Section */}
       <div className="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
-        <div className="px-8">
-          <h2 className="border-b border-gray-200/80 pt-7 pb-5 text-xl font-bold text-slate-700">
+        <div className="px-5 md:px-8">
+          <h2 className="border-b border-gray-200/80 pt-5 pb-4 text-xl font-bold text-slate-700 md:pt-7 md:pb-5">
             Objetivos de la Consulta
           </h2>
         </div>
-        <div className="p-8 pt-6 pb-0">
+        <div className="p-5 pt-4 pb-0 md:p-8 md:pt-6 md:pb-0">
           <p className="text-sm font-semibold text-slate-700">
             Especifica los objetivos principales que buscas alcanzar.
           </p>
@@ -47,14 +47,14 @@ export default function SurveyContent({
           </p>
         </div>
 
-        <div className="p-6 pt-4">
+        <div className="p-4 pt-3 md:p-6 md:pt-4">
           <div className="">
             {formData.objectives.map((objective, index) => (
               <div key={index} className="relative">
                 <div className="py-2">
                   <div className="flex items-end space-x-3">
                     <div className="relative flex-1 space-y-1 pl-8">
-                      <label className="block text-sm font-semibold text-gray-700">
+                      <label className="-ml-8 block text-sm font-semibold text-gray-700 md:ml-0">
                         Objetivo {index + 1}
                         <span className="ml-1 text-red-500">*</span>
                       </label>
@@ -120,12 +120,12 @@ export default function SurveyContent({
 
       {/* Chronogram Section */}
       <div className="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
-        <div className="px-8">
-          <h2 className="border-b border-gray-200/80 pt-7 pb-5 text-xl font-bold text-slate-700">
+        <div className="px-5 md:px-8">
+          <h2 className="border-b border-gray-200/80 pt-5 pb-4 text-xl font-bold text-slate-700 md:pt-7 md:pb-5">
             Cronograma del Proyecto
           </h2>
         </div>
-        <div className="p-8 pt-6 pb-0">
+        <div className="p-5 pt-4 pb-0 md:p-8 md:pt-6 md:pb-0">
           <p className="text-sm font-semibold text-slate-700">
             Define las etapas que tendrá el proyecto.
           </p>
@@ -134,21 +134,14 @@ export default function SurveyContent({
           </p>
         </div>
 
-        <div className="pt-6">
+        <div className="pt-4 md:pt-6">
           <div className="">
             {formData.chronogram.map((phase, index) => (
               <div
                 key={index}
                 className="relative border-y border-b-0 border-gray-200/80 bg-gray-50 last:border-b"
               >
-                {/* Phase Number Badge */}
-                <div className="sflex absolute top-5.5 left-4 hidden h-8 w-8 items-center justify-center rounded-full border border-gray-300 bg-white shadow-sm">
-                  <span className="text-sm font-bold text-gray-600">
-                    {index + 1}
-                  </span>
-                </div>
-
-                <div className="flex items-center justify-between bg-[#06539b] px-8 py-4">
+                <div className="flex items-center justify-between bg-[#06539b] px-5 py-4 md:px-8">
                   <div className="flex-1">
                     <h4 className="text-lg font-semibold text-gray-100">
                       Etapa {index + 1}
@@ -188,7 +181,7 @@ export default function SurveyContent({
                     </button>
                   )}
                 </div>
-                <div className="px-8 py-6">
+                <div className="px-5 py-4 md:px-8 md:py-6">
                   <div className="space-y-4">
                     <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
                       <div>
@@ -256,7 +249,7 @@ export default function SurveyContent({
           </div>
 
           {/* Add Phase Button */}
-          <div className="m-8">
+          <div className="m-5 md:m-8">
             <button
               className="group flex h-10 w-full cursor-pointer items-center justify-center rounded-lg bg-blue-500 transition-all duration-200 hover:border-gray-400 hover:bg-blue-600"
               onClick={() =>
