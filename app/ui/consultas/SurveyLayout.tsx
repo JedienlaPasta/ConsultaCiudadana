@@ -305,13 +305,13 @@ export default function SurveyLayout({
     setCurrentQuestionIndex(nextQuestionIndex);
 
     if (topRef.current) {
-      const elementPosition = topRef.current.offsetTop;
-      const offsetPosition = elementPosition - 70;
+      const NAVBAR_OFFSET = 72;
+      const rect = topRef.current.getBoundingClientRect();
+      const absoluteTop = window.pageYOffset + rect.top;
+      const y = Math.max(0, absoluteTop - NAVBAR_OFFSET);
 
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: "smooth",
-      });
+      const scroller = document.scrollingElement || document.documentElement;
+      scroller.scrollTo({ top: y, behavior: "smooth" });
     }
 
     setIsLoading(true);
@@ -350,7 +350,7 @@ export default function SurveyLayout({
 
           <div
             ref={topRef}
-            className="mx-auto grid grid-cols-1 justify-end gap-0 py-6 md:gap-2 md:py-8"
+            className="mx-auto grid scroll-mt-[72px] grid-cols-1 justify-end gap-0 py-6 md:gap-2 md:py-8"
           >
             <div className="rounded-lg lg:col-span-1">
               <SurveyProgress
