@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import RexLoader from "./RexAnimation";
 import { SurveyGeneralData } from "../lib/definitions/encuesta";
 import { formatDateToSpanish } from "@/app/lib/utils/format";
+import { usePathname } from "next/navigation";
 
 export default function SurveysList({
   surveys,
@@ -13,6 +14,7 @@ export default function SurveysList({
   surveys: SurveyGeneralData[];
 }) {
   const [loading, setIsLoading] = useState<boolean>(true);
+  const isSurveysPage = usePathname().split("/")[1] === "consultas";
 
   useEffect(() => {
     setTimeout(() => {
@@ -46,38 +48,40 @@ export default function SurveysList({
       {/* Surveys List */}
       <div className="grid grid-cols-1 gap-4 md:gap-6">{surveysToDisplay}</div>
       {/* View All Surveys Button */}
-      <Link
-        href="/consultas"
-        className="group relative mx-auto mt-6 flex w-full max-w-md items-center justify-between overflow-hidden rounded-2xl border-2 border-[#23396f]/20 bg-gradient-to-br from-white via-indigo-50 to-indigo-50 px-8 py-4 shadow-lg transition-all duration-300 hover:border-indigo-700/30 hover:shadow-xl active:scale-95"
-      >
-        <div className="absolute inset-0 bg-gradient-to-r from-indigo-50 via-indigo-50 to-white opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-        <div className="relative flex items-center gap-3">
-          <div className="flex flex-col">
-            <span className="font-semibold text-[#23396f] transition-colors duration-300 group-hover:text-[#1d2d5a]">
-              Ver todas las consultas
-            </span>
-            <span className="text-xs text-gray-500">
-              Explora {surveys.length} consulta
-              {surveys.length !== 1 ? "s" : ""} disponible
-              {surveys.length !== 1 ? "s" : ""}
-            </span>
-          </div>
-        </div>
-
-        <svg
-          className="h-5 w-5 text-[#23396f] transition-transform duration-300 group-hover:translate-x-1"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
+      {!isSurveysPage && (
+        <Link
+          href="/consultas"
+          className="group relative mx-auto mt-6 flex w-full max-w-md items-center justify-between overflow-hidden rounded-2xl border-2 border-[#23396f]/20 bg-gradient-to-br from-white via-indigo-50 to-indigo-50 px-8 py-4 shadow-lg transition-all duration-300 hover:border-indigo-700/30 hover:shadow-xl active:scale-95"
         >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M9 5l7 7-7 7"
-          />
-        </svg>
-      </Link>
+          <div className="absolute inset-0 bg-gradient-to-r from-indigo-50 via-indigo-50 to-white opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+          <div className="relative flex items-center gap-3">
+            <div className="flex flex-col">
+              <span className="font-semibold text-[#23396f] transition-colors duration-300 group-hover:text-[#1d2d5a]">
+                Ver todas las consultas
+              </span>
+              <span className="text-xs text-gray-500">
+                Explora {surveys.length} consulta
+                {surveys.length !== 1 ? "s" : ""} disponible
+                {surveys.length !== 1 ? "s" : ""}
+              </span>
+            </div>
+          </div>
+
+          <svg
+            className="h-5 w-5 text-[#23396f] transition-transform duration-300 group-hover:translate-x-1"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M9 5l7 7-7 7"
+            />
+          </svg>
+        </Link>
+      )}
     </div>
   );
 }
