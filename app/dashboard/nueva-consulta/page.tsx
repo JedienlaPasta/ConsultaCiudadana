@@ -1,9 +1,9 @@
 import Navbar from "@/app/ui/Navbar";
-import Header from "@/app/ui/dashboard/nueva-consulta/Header";
 import { getSession } from "@/app/lib/actions/auth";
 import NewSurveyContentLayout from "@/app/ui/dashboard/nueva-consulta/NewSurveyContentLayout";
 import Footer from "@/app/ui/Footer";
 import { getSectors } from "@/app/lib/data/sectores";
+import Header from "@/app/ui/dashboard/Header";
 
 export default async function NewSurveyPage() {
   const session = await getSession();
@@ -12,7 +12,10 @@ export default async function NewSurveyPage() {
     <div className="min-h-screen">
       {/* Enhanced Header */}
       <Navbar session={session} />
-      <Header />
+      <Header
+        title="Crear Nueva Consulta"
+        description="Define el contenido y los aspectos de tu consulta ciudadana."
+      />
       <NewSurveyContentLayout
         sectors={sectors}
         sessionSub={session?.sub || ""}

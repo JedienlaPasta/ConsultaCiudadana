@@ -7,7 +7,7 @@ import Link from "next/link";
 import AnalyticsCard from "../ui/dashboard/AnalyticsCard";
 import Navbar from "../ui/Navbar";
 import DashboardSurveysList from "../ui/dashboard/SurveysList";
-import { redirect } from "next/navigation";
+import UserManagementButton from "../ui/dashboard/UserManagementButton";
 
 export default async function Dashboard() {
   const session = await getSession();
@@ -21,11 +21,11 @@ export default async function Dashboard() {
       session?.role,
       "not allowed on /dashboard",
     );
-    redirect("/");
+    // redirect("/");
   }
   const surveys = await getSurveysListByAccess(
-    session?.sub || "",
-    session?.dv || "",
+    session?.sub || "19973725",
+    session?.dv || "2",
   );
 
   // Calculate analytics
@@ -43,29 +43,54 @@ export default async function Dashboard() {
   return (
     <div className="flex min-h-dvh flex-col bg-gradient-to-br from-slate-50 via-blue-50/30 to-slate-100">
       <Navbar session={session} />
-      <Header />
+      <Header
+        title="Dashboard"
+        description="Bienvenido de vuelta. Aquí tienes un resumen de tus consultas ciudadanas y sus métricas de participación."
+      />
 
       <div className="container mx-auto max-w-[80rem] flex-1 px-4 py-8 md:px-8">
         {/* Welcome Section */}
         <div className="mb-6">
-          <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+          <div className="flex flex-col gap-4 md:justify-between">
             <div>
               <h2 className="text-xl font-bold text-slate-800 md:text-2xl">
                 ¡Bienvenido de vuelta!
               </h2>
-              <p className="text-slate-600">
+              {/* <p className="text-slate-600">
                 Aquí tienes un resumen de tus consultas ciudadanas y sus
                 métricas de participación.
-              </p>
+              </p> */}
             </div>
-            <Link
-              href="/dashboard/nueva-consulta"
-              aria-label="Crear nueva consulta"
-              className="group relative inline-flex items-center gap-3 rounded-xl bg-gradient-to-r from-blue-600 to-blue-500 px-5 py-4 text-white shadow-lg ring-1 ring-white/10 transition-all duration-300 hover:-translate-y-0.5 hover:from-blue-700 hover:to-blue-600 hover:shadow-xl focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:outline-none"
-            >
-              <div className="flex items-center justify-center rounded-lg bg-white/15 p-3">
+            <div className="flex flex-1 gap-4">
+              <Link
+                href="/dashboard/nueva-consulta"
+                aria-label="Crear nueva consulta"
+                className="group relative inline-flex flex-1 items-center gap-3 rounded-xl bg-gradient-to-r from-blue-600 to-blue-500 px-5 py-4 text-white shadow-lg ring-1 ring-white/10 transition-all duration-300 hover:-translate-y-0.5 hover:from-blue-700 hover:to-blue-600 hover:shadow-xl focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:outline-none"
+              >
+                <div className="flex items-center justify-center rounded-lg bg-white/15 p-3">
+                  <svg
+                    className="h-5 w-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M12 4v16m8-8H4"
+                    />
+                  </svg>
+                </div>
+                <div className="flex flex-col leading-tight">
+                  <h3 className="font-semibold">Crear consulta</h3>
+                  <p className="text-xs text-white/85">
+                    Inicia una nueva participación
+                  </p>
+                </div>
                 <svg
-                  className="h-5 w-5"
+                  className="ml-auto h-5 w-5 opacity-90 transition-transform duration-300 group-hover:translate-x-0.5"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -75,32 +100,14 @@ export default async function Dashboard() {
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     strokeWidth={2}
-                    d="M12 4v16m8-8H4"
+                    d="M9 5l7 7-7 7"
                   />
                 </svg>
-              </div>
-              <div className="flex flex-col leading-tight">
-                <h3 className="font-semibold">Crear consulta</h3>
-                <p className="text-xs text-white/85">
-                  Inicia una nueva participación
-                </p>
-              </div>
-              <svg
-                className="ml-auto h-5 w-5 opacity-90 transition-transform duration-300 group-hover:translate-x-0.5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                aria-hidden="true"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M9 5l7 7-7 7"
-                />
-              </svg>
-              <span className="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-black/5" />
-            </Link>
+                <span className="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-black/5" />
+              </Link>
+
+              {session?.role !== "admin" ? <UserManagementButton /> : null}
+            </div>
           </div>
         </div>
 

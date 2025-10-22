@@ -46,7 +46,7 @@ export async function getUserRole(sub: string, dv: string) {
   }
 }
 
-export async function getValidUsersToShareTo() {
+export async function getUsersWithRole() {
   const pool = await connectToDB();
   try {
     if (!pool) {

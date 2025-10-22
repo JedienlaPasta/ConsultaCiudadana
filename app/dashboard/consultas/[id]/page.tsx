@@ -3,7 +3,7 @@ import { getSurveyAnalytics } from "@/app/lib/data/analytics";
 import { getSurveyGeneralDetails } from "@/app/lib/data/encuesta";
 import {
   getUsersWithPermission,
-  getValidUsersToShareTo,
+  getUsersWithRole,
 } from "@/app/lib/data/usuarios";
 import { formatDateToSpanish } from "@/app/lib/utils/format";
 import BarsChart from "@/app/ui/dashboard/consultas/[id]/BarsChart";
@@ -34,7 +34,7 @@ export default async function SurveyDetailsOverview({
   const generalData = await getSurveyGeneralDetails(publicId);
 
   const teamMembers = await getUsersWithPermission(publicId);
-  const allValidUsers = await getValidUsersToShareTo();
+  const allValidUsers = await getUsersWithRole();
 
   // console.log("Team Members:", teamMembers);
   // console.log("All Valid Users:", allValidUsers);
@@ -83,7 +83,10 @@ export default async function SurveyDetailsOverview({
   return (
     <div className="flex min-h-dvh flex-col bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/50">
       <Navbar session={session} />
-      <Header />
+      <Header
+        title="Detalles de la Consulta"
+        description="Revisa los detalles de la consulta ciudadana y gestiona la participación."
+      />
 
       {permissions === "true" && (
         <PermissionsModal
