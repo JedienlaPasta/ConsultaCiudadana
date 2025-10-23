@@ -134,7 +134,9 @@ export default function Footer() {
             </div>
             <div className="space-y-4">
               <Link
-                href={"https://maps.app.goo.gl/D8pJ2jgAmzqFV8VZ8"}
+                href={
+                  "https://www.google.com/maps/place/Av.+Francia+011,+El+Quisco,+Valparaíso/"
+                }
                 target="_blank"
                 className="flex items-center gap-3 rounded-lg border border-slate-700/30 bg-slate-800/30 p-3"
               >
