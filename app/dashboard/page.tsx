@@ -106,7 +106,7 @@ export default async function Dashboard() {
                 <span className="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-black/5" />
               </Link>
 
-              {session?.role !== "admin" ? <UserManagementButton /> : null}
+              {session?.role === "admin" ? <UserManagementButton /> : null}
             </div>
           </div>
         </div>
