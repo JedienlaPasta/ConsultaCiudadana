@@ -266,9 +266,9 @@ export default function MapComponent({
       "#206ef5",
       "#00d681",
       "#f04a5e",
-      "#298f7a",
-      "#fff833",
-      "#272d33",
+      "#00ab87",
+      "#f3ff12",
+      "#0b5299",
       "#ff4dff",
     ];
 
@@ -588,7 +588,6 @@ export default function MapComponent({
                       .toLowerCase()
                       .replace("ruta piimep", "")
                       .trim();
-                    console.log("tramo:", tramo);
 
                     const isTramo =
                       feature.properties?.Tipo?.toString().toLowerCase() ===
@@ -598,7 +597,6 @@ export default function MapComponent({
                     console.log(
                       feature.properties?.Nombre?.toString().toLowerCase(),
                     );
-                    console.log("isTramo:", isTramo);
 
                     return isTramo;
                   }
@@ -609,7 +607,6 @@ export default function MapComponent({
           style={(feature) => {
             const componentName =
               feature?.properties?.TIPO?.toString().toLowerCase() || "default";
-            console.log(selectedComponent);
 
             const matchedComponent = selectedComponent?.find((component) =>
               component.toLowerCase().includes(componentName),
