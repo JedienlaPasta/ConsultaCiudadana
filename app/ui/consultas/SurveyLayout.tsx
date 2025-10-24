@@ -58,6 +58,36 @@ export default function SurveyLayout({
   const router = useRouter();
 
   useEffect(() => {
+    if (isLoading) {
+      return;
+    }
+
+    // Desenfocar cualquier botón que haya sido presionado.
+    if (document.activeElement instanceof HTMLElement) {
+      document.activeElement.blur();
+    }
+
+    const target = document.getElementById("top-section");
+    if (!target) {
+      console.log("No Target");
+      return;
+    }
+
+    const isMobile = window.innerWidth <= 768;
+    const NAVBAR_OFFSET = isMobile ? 66 : 72;
+
+    const rect = target.getBoundingClientRect();
+    const absoluteTop = window.scrollY + rect.top;
+    const y = Math.max(0, absoluteTop - NAVBAR_OFFSET);
+
+    const isIOS =
+      /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+      (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+
+    window.scrollTo({ top: y, behavior: isIOS ? "auto" : "smooth" });
+  }, [currentQuestionIndex, isLoading]);
+
+  useEffect(() => {
     if (!sub || !dv) {
       toast.error("No se ha encontrado el RUT del usuario");
       router.replace(`/consultas/${publicId}`);
@@ -309,36 +339,6 @@ export default function SurveyLayout({
       setIsLoading(false);
     }, 700);
   };
-
-  useEffect(() => {
-    if (isLoading) {
-      return;
-    }
-
-    // Desenfocar cualquier botón que haya sido presionado.
-    if (document.activeElement instanceof HTMLElement) {
-      document.activeElement.blur();
-    }
-
-    const target = document.getElementById("top-section");
-    if (!target) {
-      console.log("No Target");
-      return;
-    }
-
-    const isMobile = window.innerWidth <= 768;
-    const NAVBAR_OFFSET = isMobile ? 66 : 72;
-
-    const rect = target.getBoundingClientRect();
-    const absoluteTop = window.scrollY + rect.top;
-    const y = Math.max(0, absoluteTop - NAVBAR_OFFSET);
-
-    const isIOS =
-      /iPad|iPhone|iPod/.test(navigator.userAgent) ||
-      (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
-
-    window.scrollTo({ top: y, behavior: isIOS ? "auto" : "smooth" });
-  }, [currentQuestionIndex, isLoading]);
 
   if (hasVoted && response.success) {
     return (
