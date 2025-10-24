@@ -18,7 +18,7 @@ export default function SectorSelectionList({
   };
 
   return (
-    <div className="mb-4 rounded-xl border-slate-200/80 bg-gradient-to-br from-white via-blue-50/30 to-indigo-50/50 md:mt-4 md:mb-0 md:border md:p-6">
+    <div className="mb-4 rounded-xl border-slate-200/80 from-white via-blue-50/30 to-indigo-50/50 md:mt-4 md:mb-0 md:border md:bg-gradient-to-br md:p-6">
       <div className="flex items-center justify-between">
         <h3 className="text-lg font-semibold text-slate-700">
           Seleccione un sector

@@ -416,7 +416,7 @@ export default function OptionSelectionList({
       )}
 
       {/* Normal components */}
-      <div className="order-1 rounded-xl border-slate-200/80 bg-gradient-to-br from-white via-blue-50/30 to-indigo-50/50 pb-6 md:border md:p-6">
+      <div className="order-1 rounded-xl border-slate-200/80 from-white via-blue-50/30 to-indigo-50/50 pb-6 md:border md:bg-gradient-to-br md:p-6">
         <div className="flex items-center justify-between">
           <h3 className="text-lg font-semibold text-slate-700">
             {question.question}
