@@ -304,16 +304,6 @@ export default function SurveyLayout({
     }
     setCurrentQuestionIndex(nextQuestionIndex);
 
-    // if (topRef.current) {
-    //   const NAVBAR_OFFSET = 72;
-    //   const rect = topRef.current.getBoundingClientRect();
-    //   const absoluteTop = window.pageYOffset + rect.top;
-    //   const y = Math.max(0, absoluteTop - NAVBAR_OFFSET);
-
-    //   const scroller = document.scrollingElement || document.documentElement;
-    //   scroller.scrollTo({ top: y, behavior: "smooth" });
-    // }
-
     const target = document.getElementById("top-section");
     if (!target) {
       console.log("No target");
@@ -392,6 +382,7 @@ export default function SurveyLayout({
                 <div className="flex w-full flex-col gap-4 sm:flex-row sm:justify-between">
                   {/* Botón Volver */}
                   <button
+                    autoFocus={false}
                     type="button"
                     onClick={() =>
                       handleQuestionChange(currentQuestionIndex - 1)
@@ -421,6 +412,7 @@ export default function SurveyLayout({
 
                   {/* Botón Continuar/Enviar */}
                   <button
+                    autoFocus={false}
                     type={
                       currentQuestionIndex === surveyQuestions.flat().length - 1
                         ? "submit"

@@ -4,12 +4,12 @@ import { getSession } from "./lib/actions/auth";
 import Footer from "./ui/Footer";
 import Hero from "./ui/Hero";
 import SurveysList from "./ui/SurveysList";
-import { getFilteredSurveysList } from "./lib/data/encuesta";
+import { getSurveysListFormHomePage } from "./lib/data/encuesta";
 import Navbar from "./ui/Navbar";
 
 export default async function Home() {
   const session = await getSession();
-  const surveys = await getFilteredSurveysList("", "activa");
+  const surveys = await getSurveysListFormHomePage();
 
   return (
     <>

@@ -8,7 +8,9 @@ import { connectToDB } from "../utils/db-connection";
 import sql from "mssql";
 import { generateUserHash } from "../utils/userHash";
 
-export async function getSurveysList(): Promise<SurveyGeneralData[]> {
+export async function getSurveysListFormHomePage(): Promise<
+  SurveyGeneralData[]
+> {
   try {
     const pool = await connectToDB();
     if (!pool) {
@@ -18,6 +20,7 @@ export async function getSurveysList(): Promise<SurveyGeneralData[]> {
     const request = pool.request();
     const result = await request.query(`
         SELECT public_id, survey_name, survey_short_description, survey_start_date, survey_end_date, department FROM encuestas
+        WHERE survey_end_date >= GETDATE()
         ORDER BY survey_end_date ASC
       `);
     return result.recordset.map(
