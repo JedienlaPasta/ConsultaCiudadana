@@ -345,7 +345,7 @@ export default function OptionSelectionList({
         )}
 
       {question.question === "Seleccione tres Componentes" && (
-        <div className="order-3 md:order-1">
+        <div className="order-3">
           {error ? (
             <div className="rounded-lg bg-red-50 p-6 shadow-md">
               <div className="flex items-center">
@@ -416,7 +416,7 @@ export default function OptionSelectionList({
       )}
 
       {/* Normal components */}
-      <div className="order-1 rounded-xl border-slate-200/80 bg-gradient-to-br from-white via-blue-50/30 to-indigo-50/50 pb-6 md:order-2 md:border md:p-6">
+      <div className="order-1 rounded-xl border-slate-200/80 bg-gradient-to-br from-white via-blue-50/30 to-indigo-50/50 pb-6 md:border md:p-6">
         <div className="flex items-center justify-between">
           <h3 className="text-lg font-semibold text-slate-700">
             {question.question}
@@ -452,7 +452,7 @@ export default function OptionSelectionList({
           selectedOptions.includes(option.id) && (
             <div
               key={index}
-              className="order-2 rounded-xl border-slate-200/80 bg-gradient-to-br from-white via-blue-50/30 to-indigo-50/50 pb-6 md:order-3 md:mt-0 md:border md:p-6"
+              className="order-2 rounded-xl border-slate-200/80 bg-gradient-to-br from-white via-blue-50/30 to-indigo-50/50 pb-6 md:mt-0 md:border md:p-6"
             >
               <div className="space-y-4">
                 <div>

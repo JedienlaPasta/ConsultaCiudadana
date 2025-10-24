@@ -60,7 +60,7 @@ export default function SurveyLayout({
   useEffect(() => {
     if (!sub || !dv) {
       toast.error("No se ha encontrado el RUT del usuario");
-      router.replace(`/consultas/${publicId}`);
+      // router.replace(`/consultas/${publicId}`);
       return;
     }
 
