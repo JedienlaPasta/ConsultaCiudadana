@@ -47,7 +47,7 @@ export default async function SurveyDetailsOverview({
 
   const surveyState = () => {
     if (new Date(generalData.survey_start_date) > new Date()) {
-      return "En Espera";
+      return "Programada";
     }
     if (new Date(generalData.survey_end_date) > new Date()) {
       return "Activa";

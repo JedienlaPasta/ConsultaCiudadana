@@ -105,7 +105,7 @@ function Survey({ survey }: { survey: SurveyGeneralData }) {
 
   const surveyState = () => {
     if (new Date(survey.survey_start_date) > new Date()) {
-      return "En Espera";
+      return "Programada";
     }
     if (new Date(survey.survey_end_date) > new Date()) {
       return "Activa";

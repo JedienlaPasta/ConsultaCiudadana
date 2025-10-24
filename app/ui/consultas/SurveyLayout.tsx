@@ -303,27 +303,42 @@ export default function SurveyLayout({
       if (!checkSelectedOptions()) return;
     }
     setCurrentQuestionIndex(nextQuestionIndex);
-
-    const target = document.getElementById("top-section");
-    if (!target) {
-      console.log("No target");
-      return;
-    }
-
-    const isMobile = window.innerWidth <= 768;
-
-    const NAVBAR_OFFSET = isMobile ? 66 : 72;
-    const rect = target.getBoundingClientRect();
-    const absoluteTop = window.pageYOffset + rect.top;
-    const y = Math.max(0, absoluteTop - NAVBAR_OFFSET);
-
-    window.scrollTo({ top: y, behavior: "smooth" });
-
     setIsLoading(true);
+
     setTimeout(() => {
       setIsLoading(false);
     }, 700);
   };
+
+  useEffect(() => {
+    if (isLoading) {
+      return;
+    }
+
+    // Desenfocar cualquier botón que haya sido presionado.
+    if (document.activeElement instanceof HTMLElement) {
+      document.activeElement.blur();
+    }
+
+    const target = document.getElementById("top-section");
+    if (!target) {
+      console.log("No Target");
+      return;
+    }
+
+    const isMobile = window.innerWidth <= 768;
+    const NAVBAR_OFFSET = isMobile ? 66 : 72;
+
+    const rect = target.getBoundingClientRect();
+    const absoluteTop = window.scrollY + rect.top;
+    const y = Math.max(0, absoluteTop - NAVBAR_OFFSET);
+
+    const isIOS =
+      /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+      (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+
+    window.scrollTo({ top: y, behavior: isIOS ? "auto" : "smooth" });
+  }, [currentQuestionIndex, isLoading]);
 
   if (hasVoted && response.success) {
     return (
@@ -355,7 +370,6 @@ export default function SurveyLayout({
 
           <div
             // ref={topRef}
-            autoFocus={true}
             id="top-section"
             className="mx-auto grid scroll-mt-[72px] grid-cols-1 justify-end gap-0 pt-4 pb-6 md:gap-2 md:py-8"
           >
@@ -383,7 +397,6 @@ export default function SurveyLayout({
                 <div className="flex w-full flex-col gap-4 sm:flex-row sm:justify-between">
                   {/* Botón Volver */}
                   <button
-                    autoFocus={false}
                     type="button"
                     onClick={() =>
                       handleQuestionChange(currentQuestionIndex - 1)
@@ -413,7 +426,6 @@ export default function SurveyLayout({
 
                   {/* Botón Continuar/Enviar */}
                   <button
-                    autoFocus={false}
                     type={
                       currentQuestionIndex === surveyQuestions.flat().length - 1
                         ? "submit"
