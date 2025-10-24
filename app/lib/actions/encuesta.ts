@@ -43,15 +43,15 @@ export async function registerVote(surveyAnswers: SurveyAnswers) {
     if (!sub || !dv) {
       throw new Error("Sesión vencida o inválida.");
     }
-  
-  // Upsert de usuario temporal dentro de la transacción
-  const expiresAt = new Date();
-  expiresAt.setDate(expiresAt.getDate() + 180);
-  
-  const upsertUserRequest = new sql.Request(transaction);
-  await upsertUserRequest
-    .input("user_hash", sql.Char(64), userHash)
-    .input("expires_at", sql.DateTime2, expiresAt).query(`
+
+    // Upsert de usuario temporal dentro de la transacción
+    const expiresAt = new Date();
+    expiresAt.setDate(expiresAt.getDate() + 180);
+
+    const upsertUserRequest = new sql.Request(transaction);
+    await upsertUserRequest
+      .input("user_hash", sql.Char(64), userHash)
+      .input("expires_at", sql.DateTime2, expiresAt).query(`
       IF NOT EXISTS (
         SELECT 1 FROM usuarios WITH (UPDLOCK, HOLDLOCK)
         WHERE user_hash = @user_hash
@@ -875,6 +875,111 @@ export async function createSurvey(
     return {
       success: false,
       message: "No se pudo registrar la consulta, intente nuevamente",
+    };
+  }
+}
+
+export async function deleteSurvey(publicId: string) {
+  try {
+    const pool = await connectToDB();
+    if (!pool) {
+      return {
+        success: false,
+        message: "No se pudo conectar a la base de datos",
+      };
+    }
+
+    const session = await getSession();
+    console.log("=============================");
+    console.log("user:", session?.sub);
+
+    if (!session?.sub) {
+      return {
+        success: false,
+        message: "No se pudo obtener el usuario",
+      };
+    }
+
+    const userhash = generateUserHash(session?.sub || "", session?.dv || "");
+
+    // ID Encuesta
+    const encuestaRequest = await pool
+      .request()
+      .input("public_id", sql.NVarChar, publicId)
+      .query(`SELECT id FROM encuestas WHERE public_id = @public_id`);
+
+    if (encuestaRequest.recordset.length === 0) {
+      console.log("Encuesta no encontrada:", publicId);
+      return {
+        success: false,
+        message: "Encuesta no encontrada",
+      };
+    }
+    const surveyId = encuestaRequest.recordset[0].id;
+
+    // Verificar si el usuario tiene permiso para eliminar la encuesta
+    const permissionRequest = await pool
+      .request()
+      .input("userhash", sql.NVarChar, userhash)
+      .input("survey_id", sql.Int, surveyId).query(`
+      SELECT survey_access FROM permisos WHERE user_hashed_key = @userhash AND survey_id = @survey_id
+    `);
+
+    if (
+      permissionRequest.recordset.length === 0 ||
+      permissionRequest.recordset[0].survey_access !== "Propietario"
+    ) {
+      console.log(
+        "El usuario no tiene permisos para eliminar la encuesta:",
+        surveyId,
+      );
+      return {
+        success: false,
+        message: "No se encontraron permisos para eliminar la encuesta",
+      };
+    }
+
+    const transaction = new sql.Transaction(pool);
+    await transaction.begin();
+
+    try {
+      // Borrar tabla de relaciones encuesta-preguntas
+      await new sql.Request(transaction).input("survey_id", sql.Int, surveyId)
+        .query(`
+          DELETE FROM encuestas_preguntas WHERE survey_id = @survey_id
+        `);
+
+      // Borrar preguntas
+      await new sql.Request(transaction).input("survey_id", sql.Int, surveyId)
+        .query(`
+          DELETE FROM preguntas WHERE survey_id = @survey_id
+        `);
+
+      // Borrar la encuesta
+      await new sql.Request(transaction).input("survey_id", sql.Int, surveyId)
+        .query(`
+          DELETE FROM encuestas WHERE id = @survey_id
+        `);
+
+      await transaction.commit();
+      revalidatePath(`/dashboard/consultas`);
+      return {
+        success: true,
+        message: "Encuesta eliminada exitosamente",
+      };
+    } catch (error) {
+      console.error("Error al eliminar la encuesta:", error);
+      await transaction.rollback();
+      return {
+        success: false,
+        message: "No se pudo eliminar la encuesta, intente nuevamente",
+      };
+    }
+  } catch (error) {
+    console.error("Error al eliminar la encuesta:", error);
+    return {
+      success: false,
+      message: "No se pudo eliminar la encuesta, intente nuevamente",
     };
   }
 }

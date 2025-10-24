@@ -2,6 +2,8 @@
 import { useEffect, useRef, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { downloadSurveyAnalytics } from "@/app/lib/actions/analytics";
+import { deleteSurvey } from "@/app/lib/actions/encuesta";
+import { toast } from "sonner";
 
 export default function SurveyOptionsMenu({ publicId }: { publicId: string }) {
   const [modalOpen, setModalOpen] = useState(false);
@@ -17,7 +19,7 @@ export default function SurveyOptionsMenu({ publicId }: { publicId: string }) {
   };
 
   const dropdownOptionStyle =
-    "pl-4 pr-6 py-3 divide-y flex items-center gap-2 rounded-md group transition-all text-slate-700 duration-300 hover:bg-slate-200/65 hover:text-slate-900";
+    "pl-4 pr-6 py-3 divide-y flex items-center gap-2 rounded-md group transition-all text-slate-700 duration-300 hover:bg-slate-100 hover:text-slate-900";
 
   // Controladores del dropdown vvvv
   useEffect(() => {
@@ -61,6 +63,26 @@ export default function SurveyOptionsMenu({ publicId }: { publicId: string }) {
     a.download = result.fileName;
     a.click();
     URL.revokeObjectURL(url);
+  };
+
+  const handleSurveyDelete = async () => {
+    const toastId = toast.loading("Eliminando consulta...");
+    try {
+      const response = await deleteSurvey(publicId);
+      if (!response.success) {
+        throw new Error(response.message);
+      }
+      toast.success("Consulta eliminada exitosamente", { id: toastId });
+    } catch (error) {
+      const message =
+        error instanceof Error
+          ? error.message
+          : "Error al eliminar la consulta";
+      toast.error(message, { id: toastId });
+      return;
+    }
+
+    router.push("/dashboard/consultas");
   };
 
   return (
@@ -111,11 +133,12 @@ export default function SurveyOptionsMenu({ publicId }: { publicId: string }) {
           </li>
           <li>
             <button
-              onClick={() => console.log("pending")}
-              disabled
-              className={`w-full cursor-not-allowed ${dropdownOptionStyle}`}
+              onClick={handleSurveyDelete}
+              className={`w-full cursor-pointer ${dropdownOptionStyle} hover:!bg-red-50`}
             >
-              <span className="border-none text-left">Eliminar Consulta</span>
+              <span className="border-none text-left text-rose-500">
+                Eliminar Consulta
+              </span>
             </button>
           </li>
         </ul>

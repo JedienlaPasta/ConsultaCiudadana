@@ -51,7 +51,6 @@ export default function SurveyLayout({
   });
   const [isLoading, setIsLoading] = useState(false);
   const [hasVoted, setHasVoted] = useState(false);
-  // const topRef = useRef<HTMLDivElement>(null);
 
   const [shouldRender, setShouldRender] = useState(!hasParticipated);
 
@@ -369,7 +368,6 @@ export default function SurveyLayout({
           />
 
           <div
-            // ref={topRef}
             id="top-section"
             className="mx-auto grid scroll-mt-[72px] grid-cols-1 justify-end gap-0 pt-4 pb-6 md:gap-2 md:py-8"
           >
