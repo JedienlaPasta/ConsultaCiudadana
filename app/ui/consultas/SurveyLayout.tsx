@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import OptionSelectionList from "./OptionSelectionList";
 import VoteConfirmationOverview from "./VoteConfirmationOverview";
 import { useRouter } from "next/navigation";
@@ -51,7 +51,7 @@ export default function SurveyLayout({
   });
   const [isLoading, setIsLoading] = useState(false);
   const [hasVoted, setHasVoted] = useState(false);
-  const topRef = useRef<HTMLDivElement>(null);
+  // const topRef = useRef<HTMLDivElement>(null);
 
   const [shouldRender, setShouldRender] = useState(!hasParticipated);
 
@@ -60,7 +60,7 @@ export default function SurveyLayout({
   useEffect(() => {
     if (!sub || !dv) {
       toast.error("No se ha encontrado el RUT del usuario");
-      // router.replace(`/consultas/${publicId}`);
+      router.replace(`/consultas/${publicId}`);
       return;
     }
 
@@ -304,15 +304,30 @@ export default function SurveyLayout({
     }
     setCurrentQuestionIndex(nextQuestionIndex);
 
-    if (topRef.current) {
-      const NAVBAR_OFFSET = 72;
-      const rect = topRef.current.getBoundingClientRect();
-      const absoluteTop = window.pageYOffset + rect.top;
-      const y = Math.max(0, absoluteTop - NAVBAR_OFFSET);
+    // if (topRef.current) {
+    //   const NAVBAR_OFFSET = 72;
+    //   const rect = topRef.current.getBoundingClientRect();
+    //   const absoluteTop = window.pageYOffset + rect.top;
+    //   const y = Math.max(0, absoluteTop - NAVBAR_OFFSET);
 
-      const scroller = document.scrollingElement || document.documentElement;
-      scroller.scrollTo({ top: y, behavior: "smooth" });
+    //   const scroller = document.scrollingElement || document.documentElement;
+    //   scroller.scrollTo({ top: y, behavior: "smooth" });
+    // }
+
+    const target = document.getElementById("top-section");
+    if (!target) {
+      console.log("No target");
+      return;
     }
+
+    const isMobile = window.innerWidth <= 768;
+
+    const NAVBAR_OFFSET = isMobile ? 66 : 72;
+    const rect = target.getBoundingClientRect();
+    const absoluteTop = window.pageYOffset + rect.top;
+    const y = Math.max(0, absoluteTop - NAVBAR_OFFSET);
+
+    window.scrollTo({ top: y, behavior: "smooth" });
 
     setIsLoading(true);
     setTimeout(() => {
@@ -349,8 +364,9 @@ export default function SurveyLayout({
           />
 
           <div
-            ref={topRef}
-            className="mx-auto grid scroll-mt-[72px] grid-cols-1 justify-end gap-0 py-6 md:gap-2 md:py-8"
+            // ref={topRef}
+            id="top-section"
+            className="mx-auto grid scroll-mt-[72px] grid-cols-1 justify-end gap-0 pt-4 pb-6 md:gap-2 md:py-8"
           >
             <div className="rounded-lg lg:col-span-1">
               <SurveyProgress
