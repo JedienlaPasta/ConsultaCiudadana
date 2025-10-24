@@ -355,6 +355,7 @@ export default function SurveyLayout({
 
           <div
             // ref={topRef}
+            autoFocus={true}
             id="top-section"
             className="mx-auto grid scroll-mt-[72px] grid-cols-1 justify-end gap-0 pt-4 pb-6 md:gap-2 md:py-8"
           >
