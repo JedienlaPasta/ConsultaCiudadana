@@ -240,7 +240,7 @@ export default async function SurveyDetail(props: SurveyDetailsProps) {
                     </span>
                   </div>
                   <div
-                    className={`flex items-center space-x-2 rounded-full bg-white/80 ${stateColor()}`}
+                    className={`flex items-center space-x-2 rounded-full ${stateColor()}`}
                   >
                     {getStateIcon()}
                     <span className="text-sm font-medium">{surveyState()}</span>
@@ -289,7 +289,7 @@ export default async function SurveyDetail(props: SurveyDetailsProps) {
                       />
                     </svg>
                     <span className="text-sm font-medium text-slate-600">
-                      Fecha de inicio
+                      Inicio
                     </span>
                   </div>
                   <span className="text-sm font-medium text-[#23396f]">
@@ -314,7 +314,7 @@ export default async function SurveyDetail(props: SurveyDetailsProps) {
                       />
                     </svg>
                     <span className="text-sm font-medium text-slate-600">
-                      Fecha término
+                      Término
                     </span>
                   </div>
                   <span className="text-sm font-medium text-[#23396f]">
