@@ -51,11 +51,6 @@ function Survey({ survey }: { survey: SurveyGeneralData }) {
       ? splitName[0] + " " + splitName[2]
       : survey?.created_by_name || "Desconocido";
 
-  console.log(
-    "tipo:",
-    typeof survey.survey_start_date,
-    survey.survey_start_date,
-  );
   const surveyState = () => {
     if (new Date(survey.survey_start_date) > new Date()) {
       return "Programada";

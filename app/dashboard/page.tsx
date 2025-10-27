@@ -22,11 +22,11 @@ export default async function Dashboard() {
       session?.role,
       "not allowed on /dashboard",
     );
-    // redirect("/");
+    redirect("/");
   }
   const surveys = await getSurveysListByAccess(
-    session?.sub || "19973725",
-    session?.dv || "2",
+    session?.sub || "",
+    session?.dv || "",
   );
 
   // Calculate analytics
