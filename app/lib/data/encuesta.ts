@@ -126,18 +126,21 @@ export async function getSurveysListByAccess(
           ORDER BY e.created_at DESC
         `);
 
-    return result.recordset.map((row: SurveyGeneralData) => ({
-      public_id: row.public_id,
-      survey_name: row.survey_name,
-      survey_short_description: row.survey_short_description,
-      survey_start_date: row.survey_start_date,
-      survey_end_date: row.survey_end_date,
-      department: row.department,
-      created_at: row.created_at,
-      created_by_name: row.created_by_name,
-      participation: row.participation,
-      survey_access: row.survey_access,
-    }));
+    return result.recordset.map(
+      (row) =>
+        ({
+          public_id: row.public_id,
+          survey_name: row.survey_name,
+          survey_short_description: row.survey_short_description,
+          survey_start_date: row.survey_start_date.toISOString().split("T")[0],
+          survey_end_date: row.survey_end_date.toISOString().split("T")[0],
+          department: row.department,
+          created_at: row.created_at,
+          created_by_name: row.created_by_name,
+          participation: row.participation,
+          survey_access: row.survey_access,
+        }) as SurveyGeneralData,
+    );
   } catch (error) {
     console.error("Error al obtener la lista de encuestas:", error);
     return [];

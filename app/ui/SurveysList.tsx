@@ -89,6 +89,11 @@ export default function SurveysList({
 function Survey({ survey }: { survey: SurveyGeneralData }) {
   const startDate = new Date(survey.survey_start_date);
   const endDate = new Date(survey.survey_end_date);
+  console.log(
+    "tipo:",
+    typeof survey.survey_start_date,
+    survey.survey_start_date,
+  );
   const daysLeft = () => {
     if (startDate > new Date()) {
       return getDaysLeft(startDate);
