@@ -138,7 +138,7 @@ export default function Navbar({ session }: NavbarProps) {
             {/* Si role !== admin y encuestador */}
             <li
               className="max-[850px]:hidden"
-              hidden={!["admin", "encuestador"].includes(session?.role ?? "")}
+              hidden={["admin", "encuestador"].includes(session?.role ?? "")}
             >
               <Link
                 href="/como-participar"
@@ -151,7 +151,7 @@ export default function Navbar({ session }: NavbarProps) {
 
             <li
               className="max-[850px]:hidden"
-              hidden={["admin", "encuestador"].includes(session?.role ?? "")}
+              hidden={!["admin", "encuestador"].includes(session?.role ?? "")}
             >
               <Link
                 href="/dashboard"
