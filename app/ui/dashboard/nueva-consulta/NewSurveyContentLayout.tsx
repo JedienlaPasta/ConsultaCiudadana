@@ -342,7 +342,11 @@ export default function NewSurveyContentLayout({
 
     const toastId = toast.loading("Guardando consulta...");
     try {
-      const response = await createSurvey(myFormData, sessionSub, sessionDv);
+      const response = await createSurvey(
+        myFormData,
+        sessionSub || "",
+        sessionDv || "",
+      );
 
       if (!response.success) {
         throw new Error(response.message);

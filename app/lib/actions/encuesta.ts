@@ -283,7 +283,7 @@ const SurveySchema = z.object({
           id: z.number(),
           isMapQuestion: z.literal(false),
           questionId: z.literal(0),
-          question: z.string().min(10, {
+          question: z.string().min(1, {
             message:
               "Contenido Consulta: La pregunta debe tener al menos 10 caracteres",
           }),
@@ -309,7 +309,7 @@ const SurveySchema = z.object({
               id: z.number(),
               option_name: z.string().min(1, {
                 message:
-                  "Contenido Consulta: La opción debe tener al menos 2 caracteres",
+                  "Contenido Consulta: La opción debe tener al menos 1 caracteres",
               }),
               option_description: z.string().optional(),
               hasSubQuestion: z.boolean(),
@@ -321,7 +321,7 @@ const SurveySchema = z.object({
                     id: z.number(),
                     option_name: z.string().min(1, {
                       message:
-                        "Contenido Consulta: La opción debe tener al menos 2 caracteres",
+                        "Contenido Consulta: La opción debe tener al menos 1 caracteres",
                     }),
                     option_description: z.string().optional(),
                     sector_id: z.string().optional(),
@@ -393,6 +393,9 @@ export async function createSurvey(
   });
   console.log("================================");
   console.log("validatedData: ", validatedData);
+  console.log("================================");
+
+  console.log(questions);
 
   if (!validatedData.success) {
     console.error("Error al validar los datos:", validatedData.error);
@@ -927,7 +930,7 @@ export async function deleteSurvey(publicId: string) {
 
     if (
       permissionRequest.recordset.length === 0 ||
-      permissionRequest.recordset[0].survey_access !== "Propietario"
+      permissionRequest.recordset[0].survey_access !== "propietario"
     ) {
       console.log(
         "El usuario no tiene permisos para eliminar la encuesta:",
@@ -944,18 +947,40 @@ export async function deleteSurvey(publicId: string) {
 
     try {
       // Borrar tabla de relaciones encuesta-preguntas
-      await new sql.Request(transaction).input("survey_id", sql.Int, surveyId)
-        .query(`
-          DELETE FROM encuestas_preguntas WHERE survey_id = @survey_id
+      const encuestasPreguntasRequest = await new sql.Request(
+        transaction,
+      ).input("survey_id", sql.Int, surveyId).query(`
+          SELECT question_id FROM encuestas_preguntas WHERE survey_id = @survey_id
         `);
 
-      // Borrar preguntas
+      const questionsToDelete = encuestasPreguntasRequest.recordset.map(
+        (row) => row.question_id,
+      );
+      console.log(questionsToDelete);
+
+      console.log("======================================");
+      console.log("Borrando relacion encuestas-preguntas");
       await new sql.Request(transaction).input("survey_id", sql.Int, surveyId)
         .query(`
-          DELETE FROM preguntas WHERE survey_id = @survey_id
-        `);
+        DELETE FROM encuestas_preguntas WHERE survey_id = @survey_id
+      `);
 
-      // Borrar la encuesta
+      console.log("======================================");
+      // Borrar preguntas / is_global <> 1 para saltar preguntas que se reutilizan en distintas consultas.
+      for (const questionId of questionsToDelete) {
+        console.log("Borrando pregunta:", questionId);
+        await new sql.Request(transaction).input(
+          "question_id",
+          sql.Int,
+          questionId,
+        ).query(`
+            DELETE FROM preguntas WHERE id = @question_id AND is_global <> 1
+          `);
+      }
+
+      console.log("======================================");
+      console.log("Borrando encuesta:", surveyId);
+      // Borrar encuesta
       await new sql.Request(transaction).input("survey_id", sql.Int, surveyId)
         .query(`
           DELETE FROM encuestas WHERE id = @survey_id
