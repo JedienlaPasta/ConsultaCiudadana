@@ -136,29 +136,31 @@ export default function Navbar({ session }: NavbarProps) {
               </button>
             </li>
             {/* Si role !== admin y encuestador */}
-            {!["admin", "encuestador"].includes(session?.role ?? "") && (
-              <li className="max-[850px]:hidden">
-                <Link
-                  href="/como-participar"
-                  id="gestion-link"
-                  className="flex min-h-11 items-center rounded-sm px-4 text-white transition-colors hover:bg-[#0f69c4]"
-                >
-                  Cómo Participar
-                </Link>
-              </li>
-            )}
+            <li
+              className="max-[850px]:hidden"
+              hidden={!["admin", "encuestador"].includes(session?.role ?? "")}
+            >
+              <Link
+                href="/como-participar"
+                id="gestion-link"
+                className="flex min-h-11 items-center rounded-sm px-4 text-white transition-colors hover:bg-[#0f69c4]"
+              >
+                Cómo Participar
+              </Link>
+            </li>
 
-            {["admin", "encuestador"].includes(session?.role ?? "") && (
-              <li className="max-[850px]:hidden">
-                <Link
-                  href="/dashboard"
-                  className="flex min-h-11 items-center rounded-sm px-4 text-white transition-colors hover:bg-[#0f69c4]"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  Dashboard
-                </Link>
-              </li>
-            )}
+            <li
+              className="max-[850px]:hidden"
+              hidden={["admin", "encuestador"].includes(session?.role ?? "")}
+            >
+              <Link
+                href="/dashboard"
+                className="flex min-h-11 items-center rounded-sm px-4 text-white transition-colors hover:bg-[#0f69c4]"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Dashboard
+              </Link>
+            </li>
 
             <li>
               <ClaveUnicaBtn isLoggedIn={isLoggedIn} isNavbarBtn={true} />
