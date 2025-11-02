@@ -57,9 +57,9 @@ export default function SurveyLayout({
   const router = useRouter();
 
   useEffect(() => {
-    if (isLoading) {
-      return;
-    }
+    // if (isLoading) {
+    //   return;
+    // }
 
     // Desenfocar cualquier botón que haya sido presionado.
     if (document.activeElement instanceof HTMLElement) {
@@ -84,7 +84,8 @@ export default function SurveyLayout({
       (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
 
     window.scrollTo({ top: y, behavior: isIOS ? "auto" : "smooth" });
-  }, [currentQuestionIndex, isLoading]);
+    console.log(currentQuestionIndex);
+  }, [currentQuestionIndex]);
 
   useEffect(() => {
     if (!sub || !dv) {

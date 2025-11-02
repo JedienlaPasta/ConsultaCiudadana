@@ -345,6 +345,9 @@ export async function createSurvey(
   sub: string,
   dv: string,
 ) {
+  if (!sub || !dv) {
+    throw new Error("No has iniciado sesión o esta ha caducado.");
+  }
   // console.log(formData);
   const surveyName = formData.get("survey_name") as string;
   const surveyShortDescription = formData.get(
