@@ -17,15 +17,19 @@ import { cache } from "react";
 import sanitizeHtml from "sanitize-html";
 
 type SurveyDetailsProps = {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 };
 
-export default async function SurveyDetail(props: SurveyDetailsProps) {
+export default async function SurveyDetail({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
   const session = await getSession();
   const isLoggedIn = session !== null;
 
-  const params = props.params;
-  const id = params.id;
+  const { id } = await params;
+
   const survey = await getSurveyDetails(id);
   if (!survey.survey_name) {
     redirect("/consultas");
