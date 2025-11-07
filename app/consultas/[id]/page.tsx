@@ -16,15 +16,16 @@ import type { Metadata } from "next";
 import { cache } from "react";
 import sanitizeHtml from "sanitize-html";
 
-export default async function SurveyDetail({
-  params,
-}: {
+type SurveyDetailsProps = {
   params: Promise<{ id: string }>;
-}) {
-  const { id } = await params;
+};
+
+export default async function SurveyDetail(props: SurveyDetailsProps) {
   const session = await getSession();
   const isLoggedIn = session !== null;
 
+  const params = await props.params;
+  const id = params.id;
   const survey = await getSurveyDetails(id);
   if (!survey.survey_name) {
     redirect("/consultas");
@@ -487,24 +488,22 @@ export default async function SurveyDetail({
   );
 }
 
-export async function generateMetadata({
-  params,
-}: {
-  params: { id: string };
-}): Promise<Metadata> {
-  const { id } = params;
-  const getSurveyDetailsCached = cache(getSurveyDetails);
-  const survey = await getSurveyDetailsCached(id);
-  return {
-    title: `${survey.survey_name} - Consulta Ciudadana El Quisco`,
-    description: survey.survey_short_description,
-    alternates: {
-      canonical: `https://participacion.munielquisco.gob.cl/consultas/${id}`,
-    },
-    openGraph: {
-      title: `${survey.survey_name} - Consulta Ciudadana El Quisco`,
-      description: survey.survey_short_description,
-      url: `https://participacion.munielquisco.gob.cl/consultas/${id}`,
-    },
-  };
-}
+// export async function generateMetadata(props: {
+//   params: { id: string };
+// }): Promise<Metadata> {
+//   const { id } = props.params;
+//   const getSurveyDetailsCached = cache(getSurveyDetails);
+//   const survey = await getSurveyDetailsCached(id);
+//   return {
+//     title: `${survey.survey_name} - Consulta Ciudadana El Quisco`,
+//     description: survey.survey_short_description,
+//     alternates: {
+//       canonical: `https://participacion.munielquisco.gob.cl/consultas/${id}`,
+//     },
+//     openGraph: {
+//       title: `${survey.survey_name} - Consulta Ciudadana El Quisco`,
+//       description: survey.survey_short_description,
+//       url: `https://participacion.munielquisco.gob.cl/consultas/${id}`,
+//     },
+//   };
+// }
