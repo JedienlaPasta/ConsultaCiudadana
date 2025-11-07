@@ -17,14 +17,14 @@ import { cache } from "react";
 import sanitizeHtml from "sanitize-html";
 
 type SurveyDetailsProps = {
-  params: Promise<{ id: string }>;
+  params: { id: string };
 };
 
 export default async function SurveyDetail(props: SurveyDetailsProps) {
   const session = await getSession();
   const isLoggedIn = session !== null;
 
-  const params = await props.params;
+  const params = props.params;
   const id = params.id;
   const survey = await getSurveyDetails(id);
   if (!survey.survey_name) {
@@ -488,10 +488,12 @@ export default async function SurveyDetail(props: SurveyDetailsProps) {
   );
 }
 
-export async function generateMetadata(props: {
+export async function generateMetadata({
+  params,
+}: {
   params: { id: string };
 }): Promise<Metadata> {
-  const { id } = props.params;
+  const { id } = params;
   const getSurveyDetailsCached = cache(getSurveyDetails);
   const survey = await getSurveyDetailsCached(id);
   return {
