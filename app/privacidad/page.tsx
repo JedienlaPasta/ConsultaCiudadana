@@ -1,3 +1,4 @@
+import { Metadata } from "next";
 import { getSession } from "../lib/actions/auth";
 import Footer from "../ui/Footer";
 import Navbar from "../ui/Navbar";
@@ -698,3 +699,19 @@ function PrivacySection({
     </div>
   );
 }
+
+export const metadata: Metadata = {
+  title:
+    "Políticas de Privacidad y Uso de Datos — Consultas Ciudadanas El Quisco",
+  description:
+    "Revisa cómo se utilizan y protegen tus datos personales. Es importante que leas atentamente esta política.",
+  alternates: {
+    canonical: "https://participacion.munielquisco.gob.cl/privacidad",
+  },
+  openGraph: {
+    title:
+      "Políticas de Privacidad y Uso de Datos — Consultas Ciudadanas El Quisco",
+    description:
+      "Revisa cómo se utilizan y protegen tus datos personales. Es importante que leas atentamente esta política.",
+  },
+};

@@ -4,6 +4,7 @@ import Navbar from "../ui/Navbar";
 import { getSession } from "../lib/actions/auth";
 import Footer from "../ui/Footer";
 import StepsSlider from "../ui/como-participar/StepsSlider";
+import { Metadata } from "next";
 
 export default async function ComoParticipar() {
   const session = await getSession();
@@ -1025,3 +1026,17 @@ function SurveyParticipationTutorialView({ children }: Props) {
     </div>
   );
 }
+
+export const metadata: Metadata = {
+  title: "Cómo Participar — Consultas Ciudadanas El Quisco",
+  description:
+    "Descubre cómo puedes participar en las consultas ciudadanas de El Quisco. Sigue los sencillos pasos para registrar tu opinión y contribuir a la mejora de la comunidad.",
+  alternates: {
+    canonical: "https://participacion.munielquisco.gob.cl/como-participar",
+  },
+  openGraph: {
+    title: "Cómo Participar — Consultas Ciudadanas El Quisco",
+    description:
+      "Descubre cómo puedes participar en las consultas ciudadanas de El Quisco. Sigue los sencillos pasos para registrar tu opinión y contribuir a la mejora de la comunidad.",
+  },
+};

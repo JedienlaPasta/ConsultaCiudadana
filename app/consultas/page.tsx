@@ -5,6 +5,7 @@ import Navbar from "../ui/Navbar";
 import SurveyFilter from "../ui/consultas/SurveyFilter";
 import { getFilteredSurveysList } from "../lib/data/encuesta";
 import SurveySearchBar from "../ui/consultas/SurveySearchBar";
+import { Metadata } from "next";
 
 type PageProps = {
   searchParams?: Promise<{ query?: string; filter?: string }>;
@@ -50,3 +51,17 @@ function Header() {
     </div>
   );
 }
+
+export const metadata: Metadata = {
+  title: "Todas las Consultas — Consultas Ciudadanas El Quisco",
+  description:
+    "Revisa todas las consultas ciudadanas activas y terminadas en El Quisco. Participa en las encuestas y ayuda a mejorar la comunidad.",
+  alternates: {
+    canonical: "https://participacion.munielquisco.gob.cl/consultas",
+  },
+  openGraph: {
+    title: "Todas las Consultas — Consultas Ciudadanas El Quisco",
+    description:
+      "Revisa todas las consultas ciudadanas activas y terminadas en El Quisco. Participa en las encuestas y ayuda a mejorar la comunidad.",
+  },
+};

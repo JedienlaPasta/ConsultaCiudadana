@@ -10,9 +10,11 @@ import Schedule from "@/app/ui/consultas/Schedule";
 import { getSurveyDetails } from "@/app/lib/data/encuesta";
 import { formatDateToSpanish } from "@/app/lib/utils/format";
 import { redirect } from "next/navigation";
-import DOMPurify from "dompurify";
 import VoteBtn from "@/app/ui/consultas/[id]/VoteBtn";
 import ScrollToVoteOnLogin from "@/app/ui/consultas/ScrollToVoteOnLogin";
+import type { Metadata } from "next";
+import { cache } from "react";
+import sanitizeHtml from "sanitize-html";
 
 type SurveyDetailsProps = {
   params: Promise<{ id: string }>;
@@ -30,10 +32,10 @@ export default async function SurveyDetail(props: SurveyDetailsProps) {
   }
 
   const sanitizeHTML = (html: string) => {
-    if (typeof window !== "undefined") {
-      return DOMPurify.sanitize(html);
-    }
-    return html; // Fallback for SSR
+    return sanitizeHtml(html, {
+      allowedTags: ["b", "i", "u", "ol", "ul", "li", "p", "br"],
+      allowedAttributes: {},
+    });
   };
 
   const stateColor = () => {
@@ -113,6 +115,26 @@ export default async function SurveyDetail(props: SurveyDetailsProps) {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Question",
+            name: survey.survey_name,
+            text: survey.survey_short_description,
+            dateCreated: survey.survey_start_date,
+            author: {
+              "@type": "Organization",
+              name: "Municipalidad El Quisco",
+            },
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "Consulta ciudadana para recoger opiniones de la comunidad",
+            },
+          }),
+        }}
+      />
       {/* Main Content */}
       <Suspense>
         <AuthErrorHandler />
@@ -464,4 +486,24 @@ export default async function SurveyDetail(props: SurveyDetailsProps) {
       <Footer />
     </div>
   );
+}
+
+export async function generateMetadata(props: {
+  params: { id: string };
+}): Promise<Metadata> {
+  const { id } = props.params;
+  const getSurveyDetailsCached = cache(getSurveyDetails);
+  const survey = await getSurveyDetailsCached(id);
+  return {
+    title: `${survey.survey_name} - Consulta Ciudadana El Quisco`,
+    description: survey.survey_short_description,
+    alternates: {
+      canonical: `https://participacion.munielquisco.gob.cl/consultas/${id}`,
+    },
+    openGraph: {
+      title: `${survey.survey_name} - Consulta Ciudadana El Quisco`,
+      description: survey.survey_short_description,
+      url: `https://participacion.munielquisco.gob.cl/consultas/${id}`,
+    },
+  };
 }

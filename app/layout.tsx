@@ -3,7 +3,6 @@ import "./globals.css";
 import { geist } from "./ui/fonts";
 import { Toaster } from "sonner";
 import Script from "next/script";
-import CanonicalUrl from "./CanonicalUrl";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://participacion.munielquisco.gob.cl/"),
@@ -44,7 +43,9 @@ export const metadata: Metadata = {
     "plataforma de participación ciudadana El Quisco",
     "encuestas online municipalidad El Quisco",
   ],
-
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
     title: "Participa — Consultas Ciudadanas El Quisco",
     description:
@@ -89,8 +90,8 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=Noto+Color+Emoji"
           rel="stylesheet"
         />
-
-        <CanonicalUrl />
+        {/* Quitamos el componente client CanonicalUrl */}
+        {/* <CanonicalUrl /> */}
         <meta name="theme-color" content="#0e4194" />
 
         <Script
@@ -139,11 +140,6 @@ export default function RootLayout({
               },
             }),
           }}
-        />
-
-        <link
-          rel="canonical"
-          href="https://participacion.munielquisco.gob.cl/"
         />
       </head>
       <body className={`${geist.className} antialiased`}>
