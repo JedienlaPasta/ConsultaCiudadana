@@ -488,10 +488,12 @@ export default async function SurveyDetail(props: SurveyDetailsProps) {
   );
 }
 
-export async function generateMetadata(props: {
+export async function generateMetadata({
+  params,
+}: {
   params: { id: string };
 }): Promise<Metadata> {
-  const { id } = props.params;
+  const { id } = params;
   const getSurveyDetailsCached = cache(getSurveyDetails);
   const survey = await getSurveyDetailsCached(id);
   return {
