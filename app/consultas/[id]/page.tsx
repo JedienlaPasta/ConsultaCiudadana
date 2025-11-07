@@ -16,15 +16,16 @@ import type { Metadata } from "next";
 import { cache } from "react";
 import sanitizeHtml from "sanitize-html";
 
-export default async function SurveyDetail({
-  params,
-}: {
-  params: { id: string };
-}) {
+type SurveyDetailsProps = {
+  params: Promise<{ id: string }>;
+};
+
+export default async function SurveyDetail(props: SurveyDetailsProps) {
   const session = await getSession();
   const isLoggedIn = session !== null;
 
-  const { id } = params;
+  const params = await props.params;
+  const id = params.id;
   const survey = await getSurveyDetails(id);
   if (!survey.survey_name) {
     redirect("/consultas");
@@ -487,12 +488,10 @@ export default async function SurveyDetail({
   );
 }
 
-export async function generateMetadata({
-  params,
-}: {
+export async function generateMetadata(props: {
   params: { id: string };
 }): Promise<Metadata> {
-  const { id } = params;
+  const { id } = props.params;
   const getSurveyDetailsCached = cache(getSurveyDetails);
   const survey = await getSurveyDetailsCached(id);
   return {
