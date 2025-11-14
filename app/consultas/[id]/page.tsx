@@ -488,22 +488,22 @@ export default async function SurveyDetail(props: SurveyDetailsProps) {
   );
 }
 
-// export async function generateMetadata(props: {
-//   params: { id: string };
-// }): Promise<Metadata> {
-//   const { id } = props.params;
-//   const getSurveyDetailsCached = cache(getSurveyDetails);
-//   const survey = await getSurveyDetailsCached(id);
-//   return {
-//     title: `${survey.survey_name} - Consulta Ciudadana El Quisco`,
-//     description: survey.survey_short_description,
-//     alternates: {
-//       canonical: `https://participacion.munielquisco.gob.cl/consultas/${id}`,
-//     },
-//     openGraph: {
-//       title: `${survey.survey_name} - Consulta Ciudadana El Quisco`,
-//       description: survey.survey_short_description,
-//       url: `https://participacion.munielquisco.gob.cl/consultas/${id}`,
-//     },
-//   };
-// }
+export async function generateMetadata(props: {
+  params: { id: string };
+}): Promise<Metadata> {
+  const { id } = props.params;
+  const getSurveyDetailsCached = cache(getSurveyDetails);
+  const survey = await getSurveyDetailsCached(id);
+  return {
+    title: `${survey.survey_name} - Consulta Ciudadana El Quisco`,
+    description: survey.survey_short_description,
+    alternates: {
+      canonical: `https://participacion.munielquisco.gob.cl/consultas/${id}`,
+    },
+    openGraph: {
+      title: `${survey.survey_name} - Consulta Ciudadana El Quisco`,
+      description: survey.survey_short_description,
+      url: `https://participacion.munielquisco.gob.cl/consultas/${id}`,
+    },
+  };
+}
