@@ -59,6 +59,21 @@ export default function BarsAndPieChart({
     return `linear-gradient( ${lighter} 0%, ${darker} 100%)`;
   };
 
+  const toCustomDarkenedColor = (
+    hex: string,
+    amt = -100,
+    hasVotes: boolean,
+  ) => {
+    if (!hasVotes) return `#acb6c2`;
+    const clamp = (n: number) => Math.max(0, Math.min(255, n));
+    const clean = hex.replace("#", "");
+    const r = parseInt(clean.substring(0, 2), 16);
+    const g = parseInt(clean.substring(2, 4), 16);
+    const b = parseInt(clean.substring(4, 6), 16);
+    const adjust = (v: number) => clamp(v + amt);
+    return `rgb(${adjust(r)}, ${adjust(g)}, ${adjust(b)})`;
+  };
+
   const totalVotes = question.options.reduce(
     (sum, option) => sum + option.voteCount,
     0,
@@ -214,13 +229,18 @@ export default function BarsAndPieChart({
                         background: toGradient(segment.color),
                         // backgroundColor: segment.color,
                         width: `${barWidth}%`,
-                        opacity: hasVotes ? 0.8 : 0.5,
+                        opacity: hasVotes ? 0.75 : 0.5,
                       }}
                     ></div>
                     <div
-                      className={`z-10 text-sm font-medium ${
-                        hasVotes ? "text-slate-900" : "text-gray-400 opacity-60"
-                      }`}
+                      style={{
+                        color: toCustomDarkenedColor(
+                          segment.color,
+                          -130,
+                          hasVotes,
+                        ),
+                      }}
+                      className={`z-10 text-sm font-medium`}
                     >
                       {segment.name}
                     </div>
@@ -236,6 +256,13 @@ export default function BarsAndPieChart({
                       </div>
                     </div>
                     <div
+                      style={{
+                        color: toCustomDarkenedColor(
+                          segment.color,
+                          -130,
+                          hasVotes,
+                        ),
+                      }}
                       className={`z-10 text-sm font-medium ${
                         hasVotes ? "text-slate-900" : "text-gray-400 opacity-60"
                       }`}
