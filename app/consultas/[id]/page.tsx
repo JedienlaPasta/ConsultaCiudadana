@@ -24,8 +24,7 @@ export default async function SurveyDetail(props: SurveyDetailsProps) {
   const session = await getSession();
   const isLoggedIn = session !== null;
 
-  const params = await props.params;
-  const id = params.id;
+  const { id } = await props.params;
   const survey = await getSurveyDetails(id);
   if (!survey.survey_name) {
     redirect("/consultas");
@@ -489,9 +488,9 @@ export default async function SurveyDetail(props: SurveyDetailsProps) {
 }
 
 export async function generateMetadata(props: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }): Promise<Metadata> {
-  const { id } = props.params;
+  const { id } = await props.params;
   const getSurveyDetailsCached = cache(getSurveyDetails);
   const survey = await getSurveyDetailsCached(id);
   return {
