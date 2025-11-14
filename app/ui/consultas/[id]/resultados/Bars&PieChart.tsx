@@ -37,15 +37,27 @@ export default function BarsAndPieChart({
   const hoverRef = useRef(initialHover);
 
   const colors = [
-    "#3B82F6", // blue-500
-    "#8B5CF6", // purple-500
-    "#10B981", // emerald-500
-    "#F59E0B", // amber-500
-    "#EF4444", // red-500
-    "#EC4899", // pink-500
-    "#06B6D4", // cyan-500
-    "#84CC16", // lime-500
+    "#3B82F6", // blue
+    "#8B5CF6", // purple
+    "#10B981", // emerald
+    "#FACC15", // yellow
+    "#EF4444", // red
+    "#EC4899", // pink
+    "#06B6D4", // cyan
+    "#84CC16", // lime
   ];
+
+  const toGradient = (hex: string) => {
+    const clamp = (n: number) => Math.max(0, Math.min(255, n));
+    const clean = hex.replace("#", "");
+    const r = parseInt(clean.substring(0, 2), 16);
+    const g = parseInt(clean.substring(2, 4), 16);
+    const b = parseInt(clean.substring(4, 6), 16);
+    const adjust = (v: number, amt: number) => clamp(v + amt);
+    const darker = `rgb(${adjust(r, -25)}, ${adjust(g, -25)}, ${adjust(b, -25)})`;
+    const lighter = `rgb(${adjust(r, 10)}, ${adjust(g, 10)}, ${adjust(b, 10)})`;
+    return `linear-gradient( ${lighter} 0%, ${darker} 100%)`;
+  };
 
   const totalVotes = question.options.reduce(
     (sum, option) => sum + option.voteCount,
@@ -173,11 +185,10 @@ export default function BarsAndPieChart({
           <div className="w-full">
             <div className="grid grid-cols-1 gap-1.5">
               <span className="flex justify-between text-sm font-medium text-slate-500">
-                <span className="flex gap-1.5">
-                  <p className="ml-3 rounded bg-slate-200/80 px-2">%</p>
-                  <p className="rounded bg-slate-200/80 px-2">Opciones</p>
-                </span>
-                <p className="rounded bg-slate-200/80 px-2">Votos</p>
+                <p className="ml-2 rounded bg-slate-200/50 px-2 md:ml-4">
+                  Opciones
+                </p>
+                <p className="mr-2 rounded bg-slate-200/50 px-2 md:mr-4">%</p>
               </span>
               {legendData.map((segment, index) => {
                 // Encontrar el valor máximo de votos
@@ -195,24 +206,23 @@ export default function BarsAndPieChart({
                   <div
                     key={index}
                     title={segment.name}
-                    className="relative flex cursor-pointer items-center space-x-2 overflow-hidden rounded-lg bg-slate-200/50 px-3.5 py-2.5 transition-all duration-300 hover:scale-105"
+                    className="relative flex cursor-pointer items-center space-x-2 overflow-hidden rounded-lg bg-slate-200/50 px-3.5 py-2.5 transition-all duration-300 hover:scale-105 md:px-5"
                   >
                     <div
                       className="absolute top-0 left-0 h-full flex-shrink-0 rounded-sm"
                       style={{
-                        backgroundColor: segment.color,
+                        background: toGradient(segment.color),
+                        // backgroundColor: segment.color,
                         width: `${barWidth}%`,
                         opacity: hasVotes ? 0.8 : 0.5,
                       }}
                     ></div>
                     <div
-                      className={`z-10 text-sm font-semibold ${
-                        hasVotes
-                          ? "text-slate-900/90"
-                          : "text-gray-400 opacity-60"
+                      className={`z-10 text-sm font-medium ${
+                        hasVotes ? "text-slate-900" : "text-gray-400 opacity-60"
                       }`}
                     >
-                      {percentage.toFixed(0)}%
+                      {segment.name}
                     </div>
                     <div className="z-10 min-w-0 flex-1">
                       <div
@@ -222,17 +232,16 @@ export default function BarsAndPieChart({
                             : "text-gray-400 opacity-60"
                         }`}
                       >
-                        {segment.name}
+                        {/* {segment.name} */}
                       </div>
                     </div>
                     <div
                       className={`z-10 text-sm font-medium ${
-                        hasVotes
-                          ? "text-slate-900/90"
-                          : "text-gray-400 opacity-60"
+                        hasVotes ? "text-slate-900" : "text-gray-400 opacity-60"
                       }`}
                     >
-                      {segment.value.toLocaleString()}
+                      {/* {segment.value.toLocaleString()} */}
+                      {percentage.toFixed(0)}%
                     </div>
                   </div>
                 );
@@ -287,10 +296,10 @@ export default function BarsAndPieChart({
               {/* Texto central */}
               <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center">
                 <div className="flex h-34 w-34 flex-col items-center justify-center rounded-full bg-white text-center">
-                  <div className="text-2xl font-bold text-slate-800">
+                  {/* <div className="text-2xl font-bold text-slate-800">
                     {totalVotes.toLocaleString()}
-                  </div>
-                  <div className="text-sm text-gray-500">Votos</div>
+                  </div> */}
+                  <div className="text-sm text-gray-500">% Votos</div>
                 </div>
               </div>
 
@@ -313,7 +322,8 @@ export default function BarsAndPieChart({
                       {hover.name}
                     </span>
                     <div className="text-left text-xs text-gray-600">
-                      {hover.value.toLocaleString()} votos (
+                      {/* {hover.value.toLocaleString()}  */}
+                      Votos (
                       {hover.total > 0
                         ? ((hover.value / hover.total) * 100).toFixed(1)
                         : "0.0"}
