@@ -43,9 +43,9 @@ export const metadata: Metadata = {
     "plataforma de participación ciudadana El Quisco",
     "encuestas online municipalidad El Quisco",
   ],
-  alternates: {
-    canonical: "/",
-  },
+  // alternates: {
+  //   canonical: "/",
+  // },
   openGraph: {
     title: "Participa — Consultas Ciudadanas El Quisco",
     description:
