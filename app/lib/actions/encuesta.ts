@@ -69,9 +69,9 @@ export async function registerVote(surveyAnswers: SurveyAnswers) {
         .input("public_id", sql.NVarChar, surveyAnswers.public_id)
         .query("SELECT id FROM encuestas WHERE public_id = @public_id");
 
-      const surveyId = surveyResult.recordset[0]?.id || 0;
+      const surveyId = surveyResult.recordset[0]?.id;
 
-      if (surveyId === 0) {
+      if (!surveyId) {
         throw new Error("No se encontró la encuesta con el ID especificado");
       }
 
@@ -83,6 +83,7 @@ export async function registerVote(surveyAnswers: SurveyAnswers) {
           SELECT TOP 1 id FROM participacion_encuestas WHERE survey_id = @survey_id AND user_hashed_key = @user_hash
         `);
       if (checkResult.recordset.length > 0) {
+        await transaction.rollback();
         return {
           success: false,
           message:
@@ -90,7 +91,7 @@ export async function registerVote(surveyAnswers: SurveyAnswers) {
         };
       }
 
-      // Registrar participación
+      // Registrar participación y detalle
       const participationRequest = new sql.Request(transaction);
       const participationResult = await participationRequest
         .input("survey_id", sql.Int, surveyId)
@@ -121,7 +122,7 @@ export async function registerVote(surveyAnswers: SurveyAnswers) {
 
       console.log("Detalle de participación guardado");
       // Registrar voto (mapa)
-      if (surveyAnswers.answers[0].sector_id) {
+      if (surveyAnswers.answers[0]?.sector_id) {
         const sector = surveyAnswers.answers[0].sector_id;
         const questionId = surveyAnswers.answers[0].question_id;
 
@@ -133,7 +134,10 @@ export async function registerVote(surveyAnswers: SurveyAnswers) {
         ).query(`
             SELECT id FROM sectores WHERE sector = @sector
           `);
-        const sectorOptionId = sectorIdResult.recordset[0].id;
+        const sectorOptionId = sectorIdResult.recordset[0]?.id;
+        if (!sectorOptionId) {
+          throw new Error("No se encontró el ID del sector");
+        }
 
         const sectorVoteRequest = new sql.Request(transaction);
         await sectorVoteRequest
@@ -896,9 +900,6 @@ export async function deleteSurvey(publicId: string) {
     }
 
     const session = await getSession();
-    console.log("=============================");
-    console.log("user:", session?.sub);
-
     if (!session?.sub) {
       return {
         success: false,
@@ -909,22 +910,22 @@ export async function deleteSurvey(publicId: string) {
     const userhash = generateUserHash(session?.sub || "", session?.dv || "");
 
     // ID Encuesta
-    const encuestaRequest = await pool
+    const surveyResult = await pool
       .request()
       .input("public_id", sql.NVarChar, publicId)
       .query(`SELECT id FROM encuestas WHERE public_id = @public_id`);
 
-    if (encuestaRequest.recordset.length === 0) {
+    if (surveyResult.recordset.length === 0) {
       console.log("Encuesta no encontrada:", publicId);
       return {
         success: false,
         message: "Encuesta no encontrada",
       };
     }
-    const surveyId = encuestaRequest.recordset[0].id;
+    const surveyId = surveyResult.recordset[0].id;
 
     // Verificar si el usuario tiene permiso para eliminar la encuesta
-    const permissionRequest = await pool
+    const permissionResult = await pool
       .request()
       .input("userhash", sql.NVarChar, userhash)
       .input("survey_id", sql.Int, surveyId).query(`
@@ -932,8 +933,8 @@ export async function deleteSurvey(publicId: string) {
     `);
 
     if (
-      permissionRequest.recordset.length === 0 ||
-      permissionRequest.recordset[0].survey_access !== "propietario"
+      permissionResult.recordset.length === 0 ||
+      permissionResult.recordset[0].survey_access !== "propietario"
     ) {
       console.log(
         "El usuario no tiene permisos para eliminar la encuesta:",
@@ -941,7 +942,28 @@ export async function deleteSurvey(publicId: string) {
       );
       return {
         success: false,
-        message: "No se encontraron permisos para eliminar la encuesta",
+        message: "No tienes permisos para eliminar esta encuesta",
+      };
+    }
+
+    // Verificar si la encuesta tiene votos registrados
+    const votesCheckResult = await pool
+      .request()
+      .input("survey_id", sql.Int, surveyId).query(`
+      IF EXISTS (SELECT 1 FROM votos WHERE survey_id = @survey_id)
+        SELECT 1 AS has_votes
+      ELSE
+        SELECT 0 AS has_votes
+    `);
+
+    if (votesCheckResult.recordset[0].has_votes === 1) {
+      console.log(
+        "La encuesta tiene votos registrados, no se puede eliminar:",
+        surveyId,
+      );
+      return {
+        success: false,
+        message: "La encuesta tiene votos registrados, no se puede eliminar",
       };
     }
 
@@ -950,40 +972,30 @@ export async function deleteSurvey(publicId: string) {
 
     try {
       // Borrar tabla de relaciones encuesta-preguntas
-      const encuestasPreguntasRequest = await new sql.Request(
-        transaction,
-      ).input("survey_id", sql.Int, surveyId).query(`
-          SELECT question_id FROM encuestas_preguntas WHERE survey_id = @survey_id
-        `);
-
-      const questionsToDelete = encuestasPreguntasRequest.recordset.map(
-        (row) => row.question_id,
-      );
-      console.log(questionsToDelete);
-
-      console.log("======================================");
-      console.log("Borrando relacion encuestas-preguntas");
       await new sql.Request(transaction).input("survey_id", sql.Int, surveyId)
         .query(`
         DELETE FROM encuestas_preguntas WHERE survey_id = @survey_id
       `);
 
-      console.log("======================================");
-      // Borrar preguntas / is_global <> 1 para saltar preguntas que se reutilizan en distintas consultas.
-      for (const questionId of questionsToDelete) {
-        console.log("Borrando pregunta:", questionId);
-        await new sql.Request(transaction).input(
-          "question_id",
-          sql.Int,
-          questionId,
-        ).query(`
-            DELETE FROM preguntas WHERE id = @question_id AND is_global <> 1
-          `);
-      }
+      // Borrar las preguntas No globales que ya no estan relacionadas a ninguna encuesta (se elimino la relacion encuesta-preguntas)
+      await new sql.Request(transaction).input("survey_id", sql.Int, surveyId)
+        .query(`
+        DELETE FROM preguntas
+        WHERE is_global = 0
+          AND NOT EXISTS (
+            SELECT 1
+            FROM encuestas_preguntas ep
+            WHERE ep.question_id = preguntas.id
+          )
+      `);
 
-      console.log("======================================");
-      console.log("Borrando encuesta:", surveyId);
-      // Borrar encuesta
+      await new sql.Request(transaction).input("survey_id", sql.Int, surveyId)
+        .query(`
+        DELETE FROM participacion_encuesta_detalle WHERE survey_id = @survey_id
+        DELETE FROM participacion_encuestas WHERE survey_id = @survey_id
+      `);
+
+      // Borrar encuesta, borra on cascade: links, objetivos, cronogramas, terminos, faq, permisos
       await new sql.Request(transaction).input("survey_id", sql.Int, surveyId)
         .query(`
           DELETE FROM encuestas WHERE id = @survey_id
